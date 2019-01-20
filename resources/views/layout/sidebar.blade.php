@@ -47,7 +47,7 @@
                         </ul>
                     </li>
                     <li class="nav-small-cap">--- Master Data</li>
-                    <li> <a href="map-google.html" class="waves-effect"><i data-icon="Q" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu" >Data Pegawai</span></a> </li>
+                    <li> <a href="{{url('pegawai')}}" class="waves-effect"><i data-icon="Q" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu" >Data Pegawai</span></a> </li>
 
                     <li><a href="login" class="waves-effect"><i class="icon-logout fa-fw"></i> <span class="hide-menu">Log out</span></a></li>
 
