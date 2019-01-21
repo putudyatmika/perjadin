@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Golongan;
 
-class PegawaiController extends Controller
+class GolonganController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,8 @@ class PegawaiController extends Controller
     public function index()
     {
         //
-        return view('pegawai.index');
+        $DataGolongan = Golongan::all();
+        return view('golongan',compact('DataGolongan'));
     }
 
     /**
@@ -25,7 +27,6 @@ class PegawaiController extends Controller
     public function create()
     {
         //
-        return view('pegawai.form');
     }
 
     /**

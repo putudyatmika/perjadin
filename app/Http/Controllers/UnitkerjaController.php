@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Unitkerja;
 
-class PegawaiController extends Controller
+class UnitkerjaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,8 @@ class PegawaiController extends Controller
     public function index()
     {
         //
-        return view('pegawai.index');
+        $DataUnitkerja = Unitkerja::all();
+        return view('unitkerja',compact('DataUnitkerja'));
     }
 
     /**
@@ -25,7 +27,6 @@ class PegawaiController extends Controller
     public function create()
     {
         //
-        return view('pegawai.form');
     }
 
     /**
