@@ -74,6 +74,7 @@
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('tema/js/custom.min.js')}}"></script>
     <script src="{{ asset('tema/js/dashboard1.js')}}"></script>
+    <script src="{{ asset('tema/js/mask.js') }}"></script>
     <!-- Sparkline chart JavaScript -->
     <script src="{{ asset('tema/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js')}}"></script>
     <script src="{{ asset('tema/plugins/bower_components/jquery-sparkline/jquery.charts-sparkline.js')}}"></script>
