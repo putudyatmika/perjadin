@@ -16,7 +16,9 @@ class UnitkerjaController extends Controller
     {
         //
         $DataUnitkerja = Unitkerja::all();
-        return view('unitkerja',compact('DataUnitkerja'));
+        $UnitEselonVar = config('globalvar.UnitEselon');
+        $JenisUnitVar = config('globalvar.JenisUnit');
+        return view('unitkerja',compact('DataUnitkerja','UnitEselonVar','JenisUnitVar'));
     }
 
     /**

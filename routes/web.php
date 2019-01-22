@@ -26,6 +26,7 @@ Route::get('/golongan', function () {
     return view('golongan');
 });
 */
+Route::get('/pegawai/tambah','PegawaiController@tambah');
 Route::resource('golongan','GolonganController');
 Route::resource('pegawai','PegawaiController');
 Route::resource('unitkerja','UnitkerjaController');

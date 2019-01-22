@@ -30,6 +30,7 @@
                                             <th>Kode</th>
                                             <th>Nama</th>
                                             <th>Parent</th>
+                                            <th>Jenis</th>
                                             <th>Eselon</th>
                                             <th>Aksi</th>
                                         </tr>
@@ -40,7 +41,8 @@
                                             <td><a href="javascript:void(0)">{{ $Unit -> kode }}</a></td>
                                             <td>{{ $Unit -> nama }}</td>
                                             <td>{{ $Unit -> parent }} </td>
-                                            <td>{{ $Unit -> eselon }} </td>
+                                            <td>{{ $JenisUnitVar [$Unit -> jenis] }} </td>
+                                            <td>{{ $UnitEselonVar [$Unit -> eselon] }} </td>
                                             <td><div class="label label-table label-success">Edit</div></td>
                                         </tr>
                                        @endforeach

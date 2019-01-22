@@ -14,6 +14,14 @@
     <link href="{{ asset('tema/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}" rel="stylesheet">
     <!-- Menu CSS -->
     <link href="{{ asset('tema/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css')}}" rel="stylesheet">
+    <!-- page CSS -->
+    <link href="{{ asset('tema/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('tema/plugins/bower_components/custom-select/custom-select.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('tema/plugins/bower_components/switchery/dist/switchery.min.css')}}" rel="stylesheet" />
+    <link href="{{ asset('tema/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}" rel="stylesheet" />
+    <link href="{{ asset('tema/plugins/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css')}}" rel="stylesheet" />
+    <link href="{{ asset('tema/plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css')}}" rel="stylesheet" />
+    <link href="{{ asset('tema/plugins/bower_components/multiselect/css/multi-select.css" rel="stylesheet')}}" type="text/css" />
     <!-- toast CSS -->
     <link href="{{ asset('tema/plugins/bower_components/toast-master/css/jquery.toast.css')}}" rel="stylesheet">
     <!-- morris CSS -->

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Golongan;
 
 class PegawaiController extends Controller
 {
@@ -14,6 +15,7 @@ class PegawaiController extends Controller
     public function index()
     {
         //
+        
         return view('pegawai.index');
     }
 
@@ -25,7 +27,8 @@ class PegawaiController extends Controller
     public function create()
     {
         //
-        return view('pegawai.form');
+        $DataGol = Golongan::all();
+        return view('pegawai.form',compact('DataGol'));
     }
 
     /**
@@ -82,5 +85,9 @@ class PegawaiController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function tambah()
+    {
+        return view("pegawai.form");
     }
 }

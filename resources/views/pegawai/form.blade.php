@@ -26,6 +26,7 @@
                                     <div class="row">
                                         <div class="col-sm-12 col-xs-12">
                                             <form>
+                                                @csrf
                                                 <div class="form-group">
                                                     <label for="nama">Nama</label>
                                                     <div class="input-group">
@@ -54,11 +55,30 @@
                                                     <span class="font-13 text-muted">dd-mm-yyyy</span>
                                                 </div>
                                                 <div class="form-group">
-                                                        <label for="nipbaru">NIP Baru</label>
+                                                        <label for="nipbaru">Jenis Kelamin</label>
                                                         <div class="input-group">
                                                             <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
-                                                            <input type="text" class="form-control" id="nipbaru" placeholder="NIP Baru"> </div>
+                                                            <select class="form-control select2">
+                                                                <option>Select</option>
+                                                                <option value="1">Laki-Laki</option>
+                                                                <option value="2">Perempuan</option>
+                                                            </select>
+                                
+                                                            </div>
                                                 </div>
+                                                <div class="form-group">
+                                                    <label for="nipbaru">Pangkat/Gol</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
+                                                        <select class="form-control select2">
+                                                            <option>Select</option>
+                                                            @foreach ($DataGol as $Gol)
+                                                                <option value="{{ $Gol -> kode }}">{{ $Gol -> jabatan }} ( {{ $Gol -> pangkat }})</option>
+                                                            @endforeach
+                                                        </select>
+                            
+                                                        </div>
+                                            </div>
                                                 <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
                                                 <button type="submit" class="btn btn-inverse waves-effect waves-light">Cancel</button>
                                             </form>
