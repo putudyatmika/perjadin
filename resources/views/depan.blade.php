@@ -1,3 +1,18 @@
+@section('js')
+<script type="text/javascript">
+    $(document).ready(function() {
+        $.toast({
+            heading: 'Selamat Datang SuperAdmin',
+            text: 'di Sistem Informasi Perjalan Dinas - BPS Provinsi NTB.',
+            position: 'top-right',
+            loaderBg: '#ff6849',
+            icon: 'info',
+            hideAfter: 3500,
+            stack: 6
+        })
+    });
+    </script>
+@stop
 @extends('layouts.default')
 
 @section('content')

@@ -94,19 +94,7 @@
     <script src="{{ asset('tema/plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js')}}" type="text/javascript"></script>
     <script type="text/javascript" src="{{ asset('tema/plugins/bower_components/multiselect/js/jquery.multi-select.js')}}"></script>
 
-    <script type="text/javascript">
-    $(document).ready(function() {
-        $.toast({
-            heading: 'Selamat Datang SuperAdmin',
-            text: 'di Sistem Informasi Perjalan Dinas - BPS Provinsi NTB.',
-            position: 'top-right',
-            loaderBg: '#ff6849',
-            icon: 'info',
-            hideAfter: 3500,
-            stack: 6
-        })
-    });
-    </script>
+
     <!--Style Switcher -->
     <script src="{{ asset('tema/plugins/bower_components/styleswitcher/jQuery.style.switcher.js')}}"></script>
     @section('js')
