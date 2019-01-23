@@ -18,9 +18,8 @@ class CreateTabelUnitkerja extends Migration
             $table->string('kode',5);
             $table->string('nama',254);
             $table->string('parent',5)->nullable();
-            $table->tinyInteger('jenis')->unsigned();
-            $table->tinyInteger('eselon')->unsigned();
-            $table->timestamps();
+            $table->boolean('jenis')->unsigned();
+            $table->boolean('eselon')->unsigned();
         });
     }
 

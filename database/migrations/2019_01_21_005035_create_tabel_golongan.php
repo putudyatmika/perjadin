@@ -16,8 +16,8 @@ class CreateTabelGolongan extends Migration
         Schema::create('m_gol', function (Blueprint $table) {
             $table->increments('id');
             $table->string('kode',3);
-            $table->string('pangkat',5);
-            $table->string('jabatan',30);
+            $table->string('gol',5);
+            $table->string('pangkat',30);
         });
     }
 

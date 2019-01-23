@@ -1,4 +1,4 @@
-@extends('layout.default')
+@extends('layouts.default')
 
 @section('content')
 <div class="container-fluid">
@@ -21,6 +21,11 @@
                 </div>
                 <!-- .row -->
                 <div class="row">
+                        <div class="col-lg-12">
+                                @if (Session::has('message'))
+                                <div class="alert alert-{{ Session::get('message_type') }}" id="waktu2" style="margin-top:10px;">{{ Session::get('message') }}</div>
+                                @endif
+                                </div>
                     <div class="col-lg-12">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Data Pegawai BPS Provinsi NTB </h3>
@@ -31,45 +36,26 @@
                                         <tr>
                                             <th>NIP</th>
                                             <th>Nama</th>
-                                            <th>Bidang/Bagian</th>
                                             <th>Jabatan</th>
+                                            <th>Bidang/Bagian</th>
                                             <th>Pangkat/Gol</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach ($DataPegawai as $Pegawai)
                                         <tr>
-                                            <td><a href="javascript:void(0)">196704281989011001</a></td>
-                                            <td>Anang Zakaria</td>
-                                            <td>IPDS </td>
-                                            <td>Kabid IPDS</td>
-                                            <td>Penata Tk. I (III/d)</td>
-                                            <td><div class="label label-table label-success">Aktif</div></td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="javascript:void(0)">198203192004121002</a></td>
-                                            <td>I Putu Dyatmika</td>
-                                            <td>IPDS </td>
-                                            <td>Kasi DLS</td>
-                                            <td>Penata Tk. I (III/d)</td>
-                                            <td><div class="label label-table label-success">Aktif</div></td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="javascript:void(0)">198708152010121005</a></td>
-                                            <td>Chairul Fatikhin Putra</td>
-                                            <td>IPDS </td>
-                                            <td>Kasi IPDS</td>
-                                            <td>Penata (III/c)</td>
-                                            <td><div class="label label-table label-success">Aktif</div></td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="javascript:void(0)">196808171992121001</a></td>
-                                            <td>I Gusti Lanang Putra</td>
-                                            <td>NWAS </td>
-                                            <td>Kabid NWAS</td>
-                                            <td>Pembina Tingkat I (IV/b)</td>
-                                            <td><div class="label label-table label-success">Aktif</div></td>
-                                        </tr>
+                                                <td><a href="javascript:void(0)">{{ $Pegawai -> nip_baru }}</a></td>
+                                                <td>{{ $Pegawai -> nama}}</td>
+                                                <td><strong>{{ $JenisJabatanVar[$Pegawai -> jabatan] }}</strong> {{ $Pegawai -> unit_nama}}</td>
+                                                <td>{{ $Pegawai -> bidang_nama}}</td>
+                                                <td>{{ $Pegawai -> pangkat }} ({{ $Pegawai->gol}})</td>
+                                                <td><a href="{{ route('pegawai.edit',$Pegawai->id) }}" class="btn btn-success btn-circle"><i class="fa fa-pencil"></i> </a>
+                                                    <a href="" class="btn btn-danger btn-circle"><i class="fa fa-trash"></i> </a></td>
+                                            </tr> 
+                                        @endforeach
+                                        
+                                        
                                     </tbody>
                                 </table>
                             </div>
