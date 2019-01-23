@@ -1,4 +1,4 @@
-@extends('layout.default')
+@extends('layouts.default')
 
 @section('content')
 <div class="container-fluid">
@@ -28,8 +28,8 @@
                                     <thead>
                                         <tr>
                                             <th>Kode</th>
+                                            <th>Golongan</th>
                                             <th>Pangkat</th>
-                                            <th>Jabatan</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -37,8 +37,8 @@
                                         @foreach ($DataGolongan as $Gol)
                                         <tr>
                                             <td><a href="javascript:void(0)">{{ $Gol -> kode }}</a></td>
-                                            <td>{{ $Gol -> pangkat }}</td>
-                                            <td>{{ $Gol -> jabatan }} </td>
+                                            <td>{{ $Gol -> gol }}</td>
+                                            <td>{{ $Gol -> pangkat }} </td>
                                             <td><div class="label label-table label-success">Edit</div></td>
                                         </tr>
                                        @endforeach

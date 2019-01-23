@@ -15,14 +15,20 @@
         'JenisJabatan'=> [
             1=>'Kepala',
             2=>'Staf',
-            3=>"CS/Satpam",
-            4=>"Tugas Belajar"
+            3=>"Tugas Belajar"
         ],
         'UnitEselon'=> [
             1=>'I',
             2=>'II',
             3=>'III',
             4=>'IV'
+        ],
+        'LevelUser'=>[
+            1=>'Demo',
+            2=>'User',
+            3=>'Operator',
+            4=>'Admin',
+            5=>'SuperAdmin'
         ]
 
     ];

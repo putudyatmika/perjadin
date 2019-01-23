@@ -21,7 +21,7 @@
     <link href="{{ asset('tema/plugins/bower_components/bootstrap-select/bootstrap-select.min.css')}}" rel="stylesheet" />
     <link href="{{ asset('tema/plugins/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css')}}" rel="stylesheet" />
     <link href="{{ asset('tema/plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css')}}" rel="stylesheet" />
-    <link href="{{ asset('tema/plugins/bower_components/multiselect/css/multi-select.css" rel="stylesheet')}}" type="text/css" />
+    <link href="{{ asset('tema/plugins/bower_components/multiselect/css/multi-select.css')}}" rel="stylesheet" type="text/css" />
     <!-- toast CSS -->
     <link href="{{ asset('tema/plugins/bower_components/toast-master/css/jquery.toast.css')}}" rel="stylesheet">
     <!-- morris CSS -->
@@ -47,9 +47,9 @@
     </div>
     <div id="wrapper">
         <!-- Navigation -->
-        @include('layout.header')
+        @include('layouts.header')
         <!-- Left navbar-header -->
-        @include('layout.sidebar')
+        @include('layouts.sidebar')
         <!-- Left navbar-header end -->
         <!-- Page Content -->
         <div id="page-wrapper">
@@ -87,6 +87,13 @@
     <script src="{{ asset('tema/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js')}}"></script>
     <script src="{{ asset('tema/plugins/bower_components/jquery-sparkline/jquery.charts-sparkline.js')}}"></script>
     <script src="{{ asset('tema/plugins/bower_components/toast-master/js/jquery.toast.js')}}"></script>
+    <script src="{{ asset('tema/plugins/bower_components/switchery/dist/switchery.min.js')}}"></script>
+    <script src="{{ asset('tema/plugins/bower_components/custom-select/custom-select.min.js')}}" type="text/javascript"></script>
+    <script src="{{ asset('tema/plugins/bower_components/bootstrap-select/bootstrap-select.min.js')}}" type="text/javascript"></script>
+    <script src="{{ asset('tema/plugins/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js')}}"></script>
+    <script src="{{ asset('tema/plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js')}}" type="text/javascript"></script>
+    <script type="text/javascript" src="{{ asset('tema/plugins/bower_components/multiselect/js/jquery.multi-select.js')}}"></script>
+
     <script type="text/javascript">
     $(document).ready(function() {
         $.toast({
@@ -102,6 +109,9 @@
     </script>
     <!--Style Switcher -->
     <script src="{{ asset('tema/plugins/bower_components/styleswitcher/jQuery.style.switcher.js')}}"></script>
+    @section('js')
+
+    @show
 </body>
 
 </html>
