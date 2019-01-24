@@ -45,17 +45,17 @@
                                     <tbody>
                                         @foreach ($DataPegawai as $Pegawai)
                                         <tr>
-                                                <td><a href="javascript:void(0)">{{ $Pegawai -> nip_baru }}</a></td>
+                                                <td><a href="{{ route('pegawai.show',$Pegawai->id) }}">{{ $Pegawai -> nip_baru }}</a></td>
                                                 <td>{{ $Pegawai -> nama}}</td>
                                                 <td><strong>{{ $JenisJabatanVar[$Pegawai -> jabatan] }}</strong> {{ $Pegawai -> unit_nama}}</td>
                                                 <td>{{ $Pegawai -> bidang_nama}}</td>
                                                 <td>{{ $Pegawai -> pangkat }} ({{ $Pegawai->gol}})</td>
                                                 <td><a href="{{ route('pegawai.edit',$Pegawai->id) }}" class="btn btn-success btn-circle"><i class="fa fa-pencil"></i> </a>
                                                     <a href="" class="btn btn-danger btn-circle"><i class="fa fa-trash"></i> </a></td>
-                                            </tr> 
+                                            </tr>
                                         @endforeach
-                                        
-                                        
+
+
                                     </tbody>
                                 </table>
                             </div>
