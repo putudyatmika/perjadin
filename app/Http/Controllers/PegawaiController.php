@@ -155,7 +155,7 @@ class PegawaiController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $datapeg = Pegawai::find($id);
+        $datapeg = Pegawai::findOrFaild($id);
         $datapeg -> nip_baru = $request['nipbaru'];
         $datapeg -> nip_lama = $request['niplama'];
         $datapeg -> nama = $request['nama'];
@@ -180,6 +180,10 @@ class PegawaiController extends Controller
     public function destroy($id)
     {
         //
+        Pegawai::find($id)->delete();
+        Session::flash('message', 'Data telah dihapus');
+        Session::flash('message_type', 'danger');
+        return redirect()->route('pegawai.index');
     }
     public function tambah()
     {
