@@ -30,6 +30,8 @@ Route::get('/golongan', function () {
 Route::resource('golongan','GolonganController');
 Route::resource('pegawai','PegawaiController');
 Route::resource('unitkerja','UnitkerjaController');
-
+Route::resource('matrik','MatrikController');
+Route::resource('anggaran','AnggaranController');
+Route::resource('tujuan','TujuanController');
 
 Route::get('/home', 'HomeController@index')->name('home');

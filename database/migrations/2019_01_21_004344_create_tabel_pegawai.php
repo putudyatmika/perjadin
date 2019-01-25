@@ -23,6 +23,7 @@ class CreateTabelPegawai extends Migration
             $table->string('gol',3);
             $table->string('unitkerja',5);
             $table->boolean('jabatan')->unsigned();
+           // $table->boolean('status')->unsigned()->default(0)->change();
             $table->timestamps();
         });
     }

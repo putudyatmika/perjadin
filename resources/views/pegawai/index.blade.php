@@ -37,7 +37,7 @@
                                             <th>NIP</th>
                                             <th>Nama</th>
                                             <th>Jabatan</th>
-                                            <th>Bidang/Bagian</th>
+                                            <!--<th>Bidang/Bagian</th>-->
                                             <th>Pangkat/Gol</th>
                                             <th>Aksi</th>
                                         </tr>
@@ -48,10 +48,16 @@
                                                 <td><a href="{{ route('pegawai.show',$Pegawai->id) }}">{{ $Pegawai -> nip_baru }}</a></td>
                                                 <td>{{ $Pegawai -> nama}}</td>
                                                 <td><strong>{{ $JenisJabatanVar[$Pegawai -> jabatan] }}</strong> {{ $Pegawai -> unit_nama}}</td>
-                                                <td>{{ $Pegawai -> bidang_nama}}</td>
+                                                <!--<td>{{ $Pegawai -> bidang_nama}}</td>-->
                                                 <td>{{ $Pegawai -> pangkat }} ({{ $Pegawai->gol}})</td>
-                                                <td><a href="{{ route('pegawai.edit',$Pegawai->id) }}" class="btn btn-success btn-circle"><i class="fa fa-pencil"></i> </a>
-                                                    <a href="" class="btn btn-danger btn-circle"><i class="fa fa-trash"></i> </a></td>
+                                                <td><a href="{{ route('pegawai.edit',$Pegawai->id) }}" class="btn btn-success btn-circle pull-left"><i class="fa fa-pencil"></i> </a>
+                                                    <form action="{{ route('pegawai.destroy', $Pegawai->id) }}" class="pull-left" method="post">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button class="btn btn-danger btn-circle" onclick="return confirm('Anda yakin ingin menghapus data ini?')"><i class="fa fa-trash"></i> 
+                                                        </button>
+                                                      </form>
+                                                    </td>
                                             </tr>
                                         @endforeach
 

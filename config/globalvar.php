@@ -29,6 +29,11 @@
             3=>'Operator',
             4=>'Admin',
             5=>'SuperAdmin'
+        ],
+        'JenisKendaraan'=>[
+            1=>'Kendaraan Umum',
+            2=>'Kendaraan Dinas',
+            3=>'Plane'
         ]
 
     ];
