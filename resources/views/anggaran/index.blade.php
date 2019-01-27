@@ -10,7 +10,7 @@
   var pagu = button.data('pagu')
   var unitkerja = button.data('unitkode')
   var anggaranid = button.data('anggaranid')
-  
+
   var modal = $(this)
   modal.find('.modal-body #tahun_anggaran').val(tahun_anggaran)
   modal.find('.modal-body #mak').val(mak)
@@ -30,7 +30,7 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
   var pagu = button.data('pagu')
   var unitkerja = button.data('unitkode')
   var anggaranid = button.data('anggaranid')
-  
+
   var modal = $(this)
   modal.find('.modal-body #tahun_anggaran').val(tahun_anggaran)
   modal.find('.modal-body #mak').val(mak)
@@ -112,7 +112,7 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
             <!-- /.container-fluid -->
             <!---modal edit-->
             <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="EditModal">
-                    <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -126,8 +126,8 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                                                 <label for="tahun_anggaran">Tahun</label>
                                                 <div class="input-group">
                                                     <div class="input-group-addon"><i class="ti-lock"></i></div>
-                                                    <input type="text" class="form-control" id="tahun_anggaran" name="tahun_anggaran" placeholder="Tahun Anggaran" data-mask="9999" required=""> 
-                                                    
+                                                    <input type="text" class="form-control" id="tahun_anggaran" name="tahun_anggaran" placeholder="Tahun Anggaran" data-mask="9999" required="">
+
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -149,8 +149,8 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                                                     <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
                                                     <input type="text" class="form-control" id="pagu" name="pagu" placeholder="Pagu Anggaran" required=""> </div>
                                             </div>
-                                            
-                                            
+
+
                                             <div class="form-group">
                                                 <label for="unitkerja">Unitkerja</label>
                                                 <div class="input-group">
@@ -161,11 +161,11 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                                                             <option value="{{ $Unit -> kode }}">[{{ $Unit -> kode }}] {{ $Unit -> nama }}</option>
                                                         @endforeach
                                                     </select>
-                        
+
                                                     </div>
                                             </div>
-                                            
-                                       
+
+
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-inverse waves-effect waves-light" data-dismiss="modal">Close</button>
@@ -178,7 +178,7 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
             <!--end modal edit-->
             <!--modal tambah anggaran-->
             <div class="modal fade" id="TambahModal" tabindex="-1" role="dialog" aria-labelledby="EditModal">
-                    <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -186,8 +186,8 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                             <div class="modal-body">
                                     <form method="POST" action="{{ route('anggaran.store') }}">
                                             @csrf
-                                    @include('anggaran.formdata')        
-                                       
+                                    @include('anggaran.formdata')
+
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-inverse waves-effect waves-light" data-dismiss="modal">Close</button>
@@ -211,7 +211,7 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                                     @method('delete')
                                     <input type="hidden" name="anggaran_id" id="anggaranid" value="">
                                     @include('anggaran.deleteform')
-                                       
+
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-inverse waves-effect waves-light" data-dismiss="modal">Cancel</button>

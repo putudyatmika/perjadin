@@ -10,7 +10,7 @@
                     <!-- /.page title -->
                     <!-- .breadcrumb -->
                     <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-                        <a href="{{url('pegawai/create')}}" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Tambah Matrik Perjalanan</a>
+                        <a href="{{url('matrik/create')}}" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Tambah Matrik Perjalanan</a>
 
                         <ol class="breadcrumb">
                             <li><a href="#">Dashboard</a></li>
@@ -47,7 +47,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        
+
 
 
                                     </tbody>

@@ -10,7 +10,7 @@
   var nipkepala = button.data('nipkepala')
   var ratedarat = button.data('ratedarat')
   var id = button.data('id')
-  
+
   var modal = $(this)
   modal.find('.modal-body #kode_tujuan').val(kodekabkota)
   modal.find('.modal-body #nama_tujuan').val(namakabkota)
@@ -22,22 +22,22 @@
 
 $('#DeleteModal').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget) // Button that triggered the modal
-  var tahun_anggaran = button.data('tahun') // Extract info from data-* attributes
+  var kodekabkota = button.data('kodekabkota') // Extract info from data-* attributes
   // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
   // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-  var mak = button.data('mak')
-  var uraian = button.data('uraian')
-  var pagu = button.data('pagu')
-  var unitkerja = button.data('unitkode')
-  var anggaranid = button.data('anggaranid')
-  
+  var namakabkota = button.data('namakabkota')
+  var kepala = button.data('kepala')
+  var nipkepala = button.data('nipkepala')
+  var ratedarat = button.data('ratedarat')
+  var id = button.data('id')
+
   var modal = $(this)
-  modal.find('.modal-body #tahun_anggaran').val(tahun_anggaran)
-  modal.find('.modal-body #mak').val(mak)
-  modal.find('.modal-body #uraian').val(uraian)
-  modal.find('.modal-body #pagu').val(pagu)
-  modal.find('.modal-body #unitkerja').val(unitkerja)
-  modal.find('.modal-body #anggaranid').val(anggaranid)
+  modal.find('.modal-body #kode_tujuan').val(kodekabkota)
+  modal.find('.modal-body #nama_tujuan').val(namakabkota)
+  modal.find('.modal-body #kepala').val(kepala)
+  modal.find('.modal-body #nipkepala').val(nipkepala)
+  modal.find('.modal-body #rate').val(ratedarat)
+  modal.find('.modal-body #id').val(id)
 })
 </script>
 @stop
@@ -54,7 +54,7 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                     <!-- .breadcrumb -->
                     <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                             <button type="button" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light" data-toggle="modal" data-target="#TambahModal">Tambah Tujuan</button>
-                      
+
                         <ol class="breadcrumb">
                             <li><a href="#">Dashboard</a></li>
                             <li class="active">Data Tujuan Perjalanan</li>
@@ -117,9 +117,9 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                             <div class="modal-body">
                                     <form method="POST" action="{{ route('tujuan.store') }}">
                                     @csrf
-                                    
-                                    @include('tujuan.form')        
-                                       
+
+                                    @include('tujuan.form')
+
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-inverse waves-effect waves-light" data-dismiss="modal">Close</button>
@@ -136,23 +136,47 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="exampleModalLabel1">Tambah Data Tujuan</h4> </div>
+                                <h4 class="modal-title" id="exampleModalLabel1">Edit Data Tujuan</h4> </div>
                             <div class="modal-body">
-                                    <form method="POST" action="{{ route('tujuan.store') }}">
+                                    <form method="POST" action="{{ route('tujuan.update','update') }}">
                                     @csrf
-                                    @method('patch')
+                                    @method('put')
                                     <input type="hidden" name="id" id="id" value="" />
-                                    @include('tujuan.form')        
-                                       
+                                    @include('tujuan.form')
+
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-inverse waves-effect waves-light" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Save Data</button>
+                                <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Update Data</button>
                             </div>
                         </form>
                         </div>
                     </div>
             </div>
             <!--end modal edit tujuan-->
+            <!--modal hapus tujuan-->
+            <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModal">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title text-white" id="exampleModalLabel1"><strong>Delete Data Tujuan</strong></h4> </div>
+                        <div class="modal-body">
+                                <form method="POST" action="{{ route('tujuan.destroy','delete') }}">
+                                @csrf
+                                @method('delete')
+                                <input type="hidden" name="id" id="id" value="" />
+                                @include('tujuan.deleteform')
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-inverse btn-rounded waves-effect waves-light" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-info btn-rounded waves-effect waves-light m-r-10">Delete Data</button>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+        </div>
+        <!--end modal hapus tujuan-->
 @endsection
 

@@ -5,6 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\MatrikPerjalanan;
 use App\Pegawai;
+use App\Tujuan;
+use App\Golongan;
+use App\Unitkerja;
+use Validator;
+use Carbon\Carbon;
+use Session;
+use Illuminate\Support\Facades\Redirect;
+use DB;
+use App\Anggaran;
 
 class MatrikController extends Controller
 {
@@ -27,6 +36,14 @@ class MatrikController extends Controller
     public function create()
     {
         //
+        $DataUnitkerja = DB::table('unitkerja')
+                        -> where('eselon','=','3')->get();
+        $DataAnggaran = DB::table('anggaran')
+                        -> leftJoin('unitkerja','anggaran.unitkerja','=','unitkerja.kode')
+                        -> select(DB::Raw('anggaran.*,unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                        -> get();
+        $DataTujuan = Tujuan::all();
+        return view('matrik.create',compact('DataTujuan','DataAnggaran','DataUnitkerja'));
     }
 
     /**
@@ -38,6 +55,7 @@ class MatrikController extends Controller
     public function store(Request $request)
     {
         //
+        dd($request->all());
     }
 
     /**

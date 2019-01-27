@@ -43,6 +43,18 @@ class TujuanController extends Controller
     public function store(Request $request)
     {
         //
+        $dataTujuan = new Tujuan();
+        $dataTujuan -> kode_kabkota = $request['kode_tujuan'];
+        $dataTujuan -> nama_kabkota = $request['nama_tujuan'];
+        $dataTujuan -> kepala = $request['kepala'];
+        $dataTujuan -> nip_kepala = $request['nipkepala'];
+        $dataTujuan -> rate_darat = $request['rate'];
+        $dataTujuan -> save();
+
+        //alert()->success('Berhasil.','Data telah ditambahkan!');
+        Session::flash('message', 'Data telah ditambahkan');
+        Session::flash('message_type', 'success');
+        return back();
     }
 
     /**
@@ -74,9 +86,21 @@ class TujuanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        $dataTujuan = Tujuan::findOrFail($request->id);
+        $dataTujuan -> kode_kabkota = $request['kode_tujuan'];
+        $dataTujuan -> nama_kabkota = $request['nama_tujuan'];
+        $dataTujuan -> kepala = $request['kepala'];
+        $dataTujuan -> nip_kepala = $request['nipkepala'];
+        $dataTujuan -> rate_darat = $request['rate'];
+        $dataTujuan -> update();
+
+        //alert()->success('Berhasil.','Data telah ditambahkan!');
+        Session::flash('message', 'Data telah di update');
+        Session::flash('message_type', 'info');
+        return back();
     }
 
     /**
@@ -85,8 +109,14 @@ class TujuanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
         //
+        $dataTujuan = Tujuan::findOrFail($request->id);
+        $dataTujuan -> delete();
+
+       Session::flash('message', 'Data tujuan telah di delete');
+       Session::flash('message_type', 'danger');
+       return back();
     }
 }
