@@ -53,7 +53,7 @@
 
                     <!-- /.dropdown -->
                     <li class="dropdown">
-                        <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> <img src="{{ asset('tema/plugins/images/users/varun.jpg')}}" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">Steave</b> </a>
+                        <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> <img src="{{ asset('tema/plugins/images/users/varun.jpg')}}" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">Super Admin</b> </a>
                         <ul class="dropdown-menu dropdown-user animated flipInY">
                             <li><a href="#"><i class="ti-user"></i> My Profile</a></li>
                             <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>

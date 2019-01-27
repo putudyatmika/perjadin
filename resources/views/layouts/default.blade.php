@@ -38,6 +38,9 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+    @section('css')
+
+    @show
 </head>
 
 <body>
@@ -67,6 +70,9 @@
     <script src="{{ asset('tema/bootstrap/dist/js/tether.min.js')}}"></script>
     <script src="{{ asset('tema/bootstrap/dist/js/bootstrap.min.js')}}"></script>
     <script src="{{ asset('tema/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js')}}"></script>
+    <!--Morris JavaScript -->
+    <script src="{{ asset('tema/plugins/bower_components/raphael/raphael-min.js')}}"></script>
+    <script src="{{ asset('tema/plugins/bower_components/morrisjs/morris.js')}}"></script>
     <!-- Menu Plugin JavaScript -->
     <script src="{{ asset('tema/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js')}}"></script>
     <!--slimscroll JavaScript -->
@@ -76,9 +82,7 @@
     <!--Counter js -->
     <script src="{{ asset('tema/plugins/bower_components/waypoints/lib/jquery.waypoints.js')}}"></script>
     <script src="{{ asset('tema/plugins/bower_components/counterup/jquery.counterup.min.js')}}"></script>
-    <!--Morris JavaScript -->
-    <script src="{{ asset('tema/plugins/bower_components/raphael/raphael-min.js')}}"></script>
-    <script src="{{ asset('tema/plugins/bower_components/morrisjs/morris.js')}}"></script>
+
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('tema/js/custom.min.js')}}"></script>
     <script src="{{ asset('tema/js/dashboard1.js')}}"></script>

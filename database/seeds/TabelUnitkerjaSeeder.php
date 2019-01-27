@@ -26,31 +26,31 @@ class TabelUnitkerjaSeeder extends Seeder
         array('kode'=>'52521', 'nama'=>'Seksi Statistik Kependudukan', 'parent'=>'52520','jenis'=>  '1',  'eselon'=>'4'),
         array('kode'=>'52522', 'nama'=> 'Seksi Statistik Ketahanan Sosial', 'parent'=>'52520', 'jenis'=> '1',  'eselon'=>'4'),
         array('kode'=>'52523', 'nama'=> 'Seksi Statistik Kesejahteraan Rakyat', 'parent'=>'52520', 'jenis'=> '1',  'eselon'=>'4'),
-        array('kode'=>'52530', 'nama'=>'Bidang Statistik Produksi', 'parent'=>'52000', 'jenis'=>'1','eselon'=> '3'),
+        array('kode'=>'52530', 'nama'=> 'Bidang Statistik Produksi', 'parent'=>'52000', 'jenis'=>'1','eselon'=> '3'),
         array('kode'=>'52531', 'nama'=> 'Seksi Statistik Pertanian', 'parent'=>'52530', 'jenis'=> '1', 'eselon'=> '4'),
         array('kode'=>'52532', 'nama'=> 'Seksi Statistik Industri', 'parent'=>'52530', 'jenis'=> '1',  'eselon'=>'4'),
         array('kode'=>'52533', 'nama'=> 'Seksi Statistik PEK','parent'=> '52530', 'jenis'=> '1', 'eselon'=>'4'),
-        array('kode'=>'52540', 'nama'=>'Bidang Statistik Distribusi', 'parent'=>'52000','jenis'=> '1', 'eselon'=> '3'),
+        array('kode'=>'52540', 'nama'=> 'Bidang Statistik Distribusi', 'parent'=>'52000','jenis'=> '1', 'eselon'=> '3'),
         array('kode'=>'52541', 'nama'=> 'Seksi Statistik HK dan HPB', 'parent'=>'52540','jenis'=>  '1','eselon'=> '4'),
         array('kode'=>'52542', 'nama'=> 'Seksi Statistik Keuangan Dan Harga Produsen', 'parent'=>'52540','jenis'=>  '1', 'eselon'=>'4'),
         array('kode'=>'52543', 'nama'=>'Seksi Statistik Niaga dan Jasa', 'parent'=>'52540','jenis'=>  '1','eselon'=> '4'),
-        array('kode'=>'52550', 'nama'=>'Bidang NWAS', 'parent'=>'52000','jenis'=> '1','eselon'=>'3'),
+        array('kode'=>'52550', 'nama'=>'Bidang Nerwilis', 'parent'=>'52000','jenis'=> '1','eselon'=>'3'),
         array('kode'=>'52551', 'nama'=>'Seksi Neraca Produksi','parent'=> '52550','jenis'=>  '1', 'eselon'=>'4'),
         array('kode'=>'52552', 'nama'=>'Seksi Neraca Konsumsi','parent'=> '52550', 'jenis'=> '1', 'eselon'=> '4'),
-        array('kode'=>'52553', 'nama'=>'Seksi ALS', 'parent'=>'52550','jenis'=>  '1', 'eselon'=> '4'),
+        array('kode'=>'52553', 'nama'=>'Seksi Analisis Statistik Lintas Sektor', 'parent'=>'52550','jenis'=>  '1', 'eselon'=> '4'),
         array('kode'=>'52560', 'nama'=>'Bidang IPDS', 'parent'=>'52000','jenis'=> '1','eselon'=> '3'),
-        array('kode'=>'52561', 'nama'=>'Seksi IPDS', 'parent'=>'52560', 'jenis'=>'1', 'eselon'=> '4'),
-        array('kode'=>'52562', 'nama'=>'Seksi JRS', 'parent'=>'52560', 'jenis'=>'1','eselon'=>  '4'),
-        array('kode'=>'52563', 'nama'=>'Seksi DLS', 'parent'=>'52560', 'jenis'=>'1', 'eselon'=> '4'),
+        array('kode'=>'52561', 'nama'=>'Seksi Integrasi Pengolahan Data', 'parent'=>'52560', 'jenis'=>'1', 'eselon'=> '4'),
+        array('kode'=>'52562', 'nama'=>'Seksi Jaringan dan Rujukan Statistik', 'parent'=>'52560', 'jenis'=>'1','eselon'=>  '4'),
+        array('kode'=>'52563', 'nama'=>'Seksi Diseminasi dan Layanan Statistik', 'parent'=>'52560', 'jenis'=>'1', 'eselon'=> '4'),
          ));
     }
 }
 
 
-    
 
-    
 
-    
 
-    
+
+
+
+
