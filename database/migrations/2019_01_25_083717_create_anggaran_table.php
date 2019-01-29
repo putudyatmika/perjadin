@@ -20,7 +20,7 @@ class CreateAnggaranTable extends Migration
             $table->string('uraian',254);
             $table->string('pagu',15);
             $table->string('unitkerja',5);
-            $table->boolean('status')->default(1);
+            $table->boolean('flag')->default(1);
             $table->timestamps();
         });
     }
