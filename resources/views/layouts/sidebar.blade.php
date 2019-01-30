@@ -10,31 +10,12 @@
                         <!-- /input-group -->
                     </li>
                     <li class="nav-small-cap m-t-10">--- Main Menu</li>
-                    <li> <a href="#perjalanan" class="waves-effect"><i data-icon="Q" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu" >Input Perjalanan</span></a> </li>
+                    <li> <a href="#perjalanan" class="waves-effect"><i data-icon="Q" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu" >Matrik Perjalanan</span></a> </li>
                     <li> <a href="index.html" class="waves-effect active"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i> <span class="hide-menu"> DIPA Perjalanan <span class="fa arrow"></span> <span class="label label-rouded label-custom pull-right">4</span></span></a>
                         <ul class="nav nav-second-level">
                             <li> <a href="index.html">Input</a> </li>
                             <li> <a href="index2.html">Rekap</a> </li>
                             <li> <a href="index3.html">Perubahan</a> </li>
-                        </ul>
-                    </li>
-                    <li><a href="inbox.html" class="waves-effect"><i data-icon=")" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Apps <span class="fa arrow"></span></span></a>
-                        <ul class="nav nav-second-level">
-                            <li><a href="chat.html">Chat-message</a></li>
-                            <li><a href="javascript:void(0)" class="waves-effect">Inbox<span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li> <a href="inbox.html">Mail box</a></li>
-                                    <li> <a href="inbox-detail.html">Inbox detail</a></li>
-                                    <li> <a href="compose.html">Compose mail</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="javascript:void(0)" class="waves-effect">Contacts<span class="fa arrow"></span></a>
-                                <ul class="nav nav-third-level">
-                                    <li> <a href="contact.html">Contact1</a></li>
-                                    <li> <a href="contact2.html">Contact2</a></li>
-                                    <li> <a href="contact-detail.html">Contact Detail</a></li>
-                                </ul>
-                            </li>
                         </ul>
                     </li>
 

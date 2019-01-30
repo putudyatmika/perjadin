@@ -16,14 +16,14 @@ class CreateMatrikPerjalananTable extends Migration
         Schema::create('matrik', function (Blueprint $table) {
             $table->increments('id');
             $table->year('tahun_matrik');
-            $table->date('tgl_awal')->nullable();
-            $table->date('tgl_akhir')->nullable();
-            $table->string('peg_id')->nullable();
-            $table->string('kodekab_tujuan',4)->nullable();
+            $table->date('tgl_awal');
+            $table->date('tgl_akhir');
+            $table->string('peg_id',10)->nullable();
+            $table->string('kodekab_tujuan',4);
             $table->tinyInteger('lamanya');
-            $table->string('dana_mak', 30)->nullable();
-            $table->string('dana_pagu', 20)->nullable();
-            $table->string('dana_unitkerja', 4)->nullable();
+            $table->string('dana_mak', 30);
+            $table->string('dana_pagu', 20);
+            $table->string('dana_unitkerja', 4);
             $table->tinyInteger('lama_harian');
             $table->string('dana_harian', 20)->nullable();
             $table->string('total_harian', 20)->nullable();
@@ -33,6 +33,8 @@ class CreateMatrikPerjalananTable extends Migration
             $table->string('total_hotel', 20)->nullable();
             $table->string('pengeluaran_rill', 20)->nullable();
             $table->string('total_biaya', 20)->nullable();
+            $table->string('unit_pelaksana', 4)->nullable();
+            $table->tinyInteger('flag')->nullable()->default(0);
             $table->timestamps();
         });
     }

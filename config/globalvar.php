@@ -1,6 +1,6 @@
 <?php
     return [
-        'StatusUmum' => [
+        'FlagUmum' => [
             0=>'Tidak Aktif',
             1=>'Aktif'
         ],
@@ -25,8 +25,8 @@
         ],
         'LevelUser'=>[
             1=>'Demo',
-            2=>'User',
-            3=>'Operator',
+            2=>'Operator',
+            3=>'Pengelola',
             4=>'Admin',
             5=>'SuperAdmin'
         ],
@@ -34,6 +34,11 @@
             1=>'Kendaraan Umum',
             2=>'Kendaraan Dinas',
             3=>'Plane'
+        ],
+        'FlagMatrik'=>[
+            0=>'Belum dialokasi',
+            1=>'Sudah dialokasi',
+            2=>'Batal'
         ]
 
     ];
