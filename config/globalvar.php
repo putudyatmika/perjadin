@@ -13,9 +13,12 @@
             2=>'Kabupaten'
         ],
         'JenisJabatan'=> [
-            1=>'Kepala',
-            2=>'Staf',
-            3=>"Tugas Belajar"
+            1=>'Kepala Seksi/Subbag',
+            2=>'Kepala Bidang/Bagian',
+            3=>'Kepala BPS Provinsi',
+            4=>'Staf',
+            5=>'Tugas Belajar',
+            6=>'CS/Satpam'
         ],
         'UnitEselon'=> [
             1=>'I',
@@ -39,8 +42,15 @@
             0=>'Belum dialokasi',
             1=>'Sudah dialokasi',
             2=>'Batal'
+        ],
+        'Pengelola'=>[
+            '0'=>'Operator',
+            '1'=>'Kabag/Kabid',
+            '2'=>'Subbag Bina Program',
+            '3'=>'PPK',
+            '4'=>'Kepala BPS Provinsi',
+            '5'=>'Admin Sistem'
         ]
-
     ];
 ?>
 

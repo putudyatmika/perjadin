@@ -136,7 +136,7 @@ class PegawaiController extends Controller
     public function edit($id)
     {
         //
-        $DataPegawai = Pegawai::findOrFail($id);
+        $DataPegawai = Pegawai::find($id);
         $DataGol = Golongan::all();
         $DataUnitkerja = Unitkerja::all();
         $UnitEselonVar = config('globalvar.UnitEselon');
@@ -155,7 +155,7 @@ class PegawaiController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $datapeg = Pegawai::findOrFaild($id);
+        $datapeg = Pegawai::find($id);
         $datapeg -> nip_baru = $request['nipbaru'];
         $datapeg -> nip_lama = $request['niplama'];
         $datapeg -> nama = $request['nama'];
@@ -164,7 +164,7 @@ class PegawaiController extends Controller
         $datapeg -> gol = $request['gol'];
         $datapeg -> unitkerja = $request['unitkerja'];
         $datapeg -> jabatan = $request['jabatan'];
-        $datapeg -> save();
+        $datapeg -> update();
 
         Session::flash('message', 'Data telah diupdate');
         Session::flash('message_type', 'warning');

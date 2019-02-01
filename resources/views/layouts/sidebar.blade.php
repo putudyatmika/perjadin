@@ -34,8 +34,9 @@
                     <li> <a href="{{url('golongan')}}" class="waves-effect"><i data-icon="Q" class="icon-chemistry fa-fw"></i><span class="hide-menu" >Pangkat/Golongan</span></a> </li>
                     <li> <a href="{{url('unitkerja')}}" class="waves-effect"><i data-icon="Q" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu" >Unitkerja</span></a> </li>
                     <li> <a href="{{url('tujuan')}}" class="waves-effect"><i data-icon="Q" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu" >Tujuan</span></a> </li>
+                    <li> <a href="{{url('user')}}" class="waves-effect"><i data-icon="Q" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu" >User</span></a> </li>
                     <li class="nav-small-cap">--- Quit</li>
-                    <li><a href="login" class="waves-effect"><i class="icon-logout fa-fw"></i> <span class="hide-menu">Log out</span></a></li>
+                    <li><a href="logout" class="waves-effect"><i class="icon-logout fa-fw"></i> <span class="hide-menu">Log out</span></a></li>
 
                 </ul>
             </div>
