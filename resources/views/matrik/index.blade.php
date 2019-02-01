@@ -53,18 +53,14 @@
                                             <td>{{$item->nama_kabkota}}</td>
                                             <td>{{$item->lamanya}}</td>
                                             <td>{{$item->unit_nama}}</td>
-                                            <td> @if ($item->unit_pelaksana==NULL)
-                                                <button class="btn btn-rounded btn-success btn-sm">Alokasi</button>
-                                                @else
-                                                <button class="btn btn-rounded btn-danger btn-sm">Edit</button>
-                                                 @endif
-
-                                            </td>
+                                            <td>{{$item->unit_pelaksana}}</td>
                                             <td>{{$item->tgl_awal}} s/d {{$item->tgl_akhir}}</td>
                                             <td>{{$item->dana_mak}}</td>
                                             <td>{{$item->total_biaya}}</td>
                                             <td>{{$MatrikFlag[$item->flag_matrik]}}</td>
-                                            <td></td>
+                                            <td><button class="btn btn-rounded btn-danger btn-sm" data-toggle="modal" data-target="#AlokasiModal">Alokasi</button>
+                                                <button class="btn btn-rounded btn-danger btn-sm">Edit</button>
+                                                <button class="btn btn-rounded btn-danger btn-sm">Flag</button></td>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -76,4 +72,5 @@
                 <!-- /.row -->
             </div>
             <!-- /.container-fluid -->
+            @include('matrik.alokasiform')
 @endsection

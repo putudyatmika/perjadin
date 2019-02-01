@@ -1,11 +1,11 @@
 @section('js')
 <script>
     jQuery(document).ready(function() {
-        
+
         // For select 2
         $(".select2").select2();
         $('.selectpicker').selectpicker();
-        
+
     });
     </script>
 
@@ -62,8 +62,8 @@
                                                     <label for="tgllahir">Tanggal Lahir</label>
                                                     <div class="input-group">
                                                         <div class="input-group-addon"><i class="ti-lock"></i></div>
-                                                        <input type="text" class="form-control" id="tgllahir" name="tgllahir" value="{{ $DataPegawai -> tgl_lahir }}" placeholder="Tanggal Lahir" data-mask="9999-99-99" required=""> 
-                                                        
+                                                        <input type="text" class="form-control" id="tgllahir" name="tgllahir" value="{{ $DataPegawai -> tgl_lahir }}" placeholder="Tanggal Lahir" data-mask="9999-99-99" required="">
+
                                                     </div>
                                                     <span class="font-13 text-muted">yyyy-mm-dd</span>
                                                 </div>
@@ -76,7 +76,7 @@
                                                                 <option value="1" {{ $DataPegawai -> jk == '1' ? "selected" : "" }}>Laki-Laki</option>
                                                                 <option value="2" {{ $DataPegawai -> jk == '2' ? "selected" : "" }}>Perempuan</option>
                                                             </select>
-                                
+
                                                             </div>
                                                 </div>
                                                 <div class="form-group">
@@ -89,7 +89,7 @@
                                                                 <option value="{{ $Gol -> kode }}" {{ $DataPegawai->gol == $Gol->kode ? "selected" : ""}}>{{ $Gol -> pangkat }} ( {{ $Gol -> gol }})</option>
                                                             @endforeach
                                                         </select>
-                            
+
                                                         </div>
                                                 </div>
                                                 <div class="form-group">
@@ -102,7 +102,7 @@
                                                                 <option value="{{ $Unit -> kode }}" {{ $DataPegawai->unitkerja == $Unit->kode ? "selected" : ""}}>[{{ $Unit -> kode }}] {{ $Unit -> nama }}</option>
                                                             @endforeach
                                                         </select>
-                            
+
                                                         </div>
                                                 </div>
                                                 <div class="form-group">
@@ -111,12 +111,12 @@
                                                         <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
                                                         <select class="form-control select2" name="jabatan" required="">
                                                             <option>Select</option>
-                                                            @for ($i = 1; $i < 4; $i++)
+                                                            @for ($i = 1; $i < 5; $i++)
                                                             <option value="{{ $i }}" {{ $DataPegawai->jabatan == $i ? "selected" : ""}}>{{ $JenisJabatanVar[$i] }}</option>
                                                             @endfor
-                                                                
+
                                                         </select>
-                            
+
                                                         </div>
                                                 </div>
                                                 <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Update</button>
@@ -126,7 +126,7 @@
                                     </div>
                                 </div>
                             </div>
-        
+
                 </div>
                 <!-- /.row -->
             </div>

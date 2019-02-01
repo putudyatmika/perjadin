@@ -135,4 +135,7 @@ class MatrikController extends Controller
     {
         //
     }
+    public function alokasi(Request $request) {
+
+    }
 }
