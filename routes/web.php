@@ -36,14 +36,17 @@ Route::get('/golongan', function () {
 Route::match(['get', 'post'], '/login', 'AdminController@login')->name('admin.login');
 */
 //Route::get('/pegawai/tambah','PegawaiController@tambah');
-Route::resource('golongan','GolonganController');
-Route::resource('pegawai','PegawaiController');
-Route::resource('unitkerja','UnitkerjaController');
-Route::resource('matrik','MatrikController');
-Route::ANY('/matrik/alokasi','MatrikController@Alokasi');
-Route::resource('anggaran','AnggaranController');
-Route::resource('tujuan','TujuanController');
-Route::resource('user','UserController');
+Route::group(['middleware' => ['auth']], function () {
+    Route::resource('golongan','GolonganController');
+    Route::resource('pegawai','PegawaiController');
+    Route::resource('unitkerja','UnitkerjaController');
+    Route::resource('matrik','MatrikController');
+    //Route::ANY('/matrik/alokasi','MatrikController@Alokasi');
+    Route::resource('anggaran','AnggaranController');
+    Route::resource('tujuan','TujuanController');
+    Route::resource('user','UserController');
+});
+
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 //Route::get('/home', 'HomeController@index')->name('home');

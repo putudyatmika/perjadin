@@ -46,7 +46,7 @@
         'Pengelola'=>[
             '0'=>'Operator',
             '1'=>'Kabag/Kabid',
-            '2'=>'Subbag Bina Program',
+            '2'=>'Subbag Keuangan',
             '3'=>'PPK',
             '4'=>'Kepala BPS Provinsi',
             '5'=>'Admin Sistem'

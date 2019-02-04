@@ -10,12 +10,12 @@
                         <!-- /input-group -->
                     </li>
                     <li class="nav-small-cap m-t-10">--- Main Menu</li>
-                    <li> <a href="#perjalanan" class="waves-effect"><i data-icon="Q" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu" >Matrik Perjalanan</span></a> </li>
-                    <li> <a href="index.html" class="waves-effect active"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i> <span class="hide-menu"> DIPA Perjalanan <span class="fa arrow"></span> <span class="label label-rouded label-custom pull-right">4</span></span></a>
+                    <li> <a href="{{route('matrik.index')}}" class="waves-effect"><i data-icon="Q" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu" >Matrik Perjalanan</span></a> </li>
+                    <li> <a href="#" class="waves-effect active"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i> <span class="hide-menu">Transaksi <span class="fa arrow"></span> <span class="label label-rouded label-custom pull-right">4</span></span></a>
                         <ul class="nav nav-second-level">
-                            <li> <a href="index.html">Input</a> </li>
-                            <li> <a href="index2.html">Rekap</a> </li>
-                            <li> <a href="index3.html">Perubahan</a> </li>
+                            <li> <a href="#surattugas">Surat Tugas</a> </li>
+                            <li> <a href="#spd">SPD</a> </li>
+                            <li> <a href="#kuitansi">Kuitansi</a> </li>
                         </ul>
                     </li>
 
@@ -27,16 +27,24 @@
 
                         </ul>
                     </li>
+                    @if (Auth::user()->user_level>2)
                     <li class="nav-small-cap">--- Master Data</li>
                     <li> <a href="{{url('anggaran')}}" class="waves-effect"><i data-icon="Q" class="icon-people fa-fw"></i><span class="hide-menu" >Anggaran</span></a> </li>
                     <li> <a href="{{url('matrik')}}" class="waves-effect"><i data-icon="Q" class="icon-people fa-fw"></i><span class="hide-menu" >Matrik Perjalanan</span></a> </li>
                     <li> <a href="{{url('pegawai')}}" class="waves-effect"><i data-icon="Q" class="icon-people fa-fw"></i><span class="hide-menu" >Pegawai</span></a> </li>
-                    <li> <a href="{{url('golongan')}}" class="waves-effect"><i data-icon="Q" class="icon-chemistry fa-fw"></i><span class="hide-menu" >Pangkat/Golongan</span></a> </li>
-                    <li> <a href="{{url('unitkerja')}}" class="waves-effect"><i data-icon="Q" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu" >Unitkerja</span></a> </li>
-                    <li> <a href="{{url('tujuan')}}" class="waves-effect"><i data-icon="Q" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu" >Tujuan</span></a> </li>
-                    <li> <a href="{{url('user')}}" class="waves-effect"><i data-icon="Q" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu" >User</span></a> </li>
+                    <li> <a href="#" class="waves-effect"><i data-icon="&#xe00b;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Data Dasar<span class="fa arrow"></span></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="{{url('golongan')}}">Pangkat/Golongan</a></li>
+                            <li><a href="{{url('unitkerja')}}">Unitkerja</a></li>
+                            </ul>
+                    </li>
+                    <li><a href="{{url('tujuan')}}" class="waves-effect"><i data-icon="Q" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu" >Tujuan</span></a> </li>
+                    @endif
+                    @if (Auth::user()->user_level>3)
+                    <li><a href="{{url('user')}}" class="waves-effect"><i data-icon="Q" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu" >User</span></a> </li>
+                    @endif
                     <li class="nav-small-cap">--- Quit</li>
-                    <li><a href="logout" class="waves-effect"><i class="icon-logout fa-fw"></i> <span class="hide-menu">Log out</span></a></li>
+                    <li><a href="{{route('logout')}}" class="waves-effect"><i class="icon-logout fa-fw"></i> <span class="hide-menu">Log out</span></a></li>
 
                 </ul>
             </div>

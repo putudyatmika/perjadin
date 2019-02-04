@@ -22,7 +22,7 @@
                     <div class="col-lg-8 col-xs-12">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Unitkerja</h3>
-                            
+
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
@@ -32,7 +32,6 @@
                                             <th>Parent</th>
                                             <th>Jenis</th>
                                             <th>Eselon</th>
-                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -43,7 +42,6 @@
                                             <td>{{ $Unit -> parent }} </td>
                                             <td>{{ $JenisUnitVar [$Unit -> jenis] }} </td>
                                             <td>{{ $UnitEselonVar [$Unit -> eselon] }} </td>
-                                            <td><div class="label label-table label-success">Edit</div></td>
                                         </tr>
                                        @endforeach
                                     </tbody>

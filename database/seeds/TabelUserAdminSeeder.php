@@ -15,7 +15,7 @@ class TabelUserAdminSeeder extends Seeder
         DB::table('users')->delete();
         //insert some dummy records
         DB::table('users')->insert(array(
-        array('name'=>'SuperAdmin','username'=>'admin','password'=>bcrypt('admin'),'user_level'=>'5','pengelola'=>'5'),
+        array('name'=>'SuperAdmin','username'=>'admin','password'=>bcrypt('admin'),'user_level'=>'5','pengelola'=>'5','user_unitkerja'=>'52000'),
 
     ));
     }

@@ -19,19 +19,6 @@
         <input type="email" class="form-control" id="email" name="email" placeholder="Email"> </div>
 </div>
 <div class="form-group">
-    <label for="password">Password</label>
-    <div class="input-group">
-        <div class="input-group-addon"><i class="ti-medall"></i></div>
-        <input type="password" class="form-control" id="password" name="password" placeholder="password" required="" data-toggle="validator" data-minlength="4"> </div>
-</div>
-<div class="form-group">
-    <label for="password_confirmation">Konfirmasi Password</label>
-    <div class="input-group">
-        <div class="input-group-addon"><i class="ti-medall"></i></div>
-        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Konfirmasi password" required="" data-match="#password" data-match-error="Password tidak sama"> </div>
-        <div class="help-block with-errors"></div>
-</div>
-<div class="form-group">
     <label for="unitkerja">Unitkerja</label>
     <div class="input-group">
         <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
