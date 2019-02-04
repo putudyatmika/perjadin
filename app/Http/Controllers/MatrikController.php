@@ -25,14 +25,16 @@ class MatrikController extends Controller
     public function index()
     {
         //
+        $DataUnitkerja = DB::table('unitkerja')
+                        -> where('eselon','<','4')->get();
         $MatrikFlag = config('globalvar.FlagMatrik');
         $DataMatrik = DB::table('matrik')
-                        ->leftJoin('unitkerja','matrik.dana_unitkerja','=','unitkerja.kode')
-                        ->leftJoin('tujuan','matrik.kodekab_tujuan','=','tujuan.kode_kabkota')
                         ->leftJoin('anggaran','matrik.dana_mak','=','anggaran.mak')
-                        ->select(DB::raw('matrik.*, anggaran.*,tujuan.*,unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                        ->leftJoin('tujuan','matrik.kodekab_tujuan','=','tujuan.kode_kabkota')
+                        ->leftJoin('unitkerja','matrik.dana_unitkerja','=','unitkerja.kode')
+                        ->select(DB::raw('matrik.*, matrik.id as matrik_id, anggaran.*,anggaran.id as anggaran_id,tujuan.*,tujuan.id as tujuan_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
                         ->get();
-        return view('matrik.index',compact('DataMatrik','MatrikFlag'));
+        return view('matrik.index',compact('DataMatrik','MatrikFlag','DataUnitkerja'));
 
     }
 
@@ -120,9 +122,31 @@ class MatrikController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        $count = MatrikPerjalanan::where('id',$request['matrikid'])->count();
+
+        if($count<1){
+            Session::flash('message', 'Matrik perjalanan tidak ditemukan');
+            Session::flash('message_type', 'danger');
+            return redirect()->to('matrik');
+        }
+        $datamatrik = MatrikPerjalanan::findOrFail($request['matrikid']);
+        if ($request['aksi']=='alokasi') {
+            //hanya alokasi
+
+            $datamatrik->unit_pelaksana= $request->unit_pelaksana;
+            $datamatrik->flag_matrik=1;
+            $datamatrik -> update();
+
+            Session::flash('message', 'Alokasi matrik sudah diupdate');
+            Session::flash('message_type', 'success');
+            return back();
+        }
+        else {
+           dd($request->all());
+        }
     }
 
     /**

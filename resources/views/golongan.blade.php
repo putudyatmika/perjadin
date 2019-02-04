@@ -22,7 +22,7 @@
                     <div class="col-lg-8 col-xs-12">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Pangkat dan Golongan</h3>
-                            
+
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
@@ -30,7 +30,6 @@
                                             <th>Kode</th>
                                             <th>Golongan</th>
                                             <th>Pangkat</th>
-                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -39,7 +38,6 @@
                                             <td><a href="javascript:void(0)">{{ $Gol -> kode }}</a></td>
                                             <td>{{ $Gol -> gol }}</td>
                                             <td>{{ $Gol -> pangkat }} </td>
-                                            <td><div class="label label-table label-success">Edit</div></td>
                                         </tr>
                                        @endforeach
                                     </tbody>

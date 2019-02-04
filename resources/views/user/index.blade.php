@@ -1,45 +1,5 @@
 @section('js')
-<script>
-    $('#EditModal').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget) // Button that triggered the modal
-  var kodekabkota = button.data('kodekabkota') // Extract info from data-* attributes
-  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-  var namakabkota = button.data('namakabkota')
-  var kepala = button.data('kepala')
-  var nipkepala = button.data('nipkepala')
-  var ratedarat = button.data('ratedarat')
-  var id = button.data('id')
-
-  var modal = $(this)
-  modal.find('.modal-body #kode_tujuan').val(kodekabkota)
-  modal.find('.modal-body #nama_tujuan').val(namakabkota)
-  modal.find('.modal-body #kepala').val(kepala)
-  modal.find('.modal-body #nipkepala').val(nipkepala)
-  modal.find('.modal-body #rate').val(ratedarat)
-  modal.find('.modal-body #id').val(id)
-})
-
-$('#DeleteModal').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget) // Button that triggered the modal
-  var kodekabkota = button.data('kodekabkota') // Extract info from data-* attributes
-  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-  var namakabkota = button.data('namakabkota')
-  var kepala = button.data('kepala')
-  var nipkepala = button.data('nipkepala')
-  var ratedarat = button.data('ratedarat')
-  var id = button.data('id')
-
-  var modal = $(this)
-  modal.find('.modal-body #kode_tujuan').val(kodekabkota)
-  modal.find('.modal-body #nama_tujuan').val(namakabkota)
-  modal.find('.modal-body #kepala').val(kepala)
-  modal.find('.modal-body #nipkepala').val(nipkepala)
-  modal.find('.modal-body #rate').val(ratedarat)
-  modal.find('.modal-body #id').val(id)
-})
-</script>
+@include('user.js')
 @stop
 @extends('layouts.default')
 
@@ -94,7 +54,11 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                                                 <td>{{$UserPengelola[$item->pengelola]}}</td>
                                                 <td>{{$item->lastlogin}}</td>
                                                 <td>{{$item->lastip}}</td>
-                                                <td></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-primary btn-xs btn-rounded" data-toggle="modal" data-target="#EditModal" data-username="{{ $item->username}}" data-name="{{ $item->name}}" data-email="{{ $item->email}}" data-userlevel="{{ $item->user_level}}" data-pengelola="{{$item->pengelola}}" data-unitkode="{{$item->user_unitkerja}}" data-userid="{{$item->id}}">Edit</button>
+                                                    <button type="button" class="btn btn-info btn-xs btn-rounded" data-toggle="modal" data-target="#GantiPassword" data-username="{{ $item->username}}" data-name="{{ $item->name}}" data-email="{{ $item->email}}" data-userlevel="{{ $item->user_level}}" data-pengelola="{{$item->pengelola}}" data-unitkode="{{$item->user_unitkerja}}" data-userid="{{$item->id}}">Ganti Password</button>
+                                                    <button type="button" class="btn btn-danger btn-xs btn-rounded" data-toggle="modal" data-target="#DeleteModal" data-username="{{ $item->username}}" data-name="{{ $item->name}}" data-email="{{ $item->email}}" data-userlevel="{{$UserLevel[$item->user_level]}}" data-pengelola="{{$UserPengelola[$item->pengelola]}}" data-unitkode="{{$item->unit_nama}}" data-userid="{{$item->id}}">Delete</button>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -106,7 +70,7 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                 <!-- /.row -->
             </div>
             <!-- /.container-fluid -->
-            <!--modal tambah tujuan-->
+            <!--modal tambah user-->
             <div class="modal fade" id="TambahModal" tabindex="-1" role="dialog" aria-labelledby="TambahModal">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -114,11 +78,10 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 <h4 class="modal-title" id="exampleModalLabel1">Tambah Data User</h4> </div>
                             <div class="modal-body">
-                                    <form method="POST" action="{{ route('user.store') }}">
+                                    <form method="POST" action="{{ route('user.store') }}" data-toggle="validator">
                                     @csrf
-
+                                    <input type="hidden" name="userid" id="userid">
                                     @include('user.form')
-
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-inverse waves-effect waves-light" data-dismiss="modal">Close</button>
@@ -128,8 +91,8 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                         </div>
                     </div>
             </div>
-            <!--end modal tambah tujuan-->
-            <!--modal Edit tujuan-->
+            <!--end modal tambah user-->
+            <!--modal Edit user-->
             <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="EditModal">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -141,7 +104,8 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                                     @csrf
                                     @method('put')
                                     <input type="hidden" name="id" id="id" value="" />
-                                    @include('user.form')
+                                    <input type="hidden" name="aksi" value="update" />
+                                    @include('user.editform')
 
                             </div>
                             <div class="modal-footer">
@@ -152,8 +116,33 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                         </div>
                     </div>
             </div>
-            <!--end modal edit tujuan-->
-            <!--modal hapus tujuan-->
+            <!--end modal edit users-->
+            <!--modal Edit password-->
+            <div class="modal fade" id="GantiPassword" tabindex="-1" role="dialog" aria-labelledby="GantiPassword">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="exampleModalLabel1">Ganti Password User</h4> </div>
+                        <div class="modal-body">
+                                <form method="POST" action="{{ route('user.update','password') }}">
+                                @csrf
+                                @method('put')
+                                <input type="hidden" name="id" id="id" value="" />
+                                <input type="hidden" name="aksi" value="gantipassword" />
+                                @include('user.gantipass')
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-inverse waves-effect waves-light" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Update Data</button>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+        </div>
+        <!--end modal edit password-->
+            <!--modal hapus user-->
             <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModal">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -165,7 +154,7 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                                 @csrf
                                 @method('delete')
                                 <input type="hidden" name="id" id="id" value="" />
-                                @include('tujuan.deleteform')
+                                @include('user.deleteform')
 
                         </div>
                         <div class="modal-footer">

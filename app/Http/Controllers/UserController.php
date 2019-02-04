@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Redirect;
 use DB;
 use App\Anggaran;
 use App\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     public function __construct()
@@ -29,10 +31,16 @@ class UserController extends Controller
     public function index()
     {
         //
-        $DataUser = User::all();
+        $DataUnitkerja = Unitkerja::where('eselon','<','4')->get();
+        //$DataUser = User::all();
+        $DataUser = DB::table('users')
+        -> leftJoin('unitkerja','users.user_unitkerja','=','unitkerja.kode')
+        -> select(DB::Raw('users.*,unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+        -> orderBy('username','asc')
+        -> get();
         $UserLevel = config('globalvar.LevelUser');
         $UserPengelola = config('globalvar.Pengelola');
-        return view('user.index',compact('DataUser','UserLevel','UserPengelola'));
+        return view('user.index',compact('DataUser','UserLevel','UserPengelola','DataUnitkerja'));
     }
 
     /**
@@ -54,7 +62,27 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
-        dd($request->all());
+        $count = User::where('username',$request['username'])->count();
+
+        if($count>0){
+            Session::flash('message', 'User sudah ada');
+            Session::flash('message_type', 'danger');
+            return redirect()->to('user');
+        }
+
+        $datauser = new User();
+        $datauser -> username = $request['username'];
+        $datauser -> name = $request['name'];
+        $datauser -> email = $request['email'];
+        $datauser -> user_level = $request['user_level'];
+        $datauser -> pengelola = $request['pengelola'];
+        $datauser -> user_unitkerja = $request['unitkerja'];
+        $datauser -> password = Hash::make($request['password']);
+        $datauser -> save();
+
+        Session::flash('message', 'Data user telah ditambahkan');
+        Session::flash('message_type', 'success');
+        return back();
     }
 
     /**
@@ -86,9 +114,43 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        $count = User::where('id',$request['id'])->count();
+
+        if($count<1){
+            Session::flash('message', 'User tidak ditemukan');
+            Session::flash('message_type', 'danger');
+            return redirect()->to('user');
+        }
+        $datauser = User::findOrFail($request['id']);
+        if ($request['aksi']=='gantipassword') {
+            //hanya ganti password
+
+            $datauser -> password = Hash::make($request['password']);
+            $datauser -> update();
+
+            Session::flash('message', 'Password user sudah diupdate');
+            Session::flash('message_type', 'success');
+            return back();
+        }
+        else {
+            //tanpa ganti password
+            $datauser -> username = $request['username'];
+            $datauser -> name = $request['name'];
+            $datauser -> email = $request['email'];
+            $datauser -> user_level = $request['user_level'];
+            $datauser -> pengelola = $request['pengelola'];
+            $datauser -> user_unitkerja = $request['unitkerja'];
+            $datauser -> update();
+
+            Session::flash('message', 'Data user telah diupdate');
+            Session::flash('message_type', 'success');
+            return back();
+        }
+
+
     }
 
     /**
@@ -97,8 +159,20 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
         //
+        if (Auth::User()->id==$request->id) {
+            Session::flash('message', 'Tidak bisa menghapus diri sendiri');
+            Session::flash('message_type', 'danger');
+            return back();
+        }
+        $datauser = User::findOrFail($request->id);
+        $datauser -> delete();
+
+        Session::flash('message', 'Data user telah di delete');
+        Session::flash('message_type', 'danger');
+        return back();
+        //dd($request->all());
     }
 }
