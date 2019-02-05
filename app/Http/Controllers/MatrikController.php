@@ -102,6 +102,7 @@ class MatrikController extends Controller
     public function show($id)
     {
         //
+
     }
 
     /**
@@ -113,6 +114,22 @@ class MatrikController extends Controller
     public function edit($id)
     {
         //
+        $DataUnitkerja = DB::table('unitkerja')
+        -> where('eselon','<','4')->get();
+        $MatrikFlag = config('globalvar.FlagMatrik');
+        $DataMatrik = DB::table('matrik')
+                ->leftJoin('anggaran','matrik.dana_mak','=','anggaran.mak')
+                ->leftJoin('tujuan','matrik.kodekab_tujuan','=','tujuan.kode_kabkota')
+                ->leftJoin('unitkerja','matrik.dana_unitkerja','=','unitkerja.kode')
+                ->select(DB::raw('matrik.*, matrik.id as matrik_id, anggaran.*,anggaran.id as anggaran_id,tujuan.*,tujuan.id as tujuan_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                ->where('matrik.id','=',$id)
+                ->first();
+        $DataAnggaran = DB::table('anggaran')
+                -> leftJoin('unitkerja','anggaran.unitkerja','=','unitkerja.kode')
+                -> select(DB::Raw('anggaran.*,unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                -> get();
+        $DataTujuan = Tujuan::all();
+        return view('matrik.editform',compact('DataMatrik','MatrikFlag','DataUnitkerja','DataAnggaran','DataTujuan'));
     }
 
     /**
@@ -138,6 +155,16 @@ class MatrikController extends Controller
 
             $datamatrik->unit_pelaksana= $request->unit_pelaksana;
             $datamatrik->flag_matrik=1;
+            $datamatrik -> update();
+
+            Session::flash('message', 'Alokasi matrik sudah diupdate');
+            Session::flash('message_type', 'success');
+            return back();
+        }
+        elseif ($request['aksi']=='updateflag') {
+            //update flag untuk belum alokasi / batal
+            $datamatrik->unit_pelaksana= NULL;
+            $datamatrik->flag_matrik=$request->flagmatrik;
             $datamatrik -> update();
 
             Session::flash('message', 'Alokasi matrik sudah diupdate');
