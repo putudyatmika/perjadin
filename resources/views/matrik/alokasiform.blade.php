@@ -76,15 +76,28 @@
 
                         </div>
                         <div class="form-group">
-                                <label for="flag">Flag</label>
+                                <label for="biaya">Unit Pelaksana</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="ti-user"></i></div>
+                                    <input type="text" class="form-control" id="pelaksana" name="pelaksana" disabled> </div>
+
+                            </div>
+                            <div class="form-group">
+                                    <label for="biaya">Flag Sebelumnya</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                                        <input type="text" class="form-control" id="flag_old" name="flag_old" disabled> </div>
+
+                                </div>
+                        <div class="form-group">
+                                <label for="flag">Flag Baru</label>
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
                                     <select class="form-control select2" name="flagmatrik" id="flagmatrik" required="">
                                         <option value="">Select</option>
-                                        @for ($i = 0; $i < 3; $i++)
-                                            <option value="{{ $i }}">{{ $MatrikFlag[$i] }}</option>
-                                        @endfor
-                                    </select>
+                                        <option value="0">{{$MatrikFlag[0]}}</option>
+                                        <option value="2">{{$MatrikFlag[2]}}</option>
+                                        </select>
                                 </div>
                         </div>
 
