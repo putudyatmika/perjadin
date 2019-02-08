@@ -178,7 +178,7 @@
                                                     </div>
 
 
-                                        <input type="hidden" name="aksi" value="update">
+                                        <input type="hidden" name="aksi" value="updatematrik">
                                         <input type="hidden" name="matrikid" id="matrikid" value="{{$DataMatrik->matrik_id}}" />
                                         <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Update Data</button>
                                         <button type="submit" class="btn btn-inverse waves-effect waves-light">Cancel</button>

@@ -2,9 +2,9 @@
 <div class="modal fade" id="ViewModal" tabindex="-1" role="dialog" aria-labelledby="ViewModal">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-info">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel1">Detil Matrik Perjalanan</h4> </div>
+                <h4 class="modal-title text-white" id="exampleModalLabel1">Detil Matrik Perjalanan</h4> </div>
             <div class="modal-body">
                 <dl class="row">
                     <dt class="col-sm-3">Tahun Anggaran</dt>
@@ -36,8 +36,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-inverse waves-effect waves-light" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-success waves-effect waves-light">Edit Data</button>
-                <button type="button" class="btn btn-danger waves-effect waves-light">Delete Data</button>
+                {{-- <button type="submit" class="btn btn-success waves-effect waves-light" id="EditView">Edit Data</button>
+                <button type="button" class="btn btn-danger waves-effect waves-light" id="DeleteView">Delete Data</button> --}}
             </div>
 
         </div>

@@ -11,7 +11,7 @@
                     </li>
                     <li class="nav-small-cap m-t-10">--- Main Menu</li>
                     <li> <a href="{{route('matrik.index')}}" class="waves-effect"><i data-icon="Q" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu" >Matrik Perjalanan</span></a> </li>
-                    <li> <a href="#" class="waves-effect active"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i> <span class="hide-menu">Transaksi <span class="fa arrow"></span> <span class="label label-rouded label-custom pull-right">4</span></span></a>
+                    <li> <a href="#" class="waves-effect active"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i> <span class="hide-menu">Transaksi <span class="fa arrow"></span> </span></a>
                         <ul class="nav nav-second-level">
                             <li> <a href="#surattugas">Surat Tugas</a> </li>
                             <li> <a href="#spd">SPD</a> </li>
