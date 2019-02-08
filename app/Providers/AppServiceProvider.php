@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 
@@ -16,6 +17,12 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Schema::defaultStringLength(191);
+        Blade::directive('rupiah', function ($angka) {
+            return "<?php echo 'Rp. ' . number_format($angka,0,',','.'); ?>";
+        });
+        Blade::directive('duit', function ($angka) {
+            return "<?php echo number_format($angka,0,',','.'); ?>";
+        });
     }
 
     /**

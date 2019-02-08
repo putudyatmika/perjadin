@@ -171,6 +171,30 @@ class MatrikController extends Controller
             Session::flash('message_type', 'success');
             return back();
         }
+        elseif ($request['aksi']=='updatematrik') {
+            $datamatrik -> tahun_matrik = Carbon::parse($request['tglawal'])->format('Y');
+            $datamatrik -> tgl_awal = $request['tglawal'];
+            $datamatrik -> tgl_akhir = $request['tglakhir'];
+            $datamatrik -> kodekab_tujuan = $request['kode_kabkota'];
+            $datamatrik -> lamanya = $request['lamanya'];
+            $datamatrik -> dana_mak = $request['dana_mak'];
+            $datamatrik -> dana_pagu = $request['dana_pagu'];
+            $datamatrik -> dana_unitkerja = $request['dana_kodeunit'];
+            $datamatrik -> lama_harian = $request['harian'];
+            $datamatrik -> dana_harian = $request['uangharian'];
+            $datamatrik -> total_harian = $request['totalharian'];
+            $datamatrik -> dana_transport = $request['nilaiTransport'];
+            $datamatrik -> lama_hotel = $request['hotelhari'];
+            $datamatrik -> dana_hotel = $request['nilaihotel'];
+            $datamatrik -> total_hotel = $request['totalhotel'];
+            $datamatrik -> pengeluaran_rill = $request['pengeluaranrill'];
+            $datamatrik -> total_biaya = $request['totalbiaya'];
+            $datamatrik -> update();
+
+            Session::flash('message', 'Data matrik perjalanan sudah diupdate');
+            Session::flash('message_type', 'success');
+            return redirect()->route('matrik.index');
+        }
         else {
            dd($request->all());
         }
@@ -182,11 +206,18 @@ class MatrikController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
         //
+       $dataMatrik = MatrikPerjalanan::findOrFail($request->matrikid);
+       $dataMatrik -> delete();
+       $pesan='Data Matrik Perjalanan tujuan ke '.$request->tujuan .' dari '. $request->sm .' berhasil dihapus';
+
+       Session::flash('message', $pesan);
+       Session::flash('message_type', 'danger');
+       return back();
     }
-    public function alokasi(Request $request) {
+    public function transaksi() {
 
     }
 }

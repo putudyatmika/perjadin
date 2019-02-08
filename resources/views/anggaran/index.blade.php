@@ -95,7 +95,7 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                                                 <td>{{ $item->mak}}</td>
                                                 <td>{{ $item->uraian}}</td>
                                                 <td>{{ $item->unit_nama}}</td>
-                                                <td><div class="pull-right">{{ $item->pagu}}</div></td>
+                                                <td><div class="pull-right">@duit($item->pagu)</div></td>
                                                 <td><button type="button" class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#EditModal" data-tahun="{{ $item->tahun_anggaran}}" data-mak="{{ $item->mak}}" data-pagu="{{ $item->pagu}}" data-uraian="{{$item->uraian}}" data-unitkode="{{$item->unitkerja}}" data-anggaranid="{{$item->id}}">Edit</button>
                                                     <button type="button" class="btn btn-danger btn-rounded" data-toggle="modal" data-target="#DeleteModal" data-tahun="{{ $item->tahun_anggaran}}" data-mak="{{ $item->mak}}" data-pagu="{{ $item->pagu}}" data-uraian="{{$item->uraian}}" data-unitkode="{{$item->unit_nama}}" data-anggaranid="{{$item->id}}">Delete</button>
                                                 </td>
