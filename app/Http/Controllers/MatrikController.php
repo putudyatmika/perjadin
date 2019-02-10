@@ -218,6 +218,6 @@ class MatrikController extends Controller
        return back();
     }
     public function transaksi() {
-
+        return view('matrik.transaksi');
     }
 }

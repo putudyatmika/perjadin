@@ -40,11 +40,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('golongan','GolonganController');
     Route::resource('pegawai','PegawaiController');
     Route::resource('unitkerja','UnitkerjaController');
+    Route::get('matrik/transaksi','MatrikController@transaksi')->name('matrik.transaksi');
     Route::resource('matrik','MatrikController');
-    //Route::ANY('/matrik/alokasi','MatrikController@Alokasi');
     Route::resource('anggaran','AnggaranController');
     Route::resource('tujuan','TujuanController');
     Route::resource('user','UserController');
+    Route::get('transaksi/view','TransaksiController@view')->name('transaksi.view');
+    Route::resource('transaksi','TransaksiController');
 });
 
 
