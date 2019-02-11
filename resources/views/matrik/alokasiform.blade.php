@@ -26,7 +26,14 @@
 
                         </div>
                         <div class="form-group">
-                                <label for="flag">Unitkerja</label>
+                            <label for="biaya">Subject Matter</label>
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="ti-user"></i></div>
+                                <input type="text" class="form-control" id="sm" name="sm" disabled> </div>
+
+                        </div>
+                        <div class="form-group">
+                                <label for="flag">Unit Pelaksana</label>
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
                                     <select class="form-control select2" name="unit_pelaksana" id="unit_pelaksana" required="">

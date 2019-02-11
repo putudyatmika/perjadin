@@ -16,6 +16,17 @@ class TabelTransaksi extends Migration
         Schema::create('transaksi', function (Blueprint $table) {
             $table->increments('trx_id');
             $table->string('kode_trx',6)->unique();
+            $table->integer('matrik_id')->unsigned();
+            $table->foreign('matrik_id')->references('id')->on('matrik');
+            $table->integer('peg_id')->unsigned();
+            $table->foreign('peg_id')->references('id')->on('pegawai');
+            $table->boolean('kabid_konfirmasi')->default(0);
+            $table->text('kabit_ket')->nullable();
+            $table->boolean('ppk_konfirmasi')->default(0);
+            $table->text('ppk_ket')->nullable();
+            $table->boolean('kpa_konfirmasi')->default(0);
+            $table->text('kpa_ket')->nullable();
+            $table->boolean('flag_trx')->nullable()->default(0);
             $table->timestamps();
         });
     }

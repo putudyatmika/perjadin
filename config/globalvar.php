@@ -13,9 +13,9 @@
             2=>'Kabupaten'
         ],
         'JenisJabatan'=> [
-            1=>'Kepala Seksi/Subbag',
+            1=>'Kepala BPS Provinsi',
             2=>'Kepala Bidang/Bagian',
-            3=>'Kepala BPS Provinsi',
+            3=>'Kepala Seksi/Subbag',
             4=>'Staf',
             5=>'Tugas Belajar',
             6=>'CS/Satpam'
@@ -50,7 +50,20 @@
             '3'=>'PPK',
             '4'=>'Kepala BPS Provinsi',
             '5'=>'Admin Sistem'
+        ],
+        'FlagTransaksi'=>[
+            '0'=>'Belum Diajukan',
+            '1'=>'Diajukan',
+            '2'=>'Menunggu Konfirmasi',
+            '3'=>'Disetujui',
+            '4'=>'Batal',
+        ],
+        'FlagKonfirmasi'=>[
+            '0'=>'Belum disetujui',
+            '1'=>'Disetujui',
+            '2'=>'Tidak disetujui',
         ]
+
     ];
 ?>
 

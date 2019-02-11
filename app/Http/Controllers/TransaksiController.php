@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class MatrikTrxController extends Controller
+class TransaksiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -80,5 +80,9 @@ class MatrikTrxController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function view()
+    {
+        return view('transaksi.view');
     }
 }
