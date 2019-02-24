@@ -166,11 +166,15 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                                             <td> @duit($item->total_biaya)</td>
                                             <td>
                                             @if ($item->flag_matrik==0)
-                                            <span class="label label-rouded label-success">{{$MatrikFlag[$item->flag_matrik]}}</span>
+                                            <span class="label label-rouded label-inverse">{{$MatrikFlag[$item->flag_matrik]}}</span>
                                             @elseif ($item->flag_matrik==1)
-                                            <span class="label label-rouded label-primary">{{$MatrikFlag[$item->flag_matrik]}}</span>
-                                            @else
+                                            <span class="label label-rouded label-info">{{$MatrikFlag[$item->flag_matrik]}}</span>
+                                            @elseif ($item->flag_matrik==2)
                                             <span class="label label-rouded label-danger">{{$MatrikFlag[$item->flag_matrik]}}</span>
+                                            @elseif ($item->flag_matrik==3)
+                                            <span class="label label-rouded label-warning">{{$MatrikFlag[$item->flag_matrik]}}</span>
+                                            @else
+                                            <span class="label label-rouded label-success">{{$MatrikFlag[$item->flag_matrik]}}</span>
                                             @endif
                                                 </td>
                                             <td><button class="btn btn-rounded btn-success btn-sm" data-toggle="modal" data-target="#AlokasiModal" data-tujuan="{{$item->nama_kabkota}}" data-biaya="@rupiah($item->total_biaya)" data-unitkerja="{{$item->unit_pelaksana}}" data-sm="{{$item->dana_unitkerja}}-{{$item->unit_nama}}" data-matrikid="{{$item->matrik_id}}">Alokasi</button>

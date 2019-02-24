@@ -8,5 +8,10 @@ class Pegawai extends Model
 {
     //
     protected $table = 'pegawai';
-    protected $fillable = ["nip_baru", "nip_lama", "nama","tgl_lahir","jk","gol","unitkerja","jabatan"];
+    protected $fillable = ["nip_baru", "nama","tgl_lahir","jk","gol","unitkerja","jabatan"];
+
+    public function MatrikTransaksi()
+    {
+        return $this->hasMany('App\Transaksi', 'peg_nip', 'nip_baru');
+    }
 }

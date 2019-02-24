@@ -23,19 +23,21 @@ class PegawaiController extends Controller
     public function index()
     {
         //
-        //$DataGol = Golongan::all();
-        //$DataUnitkerja = Unitkerja::all();
+        $DataGol = Golongan::all();
+        $DataUnitkerja = Unitkerja::all();
         $UnitEselonVar = config('globalvar.UnitEselon');
         $JenisUnitVar = config('globalvar.JenisUnit');
         $JenisJabatanVar = config('globalvar.JenisJabatan');
+        $jkVar = config('globalvar.JenisKelamin');
         $DataPegawai = DB::table('pegawai')
                         -> leftJoin('unitkerja','pegawai.unitkerja','=','unitkerja.kode')
                         -> leftJoin('m_gol', 'pegawai.gol', '=', 'm_gol.kode')
                         -> leftJoin (\DB::Raw("(select SUBSTRING(kode,1,4) as bidang_kode, nama as bidang_nama from unitkerja where eselon < 4 order by kode asc) as unitbidang "),\DB::Raw("SUBSTRING(unitkerja.kode,1,4)"),'=','unitbidang.bidang_kode')
-                        ->select('pegawai.id as id', 'pegawai.nama as nama', 'pegawai.nip_baru as nip_baru','pegawai.jabatan','m_gol.gol as gol','m_gol.pangkat as pangkat','pegawai.unitkerja as unitkerja','unitkerja.nama as unit_nama','unitbidang.bidang_kode','unitbidang.bidang_nama')
+                        //->select('pegawai.id as id', 'pegawai.nama as nama', 'pegawai.nip_baru as nip_baru','pegawai.jabatan','m_gol.gol as gol','m_gol.pangkat as pangkat','pegawai.unitkerja as unitkerja','unitkerja.nama as unit_nama','unitbidang.bidang_kode','unitbidang.bidang_nama')
+                        ->select('pegawai.*', 'm_gol.gol as nama_gol','m_gol.pangkat as pangkat','unitkerja.nama as unit_nama','unitbidang.bidang_kode','unitbidang.bidang_nama')
                         ->get();
-        //return view('pegawai.index',compact('DataPegawai','DataGol','DataUnitkerja','UnitEselonVar','JenisUnitVar','JenisJabatanVar'));
-        return view('pegawai.index',compact('DataPegawai','UnitEselonVar','JenisUnitVar','JenisJabatanVar'));
+        return view('pegawai.index',compact('DataPegawai','DataGol','DataUnitkerja','UnitEselonVar','JenisUnitVar','JenisJabatanVar','jkVar'));
+        //return view('pegawai.index',compact('DataPegawai','UnitEselonVar','JenisUnitVar','JenisJabatanVar'));
         //return view('pegawai.index');
     }
 
@@ -86,13 +88,14 @@ class PegawaiController extends Controller
             */
         $datapeg = new Pegawai();
         $datapeg -> nip_baru = $request['nipbaru'];
-        $datapeg -> nip_lama = $request['niplama'];
+        //$datapeg -> nip_lama = $request['niplama'];
         $datapeg -> nama = $request['nama'];
         $datapeg -> tgl_lahir = Carbon::parse($request['tgllahir'])->format('Y-m-d');
         $datapeg -> jk = $request['jk'];
         $datapeg -> gol = $request['gol'];
         $datapeg -> unitkerja = $request['unitkerja'];
         $datapeg -> jabatan = $request['jabatan'];
+        $datapeg -> flag = 1;
         $datapeg -> save();
         //Pegawai::create($request->all());
 
@@ -119,7 +122,7 @@ class PegawaiController extends Controller
                         -> leftJoin('unitkerja','pegawai.unitkerja','=','unitkerja.kode')
                         -> leftJoin('m_gol', 'pegawai.gol', '=', 'm_gol.kode')
                         -> leftJoin (\DB::Raw("(select SUBSTRING(kode,1,4) as bidang_kode, nama as bidang_nama from unitkerja where eselon < 4 order by kode asc) as unitbidang "),\DB::Raw("SUBSTRING(unitkerja.kode,1,4)"),'=','unitbidang.bidang_kode')
-                        -> select('pegawai.id as id', 'pegawai.nama as nama', 'pegawai.nip_lama as nip_lama', 'pegawai.nip_baru as nip_baru','tgl_lahir','jk','pegawai.jabatan','m_gol.gol as gol','m_gol.pangkat as pangkat','pegawai.unitkerja as unitkerja','unitkerja.nama as unit_nama','unitbidang.bidang_kode','unitbidang.bidang_nama')
+                        -> select('pegawai.id as id', 'pegawai.nama as nama', 'pegawai.nip_baru as nip_baru','tgl_lahir','jk','pegawai.jabatan','m_gol.gol as gol','m_gol.pangkat as pangkat','pegawai.unitkerja as unitkerja','unitkerja.nama as unit_nama','unitbidang.bidang_kode','unitbidang.bidang_nama')
                         -> where('pegawai.id',$id)->first();
 
         //return view('pegawai.index',compact('DataPegawai','DataGol','DataUnitkerja','UnitEselonVar','JenisUnitVar','JenisJabatanVar'));
@@ -152,12 +155,13 @@ class PegawaiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
-        $datapeg = Pegawai::find($id);
+
+        $datapeg = Pegawai::find($request->peg_id);
         $datapeg -> nip_baru = $request['nipbaru'];
-        $datapeg -> nip_lama = $request['niplama'];
+        //$datapeg -> nip_lama = $request['niplama'];
         $datapeg -> nama = $request['nama'];
         $datapeg -> tgl_lahir = Carbon::parse($request['tgllahir'])->format('Y-m-d');
         $datapeg -> jk = $request['jk'];
@@ -169,6 +173,9 @@ class PegawaiController extends Controller
         Session::flash('message', 'Data telah diupdate');
         Session::flash('message_type', 'warning');
         return redirect()->route('pegawai.index');
+
+        //dd($request->all());
+
     }
 
     /**
@@ -177,14 +184,15 @@ class PegawaiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
         //
-        Pegawai::find($id)->delete();
-        Session::flash('message', 'Data telah dihapus');
+        Pegawai::findOrFail($request->peg_id)->delete();
+        Session::flash('message', 'Data pegawai <br />nama : <strong>'.$request->nama.'</strong> <br />nip : <strong>'.$request->nipbaru.'</strong><br /> unitkerja : <strong>'.$request->unitkerja.'</strong><br />telah dihapus');
         Session::flash('message_type', 'danger');
         return redirect()->route('pegawai.index');
     }
+
     public function tambah()
     {
         return view("pegawai.form");
