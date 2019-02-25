@@ -22,9 +22,10 @@ class TransaksiController extends Controller
         //
         $FlagTrx = config('globalvar.FlagTransaksi');
         $FlagKonfirmasi = config('globalvar.FlagKonfirmasi');
+        $MatrikFlag = config('globalvar.FlagMatrik');
         $DataPegawai = Pegawai::where('flag','=','1')->get();
-        $dataTransaksi = Transaksi::with('Matrik','Matrik.Tujuan','Matrik.UnitPelaksana','Matrik.DanaUnitkerja','Pegawai.MatrikTransaksi')->get();
-        return view('transaksi.matrik',compact('dataTransaksi','FlagTrx','FlagKonfirmasi','DataPegawai'));
+        $dataTransaksi = Transaksi::with('Matrik','Matrik.Tujuan','Matrik.UnitPelaksana','Matrik.DanaUnitkerja','Pegawai.MatrikTransaksi','Matrik.DanaAnggaran')->get();
+        return view('transaksi.matrik',compact('dataTransaksi','FlagTrx','FlagKonfirmasi','DataPegawai','MatrikFlag'));
     }
 
     /**
@@ -107,6 +108,12 @@ class TransaksiController extends Controller
                 $dataMatrik = MatrikPerjalanan::where('id',$request->matrikid)->first();
                 $dataMatrik -> flag_matrik = '3';
                 $dataMatrik -> update();
+
+                $datatrx = Transaksi::where('trx_id','=',$request->trxid)->first();
+                $datatrx -> kabid_konfirmasi = 0;
+                $datatrx -> ppk_konfirmasi = 0;
+                $datatrx -> kpa_konfirmasi = 0;
+                $datatrx -> update();
 
                 Session::flash('message', 'Data Perjalanan ke '.$request->tujuan.' tanggal '. $request->tglberangkat .' sudah di ajukan');
                 Session::flash('message_type', 'warning');

@@ -13,9 +13,9 @@
                     <li> <a href="{{url('transaksi')}}" class="waves-effect"><i data-icon="Q" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu" >Matrik Transaksi</span></a> </li>
                     <li> <a href="#" class="waves-effect active"><i class="linea-icon linea-basic fa-fw" data-icon="v"></i> <span class="hide-menu">Transaksi <span class="fa arrow"></span> </span></a>
                         <ul class="nav nav-second-level">
-                            <li> <a href="#surattugas">Surat Tugas</a> </li>
-                            <li> <a href="#spd">SPD</a> </li>
-                            <li> <a href="#kuitansi">Kuitansi</a> </li>
+                            <li> <a href="{{url('surattugas')}}">Surat Tugas</a> </li>
+                            <li> <a href="{{url('spd')}}">SPD</a> </li>
+                            <li> <a href="{{url('kuitansi')}}">Kuitansi</a> </li>
                         </ul>
                     </li>
 

@@ -73,6 +73,7 @@ class MatrikController extends Controller
         $datamatrik -> tgl_akhir = $request['tglakhir'];
         $datamatrik -> kodekab_tujuan = $request['kode_kabkota'];
         $datamatrik -> lamanya = $request['lamanya'];
+        $datamatrik -> mak_id = $request->dana_makid;
         $datamatrik -> dana_mak = $request['dana_mak'];
         $datamatrik -> dana_pagu = $request['dana_pagu'];
         $datamatrik -> dana_unitkerja = $request['dana_kodeunit'];
@@ -208,6 +209,7 @@ class MatrikController extends Controller
             $datamatrik -> tgl_akhir = $request['tglakhir'];
             $datamatrik -> kodekab_tujuan = $request['kode_kabkota'];
             $datamatrik -> lamanya = $request['lamanya'];
+            $datamatrik -> mak_id = $request->dana_makid;
             $datamatrik -> dana_mak = $request['dana_mak'];
             $datamatrik -> dana_pagu = $request['dana_pagu'];
             $datamatrik -> dana_unitkerja = $request['dana_kodeunit'];

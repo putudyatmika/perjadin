@@ -126,6 +126,7 @@
                                                                 <div class="input-group-addon"><i class="ti-user"></i></div>
                                                                 <input type="text" class="form-control" id="dana_unitkerja" name="dana_unitkerja" placeholder="Unitkerja Sumber Dana" readonly="">
                                                                 <input type="hidden" class="form-control" id="dana_kodeunit" name="dana_kodeunit">
+                                                                <input type="hidden" id="dana_makid" name="dana_makid">
                                                             </div>
                                                         </div>
                                         <h3 class="box-title m-t-40">Rencana Anggaran Biaya</h3>

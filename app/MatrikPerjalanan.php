@@ -23,4 +23,8 @@ class MatrikPerjalanan extends Model
     {
         return $this->belongsTo('App\Unitkerja', 'unit_pelaksana', 'kode');
     }
+    public function DanaAnggaran()
+    {
+        return $this->belongsTo('App\Anggaran', 'mak_id', 'id');
+    }
 }
