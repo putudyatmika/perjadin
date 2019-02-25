@@ -68,6 +68,12 @@
             '0'=>'Belum disetujui',
             '1'=>'Disetujui',
             '2'=>'Tidak disetujui',
+        ],
+        'FlagTTD'=>[
+            '0'=>'Kepala',
+            '1'=>'An.',
+            '2'=>'Plt.',
+            '3'=>'Plh',
         ]
 
     ];

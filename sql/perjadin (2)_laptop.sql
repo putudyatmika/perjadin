@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 25, 2019 at 12:20 AM
+-- Generation Time: Feb 26, 2019 at 06:21 AM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.2.12
 
@@ -48,7 +48,9 @@ INSERT INTO `anggaran` (`id`, `tahun_anggaran`, `mak`, `uraian`, `pagu`, `unitke
 (1, 2019, '054.01.06.2895.004.100.524111', 'konsultasi bidang ipds dari provinsi ke bps ri', '15556000', '52520', 1, '2019-01-24 09:18:56', '2019-01-24 15:09:04'),
 (2, 2019, '054.01.06.2895.006.100.524111', 'supervisi pencacahan lapangan oleh bps provinsi', '9255000', '52560', 1, '2019-01-24 09:26:57', '2019-01-24 15:08:55'),
 (3, 2019, '051.01.06.2895.004.101.524111', 'pengawasan lapangan sakernas', '15000000', '52510', 1, '2019-01-24 15:17:31', '2019-02-21 03:40:40'),
-(4, 2019, '054.01.06.2895.004.101.524111', 'konsultasi bidang dari provinsi ke bps ri', '7100000', '52530', 1, '2019-01-25 15:56:58', '2019-01-25 15:57:16');
+(4, 2019, '054.01.06.2895.004.101.524111', 'konsultasi bidang dari provinsi ke bps ri', '7100000', '52530', 1, '2019-01-25 15:56:58', '2019-01-25 15:57:16'),
+(5, 2019, '054.01.06.2895.025.302.524111', 'pengawasan ke kab/kota dalam rangka penyusunan pdrb kab/kota', '6170000', '52550', 1, '2019-02-25 13:39:50', '2019-02-25 13:39:50'),
+(6, 2019, '054.01.06.2895.026.051.524111', 'konsultasi kepala seksi analisis lintas sektor ke bps pusat', '7778000', '52550', 1, '2019-02-25 13:41:19', '2019-02-25 13:41:19');
 
 -- --------------------------------------------------------
 
@@ -79,6 +81,7 @@ CREATE TABLE `matrik` (
   `peg_id` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `kodekab_tujuan` varchar(4) COLLATE utf8mb4_unicode_ci NOT NULL,
   `lamanya` tinyint(4) NOT NULL,
+  `mak_id` int(10) UNSIGNED DEFAULT NULL,
   `dana_mak` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
   `dana_pagu` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `dana_unitkerja` varchar(5) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -101,17 +104,18 @@ CREATE TABLE `matrik` (
 -- Dumping data for table `matrik`
 --
 
-INSERT INTO `matrik` (`id`, `tahun_matrik`, `tgl_awal`, `tgl_akhir`, `peg_id`, `kodekab_tujuan`, `lamanya`, `dana_mak`, `dana_pagu`, `dana_unitkerja`, `lama_harian`, `dana_harian`, `total_harian`, `dana_transport`, `lama_hotel`, `dana_hotel`, `total_hotel`, `pengeluaran_rill`, `total_biaya`, `unit_pelaksana`, `flag_matrik`, `created_at`, `updated_at`) VALUES
-(2, 2019, '2019-02-01', '2019-04-30', NULL, '5205', 3, '051.01.06.2895.004.101.524111', '15000000', '52520', 3, '440000', '1320000', '600000', 2, '500000', '1000000', '0', '2920000', '52520', 3, '2019-01-28 20:15:31', '2019-02-24 15:51:12'),
-(3, 2019, '2019-02-01', '2019-02-28', NULL, '5207', 3, '054.01.06.2895.006.100.524111', '9255000', '52560', 3, '440000', '1320000', '450000', 2, '550000', '1100000', '0', '2870000', '52520', 3, '2019-01-28 23:00:57', '2019-02-24 16:08:03'),
-(4, 2019, '2019-02-01', '2019-04-30', NULL, '5201', 1, '051.01.06.2895.004.101.524111', '15000000', '52520', 1, '440000', '440000', '225000', 0, '0', '0', '0', '665000', '52510', 3, '2019-01-31 13:21:48', '2019-02-24 15:51:28'),
-(6, 2019, '2019-02-02', '2019-02-28', NULL, '5272', 3, '054.01.06.2895.006.100.524111', '9255000', '52560', 3, '440000', '1320000', '650000', 2, '500000', '1000000', '300000', '3270000', '52540', 1, '2019-02-02 11:23:05', '2019-02-21 05:07:44'),
-(8, 2019, '2019-02-02', '2019-02-27', NULL, '3100', 3, '054.01.06.2895.006.100.524111', '9255000', '52560', 3, '540000', '1620000', '3500000', 2, '580000', '1160000', '300000', '6580000', '52510', 1, '2019-02-02 11:34:59', '2019-02-21 05:07:59'),
-(9, 2019, '2019-03-09', '2019-03-30', NULL, '5100', 3, '051.01.06.2895.004.101.524111', '15000000', '52520', 3, '500000', '1000000', '2000000', 2, '500000', '500000', '200000', '3700000', '52000', 4, '2019-02-02 11:37:39', '2019-02-24 15:49:15'),
-(10, 2019, '2019-03-01', '2019-04-30', NULL, '5206', 3, '051.01.06.2895.004.101.524111', '15000000', '52520', 3, '440000', '1320000', '650000', 2, '540000', '1080000', '300000', '3350000', '52550', 4, '2019-02-04 14:38:46', '2019-02-24 15:48:41'),
-(11, 2019, '2019-04-01', '2019-04-30', NULL, '5205', 3, '054.01.06.2895.004.101.524111', '7100000', '52530', 3, '440000', '1320000', '600000', 2, '500000', '1000000', '300000', '3220000', '52560', 4, '2019-02-07 00:37:01', '2019-02-24 15:52:14'),
-(12, 2019, '2019-03-01', '2019-03-31', NULL, '5205', 2, '054.01.06.2895.006.100.524111', '9255000', '52560', 2, '440000', '880000', '600000', 1, '540000', '540000', '200000', '2220000', '52560', 3, '2019-02-21 03:46:09', '2019-02-24 14:51:02'),
-(13, 2019, '2019-03-01', '2019-04-12', NULL, '5207', 3, '054.01.06.2895.004.101.524111', '7100000', '52530', 3, '440000', '1320000', '450000', 2, '500000', '1000000', '300000', '3070000', NULL, 0, '2019-02-24 15:56:14', '2019-02-24 15:56:14');
+INSERT INTO `matrik` (`id`, `tahun_matrik`, `tgl_awal`, `tgl_akhir`, `peg_id`, `kodekab_tujuan`, `lamanya`, `mak_id`, `dana_mak`, `dana_pagu`, `dana_unitkerja`, `lama_harian`, `dana_harian`, `total_harian`, `dana_transport`, `lama_hotel`, `dana_hotel`, `total_hotel`, `pengeluaran_rill`, `total_biaya`, `unit_pelaksana`, `flag_matrik`, `created_at`, `updated_at`) VALUES
+(2, 2019, '2019-02-01', '2019-04-30', NULL, '5205', 3, 3, '051.01.06.2895.004.101.524111', '15000000', '52520', 3, '440000', '1320000', '600000', 2, '500000', '1000000', '0', '2920000', '52520', 3, '2019-01-28 20:15:31', '2019-02-25 13:04:34'),
+(3, 2019, '2019-02-01', '2019-02-28', NULL, '5207', 3, 2, '054.01.06.2895.006.100.524111', '9255000', '52560', 3, '440000', '1320000', '450000', 2, '550000', '1100000', '0', '2870000', '52520', 3, '2019-01-28 23:00:57', '2019-02-24 16:08:03'),
+(4, 2019, '2019-02-01', '2019-04-30', NULL, '5201', 1, 4, '051.01.06.2895.004.101.524111', '15000000', '52520', 1, '440000', '440000', '225000', 0, '0', '0', '0', '665000', '52510', 3, '2019-01-31 13:21:48', '2019-02-24 15:51:28'),
+(6, 2019, '2019-02-02', '2019-02-28', NULL, '5272', 3, 2, '054.01.06.2895.006.100.524111', '9255000', '52560', 3, '440000', '1320000', '650000', 2, '500000', '1000000', '300000', '3270000', '52540', 1, '2019-02-02 11:23:05', '2019-02-21 05:07:44'),
+(8, 2019, '2019-02-02', '2019-02-27', NULL, '3100', 3, 2, '054.01.06.2895.006.100.524111', '9255000', '52560', 3, '540000', '1620000', '3500000', 2, '580000', '1160000', '300000', '6580000', '52510', 1, '2019-02-02 11:34:59', '2019-02-21 05:07:59'),
+(9, 2019, '2019-03-09', '2019-03-30', NULL, '5100', 3, 3, '051.01.06.2895.004.101.524111', '15000000', '52520', 3, '500000', '1000000', '2000000', 2, '500000', '500000', '200000', '3700000', '52000', 3, '2019-02-02 11:37:39', '2019-02-25 13:03:49'),
+(10, 2019, '2019-03-01', '2019-04-30', NULL, '5206', 3, 3, '051.01.06.2895.004.101.524111', '15000000', '52520', 3, '440000', '1320000', '650000', 2, '540000', '1080000', '300000', '3350000', '52550', 3, '2019-02-04 14:38:46', '2019-02-25 01:24:03'),
+(11, 2019, '2019-04-01', '2019-04-30', NULL, '5205', 3, 4, '054.01.06.2895.004.101.524111', '7100000', '52530', 3, '440000', '1320000', '600000', 2, '500000', '1000000', '300000', '3220000', '52560', 3, '2019-02-07 00:37:01', '2019-02-25 13:04:02'),
+(12, 2019, '2019-03-01', '2019-03-31', NULL, '5205', 2, 2, '054.01.06.2895.006.100.524111', '9255000', '52560', 2, '440000', '880000', '600000', 1, '540000', '540000', '200000', '2220000', '52560', 3, '2019-02-21 03:46:09', '2019-02-24 14:51:02'),
+(13, 2019, '2019-03-01', '2019-04-12', NULL, '5207', 3, 4, '054.01.06.2895.004.101.524111', '7100000', '52530', 3, '440000', '1320000', '450000', 2, '500000', '1000000', '300000', '3070000', '52520', 4, '2019-02-24 15:56:14', '2019-02-25 14:14:23'),
+(14, 2019, '2019-03-01', '2019-04-30', NULL, '5206', 3, 5, '054.01.06.2895.025.302.524111', '6170000', '52550', 3, '440000', '1320000', '650000', 2, '540000', '1080000', '300000', '3350000', '52550', 1, '2019-02-25 13:42:20', '2019-02-25 13:43:01');
 
 -- --------------------------------------------------------
 
@@ -143,7 +147,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (12, '2019_01_25_083717_create_anggaran_table', 1),
 (14, '2014_10_12_000000_create_users_table', 2),
 (16, '2019_02_05_024613_tabel_transaksi', 3),
-(17, '2019_02_22_143608_tabel_surat_tugas', 3);
+(19, '2019_02_22_143608_tabel_surat_tugas', 4);
 
 -- --------------------------------------------------------
 
@@ -256,11 +260,13 @@ INSERT INTO `pejabat` (`id`, `nama`, `nip`, `jabatan`, `created_at`, `updated_at
 
 CREATE TABLE `surattugas` (
   `srt_id` int(10) UNSIGNED NOT NULL,
+  `trx_id` int(11) UNSIGNED NOT NULL,
   `kode_trx` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nomor_surat` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `tgl_surat` date DEFAULT NULL,
   `penugasan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nip_baru` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `peg_nip` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `peg_nama` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `pejabat` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `flag_ttd` tinyint(1) NOT NULL DEFAULT '0',
   `flag_surattugas` tinyint(1) NOT NULL DEFAULT '0',
@@ -376,13 +382,15 @@ CREATE TABLE `transaksi` (
 --
 
 INSERT INTO `transaksi` (`trx_id`, `kode_trx`, `matrik_id`, `peg_nip`, `bnyk_hari`, `tgl_brkt`, `tgl_balik`, `tugas`, `kabid_konfirmasi`, `kabid_ket`, `ppk_konfirmasi`, `ppk_ket`, `kpa_konfirmasi`, `kpa_ket`, `flag_trx`, `created_at`, `updated_at`) VALUES
-(1, 'Q2T8ZN', 4, '198203192004121002', 1, '2019-02-14', '2019-02-14', NULL, 1, 'ok', 0, NULL, 0, NULL, 2, '2019-02-22 07:35:13', '2019-02-24 15:51:28'),
-(2, 'ZZYO28', 2, '196808171992121001', 3, '2019-03-07', '2019-03-09', NULL, 1, 'ok', 1, 'ga ada duit', 0, NULL, 2, '2019-02-22 08:16:04', '2019-02-24 15:51:13'),
-(3, 'USCGTO', 11, '198203192004121002', 3, '2019-04-11', '2019-04-13', NULL, 1, 'ok coy', 1, 'tidak ada dana nya lagi', 1, 'ga ada duit', 4, '2019-02-22 08:32:05', '2019-02-24 15:52:15'),
-(4, '2UVCVE', 9, '196602191994011001', 3, '2019-03-14', '2019-03-11', NULL, 1, 'ok', 1, 'duitnya sudah habis', 1, 'ok', 4, '2019-02-24 10:17:41', '2019-02-24 15:49:15'),
-(5, 'DLP5UH', 10, '17238127837128', 3, '2019-03-27', '2019-03-24', NULL, 1, 'ok.. disetujui', 1, 'ok', 1, 'ok', 4, '2019-02-24 10:17:49', '2019-02-24 15:44:07'),
-(6, 'NNO50S', 12, '198203192004121002', 2, '2019-03-06', '2019-03-07', NULL, 1, 'ok..silakan jalan', 1, 'ok', 1, 'ok jalan', 4, '2019-02-24 14:50:43', '2019-02-24 15:15:36'),
-(7, 'L72T3O', 3, '198203192004121002', 3, '2019-02-27', '2019-03-01', 'Pengawasan Kabupaten/Kota Bidang IPDS', 0, NULL, 0, NULL, 0, NULL, 1, '2019-02-24 16:03:35', '2019-02-24 16:08:03');
+(1, 'Q2T8ZN', 4, '199209102014121001', 1, '2019-02-14', '2019-02-14', 'Pengawasan Updating Susenas Maret 2019', 0, 'ok', 0, NULL, 0, NULL, 1, '2019-02-22 07:35:13', '2019-02-25 13:04:52'),
+(2, 'ZZYO28', 2, '196808171992121001', 3, '2019-03-07', '2019-03-09', 'Pengawasan Pendataan Sakernas Februari 2019', 0, 'ok', 0, 'ga ada duit', 0, 'ok', 1, '2019-02-22 08:16:04', '2019-02-25 13:04:34'),
+(3, 'USCGTO', 11, '198203192004121002', 3, '2019-04-11', '2019-04-13', 'Pengawasan KSA', 0, 'ok coy', 0, 'tidak ada dana nya lagi', 0, 'ga ada duit', 1, '2019-02-22 08:32:05', '2019-02-25 13:04:03'),
+(4, '2UVCVE', 9, '196602191994011001', 3, '2019-03-14', '2019-03-16', 'Studi Banding SAKIP', 0, 'ok', 0, 'duitnya sudah habis', 0, 'ok', 1, '2019-02-24 10:17:41', '2019-02-25 13:03:49'),
+(5, 'DLP5UH', 10, '198203192004121002', 3, '2019-03-27', '2019-03-29', 'Perjalanan Pengawasan Pendataan Susenas', 0, 'ok.. disetujui', 0, 'ok', 0, 'ok', 1, '2019-02-24 10:17:49', '2019-02-25 01:24:03'),
+(6, 'NNO50S', 12, '198203192004121002', 2, '2019-03-06', '2019-03-07', 'Pengawasan Pemetaan Wilkerstat 2019', 0, 'ok..silakan jalan', 0, 'ok', 0, 'ok jalan', 1, '2019-02-24 14:50:43', '2019-02-25 13:02:13'),
+(7, 'L72T3O', 3, '198203192004121002', 3, '2019-02-27', '2019-03-01', 'Pengawasan Kabupaten/Kota Bidang IPDS', 0, NULL, 0, NULL, 0, NULL, 1, '2019-02-24 16:03:35', '2019-02-24 16:08:03'),
+(8, 'Y27CJM', 13, '196602191994011001', 3, '2019-02-25', '2019-02-27', 'Pengawasan Ubinan', 1, 'ok', 1, 'ok', 1, 'ok', 4, '2019-02-25 12:59:44', '2019-02-25 14:14:23'),
+(9, 'QID9RZ', 14, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, NULL, 0, NULL, 0, '2019-02-25 13:43:01', '2019-02-25 13:43:01');
 
 -- --------------------------------------------------------
 
@@ -495,8 +503,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `username`, `email`, `email_verified_at`, `password`, `user_level`, `pengelola`, `user_unitkerja`, `lastlogin`, `lastip`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'SuperAdmin', 'admin', NULL, NULL, '$2y$10$83CnH9qWgR8VUM4ksd0MOuHCmTWb23FI4B4m2meQr2RFEVlc.y/lO', 5, 5, '52000', '2019-02-24 21:51:28', '192.168.1.8', 'JPEAGb3okkz1BOBrsSs2e11cczlzUMYzvLi3httPyw5HB4vFxxwsMwZtpK3W', NULL, '2019-02-24 13:51:28'),
-(2, 'I Putu Dyatmika', 'mika', 'pdyatmika@gmail.com', NULL, '$2y$10$IQS7Zg6r6YdnoBODIepn.ebPxiwAtiobPWBVc.cd3RnNkxngmeqvS', 4, 5, '52560', '2019-02-24 20:11:51', '::1', 'h11FwUdv0fPMMnmiqKR4erFLIgZDZOaK1Az6iOjxs5dzOah0rMHrJPXsiS46', '2019-02-02 01:42:57', '2019-02-24 12:11:51'),
+(1, 'SuperAdmin', 'admin', NULL, NULL, '$2y$10$83CnH9qWgR8VUM4ksd0MOuHCmTWb23FI4B4m2meQr2RFEVlc.y/lO', 5, 5, '52000', '2019-02-25 20:59:16', '::1', 'JPEAGb3okkz1BOBrsSs2e11cczlzUMYzvLi3httPyw5HB4vFxxwsMwZtpK3W', NULL, '2019-02-25 12:59:16'),
+(2, 'I Putu Dyatmika', 'mika', 'pdyatmika@gmail.com', NULL, '$2y$10$IQS7Zg6r6YdnoBODIepn.ebPxiwAtiobPWBVc.cd3RnNkxngmeqvS', 4, 5, '52560', '2019-02-25 09:22:58', '10.52.6.39', 'h11FwUdv0fPMMnmiqKR4erFLIgZDZOaK1Az6iOjxs5dzOah0rMHrJPXsiS46', '2019-02-02 01:42:57', '2019-02-25 01:22:58'),
 (3, 'I Gusti Lanang Putra', 'lanang', NULL, NULL, '$2y$10$yaPJn5tf1/xhcZAy6nbgz.8UsB7e/OLjsmtK.UrfcGQOij.zSUMu2', 3, 3, '52550', '2019-02-02 14:10:14', '192.168.1.9', 'upDIRt6qKZD5iEH2tZCHJrabbwUDJPWtWAE4w5ApvGj1sDyhDADMGKHNAB2P', '2019-02-02 01:44:11', '2019-02-02 11:13:38'),
 (4, 'Suntono', 'suntono', NULL, NULL, '$2y$10$iQwE2UXxQrw93T2RVhkP4uMmg4GJFV3dV8.3SNqf9.gu/YuksTB9e', 3, 4, '52000', '2019-02-02 09:46:35', '192.168.1.9', 'gGsUKdk8ZuIySPpcB04S7vmrfsmhGdY5klhJkvag3vs2azTXKYaZHZbQdqhc', '2019-02-02 01:46:20', '2019-02-02 11:13:46'),
 (5, 'Anang Zakaria', 'anang', 'anangz@bps.go.id', NULL, '$2y$10$wNlcWp30QfOTQiD1LDc.ZOJLLs4uGD5AxpXo/07w15YHzHPmMlMaC', 3, 1, '52560', '2019-02-02 14:09:18', '192.168.1.9', '93bEoaNiqOXYpPTx2nHicZBof3o8XuZklEsoggrQm9MufpOdtRqSg6IN95bF', '2019-02-02 01:49:12', '2019-02-02 11:13:57'),
@@ -561,7 +569,7 @@ ALTER TABLE `pejabat`
 --
 ALTER TABLE `surattugas`
   ADD PRIMARY KEY (`srt_id`),
-  ADD UNIQUE KEY `surattugas_kode_trx_unique` (`kode_trx`);
+  ADD UNIQUE KEY `kode_trx` (`kode_trx`);
 
 --
 -- Indexes for table `tbl_akun`
@@ -610,7 +618,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `anggaran`
 --
 ALTER TABLE `anggaran`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `keuangan`
@@ -622,13 +630,13 @@ ALTER TABLE `keuangan`
 -- AUTO_INCREMENT for table `matrik`
 --
 ALTER TABLE `matrik`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `m_gol`
@@ -670,7 +678,7 @@ ALTER TABLE `tbl_program`
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `trx_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `trx_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tujuan`

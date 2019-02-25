@@ -20,9 +20,6 @@
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
  <!-- end - This is for export functionality only -->
-
-@include('transaksi.js')
-@include('transaksi.jsSetuju')
 @stop
 @extends('layouts.default')
 
@@ -31,7 +28,7 @@
                 <div class="row bg-title">
                     <!-- .page title -->
                     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                        <h4 class="page-title">Matrik Transaksi</h4>
+                        <h4 class="page-title">Surat Tugas</h4>
                     </div>
                     <!-- /.page title -->
                     <!-- .breadcrumb -->
@@ -39,7 +36,7 @@
 
                         <ol class="breadcrumb">
                             <li><a href="{{url('')}}">Dashboard</a></li>
-                            <li class="active">Data Transaksi</li>
+                            <li class="active">Data Surat Tugas</li>
                         </ol>
                     </div>
                     <!-- /.breadcrumb -->
@@ -53,43 +50,25 @@
                                 </div>
                     <div class="col-lg-12">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0">Matrik Transaksi </h3>
+                            <h3 class="box-title m-b-0">Daftar Surat Tugas </h3>
                             <p class="text-muted m-b-20">Keadaan <code>tanggal hari ini</code></p>
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>No</th>
                                             <th>Kode Trx</th>
-                                            <th>Tujuan</th>
-                                            <th>Unit Pelaksana</th>
-                                            <th>Peg Brkt</th>
+                                            <th>Nomor</th>
+                                            <th>Nama Pegawai</th>
+                                            <th>Tgl Surat</th>
+                                            <th>Tugas</th>
+                                            <th>Penandatangan</th>
                                             <th>Tanggal Brkt</th>
-                                            <th>Kabid SM</th>
-                                            <th>PPK</th>
-                                            <th>KPA</th>
-                                            <th>Status Transaksi</th>
+                                            <th>Status Surat</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($dataTransaksi as $item)
-                                        <tr>
-                                            <td>{{$loop->iteration}}</td>
-                                            <td>@include('transaksi.detil')</td>
-                                            <td>{{$item->Matrik->kodekab_tujuan}}-{{$item->Matrik->Tujuan->nama_kabkota}}</td>
-                                            <td>{{$item->Matrik->unit_pelaksana}}-{{$item->Matrik->UnitPelaksana->nama}}</td>
-                                            <td>{{$item->Pegawai['nama']}}</td>
-                                            <td>{{$item->tgl_brkt}}</td>
-                                            <td>@include('transaksi.kabid')</td>
-                                            <td>@include('transaksi.ppk')</td>
-                                            <td>@include('transaksi.kpa')</td>
-                                            <td>@include('transaksi.flagtransaksi')</td>
-                                            <td><button type="button" class="btn btn-primary btn-rounded btn-sm" data-toggle="modal" data-target="#AjukanModal" data-tujuan="{{$item->Matrik->kodekab_tujuan}}-{{$item->Matrik->Tujuan->nama_kabkota}}" data-sm="{{$item->Matrik->dana_unitkerja}}-{{$item->Matrik->DanaUnitkerja->nama}}" data-biaya="@rupiah($item->Matrik->total_biaya)" data-unitpelaksana="{{$item->Matrik->unit_pelaksana}}-{{$item->Matrik->UnitPelaksana->nama}}" data-tglawal="{{$item->Matrik->tgl_awal}}" data-tglakhir="{{$item->Matrik->tgl_akhir}}" data-infotgl="{{$item->Matrik->tgl_awal}} s/d {{$item->Matrik->tgl_akhir}}" data-trxid="{{$item->trx_id}}" data-kodetrx="{{$item->kode_trx}}" data-kodetransaksi="{{$item->kode_trx}}" data-lamanya="{{$item->Matrik->lamanya}}" data-matrikid="{{$item->matrik_id}}" data-pegnip="{{$item->peg_nip}}" data-tglbrkt="{{$item->tgl_brkt}}" data-tglbalik="{{$item->tgl_balik}}" data-tugas="{{$item->tugas}}">Ajukan</button>
-                                                <button type="button" class="btn btn-danger btn-rounded btn-sm" data-toggle="modal" data-target="#AdminKonfirmasiModal" data-trxid="{{$item->trx_id}}">Konfirmasi</button>
-                                            </td>
-                                        </tr>
-                                        @endforeach
+
                                     </tbody>
                                 </table>
                             </div>
@@ -99,6 +78,4 @@
                 <!-- /.row -->
             </div>
             <!-- /.container-fluid -->
-            @include('transaksi.modal')
-            @include('transaksi.modalSetuju')
 @endsection

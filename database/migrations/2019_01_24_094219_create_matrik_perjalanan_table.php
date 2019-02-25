@@ -21,6 +21,7 @@ class CreateMatrikPerjalananTable extends Migration
             $table->string('peg_id',10)->nullable();
             $table->string('kodekab_tujuan',4);
             $table->tinyInteger('lamanya');
+            $table->integer('mak_id')->unsigned()->nullable();
             $table->string('dana_mak', 30);
             $table->string('dana_pagu', 20);
             $table->string('dana_unitkerja', 4);

@@ -8,6 +8,7 @@ $(document).on('click', '.pilihTujuan', function (e) {
 
 $(document).on('click', '.pilihSumberDana', function (e) {
     //var sumberdana = $(this).attr('data-mak') + " " + $(this).attr('data-uraian');
+    document.getElementById("dana_makid").value = $(this).attr('data-makid');
     document.getElementById("dana_mak").value = $(this).attr('data-mak');
     document.getElementById("dana_uraian").value = $(this).attr('data-uraian');
     document.getElementById("dana_pagu").value = $(this).attr('data-pagu');

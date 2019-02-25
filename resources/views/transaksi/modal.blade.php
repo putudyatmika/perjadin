@@ -41,6 +41,8 @@
                             <dd class="col-sm-9"><span id="kode_trx"></span></dd>
                             <dt class="col-sm-3">Nama Pegawai</dt>
                             <dd class="col-sm-9"><span id="nama"></span></dd>
+                            <dt class="col-sm-3">Tugas</dt>
+                            <dd class="col-sm-9"><span id="tugas"></span></dd>
                             <dt class="col-sm-3">Tanggal Berangkat</dt>
                             <dd class="col-sm-9"><span id="tgl_brkt"></span></dd>
                             <dt class="col-sm-3">Tanggal Kembali</dt>
@@ -54,17 +56,24 @@
                             <dt class="col-sm-3">Unit Pelaksana</dt>
                             <dd class="col-sm-9"><span id="pelaksana"></span></dd>
                             <dt class="col-sm-3 text-truncate">Waktu Pelaksanaan</dt>
-                            <dd class="col-sm-9"><span id="waktu"></span></dd>
+                            <dd class="col-sm-9"><span id="tgl_pelaksanaan"></span></dd>
                             <dt class="col-sm-3 text-truncate">Sumber Dana</dt>
-                            <dd class="col-sm-9"><span id="mak"></span></dd>
+                            <dd class="col-sm-9"><span id="sumberdana"></span></dd>
                             <dt class="col-sm-3 text-truncate">Rincian Biaya</dt>
-                            <dd class="col-sm-9"><p id="harian"></p> <p id="transport"></p> <p id="hotel"></p> <p id="rill"></p></dd>
+                            <dd class="col-sm-9">
+                                <ul class="list-icons">
+                                    <li><i class="ti-angle-right"></i> <span id="harian"></span></li>
+                                    <li><i class="ti-angle-right"></i> <span id="transport"></span></li>
+                                    <li><i class="ti-angle-right"></i> <span id="hotel"></span> </li>
+                                    <li><i class="ti-angle-right"></i> <span id="rill"></span> </li>
+                                </ul>
+                            </dd>
                             <dt class="col-sm-3 text-truncate">Total Biaya</dt>
                             <dd class="col-sm-9"><span id="totalbiaya"></span></dd>
                             <dt class="col-sm-3 text-truncate">Flag Matrik</dt>
-                            <dd class="col-sm-9"><span id="flag_matrik"></span></dd>
+                            <dd class="col-sm-9"><span id="flagmatrik"></span></dd>
                             <dt class="col-sm-3 text-truncate">Flag Transaksi</dt>
-                            <dd class="col-sm-9"><span id="flag_trx"></span></dd>
+                            <dd class="col-sm-9"><span id="flagtransaksi"></span></dd>
                     </dl>
 
                     <input type="hidden" name="matrikid" id="matrikid">
