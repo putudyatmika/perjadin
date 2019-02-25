@@ -38,14 +38,7 @@
                                             <h2>{{ $DataPegawai->nama}}</h2>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-sm-3 col-xs-3">
-                                            NIP Lama
-                                        </div>
-                                        <div class="col-sm-9 col-xs-9">
-                                            {{ $DataPegawai->nip_lama}}
-                                        </div>
-                                    </div>
+
                                     <div class="row">
                                         <div class="col-sm-3 col-xs-3">
                                             NIP Baru
@@ -96,15 +89,15 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-3 col-xs-3">
-                                          
+
                                         </div>
                                         <div class="col-sm-9 col-xs-9">
                                             <a href="{{ route('pegawai.edit',$DataPegawai->id) }}" class="btn btn-success pull-left"><i class="fa fa-pencil"></i> Edit </a>
-                                                    
+
                                             <form action="{{ route('pegawai.destroy', $DataPegawai->id) }}" class="pull-left" method="post">
                                                         @csrf
                                                         @method('delete')
-                                                        <button class="btn btn-danger" onclick="return confirm('Anda yakin ingin menghapus data ini?')"><i class="fa fa-trash"> Delete</i> 
+                                                        <button class="btn btn-danger" onclick="return confirm('Anda yakin ingin menghapus data ini?')"><i class="fa fa-trash"> Delete</i>
                                                         </button>
                                                       </form>
                                         </div>

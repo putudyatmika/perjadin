@@ -18,10 +18,13 @@ class TabelTransaksi extends Migration
             $table->string('kode_trx',6)->unique();
             $table->integer('matrik_id')->unsigned();
             $table->foreign('matrik_id')->references('id')->on('matrik');
-            $table->integer('peg_id')->unsigned();
-            $table->foreign('peg_id')->references('id')->on('pegawai');
+            $table->string('peg_nip',20)->nullable();
+            $table->tinyInteger('bnyk_hari')->nullable();
+            $table->date('tgl_brkt')->nullable();
+            $table->date('tgl_balik')->nullable();
+            $table->string('tugas',254)->nullable();
             $table->boolean('kabid_konfirmasi')->default(0);
-            $table->text('kabit_ket')->nullable();
+            $table->text('kabid_ket')->nullable();
             $table->boolean('ppk_konfirmasi')->default(0);
             $table->text('ppk_ket')->nullable();
             $table->boolean('kpa_konfirmasi')->default(0);

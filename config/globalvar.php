@@ -41,7 +41,10 @@
         'FlagMatrik'=>[
             0=>'Belum dialokasi',
             1=>'Sudah dialokasi',
-            2=>'Batal'
+            2=>'Dibatalkan',
+            3=>'Sudah Diajukan',
+            4=>'Sudah Disetujui',
+            5=>'Sudah Dilaksanakan',
         ],
         'Pengelola'=>[
             '0'=>'Operator',
@@ -55,8 +58,11 @@
             '0'=>'Belum Diajukan',
             '1'=>'Diajukan',
             '2'=>'Menunggu Konfirmasi',
-            '3'=>'Disetujui',
-            '4'=>'Batal',
+            '3'=>'Dibatalkan',
+            '4'=>'Disetujui',
+            '5'=>'Cetak Kelengkapan',
+            '6'=>'Proses Pembayaran',
+            '7'=>'Sudah Terlaksana',
         ],
         'FlagKonfirmasi'=>[
             '0'=>'Belum disetujui',

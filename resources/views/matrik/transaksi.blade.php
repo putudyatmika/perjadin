@@ -34,13 +34,14 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
+                                            <th>Kode Trx</th>
                                             <th>Tujuan</th>
                                             <th>Unit Pelaksana</th>
                                             <th>Peg Brkt</th>
-                                            <th>Kabid</th>
+                                            <th>Kabid SM</th>
                                             <th>PPK</th>
                                             <th>KPA</th>
-                                            <th>Status Matrik</th>
+                                            <th>Status Transaksi</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>

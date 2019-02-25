@@ -14,6 +14,7 @@ use Session;
 use Illuminate\Support\Facades\Redirect;
 use DB;
 use App\Anggaran;
+use App\Transaksi;
 
 class MatrikController extends Controller
 {
@@ -142,6 +143,18 @@ class MatrikController extends Controller
     public function update(Request $request)
     {
         //
+        function gencode($length) {
+
+            $kata='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+             $code_gen = '';
+             for ($i = 0; $i < $length; $i++) {
+                 $pos = rand(0, strlen($kata)-1);
+                 $code_gen .= $kata{$pos};
+
+                 }
+             return $code_gen;
+
+        }
         $count = MatrikPerjalanan::where('id',$request['matrikid'])->count();
 
         if($count<1){
@@ -152,18 +165,36 @@ class MatrikController extends Controller
         $datamatrik = MatrikPerjalanan::findOrFail($request['matrikid']);
         if ($request['aksi']=='alokasi') {
             //hanya alokasi
-
+            $count = Transaksi::where('matrik_id',$request['matrikid'])->count();
+            $kode_trx = gencode(6);
+            if ($count>0) {
+                //data sudah ada tinggal update
+                $dataTrx = Transaksi::where('matrik_id',$request->matrikid)->first();
+                if ($dataTrx->flag_trx>0) {
+                    //trx sudah diajukan
+                    Session::flash('message', 'Alokasi matrik dengan '.$kode_trx.' sudah diajukan oleh unit pelaksana');
+                    Session::flash('message_type', 'warning');
+                    return back();
+                }
+            }
+            else {
+                //data belum ada insert data ke transaksi
+                $dataTrx = new Transaksi();
+                $dataTrx -> kode_trx = $kode_trx;
+                $dataTrx -> matrik_id = $request->matrikid;
+                $dataTrx->save();
+            }
             $datamatrik->unit_pelaksana= $request->unit_pelaksana;
             $datamatrik->flag_matrik=1;
             $datamatrik -> update();
 
-            Session::flash('message', 'Alokasi matrik sudah diupdate');
+            Session::flash('message', 'Alokasi matrik sudah diupdate '.$kode_trx.'');
             Session::flash('message_type', 'success');
             return back();
         }
         elseif ($request['aksi']=='updateflag') {
             //update flag untuk belum alokasi / batal
-            $datamatrik->unit_pelaksana= NULL;
+            //$datamatrik->unit_pelaksana= NULL;
             $datamatrik->flag_matrik=$request->flagmatrik;
             $datamatrik -> update();
 
@@ -220,4 +251,5 @@ class MatrikController extends Controller
     public function transaksi() {
         return view('matrik.transaksi');
     }
+
 }

@@ -1,0 +1,118 @@
+<script>
+$('#KonfirmasiKabidModal').on('show.bs.modal', function (event) {
+var button = $(event.relatedTarget) // Button that triggered the modal
+var trxid = button.data('trxid') // Extract info from data-* attributes
+var kodetrx = button.data('kodetrx')
+var tujuan = button.data('tujuan')
+var sm = button.data('sm')
+var biaya = button.data('biaya')
+var infotgl = button.data('infotgl')
+var pegawai = button.data('pegawai')
+var lamanya = button.data('lamanya')
+var lamanya = lamanya + ' Hari'
+var tglbrkt = button.data('tglbrkt')
+var tglbalik = button.data('tglbalik')
+var flagkabid = button.data('flagkabid')
+var flagket = button.data('flagket')
+var matrikid = button.data('matrikid')
+var tugas = button.data('tugas')
+
+var modal = $(this)
+modal.find('.modal-body #trxid').val(trxid)
+modal.find('.modal-body #matrikid').val(matrikid)
+modal.find('.modal-body #kode_trx').text(kodetrx)
+modal.find('.modal-body #tujuan').text(tujuan)
+modal.find('.modal-body #lamanya').text(lamanya)
+modal.find('.modal-body #nama').text(pegawai)
+modal.find('.modal-body #subjectmatter').text(sm)
+modal.find('.modal-body #totalbiaya').text(biaya)
+modal.find('.modal-body #tgl_brkt').text(tglbrkt)
+modal.find('.modal-body #tgl_balik').text(tglbalik)
+modal.find('.modal-body #tgl_pelaksanaan').text(infotgl)
+modal.find('.modal-body #kodetrx').val(kodetrx)
+modal.find('.modal-body #trxid').val(trxid)
+modal.find('.modal-body #tujuan').val(tujuan)
+modal.find('.modal-body #tglberangkat').val(tglbrkt)
+modal.find('.modal-body #ket_kabid').val(flagket)
+modal.find('input[name="kabidsm_setuju"][value="'+flagkabid+'"]').prop('checked',true)
+modal.find('.modal-body #tugas').text(tugas)
+});
+
+$('#KonfirmasiPPKModal').on('show.bs.modal', function (event) {
+var button = $(event.relatedTarget) // Button that triggered the modal
+var trxid = button.data('trxid') // Extract info from data-* attributes
+var kodetrx = button.data('kodetrx')
+var tujuan = button.data('tujuan')
+var sm = button.data('sm')
+var biaya = button.data('biaya')
+var infotgl = button.data('infotgl')
+var pegawai = button.data('pegawai')
+var lamanya = button.data('lamanya')
+var lamanya = lamanya + ' Hari'
+var tglbrkt = button.data('tglbrkt')
+var tglbalik = button.data('tglbalik')
+var flagppk = button.data('flagppk')
+var flagket = button.data('flagket')
+var matrikid = button.data('matrikid')
+var tugas = button.data('tugas')
+
+var modal = $(this)
+modal.find('.modal-body #trxid').val(trxid)
+modal.find('.modal-body #matrikid').val(matrikid)
+modal.find('.modal-body #kode_trx').text(kodetrx)
+modal.find('.modal-body #tujuan').text(tujuan)
+modal.find('.modal-body #lamanya').text(lamanya)
+modal.find('.modal-body #nama').text(pegawai)
+modal.find('.modal-body #subjectmatter').text(sm)
+modal.find('.modal-body #totalbiaya').text(biaya)
+modal.find('.modal-body #tgl_brkt').text(tglbrkt)
+modal.find('.modal-body #tgl_balik').text(tglbalik)
+modal.find('.modal-body #tgl_pelaksanaan').text(infotgl)
+modal.find('.modal-body #kodetrx').val(kodetrx)
+modal.find('.modal-body #trxid').val(trxid)
+modal.find('.modal-body #tujuan').val(tujuan)
+modal.find('.modal-body #tglberangkat').val(tglbrkt)
+modal.find('.modal-body #ket_ppk').val(flagket)
+modal.find('input[name="ppk_setuju"][value="'+flagppk+'"]').prop('checked',true)
+modal.find('.modal-body #tugas').text(tugas)
+});
+
+$('#KonfirmasiKPAModal').on('show.bs.modal', function (event) {
+var button = $(event.relatedTarget) // Button that triggered the modal
+var trxid = button.data('trxid') // Extract info from data-* attributes
+var kodetrx = button.data('kodetrx')
+var tujuan = button.data('tujuan')
+var sm = button.data('sm')
+var biaya = button.data('biaya')
+var infotgl = button.data('infotgl')
+var pegawai = button.data('pegawai')
+var lamanya = button.data('lamanya')
+var lamanya = lamanya + ' Hari'
+var tglbrkt = button.data('tglbrkt')
+var tglbalik = button.data('tglbalik')
+var flagkpa = button.data('flagkpa')
+var flagket = button.data('flagket')
+var matrikid = button.data('matrikid')
+var tugas = button.data('tugas')
+
+var modal = $(this)
+modal.find('.modal-body #trxid').val(trxid)
+modal.find('.modal-body #matrikid').val(matrikid)
+modal.find('.modal-body #kode_trx').text(kodetrx)
+modal.find('.modal-body #tujuan').text(tujuan)
+modal.find('.modal-body #lamanya').text(lamanya)
+modal.find('.modal-body #nama').text(pegawai)
+modal.find('.modal-body #subjectmatter').text(sm)
+modal.find('.modal-body #totalbiaya').text(biaya)
+modal.find('.modal-body #tgl_brkt').text(tglbrkt)
+modal.find('.modal-body #tgl_balik').text(tglbalik)
+modal.find('.modal-body #tgl_pelaksanaan').text(infotgl)
+modal.find('.modal-body #kodetrx').val(kodetrx)
+modal.find('.modal-body #trxid').val(trxid)
+modal.find('.modal-body #tujuan').val(tujuan)
+modal.find('.modal-body #tglberangkat').val(tglbrkt)
+modal.find('.modal-body #ket_kpa').val(flagket)
+modal.find('input[name="kpa_setuju"][value="'+flagkpa+'"]').prop('checked',true)
+modal.find('.modal-body #tugas').text(tugas)
+});
+</script>
