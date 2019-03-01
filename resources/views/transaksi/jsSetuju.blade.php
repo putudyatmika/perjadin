@@ -16,6 +16,7 @@ var flagkabid = button.data('flagkabid')
 var flagket = button.data('flagket')
 var matrikid = button.data('matrikid')
 var tugas = button.data('tugas')
+var sumberdana = button.data('sumberdana')
 
 var modal = $(this)
 modal.find('.modal-body #trxid').val(trxid)
@@ -36,6 +37,7 @@ modal.find('.modal-body #tglberangkat').val(tglbrkt)
 modal.find('.modal-body #ket_kabid').val(flagket)
 modal.find('input[name="kabidsm_setuju"][value="'+flagkabid+'"]').prop('checked',true)
 modal.find('.modal-body #tugas').text(tugas)
+modal.find('.modal-body #sumberdana').text(sumberdana)
 });
 
 $('#KonfirmasiPPKModal').on('show.bs.modal', function (event) {
@@ -55,6 +57,7 @@ var flagppk = button.data('flagppk')
 var flagket = button.data('flagket')
 var matrikid = button.data('matrikid')
 var tugas = button.data('tugas')
+var sumberdana = button.data('sumberdana')
 
 var modal = $(this)
 modal.find('.modal-body #trxid').val(trxid)
@@ -75,6 +78,7 @@ modal.find('.modal-body #tglberangkat').val(tglbrkt)
 modal.find('.modal-body #ket_ppk').val(flagket)
 modal.find('input[name="ppk_setuju"][value="'+flagppk+'"]').prop('checked',true)
 modal.find('.modal-body #tugas').text(tugas)
+modal.find('.modal-body #sumberdana').text(sumberdana)
 });
 
 $('#KonfirmasiKPAModal').on('show.bs.modal', function (event) {
@@ -94,6 +98,7 @@ var flagkpa = button.data('flagkpa')
 var flagket = button.data('flagket')
 var matrikid = button.data('matrikid')
 var tugas = button.data('tugas')
+var sumberdana = button.data('sumberdana')
 
 var modal = $(this)
 modal.find('.modal-body #trxid').val(trxid)
@@ -114,6 +119,8 @@ modal.find('.modal-body #tglberangkat').val(tglbrkt)
 modal.find('.modal-body #ket_kpa').val(flagket)
 modal.find('input[name="kpa_setuju"][value="'+flagkpa+'"]').prop('checked',true)
 modal.find('.modal-body #tugas').text(tugas)
+modal.find('.modal-body #penugasan').val(tugas)
+modal.find('.modal-body #sumberdana').text(sumberdana)
 });
 
 $('#ViewModal').on('show.bs.modal', function (event) {

@@ -19,7 +19,7 @@
         <dt class="col-sm-4">Subject Matter</dt>
         <dd class="col-sm-8"><span id="subjectmatter"></span></dd>
         <dt class="col-sm-4 text-truncate">Sumber Dana</dt>
-        <dd class="col-sm-8"><span id="mak"></span></dd>
+        <dd class="col-sm-8"><span id="sumberdana"></span></dd>
         <dt class="col-sm-4 text-truncate">Total Biaya</dt>
         <dd class="col-sm-8"><span id="totalbiaya"></span></dd>
 

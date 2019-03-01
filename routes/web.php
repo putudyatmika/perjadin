@@ -47,7 +47,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('user','UserController');
     Route::get('transaksi/view','TransaksiController@view')->name('transaksi.view');
     Route::resource('transaksi','TransaksiController');
+    Route::get('surattugas/view/{kodetrx}','SuratTugasController@view')->name('surattugas.view');
     Route::resource('surattugas','SuratTugasController');
+    Route::get('spd/view/{kodetrx}','SpdController@view')->name('spd.view');
+    Route::resource('spd','SpdController');
+    Route::get('kuitansi/view/{kodetrx}','KuitansiController@view')->name('kuitansi.view');
+    Route::resource('kuitansi','KuitansiController');
 });
 
 

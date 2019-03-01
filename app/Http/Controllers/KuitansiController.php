@@ -3,15 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Kuitansi;
 use App\SuratTugas;
 use Carbon\Carbon;
 use Session;
 use Illuminate\Support\Facades\Redirect;
 use DB;
 use App\Pegawai;
+use App\Spd;
 
-
-class SuratTugasController extends Controller
+class KuitansiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,10 +27,10 @@ class SuratTugasController extends Controller
         $MatrikFlag = config('globalvar.FlagMatrik');
         $FlagSrt = config('globalvar.FlagSurat');
         $FlagTTD = config('globalvar.FlagTTD');
-        $DataPegawai = Pegawai::where([['jabatan','<','3'],['flag','=','1']])->orderBy('unitkerja')->get();
-        $DataSuratTugas = SuratTugas::orderBy('flag_surattugas','asc')->orderBy('tgl_surat','asc')->get();
-        return view('surattugas.index',compact('DataSuratTugas','FlagTrx','FlagKonfirmasi','FlagSrt','MatrikFlag','FlagTTD','DataPegawai'));
-        //dd($DataSuratTugas);
+        $FlagKendaraan = config('globalvar.Kendaraan');
+        $DataPPK = Pegawai::where([['jabatan','=','2'],['flag','=','1']])->orderBy('unitkerja')->get();
+        $DataKuitansi = Kuitansi::orderBy('flag_kuitansi','asc')->get();
+        return view('kuitansi.index',compact('DataKuitansi','FlagTrx','FlagKonfirmasi','FlagSrt','MatrikFlag','FlagTTD','DataPPK','FlagKendaraan'));
     }
 
     /**
@@ -73,6 +74,18 @@ class SuratTugasController extends Controller
     public function edit($id)
     {
         //
+        $FlagTrx = config('globalvar.FlagTransaksi');
+        $FlagKonfirmasi = config('globalvar.FlagKonfirmasi');
+        $MatrikFlag = config('globalvar.FlagMatrik');
+        $FlagSrt = config('globalvar.FlagSurat');
+        $FlagTTD = config('globalvar.FlagTTD');
+        $Bilangan = config('globalvar.Bilangan');
+        $Bulan = config('globalvar.Bulan');
+        $FlagKendaraan = config('globalvar.Kendaraan');
+
+        $dataTransaksi = \App\Transaksi::with('TabelPegawai','Matrik','SuratTugas','Spd','Kuitansi')->where('trx_id','=',$id)->get();
+        return view('kuitansi.edit',compact('dataTransaksi','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','Bulan','FlagKendaraan'));
+
     }
 
     /**
@@ -82,38 +95,9 @@ class SuratTugasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         //
-        if ($request->aksi == "edit") {
-
-            $Pejabat = Pegawai::where([['jabatan','<','3'],['nip_baru','=',$request->ttd_pejabat]])->orderBy('unitkerja')->get();
-
-            $NamaPejabat = $Pejabat[0]->nama;
-            $JabatanPejabat = 'Kepala '. $Pejabat[0]->Unitkerja->nama;
-
-            $DataSrt = SuratTugas::where('srt_id','=',$request->srtid)->first();
-            $DataSrt -> nomor_surat = $request->nomor_surat;
-            $DataSrt -> tgl_surat = Carbon::parse($request->tglsurat)->format('Y-m-d');
-            $DataSrt -> ttd_nip = $request->ttd_pejabat;
-            $DataSrt -> ttd_jabatan = $JabatanPejabat;
-            $DataSrt -> ttd_nama = $NamaPejabat;
-            $DataSrt -> flag_ttd = $request->ttd;
-            $DataSrt -> flag_surattugas = 1;
-            $DataSrt -> update();
-
-            $dataTrx = \App\Transaksi::where('trx_id',$request->trxid)->first();
-            $dataTrx -> flag_trx = 5;
-            $dataTrx -> update();
-
-            Session::flash('message', 'Data Perjalanan surat tugas an. '.$request->nama.' ke '.$request->tujuan.' untuk '.$request->tugas.' sudah di update');
-            Session::flash('message_type', 'warning');
-            return redirect()->route('surattugas.index');
-        }
-        else {
-            dd($request->all());
-        }
-
     }
 
     /**
@@ -135,10 +119,9 @@ class SuratTugasController extends Controller
         $FlagTTD = config('globalvar.FlagTTD');
         $Bilangan = config('globalvar.Bilangan');
         $Bulan = config('globalvar.Bulan');
-        $dataTransaksi = \App\Transaksi::with('TabelPegawai','Matrik','SuratTugas')->where('kode_trx','=',$kodetrx)->get();
-        return view('surattugas.view',compact('dataTransaksi','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','Bulan'));
-        //dd($dataTransaksi);
-        //dd($DataSuratTugas);
-        //return view('surattugas.view');
+        $FlagKendaraan = config('globalvar.Kendaraan');
+
+        $dataTransaksi = \App\Transaksi::with('TabelPegawai','Matrik','SuratTugas','Spd','Kuitansi')->where('kode_trx','=',$kodetrx)->get();
+        return view('kuitansi.view',compact('dataTransaksi','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','Bulan','FlagKendaraan'));
     }
 }

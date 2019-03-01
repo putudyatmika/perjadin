@@ -73,6 +73,7 @@
                             <input type="hidden" id="tujuan" name="tujuan" value="">
                             <input type="hidden" id="tglberangkat" name="tglberangkat" value="">
                             <input type="hidden" id="matrikid" name="matrikid" value="">
+                            <input type="hidden" id="penugasan" name="penugasan" value="">
                             @include('transaksi.formsetujukpa')
                 </div>
                 <div class="modal-footer">

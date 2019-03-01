@@ -2,15 +2,15 @@
     return [
         'FlagUmum' => [
             0=>'Tidak Aktif',
-            1=>'Aktif'
+            1=>'Aktif',
         ],
         'JenisKelamin' => [
             1=>'Laki-Laki',
-            2=>'Perempuan'
+            2=>'Perempuan',
         ],
         'JenisUnit'=> [
             1=>'Provinsi',
-            2=>'Kabupaten'
+            2=>'Kabupaten',
         ],
         'JenisJabatan'=> [
             1=>'Kepala BPS Provinsi',
@@ -18,25 +18,25 @@
             3=>'Kepala Seksi/Subbag',
             4=>'Staf',
             5=>'Tugas Belajar',
-            6=>'CS/Satpam'
+            6=>'CS/Satpam',
         ],
         'UnitEselon'=> [
             1=>'I',
             2=>'II',
             3=>'III',
-            4=>'IV'
+            4=>'IV',
         ],
         'LevelUser'=>[
             1=>'Demo',
             2=>'Operator',
             3=>'Pengelola',
             4=>'Admin',
-            5=>'SuperAdmin'
+            5=>'SuperAdmin',
         ],
         'JenisKendaraan'=>[
             1=>'Kendaraan Umum',
             2=>'Kendaraan Dinas',
-            3=>'Plane'
+            3=>'Plane',
         ],
         'FlagMatrik'=>[
             0=>'Belum dialokasi',
@@ -52,7 +52,7 @@
             '2'=>'Subbag Keuangan',
             '3'=>'PPK',
             '4'=>'Kepala BPS Provinsi',
-            '5'=>'Admin Sistem'
+            '5'=>'Admin Sistem',
         ],
         'FlagTransaksi'=>[
             '0'=>'Belum Diajukan',
@@ -73,9 +73,48 @@
             '0'=>'Kepala',
             '1'=>'An.',
             '2'=>'Plt.',
-            '3'=>'Plh',
+            '3'=>'Plh.',
+        ],
+        'FlagSurat'=>[
+            '0'=>'Belum Aktif',
+            '1'=>'Sudah Aktif',
+            '2'=>'Dibatalkan',
+        ],
+        'Bilangan'=>[
+            '1'=>'Satu',
+            '2'=>'Dua',
+            '3'=>'Tiga',
+            '4'=>'Empat',
+            '5'=>'Lima',
+            '6'=>'Enam',
+            '7'=>'Tujuh',
+            '8'=>'Delapan',
+            '9'=>'Sepuluh',
+        ],
+        'Bulan'=>[
+            '1'=>'Januari',
+            '2'=>'Februari',
+            '3'=>'Maret',
+            '4'=>'April',
+            '5'=>'Mei',
+            '6'=>'Juni',
+            '7'=>'Juli',
+            '8'=>'Agustus',
+            '9'=>'September',
+            '10'=>'Oktober',
+            '11'=>'November',
+            '12'=>'Desember',
+        ],
+        'Kendaraan'=>[
+            '1'=>'Kendaraan umum',
+            '2'=>'Kendaraan Dinas',
+            '3'=>'Plane'
+        ],
+        'FlagPengelola'=>[
+            '1'=>'KPA',
+            '2'=>'PPK',
+            '3'=>'Bendahara',
         ]
-
     ];
 ?>
 

@@ -20,7 +20,6 @@
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
  <!-- end - This is for export functionality only -->
-@include('surattugas.js')
 @stop
 @extends('layouts.default')
 
@@ -29,7 +28,7 @@
                 <div class="row bg-title">
                     <!-- .page title -->
                     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                        <h4 class="page-title">Surat Tugas</h4>
+                        <h4 class="page-title">Kuitansi Perjalanan Dinas</h4>
                     </div>
                     <!-- /.page title -->
                     <!-- .breadcrumb -->
@@ -37,7 +36,7 @@
 
                         <ol class="breadcrumb">
                             <li><a href="{{url('')}}">Dashboard</a></li>
-                            <li class="active">Data Surat Tugas</li>
+                            <li class="active">Data Kuitansi</li>
                         </ol>
                     </div>
                     <!-- /.breadcrumb -->
@@ -51,41 +50,33 @@
                                 </div>
                     <div class="col-lg-12">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0">Daftar Surat Tugas </h3>
+                            <h3 class="box-title m-b-0">Daftar Kuitansi</h3>
                             <p class="text-muted m-b-20">Keadaan <code>tanggal hari ini</code></p>
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
                                         <tr>
                                             <th>Kode Trx</th>
-                                            <th>Nomor</th>
+                                            <th>Nomor Kuitansi</th>
                                             <th>Nama Pegawai</th>
-                                            <th>Tgl Surat</th>
-                                            <th>Penandatangan</th>
+                                            <th>Tugas</th>
                                             <th>Tanggal Pergi</th>
                                             <th>Tanggal Kembali</th>
-                                            <th>Status Surat</th>
+                                            <th>Status Kuitansi</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($DataSuratTugas as $item)
+                                        @foreach ($DataKuitansi as $item)
                                             <tr>
-                                                <td>
-                                                        @if ($item->tgl_surat=="")
-                                                        {{$item->Transaksi->kode_trx}}
-                                                        @else
-                                                        <a href="{{route('surattugas.view',$item->Transaksi->kode_trx)}}">{{$item->Transaksi->kode_trx}}</a>
-                                                        @endif
-                                                </td>
-                                                <td>{{$item->nomor_surat}}</td>
+                                                <td>{{$item->Transaksi->kode_trx}}</td>
+                                                <td></td>
                                                 <td>{{$item->Transaksi->TabelPegawai->nama}}</td>
-                                                <td>{{$item->tgl_surat}}</td>
-                                                <td>{{$item->ttd_jabatan}}</td>
+                                                <td>{{$item->Transaksi->tugas}}</td>
                                                 <td>{{$item->Transaksi->tgl_brkt}}</td>
                                                 <td>{{$item->Transaksi->tgl_balik}}</td>
-                                                <td>@include('surattugas.flag')</td>
-                                                <td>@include('surattugas.aksi')</td>
+                                                <td>@include('kuitansi.flag')</td>
+                                                <td>@include('kuitansi.aksi')</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -97,5 +88,4 @@
                 <!-- /.row -->
             </div>
             <!-- /.container-fluid -->
-            @include('surattugas.modal')
 @endsection

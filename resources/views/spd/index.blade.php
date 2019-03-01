@@ -20,7 +20,7 @@
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
  <!-- end - This is for export functionality only -->
-@include('surattugas.js')
+ @include('spd.js')
 @stop
 @extends('layouts.default')
 
@@ -29,7 +29,7 @@
                 <div class="row bg-title">
                     <!-- .page title -->
                     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                        <h4 class="page-title">Surat Tugas</h4>
+                        <h4 class="page-title">Surat Perjalanan Dinas (SPD)</h4>
                     </div>
                     <!-- /.page title -->
                     <!-- .breadcrumb -->
@@ -37,7 +37,7 @@
 
                         <ol class="breadcrumb">
                             <li><a href="{{url('')}}">Dashboard</a></li>
-                            <li class="active">Data Surat Tugas</li>
+                            <li class="active">Data SPD</li>
                         </ol>
                     </div>
                     <!-- /.breadcrumb -->
@@ -51,7 +51,7 @@
                                 </div>
                     <div class="col-lg-12">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0">Daftar Surat Tugas </h3>
+                            <h3 class="box-title m-b-0">Daftar Surat Perjalanan Dinas (SPD)</h3>
                             <p class="text-muted m-b-20">Keadaan <code>tanggal hari ini</code></p>
                             <div class="table-responsive">
                                 <table class="table">
@@ -60,8 +60,8 @@
                                             <th>Kode Trx</th>
                                             <th>Nomor</th>
                                             <th>Nama Pegawai</th>
-                                            <th>Tgl Surat</th>
-                                            <th>Penandatangan</th>
+                                            <th>Angkutan</th>
+                                            <th>PPK</th>
                                             <th>Tanggal Pergi</th>
                                             <th>Tanggal Kembali</th>
                                             <th>Status Surat</th>
@@ -69,23 +69,23 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($DataSuratTugas as $item)
+                                            @foreach ($DataSPD as $item)
                                             <tr>
                                                 <td>
-                                                        @if ($item->tgl_surat=="")
+                                                        @if ($item->nomor_spd=="")
                                                         {{$item->Transaksi->kode_trx}}
                                                         @else
-                                                        <a href="{{route('surattugas.view',$item->Transaksi->kode_trx)}}">{{$item->Transaksi->kode_trx}}</a>
+                                                        <a href="{{route('spd.view',$item->Transaksi->kode_trx)}}">{{$item->Transaksi->kode_trx}}</a>
                                                         @endif
                                                 </td>
-                                                <td>{{$item->nomor_surat}}</td>
+                                                <td>{{$item->nomor_spd}}</td>
                                                 <td>{{$item->Transaksi->TabelPegawai->nama}}</td>
-                                                <td>{{$item->tgl_surat}}</td>
-                                                <td>{{$item->ttd_jabatan}}</td>
+                                                <td>{{$FlagKendaraan[$item->kendaraan]}}</td>
+                                                <td>{{$item->ppk_nama}}</td>
                                                 <td>{{$item->Transaksi->tgl_brkt}}</td>
                                                 <td>{{$item->Transaksi->tgl_balik}}</td>
-                                                <td>@include('surattugas.flag')</td>
-                                                <td>@include('surattugas.aksi')</td>
+                                                <td>@include('spd.flag')</td>
+                                                <td>@include('spd.aksi')<td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -97,5 +97,5 @@
                 <!-- /.row -->
             </div>
             <!-- /.container-fluid -->
-            @include('surattugas.modal')
+            @include('spd.modal')
 @endsection

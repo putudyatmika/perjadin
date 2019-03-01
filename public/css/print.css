@@ -1,0 +1,124 @@
+@media print {
+/* Setting content width, unsetting floats and margins */
+/* Attention: the classes and IDs vary from theme to theme. Thus, set own classes here */
+#content,#page, #dataSuratTugas, #hal1, #hal2 {
+    width: 100%;
+    margin: 0;
+    float: none;
+    }
+
+    /** Setting margins */
+    @page { margin: 1cm }
+
+    /* Or: */
+    @page :left {
+    margin: 1cm;
+    }
+
+    @page :right {
+    margin: 1cm;
+    }
+
+    /* The first page of a print can be manipulated as well */
+    @page :first {
+      margin: 1cm;
+    }
+    /* Set font to 16px/13pt, set background to white and font to black.*/
+/* This saves ink */
+body {
+font: 11pt Calibri;
+background: #fff !important;
+color: #000;
+}
+
+h1 {
+font-size: 20pt;
+}
+
+h2, h3, h4 {
+font-size: 12pt;
+margin-top: 10px;
+}
+
+
+/* Defining all page breaks */
+a {
+    page-break-inside:avoid;
+}
+blockquote {
+    page-break-inside: avoid;
+}
+h1, h2, h3, h4, h5, h6 { page-break-after:avoid;
+     page-break-inside:avoid }
+img { page-break-inside:avoid;
+     page-break-after:avoid; }
+table, pre { page-break-inside:avoid }
+ul, ol, dl  { page-break-before:avoid }
+/* Displaying link color and link behaviour */
+
+/* Hiding unnecessary elements for the print */
+
+#cetak, #cetak1, #cetak2 {
+    display: none;
+}
+.kopsurat {
+font-size: 14pt;
+margin-top: 10pt !important;
+}
+.nomor {
+font-size:12pt;
+}
+
+.aturan table {
+    border: none !important;
+    font-size: 11pt;
+    margin:0pt !important;
+    }
+.aturan table th, .aturan table td { padding:2pt !important; border: none !important;font-size: 10pt;}
+.tulisan {
+font-size:12pt !important;
+}
+.namabps {
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+.namatable table, .namatable table td {
+    padding:2pt !important;
+}
+.bawah {
+    font-size:9pt !important;
+}
+.spdhal1 table {
+    border: 1px solid black !important;
+}
+.spdhal1 table td {
+    padding:2pt !important;
+}
+.spdhal2 table {
+    padding:2pt !important;
+    border: 1px solid black !important;
+    font-size:10pt !important;
+}
+.spdhal2 table table {
+    padding:2pt !important;
+    border: none !important;
+    font-size:10pt !important;
+}
+.spdhal2 .adagaris {
+    border-bottom: 1px solid black !important;
+    font-size:10pt !important;
+}
+.spdhal1 .adagaris {
+    border-bottom: 1px solid black !important;
+}
+.spdhal2 .gariskiri, .spdhal1 .gariskiri {
+    border-left: 1px solid black !important;
+    padding-left: 3pt !important;
+}
+
+#hal2 {
+    font-size:10pt !important;
+}
+
+}
+
+
