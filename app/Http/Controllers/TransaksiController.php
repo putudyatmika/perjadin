@@ -9,6 +9,8 @@ use Carbon\Carbon;
 use Session;
 use Illuminate\Support\Facades\Redirect;
 use DB;
+use App\SuratTugas;
+use App\Spd;
 
 class TransaksiController extends Controller
 {
@@ -24,8 +26,9 @@ class TransaksiController extends Controller
         $FlagKonfirmasi = config('globalvar.FlagKonfirmasi');
         $MatrikFlag = config('globalvar.FlagMatrik');
         $DataPegawai = Pegawai::where('flag','=','1')->get();
-        $dataTransaksi = Transaksi::with('Matrik','Matrik.Tujuan','Matrik.UnitPelaksana','Matrik.DanaUnitkerja','Pegawai.MatrikTransaksi','Matrik.DanaAnggaran')->get();
+        $dataTransaksi = Transaksi::orderBy('flag_trx','ASC')->orderBy('tgl_brkt','ASC')->get();
         return view('transaksi.matrik',compact('dataTransaksi','FlagTrx','FlagKonfirmasi','DataPegawai','MatrikFlag'));
+        //dd($dataTransaksi);
     }
 
     /**
@@ -103,17 +106,42 @@ class TransaksiController extends Controller
             $datatrx -> tgl_balik = Carbon::parse($request->tglberangkat)->addDays($bnyk_hari)->format('Y-m-d');
             $datatrx -> peg_nip = $request->peg_nip;
             $datatrx -> flag_trx = $request->diajukan;
+            $datatrx -> kabid_konfirmasi = 0;
+            $datatrx -> kabid_ket = NULL;
+            $datatrx -> ppk_konfirmasi = 0;
+            $datatrx -> ppk_ket = NULL;
+            $datatrx -> kpa_konfirmasi = 0;
+            $datatrx -> kpa_ket = NULL;
             $datatrx -> update();
+            //cek tabel surat tugas dan spd
+
+            $count = SuratTugas::where('trx_id',$request->trxid)->count();
+            if ($count>0) {
+                //sudah ada update aja
+                $datasrt = SuratTugas::where('trx_id',$request->trxid)->first();
+                $datasrt -> flag_surattugas = 0;
+                $datasrt -> flag_ttd = 0;
+                $datasrt -> nomor_surat = NULL;
+                $datasrt -> tgl_surat = NULL;
+                $datasrt -> update();
+            }
+
+            //isi SPD juga
+            $count = Spd::where('trx_id',$request->trxid)->count();
+            if ($count>0) {
+                //sudah ada update aja
+                $dataspd = Spd::where('trx_id',$request->trxid)->first();
+                $dataspd -> flag_spd = 0;
+                $dataspd -> flag_ttd = 0;
+                $dataspd -> nomor_spd = NULL;
+                $dataspd -> update();
+            }
+
+
             if ($request->diajukan == 1) {
                 $dataMatrik = MatrikPerjalanan::where('id',$request->matrikid)->first();
                 $dataMatrik -> flag_matrik = '3';
                 $dataMatrik -> update();
-
-                $datatrx = Transaksi::where('trx_id','=',$request->trxid)->first();
-                $datatrx -> kabid_konfirmasi = 0;
-                $datatrx -> ppk_konfirmasi = 0;
-                $datatrx -> kpa_konfirmasi = 0;
-                $datatrx -> update();
 
                 Session::flash('message', 'Data Perjalanan ke '.$request->tujuan.' tanggal '. $request->tglberangkat .' sudah di ajukan');
                 Session::flash('message_type', 'warning');
@@ -175,6 +203,42 @@ class TransaksiController extends Controller
             if ($request->kpa_setuju==1) {
                 $flagtrx = 4;
                 $flagmatrik=4;
+                $count = SuratTugas::where('trx_id',$request->trxid)->count();
+                if ($count>0) {
+                    //sudah ada update aja
+                    $datasrt = SuratTugas::where('trx_id',$request->trxid)->first();
+                    $datasrt -> flag_surattugas = 0;
+                    $datasrt -> flag_ttd = 0;
+                    $datasrt -> nomor_surat = NULL;
+                    $datasrt -> tgl_surat = NULL;
+                    $datasrt -> update();
+                }
+                else {
+                    //data belum ada isikan
+                    $datasrt = new SuratTugas();
+                    $datasrt -> trx_id = $request->trxid;
+                    $datasrt -> flag_surattugas = 0;
+                    $datasrt -> save();
+                }
+                //isi SPD juga
+                $count = Spd::where('trx_id',$request->trxid)->count();
+                if ($count>0) {
+                    //sudah ada update aja
+                    $dataspd = Spd::where('trx_id',$request->trxid)->first();
+                    $dataspd -> flag_spd = 0;
+                    $dataspd -> flag_ttd = 0;
+                    $dataspd -> nomor_spd = NULL;
+                    $dataspd -> update();
+                }
+                else {
+                    //data belum ada isikan
+                    $dataspd = new Spd();
+                    $dataspd -> trx_id = $request->trxid;
+                    $dataspd -> flag_spd = 0;
+                    $dataspd -> flag_ttd = 0;
+                    $dataspd -> save();
+                }
+
             }
             else {
                 $flagtrx = 3;
@@ -184,13 +248,14 @@ class TransaksiController extends Controller
             $dataMatrik = MatrikPerjalanan::where('id',$request->matrikid)->first();
             $dataMatrik -> flag_matrik = $flagmatrik;
             $dataMatrik -> update();
+            //ubah status transaksi
             $datatrx = Transaksi::where('trx_id','=',$request->trxid)->first();
             $datatrx -> kpa_konfirmasi = $request->kpa_setuju;
             $datatrx -> kpa_ket = $request->ket_kpa;
             $datatrx -> flag_trx = $flagtrx;
             $datatrx -> update();
 
-            Session::flash('message', 'Data Perjalanan ke '.$request->tujuan.' tanggal '. $request->tglberangkat .' sudah di setujui PPK');
+            Session::flash('message', 'Data Perjalanan ke '.$request->tujuan.' tanggal '. $request->tglberangkat .' sudah di setujui KPA');
             Session::flash('message_type', 'info');
             return redirect()->route('transaksi.index');
         }

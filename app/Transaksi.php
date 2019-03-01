@@ -15,8 +15,20 @@ class Transaksi extends Model
     {
         return $this->belongsTO('App\MatrikPerjalanan', 'matrik_id', 'id');
     }
-   public function Pegawai()
+   public function TabelPegawai()
     {
-        return $this->belongsTO('App\Pegawai', 'peg_nip', 'nip_baru');
+        return $this->belongsTo('App\Pegawai', 'peg_nip', 'nip_baru');
+    }
+    public function SuratTugas()
+    {
+        return $this->belongsTO('App\SuratTugas', 'trx_id', 'trx_id');
+    }
+    public function Spd()
+    {
+        return $this->belongsTO('App\Spd', 'trx_id', 'trx_id');
+    }
+    public function Kuitansi()
+    {
+        return $this->belongsTO('App\Spd', 'trx_id', 'trx_id');
     }
 }

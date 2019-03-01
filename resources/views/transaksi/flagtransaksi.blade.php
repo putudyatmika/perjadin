@@ -6,6 +6,8 @@
 <span class="label label-warning">{{$FlagTrx[$item->flag_trx]}}</span>
 @elseif ($item->flag_trx==3)
 <span class="label label-danger">{{$FlagTrx[$item->flag_trx]}}</span>
-@elseif ($item->flag_trx>3)
+@elseif ($item->flag_trx==4 or $item->flag_trx==5 )
 <span class="label label-success">{{$FlagTrx[$item->flag_trx]}}</span>
+@elseif ($item->flag_trx>5)
+<span class="label label-primary">{{$FlagTrx[$item->flag_trx]}}</span>
 @endif

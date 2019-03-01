@@ -18,7 +18,6 @@ class CreateMatrikPerjalananTable extends Migration
             $table->year('tahun_matrik');
             $table->date('tgl_awal');
             $table->date('tgl_akhir');
-            $table->string('peg_id',10)->nullable();
             $table->string('kodekab_tujuan',4);
             $table->tinyInteger('lamanya');
             $table->integer('mak_id')->unsigned()->nullable();
