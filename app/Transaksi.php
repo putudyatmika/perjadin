@@ -29,6 +29,6 @@ class Transaksi extends Model
     }
     public function Kuitansi()
     {
-        return $this->belongsTO('App\Spd', 'trx_id', 'trx_id');
+        return $this->belongsTO('App\Kuitansi', 'trx_id', 'trx_id');
     }
 }

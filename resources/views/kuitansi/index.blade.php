@@ -3,11 +3,6 @@
 <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
 <!-- Plugin JavaScript -->
 <script src="{{asset('tema/plugins/bower_components/moment/moment.js')}}"></script>
-<!-- Page plugins css -->
-<link href="{{asset('tema/plugins/bower_components/clockpicker/dist/jquery-clockpicker.min.css')}}" rel="stylesheet">
-<!-- Daterange picker plugins css -->
-<link href="{{asset('tema/plugins/bower_components/timepicker/bootstrap-timepicker.min.css')}}" rel="stylesheet">
-<link href="{{asset('tema/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
 @stop
 @section('js')
 <script src="{{asset('tema/plugins/bower_components/datatables/jquery.dataTables.min.js')}}"></script>
@@ -57,7 +52,7 @@
                                     <thead>
                                         <tr>
                                             <th>Kode Trx</th>
-                                            <th>Nomor Kuitansi</th>
+                                            <th>Tanggal Kuitansi</th>
                                             <th>Nama Pegawai</th>
                                             <th>Tugas</th>
                                             <th>Tanggal Pergi</th>
@@ -69,8 +64,14 @@
                                     <tbody>
                                         @foreach ($DataKuitansi as $item)
                                             <tr>
-                                                <td>{{$item->Transaksi->kode_trx}}</td>
-                                                <td></td>
+                                                <td>
+                                                    @if ($item->tgl_kuitansi=="")
+                                                    {{$item->Transaksi->kode_trx}}
+                                                    @else
+                                                    <a href="{{route('kuitansi.view',$item->Transaksi->kode_trx)}}">{{$item->Transaksi->kode_trx}}</a>
+                                                    @endif
+                                                </td>
+                                                <td>{{$item->tgl_kuitansi}}</td>
                                                 <td>{{$item->Transaksi->TabelPegawai->nama}}</td>
                                                 <td>{{$item->Transaksi->tugas}}</td>
                                                 <td>{{$item->Transaksi->tgl_brkt}}</td>

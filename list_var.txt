@@ -78,8 +78,7 @@
         'FlagSurat'=>[
             '0'=>'Belum Aktif',
             '1'=>'Sudah Aktif',
-            '2'=>'Terlaksana',
-            '3'=>'Dibatalkan',
+            '2'=>'Dibatalkan',
         ],
         'Bilangan'=>[
             '1'=>'Satu',

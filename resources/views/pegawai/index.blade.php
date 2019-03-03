@@ -1,4 +1,3 @@
-
 @section('css')
 <link href="{{asset('tema/plugins/bower_components/datatables/jquery.dataTables.min.css')}}" rel="stylesheet" type="text/css" />
 <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
@@ -37,7 +36,7 @@
                     <!-- .breadcrumb -->
                     <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                         <button type="button" class="btn btn-danger pull-right m-l-20 btn-rounded" data-toggle="modal" data-target="#TambahModal">Tambah Pegawai</button>
-
+                        <a href="{{url('pegawai/import')}}" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Import Data</a>
                         <ol class="breadcrumb">
                             <li><a href="{{url('')}}">Dashboard</a></li>
                             <li class="active">Data Pegawai</li>

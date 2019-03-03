@@ -60,7 +60,7 @@ $('#totalbiaya').val(totalbiaya);
 
 $('#nilaiTransport').on('change paste keyup',function(e){
 
-var transport =  $('#totalhotel').val()
+var transport =  $('#nilaiTransport').val();
 
 
 //untuk total biaya
