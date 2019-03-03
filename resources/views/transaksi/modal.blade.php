@@ -73,7 +73,7 @@
                             <dt class="col-sm-3 text-truncate">Flag Matrik</dt>
                             <dd class="col-sm-9"><span id="flagmatrik"></span></dd>
                             <dt class="col-sm-3 text-truncate">Flag Transaksi</dt>
-                            <dd class="col-sm-9"><span id="flagtransaksi"></span></dd>
+                            <dd class="col-sm-9"><span id="flagtransaksi"></span> <span id="flagket"></span></dd>
                     </dl>
 
                     <input type="hidden" name="matrikid" id="matrikid">

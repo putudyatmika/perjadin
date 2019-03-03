@@ -38,6 +38,7 @@ Route::match(['get', 'post'], '/login', 'AdminController@login')->name('admin.lo
 //Route::get('/pegawai/tambah','PegawaiController@tambah');
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('golongan','GolonganController');
+    Route::get('pegawai/import','PegawaiController@import')->name('pegawai.import');
     Route::resource('pegawai','PegawaiController');
     Route::resource('unitkerja','UnitkerjaController');
     Route::get('matrik/transaksi','MatrikController@transaksi')->name('matrik.transaksi');

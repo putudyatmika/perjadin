@@ -35,6 +35,7 @@ class PegawaiController extends Controller
                         -> leftJoin (\DB::Raw("(select SUBSTRING(kode,1,4) as bidang_kode, nama as bidang_nama from unitkerja where eselon < 4 order by kode asc) as unitbidang "),\DB::Raw("SUBSTRING(unitkerja.kode,1,4)"),'=','unitbidang.bidang_kode')
                         //->select('pegawai.id as id', 'pegawai.nama as nama', 'pegawai.nip_baru as nip_baru','pegawai.jabatan','m_gol.gol as gol','m_gol.pangkat as pangkat','pegawai.unitkerja as unitkerja','unitkerja.nama as unit_nama','unitbidang.bidang_kode','unitbidang.bidang_nama')
                         ->select('pegawai.*', 'm_gol.gol as nama_gol','m_gol.pangkat as pangkat','unitkerja.nama as unit_nama','unitbidang.bidang_kode','unitbidang.bidang_nama')
+                        ->orderBy('unitkerja','asc')->orderBy('jabatan','asc')
                         ->get();
         return view('pegawai.index',compact('DataPegawai','DataGol','DataUnitkerja','UnitEselonVar','JenisUnitVar','JenisJabatanVar','jkVar'));
         //return view('pegawai.index',compact('DataPegawai','UnitEselonVar','JenisUnitVar','JenisJabatanVar'));
@@ -193,8 +194,8 @@ class PegawaiController extends Controller
         return redirect()->route('pegawai.index');
     }
 
-    public function tambah()
+    public function import()
     {
-        return view("pegawai.form");
+        return view("pegawai.import");
     }
 }

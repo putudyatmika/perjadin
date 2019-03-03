@@ -161,7 +161,7 @@ class MatrikController extends Controller
         if($count<1){
             Session::flash('message', 'Matrik perjalanan tidak ditemukan');
             Session::flash('message_type', 'danger');
-            return redirect()->to('matrik');
+            return redirect()->to('matrik.index');
         }
         $datamatrik = MatrikPerjalanan::findOrFail($request['matrikid']);
         if ($request['aksi']=='alokasi') {
@@ -226,7 +226,7 @@ class MatrikController extends Controller
 
             Session::flash('message', 'Data matrik perjalanan sudah diupdate');
             Session::flash('message_type', 'success');
-            return redirect()->route('matrik.index');
+            return redirect()->route('matrik');
         }
         else {
            dd($request->all());
