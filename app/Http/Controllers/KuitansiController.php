@@ -102,6 +102,7 @@ class KuitansiController extends Controller
         //
         $count = Kuitansi::where('kuitansi_id','=',$request->kuitansi_id)->count();
         if ($count>0) {
+            $rill_total = 0;
             //kuitansi ada
             //ambil data bendahara
             $Bendahara = Pegawai::where([['flag','=','1'],['nip_baru','=',$request->bendahara_nip]])->get();
@@ -111,6 +112,7 @@ class KuitansiController extends Controller
                 //hotel_cek tidak ada ato tidak ada bukti
                 $totalhotel = ($request->nilaihotel * $request->hotelhari) * 0.3;
                 $flagHotel = 0;
+                $rill_total = $rill_total + $totalhotel;
             }
             else {
                 $totalhotel = $request->nilaihotel * $request->hotelhari;
@@ -118,6 +120,10 @@ class KuitansiController extends Controller
             }
 
             $flagTransport = $request->transport_cek ? '1' : '0';
+
+            if ($flagTransport==0) {
+                $rill_total = $rill_total + $request->nilaiTransport;
+            }
 
             if (!$request->rill_cek1) {
                 //rill 1 tidak ada
@@ -129,6 +135,7 @@ class KuitansiController extends Controller
                 $rill1_ket = $request->rill_ket1;
                 $rill1_rupiah = $request->rill1;
                 $rill1_flag = 1;
+                $rill_total = $rill_total + $request->rill1;
             }
             if (!$request->rill_cek2) {
                 //rill 2 tidak ada
@@ -140,6 +147,7 @@ class KuitansiController extends Controller
                 $rill2_ket = $request->rill_ket2;
                 $rill2_rupiah = $request->rill2;
                 $rill2_flag = 1;
+                $rill_total = $rill_total + $request->rill2;
             }
             if (!$request->rill_cek3) {
                 //rill 3 tidak ada
@@ -151,6 +159,7 @@ class KuitansiController extends Controller
                 $rill3_ket = $request->rill_ket3;
                 $rill3_rupiah = $request->rill3;
                 $rill3_flag = 1;
+                $rill_total = $rill_total + $request->rill3;
             }
 
             $dataKuitansi = Kuitansi::where('kuitansi_id','=',$request->kuitansi_id)->first();
@@ -178,6 +187,7 @@ class KuitansiController extends Controller
             $dataKuitansi -> rill3_ket = $rill3_ket;
             $dataKuitansi -> rill3_rupiah = $rill3_rupiah;
             $dataKuitansi -> rill3_flag = $rill3_flag;
+            $dataKuitansi -> rill_total = $rill_total;
             $dataKuitansi -> update();
 
              //transaksi update
@@ -221,5 +231,6 @@ class KuitansiController extends Controller
 
         $dataTransaksi = \App\Transaksi::with('TabelPegawai','Matrik','SuratTugas','Spd','Kuitansi')->where('kode_trx','=',$kodetrx)->get();
         return view('kuitansi.view',compact('dataTransaksi','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','Bulan','FlagKendaraan'));
+
     }
 }

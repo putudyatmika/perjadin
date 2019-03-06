@@ -5,22 +5,21 @@
 <!-- end - This is for export functionality only -->
  <script src="{{asset('tema/js/jquery.PrintArea.js')}}" type="text/JavaScript"></script>
  <script>
-             // fungsi dijalankan setelah seluruh dokumen ditampilkan
-            $(document).ready(function(e) {
-
-                // aksi ketika tombol cetak ditekan
-                $("#cetak1").bind("click", function(event) {
-                    // cetak data pada area <div id="#data-mahasiswa"></div>
-                    $('#hal1').printArea();
-                });
-            });
-            $(document).ready(function(e) {
-
-// aksi ketika tombol cetak ditekan
-$("#cetak2").bind("click", function(event) {
-    // cetak data pada area <div id="#data-mahasiswa"></div>
-    $('#hal2').printArea();
+// fungsi dijalankan setelah seluruh dokumen ditampilkan
+$(document).ready(function(e) {
+    $("#cetak1").bind("click", function(event) {
+        $('#hal1').printArea();
+    });
 });
+$(document).ready(function(e) {
+    $("#cetak2").bind("click", function(event) {
+        $('#hal2').printArea();
+    });
+});
+$(document).ready(function(e) {
+    $("#cetak3").bind("click", function(event) {
+        $('#hal3').printArea();
+    });
 });
  </script>
 
@@ -60,15 +59,15 @@ $("#cetak2").bind("click", function(event) {
                                 <!-- Tab panes -->
                                 <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane active" id="hal1">
-
+                                        @include('kuitansi.hal1')
                                         <div class="clearfix"></div>
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="hal2">
-
+                                        @include('kuitansi.hal2')
                                         <div class="clearfix"></div>
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="hal3">
-
+                                        @include('kuitansi.hal3')
                                         <div class="clearfix"></div>
                                     </div>
                                 </div>
