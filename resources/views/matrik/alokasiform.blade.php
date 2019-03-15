@@ -102,9 +102,10 @@
                                     <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
                                     <select class="form-control select2" name="flagmatrik" id="flagmatrik" required="">
                                         <option value="">Select</option>
-                                        <option value="0">{{$MatrikFlag[0]}}</option>
-                                        <option value="2">{{$MatrikFlag[2]}}</option>
-                                        </select>
+                                        @for ($i=0;$i<=5;$i++)
+                                        <option value="{{$i}}">{{$MatrikFlag[$i]}}</option>
+                                        @endfor
+                                    </select>
                                 </div>
                         </div>
 
@@ -132,6 +133,8 @@
                     <input type="hidden" name="matrikid" id="matrikid" value="" />
                     <input type="hidden" name="tujuan" id="tujuan" value="" />
                     <input type="hidden" id="sm" name="sm" value="" />
+                    <input type="hidden" id="totalbiaya" name="totalbiaya" value="" />
+                    <input type="hidden" id="dana_makid" name="dana_makid" value="" />
                     <div class="form-group">
                             <label for="tujuan">Tujuan</label>
                             <div class="input-group">
@@ -151,13 +154,6 @@
                         <div class="input-group">
                             <div class="input-group-addon"><i class="ti-user"></i></div>
                             <input type="text" class="form-control" id="sm" name="sm" disabled> </div>
-
-                    </div>
-                    <div class="form-group">
-                            <label for="biaya">Unit Pelaksana</label>
-                            <div class="input-group">
-                                <div class="input-group-addon"><i class="ti-user"></i></div>
-                                <input type="text" class="form-control" id="pelaksana" name="pelaksana" disabled> </div>
 
                     </div>
                     <div class="form-group">

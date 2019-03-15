@@ -15,6 +15,29 @@
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
  <!-- end - This is for export functionality only -->
+ <script>
+     $('#SelesaiModal').on('show.bs.modal', function (event) {
+var button = $(event.relatedTarget) // Button that triggered the modal
+var trxid = button.data('trxid') // Extract info from data-* attributes
+var kid = button.data('kid') // Extract info from data-* attributes
+var kodetrx = button.data('kodetrx')
+var tujuan = button.data('tujuan')
+var nama = button.data('nama')
+var tugas = button.data('tugas')
+var tglkuitansi = button.data('tglkuitansi')
+var totalbiaya = button.data('totalbiaya')
+
+var modal = $(this)
+modal.find('.modal-body #trxid').val(trxid)
+modal.find('.modal-body #kuitansi_id').val(kid)
+modal.find('.modal-body #kodetrx').val(kodetrx)
+modal.find('.modal-body #tujuan').val(tujuan)
+modal.find('.modal-body #nama').val(nama)
+modal.find('.modal-body #tugas').val(tugas)
+modal.find('.modal-body #tgl_kuitansi').val(tglkuitansi)
+modal.find('.modal-body #totalbiaya').val(totalbiaya)
+});
+     </script>
 @stop
 @extends('layouts.default')
 
@@ -89,4 +112,5 @@
                 <!-- /.row -->
             </div>
             <!-- /.container-fluid -->
+            @include('kuitansi.modal')
 @endsection

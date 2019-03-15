@@ -151,8 +151,11 @@
                                                     $tgl_blk = (int)($tgl_balik[2]) .' '.$Bulan[$bln_balik].' '.$tgl_balik[0];
                                                     $tanggal_surat = (int)($tgl_surat[2]) .' '.$Bulan[$bln_surat].' '.$tgl_surat[0];
                                                 @endphp
-
+                                                @if ($dataTransaksi[0]->bnyk_hari==1)
+                                                {{ $tgl_berangkat }}
+                                                @else
                                                 {{ $tgl_berangkat }} s/d {{ $tgl_blk }}
+                                                @endif
                                             </td>
                                         </tr>
                                     </table>

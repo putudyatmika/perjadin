@@ -29,13 +29,16 @@ class MatrikController extends Controller
         $DataUnitkerja = DB::table('unitkerja')
                         -> where('eselon','<','4')->get();
         $MatrikFlag = config('globalvar.FlagMatrik');
-        $DataMatrik = DB::table('matrik')
+        /*$DataMatrik = DB::table('matrik')
                         ->leftJoin('anggaran','matrik.dana_mak','=','anggaran.mak')
                         ->leftJoin('tujuan','matrik.kodekab_tujuan','=','tujuan.kode_kabkota')
                         ->leftJoin('unitkerja','matrik.dana_unitkerja','=','unitkerja.kode')
                         ->select(DB::raw('matrik.*, matrik.id as matrik_id, anggaran.*,anggaran.id as anggaran_id,tujuan.*,tujuan.id as tujuan_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
                         ->get();
+                        */
+        $DataMatrik = MatrikPerjalanan::get();
         return view('matrik.index',compact('DataMatrik','MatrikFlag','DataUnitkerja'));
+        //dd($DataMatrik);
 
     }
 
@@ -88,6 +91,13 @@ class MatrikController extends Controller
         $datamatrik -> total_biaya = $request['totalbiaya'];
         $datamatrik -> save();
         //Pegawai::create($request->all());
+
+        //update alokasi pagu di anggaran
+        $dataPagu = Anggaran::where('id','=',$request->dana_makid)->get();
+        $realisasi_pagu = $dataPagu[0]->rencana_pagu + $request->totalbiaya;
+        $inputPagu = Anggaran::where('id','=',$request->dana_makid)->first();
+        $inputPagu -> rencana_pagu = $realisasi_pagu;
+        $inputPagu -> update();
 
         //alert()->success('Berhasil.','Data telah ditambahkan!');
         Session::flash('message', 'Data telah ditambahkan');
@@ -204,6 +214,17 @@ class MatrikController extends Controller
             return back();
         }
         elseif ($request['aksi']=='updatematrik') {
+            //update alokasi pagu di anggaran
+            $dataPagu = Anggaran::where('id','=',$request->dana_makid)->get();
+            //$realisasi_pagu = $dataPagu[0]->rencana_pagu + $request->totalbiaya;
+            $pagu_db = $dataPagu[0]->rencana_pagu;
+            $pagu_db = $pagu_db - $request->totalbiaya_sblmnya;
+            $realisasi_pagu = $pagu_db + $request->totalbiaya;
+
+            $inputPagu = Anggaran::where('id','=',$request->dana_makid)->first();
+            $inputPagu -> rencana_pagu = $realisasi_pagu;
+            $inputPagu -> update();
+
             $datamatrik -> tahun_matrik = Carbon::parse($request['tglawal'])->format('Y');
             $datamatrik -> tgl_awal = $request['tglawal'];
             $datamatrik -> tgl_akhir = $request['tglakhir'];
@@ -226,7 +247,7 @@ class MatrikController extends Controller
 
             Session::flash('message', 'Data matrik perjalanan sudah diupdate');
             Session::flash('message_type', 'success');
-            return redirect()->route('matrik');
+            return redirect()->route('matrik.index');
         }
         else {
            dd($request->all());
@@ -242,16 +263,28 @@ class MatrikController extends Controller
     public function destroy(Request $request)
     {
         //
-       $dataMatrik = MatrikPerjalanan::findOrFail($request->matrikid);
-       $dataMatrik -> delete();
-       $pesan='Data Matrik Perjalanan tujuan ke '.$request->tujuan .' dari '. $request->sm .' berhasil dihapus';
+        //update alokasi pagu di anggaran
+        $dataPagu = Anggaran::where('id','=',$request->dana_makid)->get();
+        $pagu_db = $dataPagu[0]->rencana_pagu;
+        $realisasi_pagu = $pagu_db - $request->totalbiaya;
 
-       Session::flash('message', $pesan);
-       Session::flash('message_type', 'danger');
-       return back();
-    }
-    public function transaksi() {
-        return view('matrik.transaksi');
-    }
+        $inputPagu = Anggaran::where('id','=',$request->dana_makid)->first();
+        $inputPagu -> rencana_pagu = $realisasi_pagu;
+        $inputPagu -> update();
+        $count = Transaksi::where('matrik_id','=',$request->matrikid)->count();
+        if ($count>0) {
+            $dataTrx = Transaksi::where('matrik_id','=',$request->matrikid)->first();
+            $dataTrx -> delete();
+        }
 
+        $dataMatrik = MatrikPerjalanan::findOrFail($request->matrikid);
+        $dataMatrik -> delete();
+        $pesan='Data Matrik Perjalanan tujuan ke '.$request->tujuan .' dari '. $request->sm .' berhasil dihapus';
+
+        Session::flash('message', $pesan);
+        Session::flash('message_type', 'danger');
+        return back();
+
+      //dd($request->all());
+    }
 }

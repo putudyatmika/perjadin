@@ -163,6 +163,8 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         App\Providers\TerbilangProvider::class,
+        App\Providers\TanggalProvider::class,
+        App\Providers\UmumProvider::class,
         /*
          * Package Service Providers...
          */
@@ -226,7 +228,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Terbilang' => App\Helpers\Terbilang::class,
-
+        'Tanggal' => App\Helpers\Tanggal::class,
+        'Jumlah' => App\Helpers\Jumlah::class,
     ],
 
 ];

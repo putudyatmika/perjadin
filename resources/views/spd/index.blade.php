@@ -82,8 +82,8 @@
                                                 <td>{{$item->Transaksi->TabelPegawai->nama}}</td>
                                                 <td>{{$FlagKendaraan[$item->kendaraan]}}</td>
                                                 <td>{{$item->ppk_nama}}</td>
-                                                <td>{{$item->Transaksi->tgl_brkt}}</td>
-                                                <td>{{$item->Transaksi->tgl_balik}}</td>
+                                                <td>{{Tanggal::Panjang($item->Transaksi->tgl_brkt)}}</td>
+                                                <td>{{Tanggal::Panjang($item->Transaksi->tgl_balik)}}</td>
                                                 <td>@include('spd.flag')</td>
                                                 <td>@include('spd.aksi')<td>
                                             </tr>

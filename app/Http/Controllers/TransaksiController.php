@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 use DB;
 use App\SuratTugas;
 use App\Spd;
+use App\Unitkerja;
 
 class TransaksiController extends Controller
 {
@@ -25,9 +26,10 @@ class TransaksiController extends Controller
         $FlagTrx = config('globalvar.FlagTransaksi');
         $FlagKonfirmasi = config('globalvar.FlagKonfirmasi');
         $MatrikFlag = config('globalvar.FlagMatrik');
-        $DataPegawai = Pegawai::where('flag','=','1')->get();
+        $DataPegawai = Pegawai::where([['flag','=','1'],['jabatan','<','5']])->get();
+        $DataBidang = Unitkerja::where('eselon','<','4')->orderBy('kode','asc')->get();
         $dataTransaksi = Transaksi::orderBy('flag_trx','ASC')->orderBy('tgl_brkt','ASC')->get();
-        return view('transaksi.matrik',compact('dataTransaksi','FlagTrx','FlagKonfirmasi','DataPegawai','MatrikFlag'));
+        return view('transaksi.matrik',compact('dataTransaksi','FlagTrx','FlagKonfirmasi','DataPegawai','MatrikFlag','DataBidang'));
         //dd($dataTransaksi);
     }
 

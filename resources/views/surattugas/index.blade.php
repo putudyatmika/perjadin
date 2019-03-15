@@ -71,19 +71,13 @@
                                     <tbody>
                                         @foreach ($DataSuratTugas as $item)
                                             <tr>
-                                                <td>
-                                                        @if ($item->tgl_surat=="")
-                                                        {{$item->Transaksi->kode_trx}}
-                                                        @else
-                                                        <a href="{{route('surattugas.view',$item->Transaksi->kode_trx)}}">{{$item->Transaksi->kode_trx}}</a>
-                                                        @endif
-                                                </td>
+                                                <td>@include('surattugas.detil')</td>
                                                 <td>{{$item->nomor_surat}}</td>
                                                 <td>{{$item->Transaksi->TabelPegawai->nama}}</td>
                                                 <td>{{$item->tgl_surat}}</td>
                                                 <td>{{$item->ttd_jabatan}}</td>
-                                                <td>{{$item->Transaksi->tgl_brkt}}</td>
-                                                <td>{{$item->Transaksi->tgl_balik}}</td>
+                                                <td>{{Tanggal::Panjang($item->Transaksi->tgl_brkt)}}</td>
+                                                <td>{{Tanggal::Panjang($item->Transaksi->tgl_balik)}}</td>
                                                 <td>@include('surattugas.flag')</td>
                                                 <td>@include('surattugas.aksi')</td>
                                             </tr>

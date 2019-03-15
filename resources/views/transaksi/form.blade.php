@@ -12,6 +12,13 @@
 
 </div>
 <div class="form-group">
+        <label for="tujuan">Durasi</label>
+        <div class="input-group">
+            <div class="input-group-addon"><i class="ti-user"></i></div>
+            <input type="text" class="form-control" id="durasi" name="durasi" readonly> </div>
+
+</div>
+<div class="form-group">
     <label for="biaya">Biaya</label>
     <div class="input-group">
         <div class="input-group-addon"><i class="ti-user"></i></div>
@@ -46,8 +53,14 @@
             <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
             <select class="form-control select2" name="peg_nip" id="peg_nip" required="">
                 <option value="">Select</option>
-                @foreach ($DataPegawai as $item)
-                    <option value="{{$item->nip_baru}}">{{$item->nama}}</option>
+                @foreach ($DataBidang as $bid)
+                <optgroup label="{{$bid->nama}}">
+                    @foreach ($DataPegawai as $item)
+                        @if ($item->Unitkerja->bidang == $bid->bidang)
+                            <option value="{{$item->nip_baru}}">{{$item->nama}}</option>
+                        @endif
+                    @endforeach
+                </optgroup>
                 @endforeach
             </select>
         </div>
@@ -68,4 +81,6 @@
                 </div>
             </label>
         </div>
+        <span class="pull-left"><i><b>Catatan : Perjadin yang sudah diajukan tidak bisa ditarik kembali</b></i></span>
+        <input type="hidden" name="tglstart" id="tglstart"  value="" />
     </div>

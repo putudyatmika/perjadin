@@ -49,9 +49,9 @@
         'Pengelola'=>[
             '0'=>'Operator',
             '1'=>'Kabag/Kabid',
-            '2'=>'Subbag Keuangan',
-            '3'=>'PPK',
-            '4'=>'Kepala BPS Provinsi',
+            '2'=>'PPK',
+            '3'=>'KPA',
+            '4'=>'Subbag Keuangan',
             '5'=>'Admin Sistem',
         ],
         'FlagTransaksi'=>[
@@ -112,6 +112,7 @@
             '3'=>'Plane'
         ],
         'FlagPengelola'=>[
+            '0'=>'-',
             '1'=>'KPA',
             '2'=>'PPK',
             '3'=>'Bendahara',

@@ -54,6 +54,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('spd','SpdController');
     Route::get('kuitansi/view/{kodetrx}','KuitansiController@view')->name('kuitansi.view');
     Route::resource('kuitansi','KuitansiController');
+    Route::get('setuju/daftar','PersetujuanController@daftar')->name('setuju.daftar');
+    Route::resource('setuju','PersetujuanController');
+    Route::resource('laporan','LaporanController');
 });
 
 

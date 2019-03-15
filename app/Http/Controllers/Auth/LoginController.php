@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+//use Session;
 
 class LoginController extends Controller
 {
@@ -54,7 +55,7 @@ class LoginController extends Controller
     }*/
     public function showLoginForm()
     {
-        return view('login.index');
+        return view('login.v2');
     }
     protected function validateLogin(Request $request)
     {
@@ -77,5 +78,6 @@ class LoginController extends Controller
         $user->lastlogin = Carbon::now()->toDateTimeString();
         $user->lastip = $request->getClientIp();
         $user->save();
+        //Session::put('tahun_anggaran', $request->tahun_anggaran );
     }
 }

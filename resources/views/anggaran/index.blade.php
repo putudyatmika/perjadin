@@ -83,7 +83,8 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                                             <th>MAK</th>
                                             <th>Uraian</th>
                                             <th>Unitkerja</th>
-                                            <th>Pagu</th>
+                                            <th>Pagu Awal</th>
+                                            <th>Pagu Tersedia</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -96,8 +97,12 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                                                 <td>{{ $item->uraian}}</td>
                                                 <td>{{ $item->unit_nama}}</td>
                                                 <td><div class="pull-right">@duit($item->pagu)</div></td>
-                                                <td><button type="button" class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#EditModal" data-tahun="{{ $item->tahun_anggaran}}" data-mak="{{ $item->mak}}" data-pagu="{{ $item->pagu}}" data-uraian="{{$item->uraian}}" data-unitkode="{{$item->unitkerja}}" data-anggaranid="{{$item->id}}">Edit</button>
+                                                <td><div class="pull-right">@duit($item->pagu-$item->rencana_pagu)</div></td>
+                                                <td>
+                                                    @if (Auth::user()->pengelola>3)
+                                                    <button type="button" class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#EditModal" data-tahun="{{ $item->tahun_anggaran}}" data-mak="{{ $item->mak}}" data-pagu="{{ $item->pagu}}" data-uraian="{{$item->uraian}}" data-unitkode="{{$item->unitkerja}}" data-anggaranid="{{$item->id}}">Edit</button>
                                                     <button type="button" class="btn btn-danger btn-rounded" data-toggle="modal" data-target="#DeleteModal" data-tahun="{{ $item->tahun_anggaran}}" data-mak="{{ $item->mak}}" data-pagu="{{ $item->pagu}}" data-uraian="{{$item->uraian}}" data-unitkode="{{$item->unit_nama}}" data-anggaranid="{{$item->id}}">Delete</button>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -111,6 +116,9 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
             </div>
             <!-- /.container-fluid -->
             <!---modal edit-->
+            @php
+                $tahun_skrg=date('Y');
+            @endphp
             <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="EditModal">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -123,11 +131,15 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                                             @method('patch')
                                             <input type="hidden" name="anggaran_id" id="anggaranid" value="">
                                             <div class="form-group">
-                                                <label for="tahun_anggaran">Tahun</label>
+                                                <label for="tahun_anggaran">Tahun Anggaran</label>
                                                 <div class="input-group">
                                                     <div class="input-group-addon"><i class="ti-lock"></i></div>
-                                                    <input type="text" class="form-control" id="tahun_anggaran" name="tahun_anggaran" placeholder="Tahun Anggaran" data-mask="9999" required="">
-
+                                                    <select class="form-control" name="tahun_anggaran" id="tahun_anggaran">
+                                                        <option value="">Pilih</option>
+                                                        @for ($i=$tahun_skrg-1;$i<=$tahun_skrg+1;$i++)
+                                                            <option value="{{$i}}">{{$i}}</option>
+                                                        @endfor
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="form-group">

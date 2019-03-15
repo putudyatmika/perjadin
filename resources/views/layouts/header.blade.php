@@ -1,6 +1,6 @@
 <nav class="navbar navbar-default navbar-static-top m-b-0">
             <div class="navbar-header"> <a class="navbar-toggle hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse"><i class="ti-menu"></i></a>
-                <div class="top-left-part">
+                <div class="top-left-part hidden-xs">
                 <!---<a class="logo" href="{{url('')}}"><b><img src="{{ asset('tema/plugins/images/eliteadmin-logo.png')}}" alt="home" /></b><span class="hidden-xs"><img src="{{ asset('tema/plugins/images/eliteadmin-text.png')}}" alt="home" /></span></a>--->
                 <a class="logo" href="{{url('')}}">&nbsp;</a>
                 </div>
@@ -53,7 +53,7 @@
 
                     <!-- /.dropdown -->
                     <li class="dropdown">
-                        <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> {{-- <img src="{{ asset('tema/plugins/images/users/varun.jpg')}}" alt="user-img" width="36" class="img-circle"> --}}<b class="hidden-xs">{{ Auth::user()->name }}</b> </a>
+                        <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> <img src="{{ asset('img/bps-user.jpg')}}" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">{{ Auth::user()->name }}</b> </a>
                         <ul class="dropdown-menu dropdown-user animated flipInY">
                             <li><a href="#"><i class="ti-user"></i> Lihat Profile</a></li>
                             <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
