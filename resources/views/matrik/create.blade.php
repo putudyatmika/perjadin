@@ -113,22 +113,30 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
-                                                            <label for="dana_pagu" class="col-2 col-form-label">Pagu</label>
-                                                            <div class="input-group col-8">
-                                                                <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                                <input type="text" class="form-control" id="dana_pagu" name="dana_pagu" placeholder="Pagu Dana" readonly="">
+                                                        <label for="dana_pagu" class="col-2 col-form-label">Pagu awal</label>
+                                                        <div class="input-group col-8">
+                                                            <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                            <input type="text" class="form-control" id="dana_pagu" name="dana_pagu" placeholder="Pagu Dana" readonly="">
 
-                                                            </div>
                                                         </div>
-                                                        <div class="form-group row">
-                                                            <label for="dana_unitkerja" class="col-2 col-form-label">Unitkerja</label>
-                                                            <div class="input-group col-8">
-                                                                <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                                <input type="text" class="form-control" id="dana_unitkerja" name="dana_unitkerja" placeholder="Unitkerja Sumber Dana" readonly="">
-                                                                <input type="hidden" class="form-control" id="dana_kodeunit" name="dana_kodeunit">
-                                                                <input type="hidden" id="dana_makid" name="dana_makid">
-                                                            </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="dana_pagu" class="col-2 col-form-label">Pagu tersedia</label>
+                                                        <div class="input-group col-8">
+                                                            <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                            <input type="text" class="form-control" id="dana_pagusisa" name="dana_pagusisa" placeholder="Pagu Dana yang tersedia" readonly="">
+
                                                         </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="dana_unitkerja" class="col-2 col-form-label">Unitkerja</label>
+                                                        <div class="input-group col-8">
+                                                            <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                            <input type="text" class="form-control" id="dana_unitkerja" name="dana_unitkerja" placeholder="Unitkerja Sumber Dana" readonly="">
+                                                            <input type="hidden" class="form-control" id="dana_kodeunit" name="dana_kodeunit">
+                                                            <input type="hidden" id="dana_makid" name="dana_makid">
+                                                        </div>
+                                                    </div>
                                         <h3 class="box-title m-t-40">Rencana Anggaran Biaya</h3>
                                         <hr>
                                         <div class="form-group row">

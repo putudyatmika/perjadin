@@ -119,22 +119,30 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
-                                                            <label for="dana_pagu" class="col-2 col-form-label">Pagu</label>
-                                                            <div class="input-group col-8">
-                                                                <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                                <input type="text" class="form-control" id="dana_pagu" name="dana_pagu" placeholder="Pagu Dana" value="{{$DataMatrik->dana_pagu}}" readonly="">
+                                                        <label for="dana_pagu" class="col-2 col-form-label">Pagu</label>
+                                                        <div class="input-group col-8">
+                                                            <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                            <input type="text" class="form-control" id="dana_pagu" name="dana_pagu" placeholder="Pagu Dana" value="{{$DataMatrik->dana_pagu}}" readonly="">
 
-                                                            </div>
                                                         </div>
-                                                        <div class="form-group row">
-                                                            <label for="dana_unitkerja" class="col-2 col-form-label">Unitkerja</label>
-                                                            <div class="input-group col-8">
-                                                                <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                                <input type="text" class="form-control" id="dana_unitkerja" name="dana_unitkerja" value="{{$DataMatrik->unit_nama}}" placeholder="Unitkerja Sumber Dana" readonly="">
-                                                                <input type="hidden" class="form-control" id="dana_kodeunit" name="dana_kodeunit" value="{{$DataMatrik->dana_unitkerja}}">
-                                                                <input type="hidden" id="dana_makid" name="dana_makid" value="{{$DataMatrik->mak_id}}">
-                                                            </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="dana_pagu" class="col-2 col-form-label">Pagu tersedia</label>
+                                                        <div class="input-group col-8">
+                                                            <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                            <input type="text" class="form-control" id="dana_pagusisa" name="dana_pagusisa" placeholder="Pagu Dana yang tersedia" value="{{$DataMatrik->dana_pagu-$DataMatrik->rencana_pagu}}" readonly="">
+
                                                         </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="dana_unitkerja" class="col-2 col-form-label">Unitkerja</label>
+                                                        <div class="input-group col-8">
+                                                            <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                            <input type="text" class="form-control" id="dana_unitkerja" name="dana_unitkerja" value="{{$DataMatrik->unit_nama}}" placeholder="Unitkerja Sumber Dana" readonly="">
+                                                            <input type="hidden" class="form-control" id="dana_kodeunit" name="dana_kodeunit" value="{{$DataMatrik->dana_unitkerja}}">
+                                                            <input type="hidden" id="dana_makid" name="dana_makid" value="{{$DataMatrik->mak_id}}">
+                                                        </div>
+                                                    </div>
                                         <h3 class="box-title m-t-40">Rencana Anggaran Biaya</h3>
                                         <hr>
                                         <div class="form-group row">
@@ -178,7 +186,7 @@
                                                             <input type="text" class="form-control" id="totalbiaya" name="totalbiaya" placeholder="Total Biaya" value="{{$DataMatrik->total_biaya}}" required="" readonly=""> </div>
                                                     </div>
 
-
+                                        <input type="hidden" name="totalbiaya_sblmnya" value="{{$DataMatrik->total_biaya}}" />
                                         <input type="hidden" name="aksi" value="updatematrik">
                                         <input type="hidden" name="matrikid" id="matrikid" value="{{$DataMatrik->matrik_id}}" />
                                         <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Update Data</button>

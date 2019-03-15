@@ -56,7 +56,7 @@
                             <h3 class="box-title m-b-0">Matrik Transaksi </h3>
                             <p class="text-muted m-b-20">Keadaan <code>tanggal hari ini</code></p>
                             <div class="table-responsive">
-                                <table class="table">
+                                <table class="table table-striped">
                                     <thead>
                                         <tr>
                                             <th>No</th>
@@ -88,15 +88,18 @@
                                             <td>{{$item->Matrik->kodekab_tujuan}}-{{$item->Matrik->Tujuan->nama_kabkota}}</td>
                                             <td>{{$item->Matrik->unit_pelaksana}}-{{$item->Matrik->UnitPelaksana->nama}}</td>
                                             <td>{{$peg_nama}}</td>
-                                            <td>{{$item->tgl_brkt}}</td>
+                                            <td>
+                                                @if ($item->tgl_brkt!=NULL)
+                                                   {{Tanggal::Panjang($item->tgl_brkt)}}
+                                                @endif
+                                            </td>
                                             <td>@include('transaksi.kabid')</td>
                                             <td>@include('transaksi.ppk')</td>
                                             <td>@include('transaksi.kpa')</td>
                                             <td>@include('transaksi.flagtransaksi')</td>
                                             <td>
-                                                @if ($item->flag_trx<5)
-                                                <button type="button" class="btn btn-primary btn-rounded btn-sm" data-toggle="modal" data-target="#AjukanModal" data-tujuan="{{$item->Matrik->kodekab_tujuan}}-{{$item->Matrik->Tujuan->nama_kabkota}}" data-sm="{{$item->Matrik->dana_unitkerja}}-{{$item->Matrik->DanaUnitkerja->nama}}" data-biaya="@rupiah($item->Matrik->total_biaya)" data-unitpelaksana="{{$item->Matrik->unit_pelaksana}}-{{$item->Matrik->UnitPelaksana->nama}}" data-tglawal="{{$item->Matrik->tgl_awal}}" data-tglakhir="{{$item->Matrik->tgl_akhir}}" data-infotgl="{{$item->Matrik->tgl_awal}} s/d {{$item->Matrik->tgl_akhir}}" data-trxid="{{$item->trx_id}}" data-kodetrx="{{$item->kode_trx}}" data-kodetransaksi="{{$item->kode_trx}}" data-lamanya="{{$item->Matrik->lamanya}}" data-matrikid="{{$item->matrik_id}}" data-pegnip="{{$item->peg_nip}}" data-tglbrkt="{{$item->tgl_brkt}}" data-tglbalik="{{$item->tgl_balik}}" data-tugas="{{$item->tugas}}">Ajukan</button>
-                                                <button type="button" class="btn btn-danger btn-rounded btn-sm" data-toggle="modal" data-target="#AdminKonfirmasiModal" data-trxid="{{$item->trx_id}}">Konfirmasi</button>
+                                                @include('transaksi.ajukan')
+                                                @if ($item->flag_trx<5 and (Auth::user()->pengelola>0 and Auth::user()->pengelola<4))
                                                 @endif
                                             </td>
                                         </tr>

@@ -62,9 +62,10 @@
                                         @method('put')
                                         <input type="hidden" name="trx_id" value="{{$dataTransaksi[0]->trx_id}}" />
                                         <input type="hidden" name="kuitansi_id" value="{{$dataTransaksi[0]->Kuitansi->kuitansi_id}}" />
+                                        <input type="hidden" name="aksi" value="update">
                                         @include('kuitansi.form')
                                         <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
-                                        <button type="submit" class="btn btn-inverse waves-effect waves-light">Cancel</button>
+                                        <a href="{{route('kuitansi.index')}}" class="btn btn-inverse waves-effect waves-light">Cancel</a>
                                     </form>
                                 </div>
                             </div>

@@ -78,17 +78,20 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
   // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
   var biaya = button.data('biaya')
   var flagmatrik = button.data('flagmatrik')
-  var pelaksana = button.data('pelaksana')
   var sm = button.data('sm')
   var matrikid = button.data('matrikid')
+  var totalbiaya = button.data('totalbiaya')
+  var makid = button.data('makid')
+
 
   var modal = $(this)
   modal.find('.modal-body #tujuan').val(tujuan)
   modal.find('.modal-body #biaya').val(biaya)
   modal.find('.modal-body #flagmatrik').val(flagmatrik)
-  modal.find('.modal-body #pelaksana').val(pelaksana)
   modal.find('.modal-body #sm').val(sm)
   modal.find('.modal-body #matrikid').val(matrikid)
+  modal.find('.modal-body #totalbiaya').val(totalbiaya)
+  modal.find('.modal-body #dana_makid').val(makid)
 })
 </script>
 @endsection
@@ -121,12 +124,13 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                     <div class="col-lg-12">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Matrik Perjalanan Pegawai BPS Provinsi NTB</h3>
-                            <p class="text-muted m-b-20">Tahun <code>2019</code></p>
+                            <p class="text-muted m-b-20">@if (Session::has('tahun_anggaran')) <code>Tahun Anggaran {{Session::get('tahun_anggaran')}}</code> @endif</p>
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
                                         <tr>
                                             <th>No</th>
+                                            <th>Kode Trx</th>
                                             <th>Tujuan</th>
                                             <th>Lama Hari</th>
                                             <th>Subject Matter</th>
@@ -144,25 +148,29 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                                         @foreach ($DataMatrik as $item)
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
-                                            <td><a href="#" data-toggle="modal" data-target="#ViewModal" data-tahun="{{$item->tahun_matrik}}" data-tujuan="{{$item->nama_kabkota}}" data-waktu="{{$item->tgl_awal}} s/d {{$item->tgl_akhir}}" data-lamanya="{{$item->lamanya}} hari" data-mak="{{$item->dana_mak}} - {{$item->uraian}}" data-sm="{{$item->dana_unitkerja}}-{{$item->unit_nama}}"
+                                            <td>
+                                                @if ($item->Transaksi!=NULL)
+                                               {{$item->Transaksi->kode_trx}}
+                                               @endif
+                                            </td>
+                                            <td><a href="#" data-toggle="modal" data-target="#ViewModal" data-tahun="{{$item->tahun_matrik}}" data-tujuan="{{$item->kodekab_tujuan}}-{{$item->Tujuan->nama_kabkota}}" data-waktu="{{Tanggal::Panjang($item->tgl_awal)}} s/d {{Tanggal::Panjang($item->tgl_akhir)}}" data-lamanya="{{$item->lamanya}} hari" data-mak="{{$item->dana_mak}} - {{$item->DanaAnggaran->uraian}}" data-sm="{{$item->dana_unitkerja}}-{{$item->DanaUnitkerja->nama}}"
                                             @if ($item->unit_pelaksana==NULL)
-                                            data-pelaksana="{{$item->unit_pelaksana}}"
+                                            data-pelaksana=""
                                             @else
-                                            data-pelaksana="{{$item->unit_pelaksana}}-{{$Unitkerja[$item->unit_pelaksana]}}"
+                                            data-pelaksana="{{$item->unit_pelaksana}}-{{$item->UnitPelaksana->nama}}"
                                             @endif
                                                  data-harian="Harian : @duit($item->dana_harian) x {{$item->lama_harian}} hari = @rupiah($item->total_harian)"
                                                 data-transport="Transport : @duit($item->dana_transport)" data-rill="Pengeluaran Rill : @rupiah($item->pengeluaran_rill)"
                                                 data-biaya="@rupiah($item->total_biaya)"
-                                                data-hotel="Hotel : @duit($item->dana_hotel) x {{$item->lama_hotel}} hari = @rupiah($item->total_hotel)" data-flag="{{$MatrikFlag[$item->flag_matrik]}}" data-matrikid="{{$item->matrik_id}}">{{$item->nama_kabkota}}</a></td>
-                                            <td>{{$item->lamanya}}</td>
-                                            <td>{{$item->unit_nama}}</td>
+                                                data-hotel="Hotel : @duit($item->dana_hotel) x {{$item->lama_hotel}} hari = @rupiah($item->total_hotel)" data-flag="{{$MatrikFlag[$item->flag_matrik]}}" data-matrikid="{{$item->matrik_id}}">{{$item->Tujuan->nama_kabkota}}</a></td>
+                                            <td>{{$item->lamanya}} Hari</td>
+                                            <td>{{$item->dana_unitkerja}}-{{$item->DanaUnitkerja->nama}}</td>
                                             <td>
-                                                @if ($item->unit_pelaksana==NULL)
-                                                    {{$item->unit_pelaksana}}
-                                                    @else
-                                                   {{$item->unit_pelaksana}}-{{$Unitkerja[$item->unit_pelaksana]}}
-                                                    @endif</td>
-                                            <td>{{$item->tgl_awal}} s/d {{$item->tgl_akhir}}</td>
+                                                @if ($item->UnitPelaksana!=NULL)
+                                                    {{$item->unit_pelaksana}}-{{$item->UnitPelaksana->nama}}
+                                                @endif
+                                            </td>
+                                            <td>{{Tanggal::Pendek($item->tgl_awal)}} s/d {{Tanggal::Pendek($item->tgl_akhir)}}</td>
                                             <td> @duit($item->total_biaya)</td>
                                             <td>
                                             @if ($item->flag_matrik==0)
@@ -177,20 +185,27 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                                             <span class="label label-rouded label-success">{{$MatrikFlag[$item->flag_matrik]}}</span>
                                             @endif
                                                 </td>
-                                            <td><button class="btn btn-rounded btn-success btn-sm" data-toggle="modal" data-target="#AlokasiModal" data-tujuan="{{$item->nama_kabkota}}" data-biaya="@rupiah($item->total_biaya)" data-unitkerja="{{$item->unit_pelaksana}}" data-sm="{{$item->dana_unitkerja}}-{{$item->unit_nama}}" data-matrikid="{{$item->matrik_id}}">Alokasi</button>
-                                                <a href="{{route('matrik.edit',$item->matrik_id)}}" class="btn btn-rounded btn-custom btn-sm">Edit</a>
-                                                <button class="btn btn-rounded btn-primary btn-sm" data-toggle="modal" data-target="#FlagModal" data-tujuan="{{$item->nama_kabkota}}" data-biaya="@rupiah($item->total_biaya)" data-flagmatrik="{{$MatrikFlag[$item->flag_matrik]}}" data-matrikid="{{$item->matrik_id}}" @if ($item->unit_pelaksana==NULL)
+                                            <td>
+                                                @if (($item->flag_matrik<2 and Auth::user()->pengelola>3) or Auth::user()->user_level>3)
+                                                <button class="btn btn-rounded btn-success btn-sm" data-toggle="modal" data-target="#AlokasiModal" data-tujuan="{{$item->Tujuan->nama_kabkota}}" data-biaya="@rupiah($item->total_biaya)" data-unitkerja="{{$item->unit_pelaksana}}" data-sm="{{$item->dana_unitkerja}}-{{$item->DanaUnitkerja->nama}}" data-matrikid="{{$item->id}}">Alokasi</button>
+                                                <a href="{{route('matrik.edit',$item->id)}}" class="btn btn-rounded btn-custom btn-sm">Edit</a>
+                                                @endif
+                                                @if (Auth::user()->user_level>3)
+                                                <button class="btn btn-rounded btn-primary btn-sm" data-toggle="modal" data-target="#FlagModal" data-tujuan="{{$item->Tujuan->nama_kabkota}}" data-biaya="@rupiah($item->total_biaya)" data-flagmatrik="{{$MatrikFlag[$item->flag_matrik]}}" data-matrikid="{{$item->id}}" @if ($item->unit_pelaksana==NULL)
                                                         data-pelaksana="{{$item->unit_pelaksana}}"
                                                         @else
-                                                        data-pelaksana="{{$item->unit_pelaksana}}-{{$Unitkerja[$item->unit_pelaksana]}}"
+                                                        data-pelaksana="{{$item->unit_pelaksana}}-{{$item->UnitPelaksana->nama}}"
                                                         @endif>Flag</button>
-                                                        <button class="btn btn-rounded btn-danger btn-sm" data-toggle="modal" data-target="#DeleteModal" data-tujuan="{{$item->nama_kabkota}}" data-biaya="@duit($item->total_biaya)" @if ($item->unit_pelaksana==NULL)
+                                                @endif
+                                                @if (($item->flag_matrik<2 and Auth::user()->pengelola>3) or Auth::user()->user_level>3)
+                                                        <button class="btn btn-rounded btn-danger btn-sm" data-toggle="modal" data-target="#DeleteModal" data-tujuan="{{$item->Tujuan->nama_kabkota}}" data-biaya="@rupiah($item->total_biaya)" data-totalbiaya="{{$item->total_biaya}}" @if ($item->unit_pelaksana==NULL)
                                                             data-pelaksana="{{$item->unit_pelaksana}}"
                                                             @else
                                                             data-pelaksana="{{$item->unit_pelaksana}}-{{$Unitkerja[$item->unit_pelaksana]}}"
                                                             @endif
-                                                            data-sm="{{$item->dana_unitkerja}}-{{$item->unit_nama}}" data-flagmatrik="{{$MatrikFlag[$item->flag_matrik]}}" data-matrikid="{{$item->matrik_id}}">Hapus</button>
-                                                    </td>
+                                                            data-sm="{{$item->dana_unitkerja}}-{{$item->DanaUnitkerja->nama}}" data-flagmatrik="{{$MatrikFlag[$item->flag_matrik]}}" data-matrikid="{{$item->id}}" data-makid="{{$item->mak_id}}">Hapus</button>
+                                                @endif
+                                            </td>
                                         </tr>
                                         @endforeach
                                     </tbody>

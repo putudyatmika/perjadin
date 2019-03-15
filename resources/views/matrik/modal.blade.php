@@ -14,6 +14,7 @@ $(document).on('click', '.pilihSumberDana', function (e) {
     document.getElementById("dana_pagu").value = $(this).attr('data-pagu');
     document.getElementById("dana_kodeunit").value = $(this).attr('data-unitkerja');
     document.getElementById("dana_unitkerja").value = $(this).attr('data-namaunitkerja');
+    document.getElementById("dana_pagusisa").value = $(this).attr('data-sisapagu');
     $('#SumberDana').modal('hide');
 });
 

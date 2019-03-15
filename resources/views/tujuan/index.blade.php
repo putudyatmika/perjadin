@@ -82,7 +82,9 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                                             <th>Kepala</th>
                                             <th>NIP Kepala</th>
                                             <th>Rate Darat</th>
+                                            @if (Auth::user()->pengelola>3)
                                             <th>Aksi</th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -93,9 +95,12 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                                               <td>{{ $item->kepala}}</td>
                                               <td>{{ $item->nip_kepala}}</td>
                                               <td>{{ $item->rate_darat}}</td>
-                                              <td><button type="button" class="btn btn-success btn-rounded" data-toggle="modal" data-target="#EditModal" data-kodekabkota="{{ $item->kode_kabkota}}" data-namakabkota="{{ $item->nama_kabkota}}" data-kepala="{{ $item->kepala}}" data-nipkepala="{{$item->nip_kepala}}" data-ratedarat="{{$item->rate_darat}}" data-id="{{$item->id}}">Edit</button>
+                                              @if (Auth::user()->pengelola>3)
+                                              <td>
+                                                <button type="button" class="btn btn-success btn-rounded" data-toggle="modal" data-target="#EditModal" data-kodekabkota="{{ $item->kode_kabkota}}" data-namakabkota="{{ $item->nama_kabkota}}" data-kepala="{{ $item->kepala}}" data-nipkepala="{{$item->nip_kepala}}" data-ratedarat="{{$item->rate_darat}}" data-id="{{$item->id}}">Edit</button>
                                                 <button type="button" class="btn btn-danger btn-rounded" data-toggle="modal" data-target="#DeleteModal" data-kodekabkota="{{ $item->kode_kabkota}}" data-namakabkota="{{ $item->nama_kabkota}}" data-kepala="{{ $item->kepala}}" data-nipkepala="{{$item->nip_kepala}}" data-ratedarat="{{$item->rate_darat}}" data-id="{{$item->id}}">Delete</button>
-                                            </td>
+                                              </td>
+                                              @endif
                                           </tr>
                                       @endforeach
                                     </tbody>

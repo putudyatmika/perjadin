@@ -23,11 +23,6 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('duit', function ($angka) {
             return "<?php echo number_format($angka,0,',','.'); ?>";
         });
-        //\Carbon\Carbon::setLocale('id');
-        // jika ingin menyesuaikan dengan dengan locale di laravel
-        //\Carbon\Carbon::setLocale(config('app.locale'));
-        //config(['app.locale' => 'id']);
-        //\Carbon\Carbon::setLocale('id');
     }
 
     /**

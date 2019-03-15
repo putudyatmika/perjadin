@@ -25,6 +25,13 @@
         </div>
 </div>
 <div class="form-group">
+        <label for="tugas">Tanggal Pergi</label>
+        <div class="input-group">
+            <div class="input-group-addon"><i class="ti-lock"></i></div>
+            <input type="text" class="form-control" id="tgl_pergi" name="tgl_pergi" readonly>
+        </div>
+</div>
+<div class="form-group">
     <label for="tugas">Nomor Surat</label>
     <div class="input-group">
         <div class="input-group-addon"><i class="ti-lock"></i></div>

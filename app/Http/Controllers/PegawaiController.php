@@ -29,6 +29,7 @@ class PegawaiController extends Controller
         $JenisUnitVar = config('globalvar.JenisUnit');
         $JenisJabatanVar = config('globalvar.JenisJabatan');
         $jkVar = config('globalvar.JenisKelamin');
+        $FlagPengelola = config('globalvar.FlagPengelola');
         $DataPegawai = DB::table('pegawai')
                         -> leftJoin('unitkerja','pegawai.unitkerja','=','unitkerja.kode')
                         -> leftJoin('m_gol', 'pegawai.gol', '=', 'm_gol.kode')
@@ -37,7 +38,7 @@ class PegawaiController extends Controller
                         ->select('pegawai.*', 'm_gol.gol as nama_gol','m_gol.pangkat as pangkat','unitkerja.nama as unit_nama','unitbidang.bidang_kode','unitbidang.bidang_nama')
                         ->orderBy('unitkerja','asc')->orderBy('jabatan','asc')
                         ->get();
-        return view('pegawai.index',compact('DataPegawai','DataGol','DataUnitkerja','UnitEselonVar','JenisUnitVar','JenisJabatanVar','jkVar'));
+        return view('pegawai.index',compact('DataPegawai','FlagPengelola','DataGol','DataUnitkerja','UnitEselonVar','JenisUnitVar','JenisJabatanVar','jkVar'));
         //return view('pegawai.index',compact('DataPegawai','UnitEselonVar','JenisUnitVar','JenisJabatanVar'));
         //return view('pegawai.index');
     }
@@ -119,6 +120,7 @@ class PegawaiController extends Controller
         $JenisUnitVar = config('globalvar.JenisUnit');
         $JenisJabatanVar = config('globalvar.JenisJabatan');
         $jkVar = config('globalvar.JenisKelamin');
+        $FlagPengelola = config('globalvar.FlagPengelola');
         $DataPegawai = DB::table('pegawai')
                         -> leftJoin('unitkerja','pegawai.unitkerja','=','unitkerja.kode')
                         -> leftJoin('m_gol', 'pegawai.gol', '=', 'm_gol.kode')
@@ -127,7 +129,7 @@ class PegawaiController extends Controller
                         -> where('pegawai.id',$id)->first();
 
         //return view('pegawai.index',compact('DataPegawai','DataGol','DataUnitkerja','UnitEselonVar','JenisUnitVar','JenisJabatanVar'));
-        return view('pegawai.view',compact('DataPegawai','jkVar','UnitEselonVar','JenisUnitVar','JenisJabatanVar'));
+        return view('pegawai.view',compact('DataPegawai','FlagPengelola','jkVar','UnitEselonVar','JenisUnitVar','JenisJabatanVar'));
         //return view('pegawai.index');
     }
 

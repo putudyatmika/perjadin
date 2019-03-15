@@ -26,9 +26,10 @@ class SuratTugasController extends Controller
         $MatrikFlag = config('globalvar.FlagMatrik');
         $FlagSrt = config('globalvar.FlagSurat');
         $FlagTTD = config('globalvar.FlagTTD');
+        $Bilangan = config('globalvar.Bilangan');
         $DataPegawai = Pegawai::where([['jabatan','<','3'],['flag','=','1']])->orderBy('unitkerja')->get();
         $DataSuratTugas = SuratTugas::orderBy('flag_surattugas','asc')->orderBy('tgl_surat','asc')->get();
-        return view('surattugas.index',compact('DataSuratTugas','FlagTrx','FlagKonfirmasi','FlagSrt','MatrikFlag','FlagTTD','DataPegawai'));
+        return view('surattugas.index',compact('DataSuratTugas','FlagTrx','FlagKonfirmasi','FlagSrt','MatrikFlag','FlagTTD','DataPegawai','Bilangan'));
         //dd($DataSuratTugas);
     }
 
@@ -103,8 +104,49 @@ class SuratTugasController extends Controller
             $DataSrt -> update();
 
             $dataTrx = \App\Transaksi::where('trx_id',$request->trxid)->first();
+            $matrik_id = $dataTrx->matrik_id;
             $dataTrx -> flag_trx = 5;
             $dataTrx -> update();
+
+            //update matrik perjalanan juga
+            $dataMatrik = \App\MatrikPerjalanan::where('id',$matrik_id)->first();
+            $dataMatrik -> flag_matrik = 5;
+            $dataMatrik -> update();
+
+            Session::flash('message', 'Data Perjalanan surat tugas an. '.$request->nama.' ke '.$request->tujuan.' untuk '.$request->tugas.' sudah di update');
+            Session::flash('message_type', 'warning');
+            return redirect()->route('surattugas.index');
+        }
+        elseif ($request->aksi == "batal") {
+            //batalkan surat tugas
+            $DataSrt = SuratTugas::where('srt_id','=',$request->srtid)->first();
+            $DataSrt -> flag_surattugas = 3;
+            $DataSrt -> update();
+
+            //batalkan Transaksi
+            $dataTrx = \App\Transaksi::where('trx_id',$request->trxid)->first();
+            $matrik_id = $dataTrx->matrik_id;
+            $dataTrx -> flag_trx = 3;
+            $dataTrx -> update();
+
+            //update matrik perjalanan juga
+            $dataMatrik = \App\MatrikPerjalanan::where('id',$matrik_id)->first();
+            $dataMatrik -> flag_matrik = 2;
+            $dataMatrik -> update();
+
+            //update flag spd
+            $dataSpd = \App\Spd::where('trx_id',$request->trxid)->first();
+            $dataSpd -> flag_spd = 3;
+            $dataSpd -> update();
+
+            //cek dulu sudah ada tidak kuitansinya
+            $count = \App\Kuitansi::where('trx_id',$request->trxid)->count();
+            if ($count>0) {
+                //update flag kuitansi
+                $dataKuitansi = \App\Kuitansi::where('trx_id',$request->trxid)->first();
+                $dataKuitansi -> flag_kuitansi = 3;
+                $dataKuitansi -> update();
+            }
 
             Session::flash('message', 'Data Perjalanan surat tugas an. '.$request->nama.' ke '.$request->tujuan.' untuk '.$request->tugas.' sudah di update');
             Session::flash('message_type', 'warning');

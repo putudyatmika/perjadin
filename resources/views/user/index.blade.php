@@ -38,6 +38,7 @@
                                         <tr>
                                             <th>Username</th>
                                             <th>Nama</th>
+                                            <th>Bidang Bagian</th>
                                             <th>Level</th>
                                             <th>Pengelola</th>
                                             <th>Last Login</th>
@@ -50,6 +51,7 @@
                                             <tr>
                                                 <td>{{$item->username}}</td>
                                                 <td>{{$item->name}}</td>
+                                                <td>{{$item->unit_kode}}-{{$item->unit_nama}}</td>
                                                 <td>{{$UserLevel[$item->user_level]}}</td>
                                                 <td>{{$UserPengelola[$item->pengelola]}}</td>
                                                 <td>{{$item->lastlogin}}</td>

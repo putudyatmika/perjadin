@@ -35,8 +35,10 @@
                     <!-- /.page title -->
                     <!-- .breadcrumb -->
                     <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                        @if (Auth::user()->user_level>3)
                         <button type="button" class="btn btn-danger pull-right m-l-20 btn-rounded" data-toggle="modal" data-target="#TambahModal">Tambah Pegawai</button>
                         <a href="{{url('pegawai/import')}}" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Import Data</a>
+                        @endif
                         <ol class="breadcrumb">
                             <li><a href="{{url('')}}">Dashboard</a></li>
                             <li class="active">Data Pegawai</li>
@@ -62,21 +64,31 @@
                                             <th>NIP</th>
                                             <th>Nama</th>
                                             <th>Jabatan</th>
-                                            <!--<th>Bidang/Bagian</th>-->
+                                            <th>Pengelola</th>
                                             <th>Pangkat/Gol</th>
+                                            @if (Auth::user()->pengelola>3)
                                             <th>Aksi</th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($DataPegawai as $Pegawai)
                                         <tr>
-                                                <td><a href="#" data-toggle="modal" data-target="#ViewModal" data-pegid="{{$Pegawai->id}}" data-nama="{{$Pegawai->nama}}" data-nip="{{$Pegawai->nip_baru}}" data-tgllahir="{{$Pegawai->tgl_lahir}}" data-gol="{{ $Pegawai -> pangkat }} ({{ $Pegawai->nama_gol}})" data-unitkerja="{{$Pegawai -> unit_nama}}" data-jabatan="{{$JenisJabatanVar[$Pegawai -> jabatan]}}" data-jk="{{$jkVar[$Pegawai->jk]}}" data-bidang="{{ $Pegawai -> bidang_nama}}">{{ $Pegawai -> nip_baru }}</a></td>
+                                                <td><a href="#" data-toggle="modal" data-target="#ViewModal" data-pegid="{{$Pegawai->id}}" data-nama="{{$Pegawai->nama}}" data-nip="{{$Pegawai->nip_baru}}" data-tgllahir="{{Tanggal::HariPanjang($Pegawai->tgl_lahir)}}" data-gol="{{ $Pegawai -> pangkat }} ({{ $Pegawai->nama_gol}})" data-unitkerja="{{$Pegawai -> unit_nama}}" data-jabatan="{{$JenisJabatanVar[$Pegawai -> jabatan]}}" data-jk="{{$jkVar[$Pegawai->jk]}}" data-bidang="{{ $Pegawai -> bidang_nama}}">{{ $Pegawai -> nip_baru }}</a></td>
                                                 <td>{{ $Pegawai -> nama}}</td>
                                                 <td><strong>{{ $JenisJabatanVar[$Pegawai -> jabatan] }}</strong> {{ $Pegawai -> unit_nama}}</td>
-                                                <!--<td>{{ $Pegawai -> bidang_nama}}</td>-->
+                                                <td>
+                                                    @if ($Pegawai -> flag_pengelola>0)
+                                                        <span class="label label-rouded label-success">{{$FlagPengelola[$Pegawai -> flag_pengelola]}}</span>
+                                                    @endif
+                                                </td>
                                                 <td>{{ $Pegawai -> pangkat }} ({{ $Pegawai->nama_gol}})</td>
-                                                <td><button type="button" class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#EditModal" data-pegid="{{$Pegawai->id}}" data-nama="{{$Pegawai->nama}}" data-nip="{{$Pegawai->nip_baru}}" data-tgllahir="{{$Pegawai->tgl_lahir}}" data-gol="{{$Pegawai->gol}}" data-unitkerja="{{$Pegawai->unitkerja}}" data-jabatan="{{$Pegawai->jabatan}}" data-jk="{{$Pegawai->jk}}">Edit</button>
-                                                    <button type="button" class="btn btn-danger btn-rounded" data-toggle="modal" data-target="#DeleteModal" data-pegid="{{$Pegawai->id}}" data-nama="{{$Pegawai->nama}}" data-nip="{{$Pegawai->nip_baru}}" data-unitkerja="{{$Pegawai->unitkerja}}-{{ $Pegawai -> unit_nama}}">Delete</button></td>
+                                                @if (Auth::user()->pengelola>3)
+                                                <td>
+                                                    <button type="button" class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#EditModal" data-pegid="{{$Pegawai->id}}" data-nama="{{$Pegawai->nama}}" data-nip="{{$Pegawai->nip_baru}}" data-tgllahir="{{$Pegawai->tgl_lahir}}" data-gol="{{$Pegawai->gol}}" data-unitkerja="{{$Pegawai->unitkerja}}" data-jabatan="{{$Pegawai->jabatan}}" data-jk="{{$Pegawai->jk}}">Edit</button>
+                                                    <button type="button" class="btn btn-danger btn-rounded" data-toggle="modal" data-target="#DeleteModal" data-pegid="{{$Pegawai->id}}" data-nama="{{$Pegawai->nama}}" data-nip="{{$Pegawai->nip_baru}}" data-unitkerja="{{$Pegawai->unitkerja}}-{{ $Pegawai -> unit_nama}}">Delete</button>
+                                                </td>
+                                                @endif
                                             </tr>
                                         @endforeach
 
