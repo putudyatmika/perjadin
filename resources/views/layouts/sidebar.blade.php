@@ -16,7 +16,7 @@
                             <li><a href="javascript:void(0)"><i class="ti-user"></i> Lihat Profile</a></li>
                             <li><a href="javascript:void(0)"><i class="ti-email"></i> Inbox</a></li>
                             <li><a href="javascript:void(0)"><i class="ti-settings"></i> Ganti Password</a></li>
-                            <li><a href="<a href="{{route('logout')}}">"><i class="fa fa-power-off"></i> Logout</a></li>
+                            <li><a href="{{route('logout')}}"><i class="fa fa-power-off"></i> Logout</a></li>
                         </ul>
                     </li>
                     <li class="nav-small-cap m-t-10">--- Main Menu</li>
@@ -51,8 +51,9 @@
                     <li class="nav-small-cap">--- Persetujuan</li>
                     <li> <a href="{{url('setuju')}}" class="waves-effect"><i class="icon-disc fa-fw"></i><span class="hide-menu" >Pengajuan</span>
                         @if (Jumlah::Pengajuan()>0)
-                        <span class="label label-rouded label-danger pull-right">{{Jumlah::Pengajuan()}}</span></a>
+                        <span class="label label-rouded label-danger pull-right">{{Jumlah::Pengajuan()}}</span>
                         @endif
+                    </a>
                     </li>
                     @endif
                     <li class="nav-small-cap">--- Master Data</li>
@@ -66,7 +67,6 @@
                             <li><a href="{{url('unitkerja')}}">Unitkerja</a></li>
                             </ul>
                     </li>
-
                     @if (Auth::user()->user_level>3)
                     <li><a href="{{url('user')}}" class="waves-effect"><i data-icon="Q" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu" >User</span></a> </li>
                     @endif
