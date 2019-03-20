@@ -12,45 +12,62 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-top-links navbar-right pull-right">
-                    <li class="dropdown"> <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#"><i class="icon-envelope"></i>
-          <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
-          </a>
-                        <ul class="dropdown-menu mailbox animated bounceInDown">
-                            <li>
-                                <div class="drop-title">You have 4 new messages</div>
-                            </li>
-                            <li>
-                                <div class="message-center">
-                                    <a href="#">
-                                        <div class="user-img"> <img src="{{ asset('tema/plugins/images/users/pawandeep.jpg')}}" alt="user" class="img-circle"> <span class="profile-status online pull-right"></span> </div>
-                                        <div class="mail-contnet">
-                                            <h5>Pavan kumar</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:30 AM</span> </div>
-                                    </a>
-                                    <a href="#">
-                                        <div class="user-img"> <img src="{{ asset('tema/plugins/images/users/sonu.jpg')}}" alt="user" class="img-circle"> <span class="profile-status busy pull-right"></span> </div>
-                                        <div class="mail-contnet">
-                                            <h5>Sonu Nigam</h5> <span class="mail-desc">I've sung a song! See you at</span> <span class="time">9:10 AM</span> </div>
-                                    </a>
-                                    <a href="#">
-                                        <div class="user-img"> <img src="{{ asset('tema/plugins/images/users/arijit.jpg')}}" alt="user" class="img-circle"> <span class="profile-status away pull-right"></span> </div>
-                                        <div class="mail-contnet">
-                                            <h5>Arijit Sinh</h5> <span class="mail-desc">I am a singer!</span> <span class="time">9:08 AM</span> </div>
-                                    </a>
-                                    <a href="#">
-                                        <div class="user-img"> <img src="{{ asset('tema/plugins/images/users/pawandeep.jpg')}}" alt="user" class="img-circle"> <span class="profile-status offline pull-right"></span> </div>
-                                        <div class="mail-contnet">
-                                            <h5>Pavan kumar</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:02 AM</span> </div>
-                                    </a>
-                                </div>
-                            </li>
-                            <li>
-                                <a class="text-center" href="javascript:void(0);"> <strong>See all notifications</strong> <i class="fa fa-angle-right"></i> </a>
-                            </li>
-                        </ul>
-                        <!-- /.dropdown-messages -->
-                    </li>
-                    <!-- /.dropdown -->
+                        <li class="dropdown">
+                                <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#"><i class="icon-envelope"></i>
+                                @if (Auth::user()->user_level==2)
+                                <!--operator-->
+                                @elseif (Auth::user()->user_level>3)
+                                    @if (Jumlah::Pengajuan()>0)
+                                    <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
+                                    @endif
+                                @endif
+                                </a>
+                                <ul class="dropdown-menu mailbox animated bounceInDown">
+                                    <li>
+                                        <div class="drop-title text-danger">
+                                        @if (Auth::user()->user_level==2)
+                                        <!--operator-->
+                                        @elseif (Auth::user()->user_level>3)
+                                            @if (Jumlah::Pengajuan()>0)
+                                                Ada ({{Jumlah::Pengajuan()}}) Pengajuan Perjadin
+                                            @else
+                                                Belum Ada Pengajuan Perjadin
+                                            @endif
+                                        @else
+                                            Belum ada pesan
+                                        @endif
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="message-center">
+                                            @if (Auth::user()->user_level==2)
+                                            <!--operator-->
+                                            @elseif (Auth::user()->user_level>3)
+                                                @if (Jumlah::Pengajuan()>0)
+                                                    @foreach (Jumlah::Ajuan5Perjadin() as $item)
+                                                    <a href="{{route('setuju.index')}}">
+                                                            <div class="mail-contnet">
+                                                                <h5>{{$item->TabelPegawai->nama}}</h5>
+                                                            <span class="mail-desc">Perjalanan dinas ke {{$item->Matrik->Tujuan->nama_kabkota}} </span>
+                                                            <span class="mail-desc">tanggal {{Tanggal::Panjang($item->tgl_brkt)}}</span> <span class="time">{{$item->updated_at->diffForHumans()}}</span> </div>
+                                                        </a>
+                                                    @endforeach
+                                                @else
+                                                <span class="text-center">Tidak ada pesan</span>
+                                                @endif
 
+                                            @else
+                                                <span class="text-center">Tidak ada pesan</span>
+                                            @endif
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a class="text-center" href="{{route('setuju.index')}}"> <strong>Lihat Pengajuan</strong> <i class="fa fa-angle-right"></i> </a>
+                                    </li>
+                                </ul>
+                                <!-- /.dropdown-messages -->
+                            </li>
+                            <!-- /.dropdown -->
                     <!-- /.dropdown -->
                     <li class="dropdown">
                         <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> <img src="{{ asset('img/bps-user.jpg')}}" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">{{ Auth::user()->name }}</b> </a>

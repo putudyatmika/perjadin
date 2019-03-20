@@ -1,6 +1,30 @@
+@section('css')
+<link href="{{asset('tema/plugins/bower_components/datatables/jquery.dataTables.min.css')}}" rel="stylesheet" type="text/css" />
+<link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+<!-- Plugin JavaScript -->
+<script src="{{asset('tema/plugins/bower_components/moment/moment.js')}}"></script>
+<!-- Page plugins css -->
+<link href="{{asset('tema/plugins/bower_components/clockpicker/dist/jquery-clockpicker.min.css')}}" rel="stylesheet">
+<!-- Daterange picker plugins css -->
+<link href="{{asset('tema/plugins/bower_components/timepicker/bootstrap-timepicker.min.css')}}" rel="stylesheet">
+<link href="{{asset('tema/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
+
+@stop
+
 @extends('layouts.default')
 
 @section('js')
+<script src="{{asset('tema/plugins/bower_components/datatables/jquery.dataTables.min.js')}}"></script>
+ <!-- start - This is for export functionality only -->
+ <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+ <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+ <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+ <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+ <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+ <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+ <!-- end - This is for export functionality only -->
+
 <script>
 $('#FlagModal').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget) // Button that triggered the modal
@@ -92,7 +116,10 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
   modal.find('.modal-body #matrikid').val(matrikid)
   modal.find('.modal-body #totalbiaya').val(totalbiaya)
   modal.find('.modal-body #dana_makid').val(makid)
-})
+});
+$(function () {
+    $("#MatrikTable").dataTable();
+});
 </script>
 @endsection
 @section('content')
@@ -105,8 +132,6 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                     <!-- /.page title -->
                     <!-- .breadcrumb -->
                     <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-                        <a href="{{url('matrik/create')}}" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Tambah Matrik Perjalanan</a>
-
                         <ol class="breadcrumb">
                             <li><a href="#">Dashboard</a></li>
                             <li class="active">Data Matrik Perjalanan</li>
@@ -114,19 +139,40 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                     </div>
                     <!-- /.breadcrumb -->
                 </div>
-                <!-- .row -->
                 <div class="row">
-                        <div class="col-lg-12">
-                                @if (Session::has('message'))
-                                <div class="alert alert-{{ Session::get('message_type') }}" id="waktu2" style="margin-top:10px;">{{ Session::get('message') }}</div>
-                                @endif
-                                </div>
+                    @if (Auth::user()->pengelola>3)
+                    <div class="col-lg-4 col-sm-6 col-md-6">
+                            <a href="{{url('matrik/create')}}" class="btn btn-danger btn-rounded btn-fw"><i class="fa fa-plus"></i> Tambah Matrik Perjalanan</a>
+                    </div>
+                    <div class="col-lg-4">
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                            <form action="{{ url('import_matrik') }}" method="post" class="form" enctype="multipart/form-data">
+                              @csrf
+                              <div class="input-group {{ $errors->has('importMatrik') ? 'has-error' : '' }}">
+                                <input type="file" class="form-control" name="importMatrik" required="">
+                                <span class="input-group-btn">
+                                                <button type="submit" class="btn btn-success" style="height: 38px;margin-left: -2px;">Import</button>
+                                              </span>
+                              </div>
+                            </form>
+                    </div>
+                    @endif
+                    <div class="col-lg-12">
+                        @if (Session::has('message'))
+                        <div class="alert alert-{{ Session::get('message_type') }}" id="waktu2" style="margin-top:10px;">{{ Session::get('message') }}</div>
+                        @endif
+                    </div>
+
+                    </div>
+                    <!-- .row -->
+                    <div class="row" style="margin-top: 20px;">
                     <div class="col-lg-12">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0">Matrik Perjalanan Pegawai BPS Provinsi NTB</h3>
+                            <h3 class="box-title m-b-0">Matrik Perjalanan Pegawai BPS Provinsi NTB</h3>  @if (Auth::user()->pengelola>3)<a href="{{url('format_matrik')}}" class="btn btn-sm btn-info  m-b-20 pull-right">Download Format Matrik</a> @endif
                             <p class="text-muted m-b-20">@if (Session::has('tahun_anggaran')) <code>Tahun Anggaran {{Session::get('tahun_anggaran')}}</code> @endif</p>
                             <div class="table-responsive">
-                                <table class="table">
+                                <table id="MatrikTable" class="table table-striped">
                                     <thead>
                                         <tr>
                                             <th>No</th>
@@ -172,7 +218,7 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                                             </td>
                                             <td>{{Tanggal::Pendek($item->tgl_awal)}} s/d {{Tanggal::Pendek($item->tgl_akhir)}}</td>
                                             <td> @duit($item->total_biaya)</td>
-                                            <td>
+                                            <td class="text-center">
                                             @if ($item->flag_matrik==0)
                                             <span class="label label-rouded label-inverse">{{$MatrikFlag[$item->flag_matrik]}}</span>
                                             @elseif ($item->flag_matrik==1)
@@ -184,6 +230,9 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                                             @else
                                             <span class="label label-rouded label-success">{{$MatrikFlag[$item->flag_matrik]}}</span>
                                             @endif
+                                            <h5>
+                                                <small>{{$item->updated_at->diffForHumans()}}</small>
+                                                </h5>
                                                 </td>
                                             <td>
                                                 @if (($item->flag_matrik<2 and Auth::user()->pengelola>3) or Auth::user()->user_level>3)

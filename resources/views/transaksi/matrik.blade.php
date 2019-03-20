@@ -20,7 +20,16 @@
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
  <!-- end - This is for export functionality only -->
-
+<script>
+$(function () {
+    $("#TransaksiTabel").dataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'excel', 'pdf', 'print'
+        ]
+    });
+});
+</script>
 @include('transaksi.js')
 @include('transaksi.jsSetuju')
 @stop
@@ -56,7 +65,7 @@
                             <h3 class="box-title m-b-0">Matrik Transaksi </h3>
                             <p class="text-muted m-b-20">Keadaan <code>tanggal hari ini</code></p>
                             <div class="table-responsive">
-                                <table class="table table-striped">
+                                <table id="TransaksiTabel" class="table table-striped">
                                     <thead>
                                         <tr>
                                             <th>No</th>

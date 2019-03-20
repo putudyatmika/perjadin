@@ -34,7 +34,7 @@
         <td></td>
         <td>Pada tanggal</td>
         <td>:</td>
-        <td>{{ $tgl_berangkat }}</td>
+        <td>{{ Tanggal::Panjang($dataTransaksi[0]->tgl_brkt) }}</td>
     </tr>
     <tr>
             <td></td>
@@ -73,7 +73,7 @@
                     <tr>
                             <td>Pada tanggal</td>
                             <td>:</td>
-                            <td>{{ $tgl_berangkat }}</td>
+                            <td>{{ Tanggal::Panjang($dataTransaksi[0]->tgl_brkt) }}</td>
                         </tr>
                 </table>
             </td>
@@ -92,7 +92,7 @@
                     <tr>
                         <td>Pada tanggal</td>
                         <td>:</td>
-                        <td>{{ $tgl_blk }}</td>
+                        <td>{{ Tanggal::Panjang($dataTransaksi[0]->tgl_balik) }}</td>
                     </tr>
                 </table>
             </td>
@@ -102,9 +102,10 @@
             <td></td>
             <td class="gariskiri">&nbsp;</td>
         </tr>
-        <tr class="adagaris">
+        <tr height="140px" class="adagaris">
             <td></td>
             <td>
+                @if ($dataTransaksi[0]->Spd->flag_cetak_tujuan==0)
                 <span class="text-left">
                 Kepala Badan Pusat Statistik
                 <br>
@@ -114,8 +115,11 @@
                 <p style="margin-top:40pt;">
                 <b>{{$dataTransaksi[0]->Matrik->Tujuan->kepala}}</b>
                 </p>
+                @endif
             </td>
-            <td class="gariskiri"> <span class="text-left">
+            <td class="gariskiri">
+                @if ($dataTransaksi[0]->Spd->flag_cetak_tujuan==0)
+                <span class="text-left">
                     Kepala Badan Pusat Statistik
                     <br>
                     {{$dataTransaksi[0]->Matrik->Tujuan->nama_kabkota}}
@@ -123,7 +127,9 @@
                     </span>
                     <p style="margin-top:40pt;">
                     <b>{{$dataTransaksi[0]->Matrik->Tujuan->kepala}}</b>
-                    </p></td>
+                    </p>
+                @endif
+            </td>
         </tr>
         <tr height="140px">
             <td valign="top"><span class="text-center">III.</span></td>
@@ -167,7 +173,7 @@
             <td class="gariskiri">&nbsp;</td>
         </tr>
 
-        <tr height="130px">
+        <tr height="140px">
                 <td valign="top"><span class="text-center">IV.</span></td>
                 <td valign="top">
                     <table width="100%" class="isi">
@@ -225,7 +231,7 @@
                     <tr>
                             <td>Pada tanggal</td>
                             <td>:</td>
-                            <td>{{ $tgl_blk }}</td>
+                            <td>{{ Tanggal::Panjang($dataTransaksi[0]->tgl_balik) }}</td>
                     </tr>
                 </table>
             </td>

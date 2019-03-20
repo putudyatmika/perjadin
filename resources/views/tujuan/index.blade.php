@@ -53,8 +53,6 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                     <!-- /.page title -->
                     <!-- .breadcrumb -->
                     <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-                            <button type="button" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light" data-toggle="modal" data-target="#TambahModal">Tambah Tujuan</button>
-
                         <ol class="breadcrumb">
                             <li><a href="#">Dashboard</a></li>
                             <li class="active">Data Tujuan Perjalanan</li>
@@ -62,13 +60,23 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                     </div>
                     <!-- /.breadcrumb -->
                 </div>
-                <!-- .row -->
                 <div class="row">
+                        @if (Auth::user()->pengelola>3)
+                        <div class="col-lg-4">
+                                <a href="#" class="btn btn-danger btn-rounded btn-fw" data-toggle="modal" data-target="#TambahModal"><i class="fa fa-plus"></i> Tambah Tujuan</a>
+                        </div>
+
+                        @endif
                         <div class="col-lg-12">
-                                @if (Session::has('message'))
-                                <div class="alert alert-{{ Session::get('message_type') }}" id="waktu2" style="margin-top:10px;">{{ Session::get('message') }}</div>
-                                @endif
-                                </div>
+                            @if (Session::has('message'))
+                            <div class="alert alert-{{ Session::get('message_type') }}" id="waktu2" style="margin-top:10px;">{{ Session::get('message') }}</div>
+                            @endif
+                        </div>
+
+                </div>
+                <!-- .row -->
+                <div class="row" style="margin-top:20px">
+
                     <div class="col-lg-12">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Data Tujuan Perjalanan BPS Provinsi NTB </h3>

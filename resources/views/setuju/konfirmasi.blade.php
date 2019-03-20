@@ -21,17 +21,31 @@
         }
     }
     elseif (Auth::user()->pengelola==2) {
+        //cek dulu apakah kabid sm jg
+
         //flag ppk
         if ($item->kabid_konfirmasi==1) {
-            if ($item->kabid_konfirmasi==1) {
+            if ($item->ppk_konfirmasi==1) {
                 $sm=0;
                 $ppk=0;
                 $kpa=0;
             }
             else {
                 $sm=0;
-            $ppk=1;
-            $kpa=0;
+                $ppk=1;
+                $kpa=0;
+            }
+        }
+        elseif (Auth::user()->user_unitkerja==$item->Matrik->DanaUnitkerja->kode) {
+            if ($item->kabid_konfirmasi==1) {
+                $sm=0;
+                $ppk=0;
+                $kpa=0;
+            }
+            else {
+                $sm=1;
+                $ppk=0;
+                $kpa=0;
             }
         }
         else {

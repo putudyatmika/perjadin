@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'id',
 
     /*
     |--------------------------------------------------------------------------
@@ -162,6 +162,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
         App\Providers\TerbilangProvider::class,
         App\Providers\TanggalProvider::class,
         App\Providers\UmumProvider::class,
@@ -226,10 +227,12 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Terbilang' => App\Helpers\Terbilang::class,
         'Tanggal' => App\Helpers\Tanggal::class,
         'Jumlah' => App\Helpers\Jumlah::class,
+        'Generate' => App\Helpers\Generate::class,
     ],
 
 ];
