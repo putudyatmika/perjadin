@@ -28,6 +28,7 @@ $('#EditModal').on('show.bs.modal', function (event) {
     var gol = button.data('gol')
     var unitkerja = button.data('unitkerja')
     var jabatan = button.data('jabatan')
+    var pengelola = button.data('pengelola')
 
     var modal = $(this)
     modal.find('.modal-body #peg_id').val(peg_id)
@@ -38,6 +39,7 @@ $('#EditModal').on('show.bs.modal', function (event) {
     modal.find('.modal-body #gol').val(gol)
     modal.find('.modal-body #unitkerja').val(unitkerja)
     modal.find('.modal-body #jabatan').val(jabatan)
+    modal.find('.modal-body #flag_pengelola').val(pengelola)
 })
 $('#DeleteModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget) // Button that triggered the modal

@@ -44,6 +44,10 @@ Class Jumlah {
         $Data = \App\Transaksi::whereIn('flag_trx',array(1,2))->orderBy('updated_at','desc')->take(5)->get();
         return $Data;
     }
+    public static function Surat5Tugas($flag) {
+        $Data = \App\SuratTugas::where('flag_surattugas','=',$flag)->orderBy('updated_at','desc')->take(5)->get();
+        return $Data;
+    }
 }
 
 Class Generate {

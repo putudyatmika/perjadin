@@ -38,12 +38,12 @@
 <div class="container-fluid">
                 <div class="row bg-title">
                     <!-- .page title -->
-                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                    <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12">
                         <h4 class="page-title">Surat Perjalanan Dinas (SPD)</h4>
                     </div>
                     <!-- /.page title -->
                     <!-- .breadcrumb -->
-                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                    <div class="col-lg-6 col-sm-8 col-md-8 col-xs-12">
 
                         <ol class="breadcrumb">
                             <li><a href="{{url('')}}">Dashboard</a></li>
@@ -80,13 +80,7 @@
                                     <tbody>
                                             @foreach ($DataSPD as $item)
                                             <tr>
-                                                <td>
-                                                        @if ($item->nomor_spd=="")
-                                                        {{$item->Transaksi->kode_trx}}
-                                                        @else
-                                                        <a href="{{route('spd.view',$item->Transaksi->kode_trx)}}">{{$item->Transaksi->kode_trx}}</a>
-                                                        @endif
-                                                </td>
+                                                <td>{{$item->Transaksi->kode_trx}}</td>                                              </td>
                                                 <td>{{$item->nomor_spd}}</td>
                                                 <td>{{$item->Transaksi->TabelPegawai->nama}}</td>
                                                 <td class="hidden-xs hidden-sm">{{$FlagKendaraan[$item->kendaraan]}}</td>

@@ -64,8 +64,18 @@
             @for ($i = 1; $i < 6; $i++)
             <option value="{{ $i }}">{{ $JenisJabatanVar[$i] }}</option>
             @endfor
-
         </select>
-
-        </div>
+    </div>
 </div>
+<div class="form-group">
+        <label for="nipbaru">Pengelola</label>
+        <div class="input-group">
+            <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
+            <select class="form-control select2" name="flag_pengelola" required="" id="flag_pengelola">
+                <option value="">Select</option>
+                @for ($i = 0; $i <= 3; $i++)
+                <option value="{{ $i }}">{{ $FlagPengelola[$i] }}</option>
+                @endfor
+            </select>
+        </div>
+    </div>

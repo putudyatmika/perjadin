@@ -14,8 +14,11 @@
                 <ul class="nav navbar-top-links navbar-right pull-right">
                         <li class="dropdown">
                                 <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#"><i class="icon-envelope"></i>
-                                @if (Auth::user()->user_level==2)
+                                @if (Auth::user()->user_level==3 and Auth::user()->pengelola>3)
                                 <!--operator-->
+                                    @if (Jumlah::SuratTugas(0)>0)
+                                    <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
+                                    @endif
                                 @elseif (Auth::user()->user_level>3)
                                     @if (Jumlah::Pengajuan()>0)
                                     <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
@@ -25,8 +28,13 @@
                                 <ul class="dropdown-menu mailbox animated bounceInDown">
                                     <li>
                                         <div class="drop-title text-danger">
-                                        @if (Auth::user()->user_level==2)
+                                        @if (Auth::user()->user_level==3 and Auth::user()->pengelola>3)
                                         <!--operator-->
+                                            @if (Jumlah::SuratTugas(0)>0)
+                                                Ada ({{Jumlah::SuratTugas(0)}}) Perjadin disetujui
+                                            @else
+                                                Belum Ada Perjadin disetujui
+                                            @endif
                                         @elseif (Auth::user()->user_level>3)
                                             @if (Jumlah::Pengajuan()>0)
                                                 Ada ({{Jumlah::Pengajuan()}}) Pengajuan Perjadin
@@ -40,8 +48,24 @@
                                     </li>
                                     <li>
                                         <div class="message-center">
-                                            @if (Auth::user()->user_level==2)
+                                            @if (Auth::user()->user_level==3 and Auth::user()->pengelola>3)
                                             <!--operator-->
+                                                 @if (Jumlah::SuratTugas(0)>0)
+                                                    @foreach (Jumlah::Surat5Tugas(0) as $item)
+                                                    <a href="{{route('surattugas.index')}}">
+                                                            <div class="mail-contnet">
+                                                                <h5>{{$item->Transaksi->TabelPegawai->nama}}</h5>
+                                                            <span class="mail-desc">Perjalanan dinas ke {{$item->Transaksi->Matrik->Tujuan->nama_kabkota}} </span>
+                                                            <span class="mail-desc">tanggal {{Tanggal::Panjang($item->Transaksi->tgl_brkt)}}</span> <span class="time">{{$item->updated_at->diffForHumans()}}</span>
+                                                        </div>
+                                                        </a>
+                                                    @endforeach
+                                                    @else
+                                                    <a href="#">
+                                                    <div class="mail-contnet"><span class="mail-desc">
+                                                        Tidak ada pesan</span></div>
+                                                    </a>
+                                                @endif
                                             @elseif (Auth::user()->user_level>3)
                                                 @if (Jumlah::Pengajuan()>0)
                                                     @foreach (Jumlah::Ajuan5Perjadin() as $item)
@@ -49,15 +73,22 @@
                                                             <div class="mail-contnet">
                                                                 <h5>{{$item->TabelPegawai->nama}}</h5>
                                                             <span class="mail-desc">Perjalanan dinas ke {{$item->Matrik->Tujuan->nama_kabkota}} </span>
-                                                            <span class="mail-desc">tanggal {{Tanggal::Panjang($item->tgl_brkt)}}</span> <span class="time">{{$item->updated_at->diffForHumans()}}</span> </div>
+                                                            <span class="mail-desc">tanggal {{Tanggal::Panjang($item->tgl_brkt)}}</span> <span class="time">{{$item->updated_at->diffForHumans()}}</span>
+                                                        </div>
                                                         </a>
                                                     @endforeach
                                                 @else
-                                                <span class="text-center">Tidak ada pesan</span>
+                                                <a href="#">
+                                                <div class="mail-contnet"><span class="mail-desc">
+                                                    Tidak ada pesan</span></div>
+                                                </a>
                                                 @endif
 
                                             @else
-                                                <span class="text-center">Tidak ada pesan</span>
+                                            <a href="#">
+                                                    <div class="mail-contnet"><span class="mail-desc">
+                                                        Tidak ada pesan</span></div>
+                                                    </a>
                                             @endif
                                         </div>
                                     </li>

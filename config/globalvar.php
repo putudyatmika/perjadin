@@ -112,7 +112,7 @@
             '3'=>'Plane'
         ],
         'FlagPengelola'=>[
-            '0'=>'-',
+            '0'=>'Tidak',
             '1'=>'KPA',
             '2'=>'PPK',
             '3'=>'Bendahara',

@@ -31,12 +31,12 @@ $("#cetak2").bind("click", function(event) {
 <div class="container-fluid">
                 <div class="row bg-title">
                     <!-- .page title -->
-                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <h4 class="page-title">Print Surat Perjalanan Dinas (SPD)</h4>
                     </div>
                     <!-- /.page title -->
                     <!-- .breadcrumb -->
-                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
 
                         <ol class="breadcrumb">
                             <li><a href="{{url('')}}">Dashboard</a></li>
