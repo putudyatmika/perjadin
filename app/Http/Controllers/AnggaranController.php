@@ -12,6 +12,9 @@ use Session;
 use Illuminate\Support\Facades\Redirect;
 use DB;
 use App\Anggaran;
+use Excel;
+use App\Exports\AnggaranViewExport;
+use App\Imports\AnggaranImport;
 
 class AnggaranController extends Controller
 {
@@ -118,9 +121,42 @@ class AnggaranController extends Controller
         //
        $dataAnggaran = Anggaran::findOrFail($request->anggaran_id);
        $dataAnggaran -> delete();
-       
+
        Session::flash('message', 'Data telah di delete');
        Session::flash('message_type', 'danger');
        return back();
+    }
+    public function format()
+    {
+        $fileName = 'format-anggaran';
+        $data = [
+            [
+                'tahun_anggaran' => null,
+                'mak' => null,
+                'uraian' => null,
+                'pagu' => null,
+                'unitkerja' => 'kode bidang/bagian 5 digit'
+            ]
+        ];
+
+        $namafile = $fileName.date('Y-m-d_H-i-s').'.xlsx';
+        return Excel::download(new AnggaranViewExport($data), $namafile);
+    }
+    public function import(Request $request)
+    {
+        //VALIDASI
+        $this->validate($request, [
+            'importAnggaran' => 'required|mimes:xls,xlsx'
+        ]);
+
+        if ($request->hasFile('importAnggaran')) {
+            $file = $request->file('importAnggaran'); //GET FILE
+            Excel::import(new AnggaranImport, $file); //IMPORT FILE
+            //return redirect()->back()->with(['success' => 'Upload success']);
+            Session::flash('message', 'Data excel berhasil di import');
+            Session::flash('message_type', 'info');
+            return back();
+        }
+        return redirect()->back()->with(['error' => 'Please choose file before']);
     }
 }

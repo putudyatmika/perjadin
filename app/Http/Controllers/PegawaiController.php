@@ -98,6 +98,7 @@ class PegawaiController extends Controller
         $datapeg -> unitkerja = $request['unitkerja'];
         $datapeg -> jabatan = $request['jabatan'];
         $datapeg -> flag = 1;
+        $datapeg -> flag_pengelola = $request->flag_pengelola;
         $datapeg -> save();
         //Pegawai::create($request->all());
 
@@ -171,6 +172,7 @@ class PegawaiController extends Controller
         $datapeg -> gol = $request['gol'];
         $datapeg -> unitkerja = $request['unitkerja'];
         $datapeg -> jabatan = $request['jabatan'];
+        $datapeg -> flag_pengelola = $request->flag_pengelola;
         $datapeg -> update();
 
         Session::flash('message', 'Data telah diupdate');

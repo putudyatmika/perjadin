@@ -3,11 +3,6 @@
 <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
 <!-- Plugin JavaScript -->
 <script src="{{asset('tema/plugins/bower_components/moment/moment.js')}}"></script>
-<!-- Page plugins css -->
-<link href="{{asset('tema/plugins/bower_components/clockpicker/dist/jquery-clockpicker.min.css')}}" rel="stylesheet">
-<!-- Daterange picker plugins css -->
-<link href="{{asset('tema/plugins/bower_components/timepicker/bootstrap-timepicker.min.css')}}" rel="stylesheet">
-<link href="{{asset('tema/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
 @stop
 @section('js')
 <script src="{{asset('tema/plugins/bower_components/datatables/jquery.dataTables.min.js')}}"></script>
@@ -21,16 +16,28 @@
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
  <!-- end - This is for export functionality only -->
  <script>
-        $(function () {
-        $("#DataTableCustom").dataTable({
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'excel', 'pdf', 'print'
-            ]
-        });
-    });
-    </script>
-@include('spd.js')
+     $('#SelesaiModal').on('show.bs.modal', function (event) {
+var button = $(event.relatedTarget) // Button that triggered the modal
+var trxid = button.data('trxid') // Extract info from data-* attributes
+var kid = button.data('kid') // Extract info from data-* attributes
+var kodetrx = button.data('kodetrx')
+var tujuan = button.data('tujuan')
+var nama = button.data('nama')
+var tugas = button.data('tugas')
+var tglkuitansi = button.data('tglkuitansi')
+var totalbiaya = button.data('totalbiaya')
+
+var modal = $(this)
+modal.find('.modal-body #trxid').val(trxid)
+modal.find('.modal-body #kuitansi_id').val(kid)
+modal.find('.modal-body #kodetrx').val(kodetrx)
+modal.find('.modal-body #tujuan').val(tujuan)
+modal.find('.modal-body #nama').val(nama)
+modal.find('.modal-body #tugas').val(tugas)
+modal.find('.modal-body #tgl_kuitansi').val(tglkuitansi)
+modal.find('.modal-body #totalbiaya').val(totalbiaya)
+});
+     </script>
 @stop
 @extends('layouts.default')
 
@@ -38,16 +45,17 @@
 <div class="container-fluid">
                 <div class="row bg-title">
                     <!-- .page title -->
-                    <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12">
-                        <h4 class="page-title">Surat Perjalanan Dinas (SPD)</h4>
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                        <h4 class="page-title">Laporan - Rekap Pegawai</h4>
                     </div>
                     <!-- /.page title -->
                     <!-- .breadcrumb -->
-                    <div class="col-lg-6 col-sm-8 col-md-8 col-xs-12">
+                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
 
                         <ol class="breadcrumb">
                             <li><a href="{{url('')}}">Dashboard</a></li>
-                            <li class="active">Data SPD</li>
+                            <li>Laporan</li>
+                            <li class="active">Rekap Pegawai</li>
                         </ol>
                     </div>
                     <!-- /.breadcrumb -->
@@ -61,35 +69,24 @@
                                 </div>
                     <div class="col-lg-12">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0">Daftar Surat Perjalanan Dinas (SPD)</h3>
+                            <h3 class="box-title m-b-0">Rekap Laporan Perjalanan Menurut Pegawai</h3>
                             <p class="text-muted m-b-20">Keadaan <code>tanggal hari ini</code></p>
                             <div class="table-responsive">
-                                <table id="DataTableCustom" class="table table-striped">
+                                <table class="table">
                                     <thead>
                                         <tr>
                                             <th>Kode Trx</th>
-                                            <th>Nomor</th>
+                                            <th>Tanggal Kuitansi</th>
                                             <th>Nama Pegawai</th>
-                                            <th class="hidden-xs hidden-sm">Angkutan</th>
-                                            <th class="hidden-xs hidden-sm">Tanggal Pergi</th>
-                                            <th class="hidden-xs hidden-sm">Tanggal Kembali</th>
-                                            <th>Status Surat</th>
+                                            <th>Tugas</th>
+                                            <th>Tanggal Pergi</th>
+                                            <th>Tanggal Kembali</th>
+                                            <th>Status Kuitansi</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                            @foreach ($DataSPD as $item)
-                                            <tr>
-                                                <td>{{$item->Transaksi->kode_trx}}</td>                                              </td>
-                                                <td>{{$item->nomor_spd}}</td>
-                                                <td>{{$item->Transaksi->TabelPegawai->nama}}</td>
-                                                <td class="hidden-xs hidden-sm">{{$FlagKendaraan[$item->kendaraan]}}</td>
-                                                <td class="hidden-xs hidden-sm">{{Tanggal::Panjang($item->Transaksi->tgl_brkt)}}</td>
-                                                <td class="hidden-xs hidden-sm">{{Tanggal::Panjang($item->Transaksi->tgl_balik)}}</td>
-                                                <td>@include('spd.flag')</td>
-                                                <td> @include('spd.aksi') </td>
-                                            </tr>
-                                        @endforeach
+
                                     </tbody>
                                 </table>
                             </div>
@@ -99,5 +96,4 @@
                 <!-- /.row -->
             </div>
             <!-- /.container-fluid -->
-            @include('spd.modal')
 @endsection

@@ -56,3 +56,20 @@
             </select>
         </div>
     </div>
+    <div class="form-group">
+            <label class="control-label">Cetak BPS Tujuan</label>
+            <div class="radio-list">
+                <label class="radio-inline p-0">
+                    <div class="radio radio-success">
+                        <input type="radio" name="cetaktujuan" id="cetaktujuan0" value="0">
+                        <label for="cetaktujuan0" class="text-success">Cetak Langsung</label>
+                    </div>
+                </label>
+                <label class="radio-inline">
+                    <div class="radio radio-danger">
+                        <input type="radio" name="cetaktujuan" id="cetaktujuan1" value="1">
+                        <label for="cetaktujuan1" class="text-danger">Kosongkan</label>
+                    </div>
+                </label>
+            </div>
+        </div>

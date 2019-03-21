@@ -28,6 +28,7 @@ var tugas = button.data('tugas')
 var nomor = button.data('nomor')
 var kendaraan = button.data('kendaraan')
 var ppknip = button.data('ppknip')
+var flagcetaktujuan = button.data('flagcetaktujuan')
 if (nomor === "") {
 var Tanggal = new Date();
 var srttugas = 'B-'+ tambahNol(spdid) +'/BPS/52514/'+ ('0' + (Tanggal.getMonth()+1)).slice(-2) + '/' + Tanggal.getFullYear()
@@ -45,7 +46,7 @@ modal.find('.modal-body #tglsurat').val(tglsrt)
 modal.find('.modal-body #tugas').val(tugas)
 modal.find('.modal-body #nomor_surat').val(srttugas)
 modal.find('.modal-body #kendaraan').val(kendaraan)
+modal.find('input[name="cetaktujuan"][value="'+flagcetaktujuan+'"]').prop('checked',true)
 modal.find('.modal-body #ppk_nip').val(ppknip)
 });
-
 </script>

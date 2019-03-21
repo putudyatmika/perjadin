@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('duit', function ($angka) {
             return "<?php echo number_format($angka,0,',','.'); ?>";
         });
+        Carbon::setLocale('id');
     }
 
     /**

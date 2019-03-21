@@ -13,3 +13,6 @@
 @elseif ($item->flag_trx==7)
 <span class="label label-info">{{$FlagTrx[$item->flag_trx]}}</span>
 @endif
+<h5>
+<small>{{$item->updated_at->diffForHumans()}}</small>
+</h5>

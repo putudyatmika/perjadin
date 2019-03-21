@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Redirect;
 use DB;
 use App\Anggaran;
 use App\Transaksi;
+use Excel;
+use App\Exports\MatrikViewExport;
+use App\Imports\MatrikImport;
 
 class MatrikController extends Controller
 {
@@ -286,5 +289,42 @@ class MatrikController extends Controller
         return back();
 
       //dd($request->all());
+    }
+    public function format()
+    {
+        $fileName = 'format-matrik';
+        $data = [
+            [
+                'tahun_matrik' => null,
+                'tgl_awal' => 'Format : YYYY-MM-DD',
+                'tgl_akhir' => 'Cth : 2019-12-30',
+                'kodekab_tujuan' => 'kode 4 digit',
+                'lamanya' => null,
+                'mak_id'=> 'lihat di menu anggaran ',
+                'dana_harian'=>null,
+                'dana_hotel'=>null,
+                'transport'=>null,
+                'pengeluaran_rill'=>null
+            ]
+        ];
+        $namafile = $fileName.date('Y-m-d_H-i-s').'.xlsx';
+        return Excel::download(new MatrikViewExport($data), $namafile);
+    }
+    public function import(Request $request)
+    {
+        //VALIDASI
+        $this->validate($request, [
+            'importMatrik' => 'required|mimes:xls,xlsx'
+        ]);
+
+        if ($request->hasFile('importMatrik')) {
+            $file = $request->file('importMatrik'); //GET FILE
+            Excel::import(new MatrikImport, $file); //IMPORT FILE
+
+            Session::flash('message', 'Data excel berhasil di import');
+            Session::flash('message_type', 'info');
+            return back();
+        }
+        return redirect()->back()->with(['error' => 'Please choose file before']);
     }
 }

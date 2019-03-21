@@ -10,7 +10,7 @@
                         <!-- /input-group -->
                     </li>
                     <li class="user-pro">
-                        <a href="#" class="waves-effect"><img src="img/bps-user.png" alt="user-img" class="img-circle"> <span class="hide-menu"> {{ Auth::user()->name }}<span class="fa arrow"></span></span>
+                        <a href="#" class="waves-effect"><img src="img/bps-user.png" alt="user-img" class="img-circle"> <span class="hide-menu"> {{ Auth::user()->username }}<span class="fa arrow"></span></span>
                         </a>
                         <ul class="nav nav-second-level">
                             <li><a href="javascript:void(0)"><i class="ti-user"></i> Lihat Profile</a></li>
@@ -22,7 +22,7 @@
                     <li class="nav-small-cap m-t-10">--- Main Menu</li>
                     <li> <a href="{{url('')}}" class="waves-effect"><i class="icon-diamond fa-fw"></i><span class="hide-menu" >Dashboard</span></a> </li>
                     <li class="nav-small-cap m-t-10">--- Operator Menu</li>
-                    <li> <a href="{{url('transaksi')}}" class="waves-effect"><i class="icon-screen-desktop fa-fw"></i><span class="hide-menu" >Matrik Transaksi</span></a> </li>
+                    <li> <a href="{{url('transaksi')}}" class="waves-effect text-primary"><i class="icon-screen-desktop fa-fw"></i><span class="hide-menu" >Matrik Transaksi</span></a> </li>
                     <li> <a href="{{url('surattugas')}}" class="waves-effect text-info"><i class="icon-directions fa-fw"></i><span class="hide-menu" >Surat Tugas</span>
                         @if (Jumlah::SuratTugas(0)>0)
                             <span class="label label-rouded label-info pull-right">{{Jumlah::SuratTugas(0)}}</span>

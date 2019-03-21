@@ -43,7 +43,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('unitkerja','UnitkerjaController');
     Route::get('matrik/transaksi','MatrikController@transaksi')->name('matrik.transaksi');
     Route::resource('matrik','MatrikController');
+    Route::get('/format_matrik', 'MatrikController@format');
+    Route::post('/import_matrik', 'MatrikController@import');
     Route::resource('anggaran','AnggaranController');
+    Route::get('/format_anggaran', 'AnggaranController@format');
+    Route::post('/import_anggaran', 'AnggaranController@import');
     Route::resource('tujuan','TujuanController');
     Route::resource('user','UserController');
     Route::get('transaksi/view','TransaksiController@view')->name('transaksi.view');
