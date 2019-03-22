@@ -295,7 +295,7 @@ else {
 </div>
 <div class="form-group row">
     <label for="totalbiaya" class="col-2 col-form-label">Bendahara</label>
-    <div class="input-group col-3">
+    <div class="input-group col-5">
         <div class="input-group-addon"><i class="ti-user"></i></div>
         <select class="form-control" name="bendahara_nip" required="" id="bendahara_nip">
             <option value="">Pilih Bendahara</option>

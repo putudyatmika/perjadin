@@ -205,7 +205,7 @@ class KuitansiController extends Controller
                 $dataSpd -> flag_spd = 2;
                 $dataSpd -> update();
 
-                Session::flash('message', 'Kuitansi an. '.$request->nama.' tujuan ke'. $request->nama_tujuan .' sudah diupdate');
+                Session::flash('message', 'Kuitansi an. '.$request->nama.' tujuan ke '. $request->nama_tujuan .' sudah diupdate');
                 Session::flash('message_type', 'success');
                 return redirect()->to('kuitansi');
             }
@@ -225,7 +225,7 @@ class KuitansiController extends Controller
                 $dataKuitansi -> flag_kuitansi = 2;
                 $dataKuitansi -> update();
 
-                Session::flash('message', 'Kuitansi an. '.$request->nama.' tujuan ke'. $request->nama_tujuan .' sudah selesai');
+                Session::flash('message', 'Kuitansi an. '.$request->nama.' tujuan ke '. $request->nama_tujuan .' sudah selesai');
                 Session::flash('message_type', 'success');
                 return redirect()->to('kuitansi');
             }

@@ -92,9 +92,11 @@
                                             @endif
                                         </div>
                                     </li>
+                                    @if (Auth::user()->user_level>3)
                                     <li>
                                         <a class="text-center" href="{{route('setuju.index')}}"> <strong>Lihat Pengajuan</strong> <i class="fa fa-angle-right"></i> </a>
                                     </li>
+                                    @endif
                                 </ul>
                                 <!-- /.dropdown-messages -->
                             </li>

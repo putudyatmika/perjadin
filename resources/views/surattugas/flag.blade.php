@@ -7,3 +7,6 @@
 @else
 <span class="label label-danger">{{$FlagSrt[$item->flag_surattugas]}}</span>
 @endif
+<h5>
+    <small>{{$item->updated_at->diffForHumans()}}</small>
+</h5>

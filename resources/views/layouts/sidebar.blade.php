@@ -10,7 +10,7 @@
                         <!-- /input-group -->
                     </li>
                     <li class="user-pro">
-                        <a href="#" class="waves-effect"><img src="img/bps-user.png" alt="user-img" class="img-circle"> <span class="hide-menu"> {{ Auth::user()->username }}<span class="fa arrow"></span></span>
+                        <a href="#" class="waves-effect"><img src="{{asset('img/bps-user.png')}}" alt="user-img" class="img-circle"> <span class="hide-menu"> {{ Auth::user()->username }}<span class="fa arrow"></span></span>
                         </a>
                         <ul class="nav nav-second-level">
                             <li><a href="javascript:void(0)"><i class="ti-user"></i> Lihat Profile</a></li>

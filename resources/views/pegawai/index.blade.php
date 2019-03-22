@@ -60,7 +60,7 @@ $(function () {
                     <div class="col-lg-4">
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-                            <form action="{{ url('import_pegawai') }}" method="post" class="form" enctype="multipart/form-data">
+                            <!--<form action="{{ url('import_pegawai') }}" method="post" class="form" enctype="multipart/form-data">
                               @csrf
                               <div class="input-group {{ $errors->has('importPegawai') ? 'has-error' : '' }}">
                                 <input type="file" class="form-control" name="importPegawai" required="">
@@ -68,7 +68,7 @@ $(function () {
                                                 <button type="submit" class="btn btn-success" style="height: 38px;margin-left: -2px;">Import</button>
                                               </span>
                               </div>
-                            </form>
+                            </form>-->
                     </div>
                     @endif
                     <div class="col-lg-12">
@@ -82,7 +82,7 @@ $(function () {
                     <div class="row" style="margin-top: 20px;">
                     <div class="col-lg-12">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0">Data Pegawai BPS Provinsi NTB </h3> @if (Auth::user()->pengelola>3)<a href="{{url('format_pegawai')}}" class="btn btn-sm btn-info  m-b-20 pull-right">Download Format Pegawai</a> @endif
+                            <h3 class="box-title m-b-0">Data Pegawai BPS Provinsi NTB </h3> <!--@if (Auth::user()->pengelola>3)<a href="{{url('format_pegawai')}}" class="btn btn-sm btn-info  m-b-20 pull-right">Download Format Pegawai</a> @endif -->
                             <p class="text-muted m-b-20">Keadaan <code>31 Desember 2018</code></p>
                             <div class="table-responsive">
                                 <table id="DTable" class="table striped">
