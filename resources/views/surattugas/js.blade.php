@@ -33,7 +33,7 @@ var ttd = button.data('ttd')
 var ttdnip = button.data('ttdnip')
 if (nomor === "") {
 var Tanggal = new Date();
-var srttugas = 'B-'+ tambahNol(srtid) +'/BPS/52510/'+ ('0' + (Tanggal.getMonth()+1)).slice(-2) + '/' + Tanggal.getFullYear()
+var srttugas = 'B-'+ tambahNol(srtid) +'/BPS/52510/'+ (Tanggal.getMonth()+1) + '/' + Tanggal.getFullYear()
 }
 else {
     var srttugas = nomor

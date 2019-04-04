@@ -83,6 +83,7 @@ $(function () {
                                 <table id="DataTableCustom" class="table table-striped">
                                     <thead>
                                         <tr>
+                                            <th>#</th>
                                             <th>Kode Trx</th>
                                             <th>Tanggal Kuitansi</th>
                                             <th>Nama Pegawai</th>
@@ -96,6 +97,7 @@ $(function () {
                                     <tbody>
                                         @foreach ($DataKuitansi as $item)
                                             <tr>
+                                                <td>{{$loop->iteration}}</td>
                                                 <td>
                                                     @if ($item->tgl_kuitansi=="")
                                                     {{$item->Transaksi->kode_trx}}

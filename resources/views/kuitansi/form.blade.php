@@ -8,6 +8,12 @@ $bln_balik = (int)($tgl_balik[1]);
 $tgl_berangkat = (int)($tgl_brkt[2]) .' '.$Bulan[$bln_brkt].' '.$tgl_brkt[0];
 $tgl_blk = (int)($tgl_balik[2]) .' '.$Bulan[$bln_balik].' '.$tgl_balik[0];
 
+if ($dataTransaksi[0]->Spd->kendaraan==2) {
+    $flag_req='';
+ }
+ else {
+    $flag_req='required=""';
+ }
 if ($dataTransaksi[0]->Kuitansi->flag_kuitansi==0) {
     //kuitansi masih kosong
     //harian
@@ -26,7 +32,13 @@ if ($dataTransaksi[0]->Kuitansi->flag_kuitansi==0) {
     }
     //biaya transportasi
     $transport_rupiah = $dataTransaksi[0]->Matrik->dana_transport;
-    $transport_ket = 'Transport dari Mataram ke '. $dataTransaksi[0]->Matrik->Tujuan->nama_kabkota;
+    if ($dataTransaksi[0]->Spd->kendaraan==2) {
+        $transport_ket = '';
+    }
+    else {
+        $transport_ket = 'Transport dari Mataram ke '. $dataTransaksi[0]->Matrik->Tujuan->nama_kabkota;
+    }
+
     if ($dataTransaksi[0]->Kuitansi->transport_flag==0) {
         $transport_flag = "";
     }
@@ -156,6 +168,27 @@ else {
         <input type="text" class="form-control" id="tglakhir" name="tglakhir" placeholder="Tgl Akhir" value="{{$tgl_blk}}" readonly="">
     </div>
 </div>
+<div class="form-group row">
+    <label for="nama" class="col-2 col-form-label">Nomor Surat Tugas</label>
+    <div class="input-group col-8">
+        <div class="input-group-addon"><i class="ti-user"></i></div>
+        <input type="text" class="form-control" id="nomor_surattugas" name="nomor_surattugas"  value="{{$dataTransaksi[0]->Surattugas->nomor_surat}}" placeholder="Nomor Surat Tugas" readonly="">
+    </div>
+</div>
+<div class="form-group row">
+    <label for="nama" class="col-2 col-form-label">Nomor SPD</label>
+    <div class="input-group col-8">
+        <div class="input-group-addon"><i class="ti-user"></i></div>
+        <input type="text" class="form-control" id="nomor_spd" name="nomor_spd"  value="{{$dataTransaksi[0]->Spd->nomor_spd}}" placeholder="Nomor SPD" readonly="">
+    </div>
+</div>
+<div class="form-group row">
+    <label for="nama" class="col-2 col-form-label">Kendaraan</label>
+    <div class="input-group col-8">
+        <div class="input-group-addon"><i class="ti-user"></i></div>
+        <input type="text" class="form-control" id="kendaraan" name="kendaraan"  value="{{$FlagKendaraan[$dataTransaksi[0]->Spd->kendaraan]}}" placeholder="Nomor SPD" readonly="">
+    </div>
+</div>
 <h3 class="box-title m-t-40">Sumber Dana</h3>
 <hr>
 <div class="form-group row">
@@ -231,9 +264,9 @@ else {
     <label for="nilaiTransport" class="col-2 col-form-label">Biaya Transport</label>
     <div class="input-group col-10">
         <div class="input-group-addon"><i class="ti-user"></i></div>
-        <input type="text" class="form-control" id="transport_ket" name="transport_ket" placeholder="Keterangan Transport" value="{{$transport_ket}}" required="">
+        <input type="text" class="form-control" id="transport_ket" name="transport_ket" placeholder="Keterangan Transport" value="{{$transport_ket}}" {!! $flag_req !!}>
         <span class="input-group-addon bg-info b-0 text-white">=</span>
-        <input type="number" class="form-control" id="nilaiTransport" name="nilaiTransport" placeholder="Nilai transport Rp." value="{{$transport_rupiah}}" required="" autocomplete="off">
+        <input type="number" class="form-control" id="nilaiTransport" name="nilaiTransport" placeholder="Nilai transport Rp." value="{{$transport_rupiah}}" {!! $flag_req !!} autocomplete="off">
         <span class="input-group-addon bg-warning b-0 text-white">
             <label class="form-check-label">
                     <input type="checkbox" class="form-check-input" id="transport_cek" name="transport_cek" value="1" {{$transport_flag}}> Ada bukti dukung

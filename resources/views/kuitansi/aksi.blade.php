@@ -2,7 +2,7 @@
 <a href="{{route('kuitansi.view',$item->Transaksi->kode_trx)}}" class="btn btn-rounded btn-primary btn-sm">Cetak</a>
 @endif
 
-@if ($item->flag_kuitansi==0 and Auth::user()->pengelola>3)
+@if (($item->flag_kuitansi==0 or $item->flag_kuitansi==1) and Auth::user()->pengelola>3)
 <a href="{{route('kuitansi.edit',$item->trx_id)}}" class="btn btn-success btn-rounded btn-sm" data-trxid="{{$item->Transaksi->trx_id}}" data-kodetrx="{{$item->Transaksi->kode_trx}}">Edit</a>
 @endif
 

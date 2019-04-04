@@ -26,7 +26,8 @@ $(function () {
         dom: 'Bfrtip',
         buttons: [
             'copy', 'excel', 'pdf', 'print'
-        ]
+        ],
+        "pageLength": 20
     });
 });
 </script>
@@ -59,7 +60,7 @@ $(function () {
                                 @if (Session::has('message'))
                                 <div class="alert alert-{{ Session::get('message_type') }}" id="waktu2" style="margin-top:10px;">{{ Session::get('message') }}</div>
                                 @endif
-                                </div>
+                        </div>
                     <div class="col-lg-12">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Matrik Transaksi </h3>

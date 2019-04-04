@@ -26,6 +26,11 @@
                 </div>
                 <!-- /.row -->
                 <div class="row">
+                        <div class="col-lg-12">
+                            @if (Session::has('message'))
+                            <div class="alert alert-{{ Session::get('message_type') }}" id="waktu2" style="margin-top:10px;">{{ Session::get('message') }}</div>
+                            @endif
+                        </div>
                     <div class="col-md-12 col-lg-12 col-sm-12">
                         <div class="white-box">
                             <div class="row row-in">

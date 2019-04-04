@@ -98,6 +98,7 @@ class SpdController extends Controller
             $dataSpd -> ppk_nama = $NamaPejabat;
             $dataSpd -> flag_spd = 1;
             $dataSpd -> flag_cetak_tujuan = $request->cetaktujuan;
+            $dataSpd -> kendaraan = $request->kendaraan;
             $dataSpd -> update();
 
             //input tabel kuitansi dan set flag transaksi menunggu pembayaran

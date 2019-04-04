@@ -64,6 +64,7 @@
         <!-- /#page-wrapper -->
     </div>
     <!-- /#wrapper -->
+    @include('layouts.gantipass')
     <!-- jQuery -->
     <script src="{{ asset('tema/plugins/bower_components/jquery/dist/jquery.min.js')}}"></script>
     <!-- Bootstrap Core JavaScript -->
