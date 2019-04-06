@@ -11,7 +11,8 @@
             stack: 6
         })
     });
-    </script>
+</script>
+@include('chart.depan')
 @stop
 @extends('layouts.default')
 
@@ -50,12 +51,12 @@
                                 <div class="col-lg-3 col-sm-6 row-in-br  b-r-none">
                                     <div class="col-in row">
                                         <div class="col-md-6 col-sm-6 col-xs-6"> <i class="linea-icon linea-basic" data-icon="&#xe01b;"></i>
-                                            <h5 class="text-muted vb">Jumlah perjalanan sudah terlaksana</h5> </div>
+                                            <h5 class="text-muted vb">Sudah dilaksanakan</h5> </div>
                                         <div class="col-md-6 col-sm-6 col-xs-6">
                                             <h3 class="counter text-right m-t-15 text-megna">{{Jumlah::Transaksi(7)}}</h3> </div>
                                         <div class="col-md-12 col-sm-12 col-xs-12">
                                             <div class="progress">
-                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="{{round((Jumlah::Transaksi(7)/Jumlah::Transaksi(10))*100)}}" aria-valuemin="0" aria-valuemax="100" style="width: {{round((Jumlah::Transaksi(7)/Jumlah::Transaksi(10))*100)}}%"> <span class="sr-only">40% Complete (success)</span> </div>
                                             </div>
                                         </div>
                                     </div>
@@ -63,7 +64,7 @@
                                 <div class="col-lg-3 col-sm-6 row-in-br">
                                     <div class="col-in row">
                                         <div class="col-md-6 col-sm-6 col-xs-6"> <i class="linea-icon linea-basic" data-icon="&#xe00b;"></i>
-                                            <h5 class="text-muted vb">Jumlah perjalanan batal</h5> </div>
+                                            <h5 class="text-muted vb">Batal dilaksanakan</h5> </div>
                                         <div class="col-md-6 col-sm-6 col-xs-6">
                                             <h3 class="counter text-right m-t-15 text-primary">{{Jumlah::Transaksi(3)}}</h3> </div>
                                         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -93,24 +94,30 @@
                 <!--row -->
                 <!-- /.row -->
                 <div class="row">
-                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                    <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
                         <div class="white-box">
-                            <h3 class="box-title">Banyak Perjalanan 12 Bulan Terakhir</h3>
-                            <ul class="list-inline text-right">
-                                <li>
-                                    <h5><i class="fa fa-circle m-r-5" style="color: #00bfc7;"></i>iPhone</h5> </li>
-                                <li>
-                                    <h5><i class="fa fa-circle m-r-5" style="color: #fb9678;"></i>iPad</h5> </li>
-                                <li>
-                                    <h5><i class="fa fa-circle m-r-5" style="color: #9675ce;"></i>iPod</h5> </li>
-                            </ul>
-                            <div id="morris-area-chart" style="height: 340px;"></div>
+                            <h3 class="box-title">Banyak Perjalanan Menurut Tujuan Tahun {{\Carbon\Carbon::now()->format('Y')}}</h3>
+
+                            <div id="chart-tujuan-depan" style="height: 340px;"></div>
                         </div>
                     </div>
+                    <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                        <div class="white-box">
+                            <h3 class="box-title">Banyak Perjalanan Menurut Bidang Tahun {{\Carbon\Carbon::now()->format('Y')}}</h3>
 
+                            <div id="chart-bidang-depan" style="height: 340px;"></div>
+                        </div>
+                    </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                        <div class="white-box">
+                            <h3 class="box-title">Banyak Perjalanan dan Total Biaya Perbulan Tahun {{\Carbon\Carbon::now()->format('Y')}}</h3>
 
-
+                            <div id="chart-bulan-depan" style="height: 340px;"></div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
 @endsection
