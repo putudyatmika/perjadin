@@ -82,7 +82,7 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                             <h3 class="box-title m-b-0">Data Tujuan Perjalanan BPS Provinsi NTB </h3>
                             <p class="text-muted m-b-20">Tahun <code>2019</code></p>
                             <div class="table-responsive">
-                                <table class="table">
+                                <table class="table table-striped">
                                     <thead>
                                         <tr>
                                             <th>No</th>

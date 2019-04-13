@@ -37,6 +37,15 @@ modal.find('.modal-body #tugas').val(tugas)
 modal.find('.modal-body #tgl_kuitansi').val(tglkuitansi)
 modal.find('.modal-body #totalbiaya').val(totalbiaya)
 });
+
+$(function () {
+    $("#DataTableCustom").dataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'excel', 'pdf', 'print'
+        ]
+    });
+});
      </script>
 @stop
 @extends('layouts.default')
@@ -71,15 +80,16 @@ modal.find('.modal-body #totalbiaya').val(totalbiaya)
                             <h3 class="box-title m-b-0">Daftar Kuitansi</h3>
                             <p class="text-muted m-b-20">Keadaan <code>tanggal hari ini</code></p>
                             <div class="table-responsive">
-                                <table class="table">
+                                <table id="DataTableCustom" class="table table-striped">
                                     <thead>
                                         <tr>
+                                            <th>#</th>
                                             <th>Kode Trx</th>
                                             <th>Tanggal Kuitansi</th>
                                             <th>Nama Pegawai</th>
                                             <th>Tugas</th>
                                             <th>Tanggal Pergi</th>
-                                            <th>Tanggal Kembali</th>
+                                            <!--<th>Tanggal Kembali</th>-->
                                             <th>Status Kuitansi</th>
                                             <th>Aksi</th>
                                         </tr>
@@ -87,6 +97,7 @@ modal.find('.modal-body #totalbiaya').val(totalbiaya)
                                     <tbody>
                                         @foreach ($DataKuitansi as $item)
                                             <tr>
+                                                <td>{{$loop->iteration}}</td>
                                                 <td>
                                                     @if ($item->tgl_kuitansi=="")
                                                     {{$item->Transaksi->kode_trx}}
@@ -98,7 +109,7 @@ modal.find('.modal-body #totalbiaya').val(totalbiaya)
                                                 <td>{{$item->Transaksi->TabelPegawai->nama}}</td>
                                                 <td>{{$item->Transaksi->tugas}}</td>
                                                 <td>{{$item->Transaksi->tgl_brkt}}</td>
-                                                <td>{{$item->Transaksi->tgl_balik}}</td>
+                                                <!--<td>{{$item->Transaksi->tgl_balik}}</td>-->
                                                 <td>@include('kuitansi.flag')</td>
                                                 <td>@include('kuitansi.aksi')</td>
                                             </tr>

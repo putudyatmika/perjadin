@@ -117,17 +117,16 @@ class UserController extends Controller
     public function update(Request $request)
     {
         //
-        $count = User::where('id',$request['id'])->count();
 
-        if($count<1){
-            Session::flash('message', 'User tidak ditemukan');
-            Session::flash('message_type', 'danger');
-            return redirect()->to('user');
-        }
-        $datauser = User::findOrFail($request['id']);
         if ($request['aksi']=='gantipassword') {
             //hanya ganti password
-
+            $count = User::where('id',$request['id'])->count();
+            if($count<1){
+                Session::flash('message', 'User tidak ditemukan');
+                Session::flash('message_type', 'danger');
+                return redirect()->to('user');
+            }
+            $datauser = User::findOrFail($request['id']);
             $datauser -> password = Hash::make($request['password']);
             $datauser -> update();
 
@@ -135,8 +134,15 @@ class UserController extends Controller
             Session::flash('message_type', 'success');
             return back();
         }
-        else {
+        elseif ($request->aksi=='update') {
             //tanpa ganti password
+            $count = User::where('id',$request['id'])->count();
+            if($count<1){
+                Session::flash('message', 'User tidak ditemukan');
+                Session::flash('message_type', 'danger');
+                return redirect()->to('user');
+            }
+            $datauser = User::findOrFail($request['id']);
             $datauser -> username = $request['username'];
             $datauser -> name = $request['name'];
             $datauser -> email = $request['email'];
@@ -148,6 +154,35 @@ class UserController extends Controller
             Session::flash('message', 'Data user telah diupdate');
             Session::flash('message_type', 'success');
             return back();
+        }
+        elseif ($request->aksi=='gantipasswordsendiri') {
+            $datauser = User::findOrFail(Auth::user()->id);
+            if (!Hash::check($request->pass_lama, $datauser->password)) {
+                if ($request->passwd_baru == $request->konfirmasi_passwd) {
+                    //ganti password
+                    $datauser -> password = Hash::make($request->passwd_baru);
+                    $datauser -> update();
+                    Session::flash('message', 'Password berhasil diganti');
+                    Session::flash('message_type', 'success');
+                    return back();
+                }
+                else {
+                    //password lama tidak sama
+                    Session::flash('message', 'Password baru dengan Konfirmasi password baru tidak sama');
+                    Session::flash('message_type', 'danger');
+                    return back();
+                }
+            }
+            else {
+                //password lama tidak sama
+                Session::flash('message', 'Password lama tidak sama passdb '.Auth::user()->password.' passlama '.Hash::make($request->passwd_lama));
+                Session::flash('message_type', 'danger');
+                return back();
+            }
+
+        }
+        else {
+            dd($request->all());
         }
 
 

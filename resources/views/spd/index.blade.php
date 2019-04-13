@@ -26,7 +26,8 @@
             dom: 'Bfrtip',
             buttons: [
                 'copy', 'excel', 'pdf', 'print'
-            ]
+            ],
+            "pageLength": 15,
         });
     });
     </script>
@@ -67,6 +68,7 @@
                                 <table id="DataTableCustom" class="table table-striped">
                                     <thead>
                                         <tr>
+                                            <th>#</th>
                                             <th>Kode Trx</th>
                                             <th>Nomor</th>
                                             <th>Nama Pegawai</th>
@@ -80,6 +82,7 @@
                                     <tbody>
                                             @foreach ($DataSPD as $item)
                                             <tr>
+                                                <td>{{$loop->iteration}}</td>
                                                 <td>{{$item->Transaksi->kode_trx}}</td>                                              </td>
                                                 <td>{{$item->nomor_spd}}</td>
                                                 <td>{{$item->Transaksi->TabelPegawai->nama}}</td>

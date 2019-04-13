@@ -64,6 +64,7 @@
         <!-- /#page-wrapper -->
     </div>
     <!-- /#wrapper -->
+    @include('layouts.gantipass')
     <!-- jQuery -->
     <script src="{{ asset('tema/plugins/bower_components/jquery/dist/jquery.min.js')}}"></script>
     <!-- Bootstrap Core JavaScript -->
@@ -85,7 +86,6 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="{{ asset('tema/js/custom.min.js')}}"></script>
-    <script src="{{ asset('tema/js/dashboard1.js')}}"></script>
     <script src="{{ asset('tema/js/mask.js') }}"></script>
     <!-- Sparkline chart JavaScript -->
     <script src="{{ asset('tema/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js')}}"></script>

@@ -187,10 +187,10 @@
 
 
                                  </div>
-                                 <div class="text-center" style="margin-top:20px">
-                                    <div class="bawah">
+                                 <div style="margin-top:20px">
+                                    <div class="bawah text-center">
                                         Jl. Gunung Rinjani No. 2 Mataram 83125  Telp. (0370) 621385, 638321  Fax (0370) 623801 <br />
-                                        Email: bps5200@bps.go.id   Homepage: http//ntb.bps.go.id
+                                        Email: bps5200@bps.go.id   Website: http//ntb.bps.go.id
                                     </div>
                                  </div>
                                 <div class="text-right">

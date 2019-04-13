@@ -31,7 +31,7 @@ var ppknip = button.data('ppknip')
 var flagcetaktujuan = button.data('flagcetaktujuan')
 if (nomor === "") {
 var Tanggal = new Date();
-var srttugas = 'B-'+ tambahNol(spdid) +'/BPS/52514/'+ ('0' + (Tanggal.getMonth()+1)).slice(-2) + '/' + Tanggal.getFullYear()
+var srttugas = 'B-'+ tambahNol(spdid) +'/BPS/52514/'+ (Tanggal.getMonth()+1) + '/' + Tanggal.getFullYear()
 }
 else {
     var srttugas = nomor

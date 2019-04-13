@@ -28,7 +28,7 @@ class SuratTugasController extends Controller
         $FlagTTD = config('globalvar.FlagTTD');
         $Bilangan = config('globalvar.Bilangan');
         $DataPegawai = Pegawai::where([['jabatan','<','3'],['flag','=','1']])->orderBy('unitkerja')->get();
-        $DataSuratTugas = SuratTugas::orderBy('flag_surattugas','asc')->orderBy('tgl_surat','asc')->get();
+        $DataSuratTugas = SuratTugas::orderBy('flag_surattugas','ASC')->orderBy('tgl_surat','ASC')->get();
         return view('surattugas.index',compact('DataSuratTugas','FlagTrx','FlagKonfirmasi','FlagSrt','MatrikFlag','FlagTTD','DataPegawai','Bilangan'));
         //dd($DataSuratTugas);
     }

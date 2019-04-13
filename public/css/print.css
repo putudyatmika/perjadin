@@ -3,6 +3,7 @@
 /* Attention: the classes and IDs vary from theme to theme. Thus, set own classes here */
 #content,#page, #dataSuratTugas, #hal1, #hal2, #hal3 {
     width: 100%;
+    height: 100%;
     margin: 0;
     float: none;
     }
@@ -87,7 +88,12 @@ font-size:12pt !important;
     padding:2pt !important;
 }
 .bawah {
+    width: 95%;
     font-size:9pt !important;
+    position: absolute;
+    bottom: 0px;
+    padding: 5px;
+    text-align: center;
 }
 .spdhal1 table {
     border: 1px solid black !important;

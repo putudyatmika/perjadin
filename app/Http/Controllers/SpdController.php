@@ -98,6 +98,7 @@ class SpdController extends Controller
             $dataSpd -> ppk_nama = $NamaPejabat;
             $dataSpd -> flag_spd = 1;
             $dataSpd -> flag_cetak_tujuan = $request->cetaktujuan;
+            $dataSpd -> kendaraan = $request->kendaraan;
             $dataSpd -> update();
 
             //input tabel kuitansi dan set flag transaksi menunggu pembayaran
@@ -147,7 +148,7 @@ class SpdController extends Controller
         $Bulan = config('globalvar.Bulan');
         $FlagKendaraan = config('globalvar.Kendaraan');
 
-        $dataTransaksi = \App\Transaksi::with('TabelPegawai','Matrik','SuratTugas','Spd')->where('kode_trx','=',$kodetrx)->get();
+        $dataTransaksi = \App\Transaksi::with('TabelPegawai','Matrik','SuratTugas','Spd')->where('kode_trx','=',$kodetrx)->orderBy('updated_at','desc')->get();
         return view('spd.view',compact('dataTransaksi','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','Bulan','FlagKendaraan'));
         //dd($dataTransaksi);
         //dd($DataSuratTugas);

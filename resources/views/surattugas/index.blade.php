@@ -26,7 +26,8 @@
         dom: 'Bfrtip',
         buttons: [
             'copy', 'excel', 'pdf', 'print'
-        ]
+        ],
+        "pageLength": 15
     });
 });
 </script>
@@ -67,13 +68,13 @@
                                 <table id="DataTableCustom" class="table table-striped">
                                     <thead>
                                         <tr>
+                                            <th>#</th>
                                             <th>Kode Trx</th>
                                             <th>Nomor</th>
                                             <th>Nama Pegawai</th>
                                             <th>Tgl Surat</th>
-                                            <th>Penandatangan</th>
+                                            <th>TTD</th>
                                             <th>Tanggal Pergi</th>
-                                            <th>Tanggal Kembali</th>
                                             <th>Status Surat</th>
                                             <th>Aksi</th>
                                         </tr>
@@ -81,13 +82,13 @@
                                     <tbody>
                                         @foreach ($DataSuratTugas as $item)
                                             <tr>
+                                                <td>{{$loop->iteration}}</td>
                                                 <td>@include('surattugas.detil')</td>
                                                 <td>{{$item->nomor_surat}}</td>
                                                 <td>{{$item->Transaksi->TabelPegawai->nama}}</td>
-                                                <td>{{$item->tgl_surat}}</td>
+                                                <td>@if ($item->tgl_surat != NULL) {{Tanggal::Pendek($item->tgl_surat)}} @endif</td>
                                                 <td>{{$item->ttd_jabatan}}</td>
-                                                <td>{{Tanggal::Panjang($item->Transaksi->tgl_brkt)}}</td>
-                                                <td>{{Tanggal::Panjang($item->Transaksi->tgl_balik)}}</td>
+                                                <td>{{Tanggal::Pendek($item->Transaksi->tgl_brkt)}}</td>
                                                 <td>@include('surattugas.flag')</td>
                                                 <td>@include('surattugas.aksi')</td>
                                             </tr>

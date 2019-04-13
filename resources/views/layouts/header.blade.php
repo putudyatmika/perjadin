@@ -1,8 +1,8 @@
 <nav class="navbar navbar-default navbar-static-top m-b-0">
             <div class="navbar-header"> <a class="navbar-toggle hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse"><i class="ti-menu"></i></a>
                 <div class="top-left-part hidden-xs">
-                <!---<a class="logo" href="{{url('')}}"><b><img src="{{ asset('tema/plugins/images/eliteadmin-logo.png')}}" alt="home" /></b><span class="hidden-xs"><img src="{{ asset('tema/plugins/images/eliteadmin-text.png')}}" alt="home" /></span></a>--->
-                <a class="logo" href="{{url('')}}">&nbsp;</a>
+                <a class="logo" href="{{url('')}}"><b><img src="{{ asset('img/perjadin-logo-putih.png')}}" alt="home" /></b><span class="hidden-xs"><img src="{{ asset('img/perjadin-text-kecil.png')}}" alt="home" /></span></a>
+
                 </div>
                 <ul class="nav navbar-top-links navbar-left hidden-xs">
                     <li><a href="javascript:void(0)" class="open-close hidden-xs waves-effect waves-light"><i class="icon-arrow-left-circle ti-menu"></i></a></li>
@@ -19,7 +19,7 @@
                                     @if (Jumlah::SuratTugas(0)>0)
                                     <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
                                     @endif
-                                @elseif (Auth::user()->user_level>3)
+                                @elseif (Auth::user()->pengelola !=0 and Auth::user()->pengelola!=4)
                                     @if (Jumlah::Pengajuan()>0)
                                     <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
                                     @endif
@@ -35,7 +35,7 @@
                                             @else
                                                 Belum Ada Perjadin disetujui
                                             @endif
-                                        @elseif (Auth::user()->user_level>3)
+                                        @elseif (Auth::user()->pengelola !=0 and Auth::user()->pengelola!=4)
                                             @if (Jumlah::Pengajuan()>0)
                                                 Ada ({{Jumlah::Pengajuan()}}) Pengajuan Perjadin
                                             @else
@@ -66,7 +66,7 @@
                                                         Tidak ada pesan</span></div>
                                                     </a>
                                                 @endif
-                                            @elseif (Auth::user()->user_level>3)
+                                            @elseif (Auth::user()->pengelola !=0 and Auth::user()->pengelola!=4)
                                                 @if (Jumlah::Pengajuan()>0)
                                                     @foreach (Jumlah::Ajuan5Perjadin() as $item)
                                                     <a href="{{route('setuju.index')}}">
@@ -92,9 +92,11 @@
                                             @endif
                                         </div>
                                     </li>
+                                    @if (Auth::user()->pengelola !=0 and Auth::user()->pengelola!=4)
                                     <li>
                                         <a class="text-center" href="{{route('setuju.index')}}"> <strong>Lihat Pengajuan</strong> <i class="fa fa-angle-right"></i> </a>
                                     </li>
+                                    @endif
                                 </ul>
                                 <!-- /.dropdown-messages -->
                             </li>
@@ -103,10 +105,10 @@
                     <li class="dropdown">
                         <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> <img src="{{ asset('img/bps-user.jpg')}}" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">{{ Auth::user()->name }}</b> </a>
                         <ul class="dropdown-menu dropdown-user animated flipInY">
-                            <li><a href="#"><i class="ti-user"></i> Lihat Profile</a></li>
+                            <!--<li><a href="#"><i class="ti-user"></i> Lihat Profile</a></li>
                             <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#"><i class="ti-settings"></i> Ganti Password</a></li>
+                            <li role="separator" class="divider"></li>-->
+                            <li><a href="#" data-toggle="modal" data-target="#GantiPasswordSendiri"><i class="ti-settings"></i> Ganti Password</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="{{route('logout')}}"><i class="fa fa-power-off"></i> Logout</a></li>
                         </ul>

@@ -15,29 +15,17 @@
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
  <!-- end - This is for export functionality only -->
- <script>
-     $('#SelesaiModal').on('show.bs.modal', function (event) {
-var button = $(event.relatedTarget) // Button that triggered the modal
-var trxid = button.data('trxid') // Extract info from data-* attributes
-var kid = button.data('kid') // Extract info from data-* attributes
-var kodetrx = button.data('kodetrx')
-var tujuan = button.data('tujuan')
-var nama = button.data('nama')
-var tugas = button.data('tugas')
-var tglkuitansi = button.data('tglkuitansi')
-var totalbiaya = button.data('totalbiaya')
-
-var modal = $(this)
-modal.find('.modal-body #trxid').val(trxid)
-modal.find('.modal-body #kuitansi_id').val(kid)
-modal.find('.modal-body #kodetrx').val(kodetrx)
-modal.find('.modal-body #tujuan').val(tujuan)
-modal.find('.modal-body #nama').val(nama)
-modal.find('.modal-body #tugas').val(tugas)
-modal.find('.modal-body #tgl_kuitansi').val(tglkuitansi)
-modal.find('.modal-body #totalbiaya').val(totalbiaya)
+<script>
+$(function () {
+    $("#DataTableCustom").dataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'excel', 'pdf', 'print'
+        ],
+        "pageLength": 15,
+    });
 });
-     </script>
+</script>
 @stop
 @extends('layouts.default')
 
@@ -46,7 +34,7 @@ modal.find('.modal-body #totalbiaya').val(totalbiaya)
                 <div class="row bg-title">
                     <!-- .page title -->
                     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                        <h4 class="page-title">Laporan - Rekap Pegawai</h4>
+                        <h4 class="page-title">Laporan - Rekap Anggaran</h4>
                     </div>
                     <!-- /.page title -->
                     <!-- .breadcrumb -->
@@ -55,7 +43,7 @@ modal.find('.modal-body #totalbiaya').val(totalbiaya)
                         <ol class="breadcrumb">
                             <li><a href="{{url('')}}">Dashboard</a></li>
                             <li>Laporan</li>
-                            <li class="active">Rekap Pegawai</li>
+                            <li class="active">Rekap Anggaran</li>
                         </ol>
                     </div>
                     <!-- /.breadcrumb -->
@@ -69,25 +57,50 @@ modal.find('.modal-body #totalbiaya').val(totalbiaya)
                                 </div>
                     <div class="col-lg-12">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0">Rekap Laporan Perjalanan Menurut Pegawai</h3>
+                            <h3 class="box-title m-b-0">Rekap Anggaran Perjalanan Dinas yang telah dilaksanakan</h3>
                             <p class="text-muted m-b-20">Keadaan <code>tanggal hari ini</code></p>
                             <div class="table-responsive">
-                                <table class="table">
+                                <table id="DataTableCustom" class="table table-striped">
                                     <thead>
                                         <tr>
-                                            <th>Kode Trx</th>
-                                            <th>Tanggal Kuitansi</th>
-                                            <th>Nama Pegawai</th>
-                                            <th>Tugas</th>
-                                            <th>Tanggal Pergi</th>
-                                            <th>Tanggal Kembali</th>
-                                            <th>Status Kuitansi</th>
-                                            <th>Aksi</th>
+                                            <th>#</th>
+                                            <th>MAK</th>
+                                            <th>Bidang/Bagian</th>
+                                            <th class="text-right">Pagu Awal</th>
+                                            <th class="text-right">Realisasi</th>
+                                            <th class="text-right">Sisa</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @php
+                                         $totalpagu=0;
+                                         $totalbiaya=0;
+                                        @endphp
+                                    @foreach ($dataAnggaran as $item)
+                                        <tr>
+                                            <td>{{$loop->iteration}}</td>
+                                            <td>{{$item->dana_mak}}<br />
+                                                <small>{{$item->uraian}}</small></td>
+                                            <td>{{$item->nama}}</td>
+                                            <td class="text-right">@duit($item->dana_pagu)</td>
+                                            <td class="text-right">@duit($item->total_biaya)</td>
+                                            <td class="text-right">@duit($item->dana_pagu-$item->total_biaya)</td>
+                                        </tr>
+                                       @php
+                                            $totalpagu += $item->dana_pagu;
+                                            $totalbiaya += $item->total_biaya;
+                                       @endphp
+                                    @endforeach
 
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th colspan="3" class="text-center">Total</th>
+                                            <th class="text-right">@duit($totalpagu)</th>
+                                            <th class="text-right">@duit($totalbiaya)</th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
