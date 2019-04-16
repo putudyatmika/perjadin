@@ -19,9 +19,21 @@
         element: 'chart-bidang-depan',
         data: {!! Generate::ChartBarBidangTahun($tahun) !!},
         xkey: 'y',
-        ykeys: ['a'],
-        labels: ['Jumlah Perjalanan'],
-        barColors:['#33FF64'],
+        ykeys: ['a','b'],
+        labels: ['Jumlah Perjalanan','Total biaya (Juta) '],
+        barColors:['#D9AE79','#465973'],
+        hideHover: 'auto',
+        gridLineColor: '#eef0f2',
+        resize: true
+    });
+
+    Morris.Bar({
+        element: 'chart-peg-top10',
+        data: {!! Generate::ChartBarPegawaiTop10Tahun($tahun) !!},
+        xkey: 'y',
+        ykeys: ['a','b'],
+        labels: ['Jumlah Perjalanan','Total biaya (Juta) '],
+        barColors:['#53A668','#024059'],
         hideHover: 'auto',
         gridLineColor: '#eef0f2',
         resize: true

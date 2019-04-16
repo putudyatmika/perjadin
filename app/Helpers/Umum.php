@@ -98,10 +98,12 @@ Class Generate {
     public static function ChartBarBidangTahun($tahun) {
         /*
         select nama, COALESCE(jumlah,0) as a from unitkerja left join (SELECT month(transaksi.tgl_brkt) as bulan, year(transaksi.tgl_brkt) as tahun, matrik.unit_pelaksana, COUNT(*) as jumlah FROM `matrik` left join transaksi on transaksi.matrik_id=matrik.id where transaksi.flag_trx > 3 and month(transaksi.tgl_brkt) = '2' and year(transaksi.tgl_brkt) = '2019' GROUP by matrik.unit_pelaksana order by bulan,tahun asc) as trx on trx.unit_pelaksana=unitkerja.kode where unitkerja.eselon < 4
+
+        select nama, COALESCE(jumlah,0) as a, COALESCE(totalbiaya,0) as b from unitkerja left join (SELECT year(transaksi.tgl_brkt) as tahun, matrik.unit_pelaksana, COUNT(*) as jumlah, sum(kuitansi.total_biaya) as totalbiaya FROM `matrik` left join transaksi on transaksi.matrik_id=matrik.id left join kuitansi on kuitansi.trx_id=transaksi.trx_id where transaksi.flag_trx > 3 and year(transaksi.tgl_brkt) = '2019' GROUP by matrik.unit_pelaksana order by matrik.unit_pelaksana asc) as trx on trx.unit_pelaksana=unitkerja.kode where unitkerja.eselon < 4
         */
         $Data = \DB::table('unitkerja')->
-                leftJoin(\DB::Raw("(SELECT year(transaksi.tgl_brkt) as tahun, matrik.unit_pelaksana, COUNT(*) as jumlah FROM `matrik` left join transaksi on transaksi.matrik_id=matrik.id where transaksi.flag_trx > 3 and year(transaksi.tgl_brkt) = '".$tahun."' GROUP by matrik.unit_pelaksana order by tahun asc) as trx"),'trx.unit_pelaksana','=','unitkerja.kode')->
-                select(\DB::Raw('nama as y, COALESCE(jumlah,0) as a'))->
+                leftJoin(\DB::Raw("(SELECT year(transaksi.tgl_brkt) as tahun, matrik.unit_pelaksana, COUNT(*) as jumlah, format((sum(kuitansi.total_biaya)/1000000),2) as totalbiaya FROM matrik left join transaksi on transaksi.matrik_id=matrik.id left join kuitansi on kuitansi.trx_id=transaksi.trx_id where transaksi.flag_trx > 3 and year(transaksi.tgl_brkt) = '".$tahun."' GROUP by matrik.unit_pelaksana order by matrik.unit_pelaksana asc) as trx"),'trx.unit_pelaksana','=','unitkerja.kode')->
+                select(\DB::Raw('nama as y, COALESCE(jumlah,0) as a,COALESCE(totalbiaya,0) as b'))->
                 where('unitkerja.eselon','<','4')->
                 get()->toJson();
         //dd($Data);
@@ -116,5 +118,18 @@ Class Generate {
                 leftJoin(\DB::Raw("(SELECT matrik.kodekab_tujuan, COUNT(*) as jumlah FROM matrik left join transaksi on transaksi.matrik_id=matrik.id where transaksi.flag_trx > 3 and year(transaksi.tgl_brkt) = '".$tahun."' GROUP by matrik.kodekab_tujuan) as trx"),'tujuan.kode_kabkota','=','trx.kodekab_tujuan')->select(\DB::Raw('nama_kabkota as y,  COALESCE(jumlah,0) as a'))->get()->toJson();
         //dd($Data);
         return $Data;
+    }
+    public static function ChartBarPegawaiTop10Tahun($tahun) {
+        /*
+        select nama, jumlah, totalbiaya from pegawai left join (SELECT year(transaksi.tgl_brkt) as tahun, transaksi.peg_nip, COUNT(*) as jumlah, sum(kuitansi.total_biaya) as totalbiaya FROM `matrik` left join transaksi on transaksi.matrik_id=matrik.id left join kuitansi on kuitansi.trx_id=transaksi.trx_id where transaksi.flag_trx > 3 and year(transaksi.tgl_brkt) = '2019' GROUP by transaksi.peg_nip order by totalbiaya desc) as trx on pegawai.nip_baru=trx.peg_nip order by totalbiaya DESC
+        */
+        $Data = \DB::table('pegawai')->
+                leftJoin(\DB::Raw("(SELECT year(transaksi.tgl_brkt) as tahun, transaksi.peg_nip, COUNT(*) as jumlah, format((sum(kuitansi.total_biaya)/1000000),2) as totalbiaya, sum(kuitansi.total_biaya) as total_biaya FROM `matrik` left join transaksi on transaksi.matrik_id=matrik.id left join kuitansi on kuitansi.trx_id=transaksi.trx_id where transaksi.flag_trx > 3 and year(transaksi.tgl_brkt) = '".$tahun."' GROUP by transaksi.peg_nip order by totalbiaya desc) as trx"),'trx.peg_nip','=','pegawai.nip_baru')->
+                select(\DB::Raw('nama as y, COALESCE(jumlah,0) as a,COALESCE(totalbiaya,0) as b'))->
+                where('totalbiaya','>','0')->orderBy('total_biaya','desc')->take(10)->
+                get()->toJson();
+        //dd($Data);
+        return $Data;
+
     }
 }

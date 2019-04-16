@@ -32,4 +32,7 @@ class User extends Authenticatable
     public function getNama() {
         return $this->id;
     }
+    public function isSuperAdmin() {
+
+    }
 }

@@ -112,6 +112,15 @@
                 <div class="row">
                     <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
                         <div class="white-box">
+                            <h3 class="box-title">Top 10 Pegawai dengan Total Biaya Terbanyak Tahun {{\Carbon\Carbon::now()->format('Y')}}</h3>
+
+                            <div id="chart-peg-top10" style="height: 340px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                        <div class="white-box">
                             <h3 class="box-title">Banyak Perjalanan dan Total Biaya Perbulan Tahun {{\Carbon\Carbon::now()->format('Y')}}</h3>
 
                             <div id="chart-bulan-depan" style="height: 340px;"></div>
