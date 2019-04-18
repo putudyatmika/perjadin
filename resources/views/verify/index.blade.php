@@ -34,61 +34,65 @@
     <section id="wrapper">
         <div class="col-lg-12 col-md-12 col-xs-12">
         <div class="white-box">
+            @if ($dataTransaksi != NULL)
                 <h3>Sistem Perjalanan Dinas - BPS Provinsi NTB</h3>
                 <table class="table table-hover table-striped">
                     <tr>
                         <td><b>Kode TRX</b></td>
-                        <td>{{$dataTransaksi[0]->kode_trx}}</td>
+                        <td>{{$dataTransaksi->kode_trx}}</td>
                     </tr>
                     <tr>
                         <td><b>Nomor Surat Tugas</b></td>
-                        <td>{{$dataTransaksi[0]->SuratTugas->nomor_surat}}</td>
+                        <td>{{$dataTransaksi->SuratTugas->nomor_surat}}</td>
                     </tr>
                     <tr>
                         <td><b>Nomor SPD</b></td>
-                        <td>{{$dataTransaksi[0]->Spd->nomor_spd}}</td>
+                        <td>{{$dataTransaksi->Spd->nomor_spd}}</td>
                     </tr>
                     <tr>
                         <td><b>Tanggal Surat</b></td>
-                        <td>{{Tanggal::Panjang($dataTransaksi[0]->SuratTugas->tgl_surat)}}</td>
+                        <td>{{Tanggal::Panjang($dataTransaksi->SuratTugas->tgl_surat)}}</td>
                     </tr>
                     <tr>
                         <td><b>Nama</b></td>
-                        <td>{{$dataTransaksi[0]->TabelPegawai->nama}}</td>
+                        <td>{{$dataTransaksi->TabelPegawai->nama}}</td>
                     </tr>
                     <tr>
                         <td><b>NIP</b></td>
-                        <td>{{$dataTransaksi[0]->TabelPegawai->nip_baru}}</td>
+                        <td>{{$dataTransaksi->TabelPegawai->nip_baru}}</td>
                     </tr>
                     <tr>
                         <td><b>Subject Matter</b></td>
-                        <td>{{$dataTransaksi[0]->Matrik->DanaUnitkerja->nama}}</td>
+                        <td>{{$dataTransaksi->Matrik->DanaUnitkerja->nama}}</td>
                     </tr>
                     <tr>
                             <td><b>Sumber Dana</b></td>
-                            <td>{{$dataTransaksi[0]->Matrik->DanaAnggaran->mak}} - {{$dataTransaksi[0]->Matrik->DanaAnggaran->uraian}}</td>
+                            <td>{{$dataTransaksi->Matrik->DanaAnggaran->mak}} - {{$dataTransaksi->Matrik->DanaAnggaran->uraian}}</td>
                         </tr>
                     <tr>
                         <td><b>Tujuan</b></td>
-                        <td>{{$dataTransaksi[0]->Matrik->Tujuan->nama_kabkota}}</td>
+                        <td>{{$dataTransaksi->Matrik->Tujuan->nama_kabkota}}</td>
                     </tr>
                     <tr>
                         <td><b>Tugas</b></td>
-                        <td>{{$dataTransaksi[0]->tugas}}</td>
+                        <td>{{$dataTransaksi->tugas}}</td>
                     </tr>
                     <tr>
                         <td><b>Tanggal Berangkat</b></td>
-                        <td>{{Tanggal::Panjang($dataTransaksi[0]->tgl_brkt)}}</td>
+                        <td>{{Tanggal::Panjang($dataTransaksi->tgl_brkt)}}</td>
                     </tr>
                     <tr>
                         <td><b>Tanggal Kembali</b></td>
-                        <td>{{Tanggal::Panjang($dataTransaksi[0]->tgl_balik)}}</td>
+                        <td>{{Tanggal::Panjang($dataTransaksi->tgl_balik)}}</td>
                     </tr>
                     <tr>
                         <td><b>Status Surat Tugas</b></td>
-                        <td>{{$FlagSrt[$dataTransaksi[0]->SuratTugas->flag_surattugas]}}</td>
+                        <td>{{$FlagSrt[$dataTransaksi->SuratTugas->flag_surattugas]}}</td>
                     </tr>
                 </table>
+                @else
+                    <h3 class="text-center">Data perjalanan tidak tersedia</h3>
+                @endif
             </div>
         </div>
     </section>
