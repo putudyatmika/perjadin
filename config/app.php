@@ -167,6 +167,7 @@ return [
         App\Providers\TanggalProvider::class,
         App\Providers\UmumProvider::class,
         MaddHatter\LaravelFullcalendar\ServiceProvider::class,
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -235,6 +236,7 @@ return [
         'Jumlah' => App\Helpers\Jumlah::class,
         'Generate' => App\Helpers\Generate::class,
         'Calendar' => MaddHatter\LaravelFullcalendar\Facades\Calendar::class,
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
     ],
 
 ];

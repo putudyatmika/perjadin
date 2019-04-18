@@ -164,7 +164,9 @@
                                 <div class="row">
                                         <table width="100%" style="margin-top:22px;">
                                             <tr>
-                                                <td width="50%"></td>
+                                                <td width="50%">
+
+                                                </td>
                                                 <td width="50%">
                                                     <div class="text-center">
                                                         Mataram, {{ $tanggal_surat }}
@@ -180,14 +182,20 @@
                                                         {{$dataTransaksi[0]->SuratTugas->ttd_jabatan}}
                                                         @endif
                                                         <p style="margin-top:60pt;">{{$dataTransaksi[0]->SuratTugas->ttd_nama}}</p>
-                                                </div>
-                                            </td>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
                                         </table>
-
-
-
                                  </div>
+                                 <div class="qrcode">
+                                        <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')
+                                        ->size(90)->margin(0)->generate('https://perjadin.bpsntb.id/view/'.$dataTransaksi[0]->kode_trx)) !!} ">
+
+                                    <div style="font-size:9pt;padding-left:3px;">TRX ID : {{$dataTransaksi[0]->kode_trx}}</div>
+                                </div>
                                  <div style="margin-top:20px">
+
                                     <div class="bawah text-center">
                                         Jl. Gunung Rinjani No. 2 Mataram 83125  Telp. (0370) 621385, 638321  Fax (0370) 623801 <br />
                                         Email: bps5200@bps.go.id   Website: http//ntb.bps.go.id
