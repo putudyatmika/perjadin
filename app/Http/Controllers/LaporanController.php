@@ -100,4 +100,30 @@ class LaporanController extends Controller
     {
         //
     }
+    public function pegawai($idpeg)
+    {
+        /*
+        select nip_baru, pegawai.nama as nama_pegawai, unitkerja.nama as nama_unitkerja, jumlah, totalbiaya from pegawai left join unitkerja on pegawai.unitkerja=unitkerja.kode LEFT join (SELECT peg_nip, COUNT(*) as jumlah, sum(kuitansi.total_biaya) as totalbiaya FROM transaksi LEFT join kuitansi on transaksi.trx_id=kuitansi.trx_id where flag_trx>3 GROUP by peg_nip order by jumlah desc) as trx on pegawai.nip_baru=trx.peg_nip order by jumlah desc
+        */
+        if ($idpeg>0) {
+            $DataPegawai = \App\Pegawai::where('id','=',$idpeg)->first();
+            $RekapPegawai = Transaksi::where('peg_nip','=',$DataPegawai->nip_baru)->orderBy('tgl_brkt','asc')->get();
+            //dd($RekapPegawai);
+            return view('laporan.rekap-detil-pegawai',compact('DataPegawai','RekapPegawai'));
+        }
+        else {
+            $RekapPegawai = DB::table('pegawai')->
+            leftJoin('unitkerja','pegawai.unitkerja','=','unitkerja.kode')->
+            leftJoin(DB::Raw("(SELECT peg_nip, COUNT(*) as jumlah, sum(kuitansi.total_biaya) as totalbiaya FROM transaksi LEFT join kuitansi on transaksi.trx_id=kuitansi.trx_id where flag_trx>3 GROUP by peg_nip order by jumlah desc) as trx"),'trx.peg_nip','=','pegawai.nip_baru')->
+            select(DB::Raw('pegawai.id as peg_id,nip_baru, pegawai.nama as nama_pegawai, unitkerja.nama as nama_unitkerja, COALESCE(jumlah,0) as jumlah,COALESCE(totalbiaya,0) as totalbiaya'))->
+            where('jabatan','<','5')->orderBy('jumlah','desc')->get();
+
+            return view('laporan.rekap-pegawai',compact('RekapPegawai'));
+        }
+
+    }
+    public function bidang($bidang_id)
+    {
+
+    }
 }

@@ -15,60 +15,17 @@
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
  <!-- end - This is for export functionality only -->
- <script>
-     $('#SelesaiModal').on('show.bs.modal', function (event) {
-var button = $(event.relatedTarget) // Button that triggered the modal
-var trxid = button.data('trxid') // Extract info from data-* attributes
-var kid = button.data('kid') // Extract info from data-* attributes
-var kodetrx = button.data('kodetrx')
-var tujuan = button.data('tujuan')
-var nama = button.data('nama')
-var tugas = button.data('tugas')
-var tglkuitansi = button.data('tglkuitansi')
-var totalbiaya = button.data('totalbiaya')
-
-var modal = $(this)
-modal.find('.modal-body #trxid').val(trxid)
-modal.find('.modal-body #kuitansi_id').val(kid)
-modal.find('.modal-body #kodetrx').val(kodetrx)
-modal.find('.modal-body #tujuan').val(tujuan)
-modal.find('.modal-body #nama').val(nama)
-modal.find('.modal-body #tugas').val(tugas)
-modal.find('.modal-body #tgl_kuitansi').val(tglkuitansi)
-modal.find('.modal-body #totalbiaya').val(totalbiaya)
-});
-
-$('#FlagModal').on('show.bs.modal', function (event) {
-var button = $(event.relatedTarget) // Button that triggered the modal
-var trxid = button.data('trxid') // Extract info from data-* attributes
-var kid = button.data('kid') // Extract info from data-* attributes
-var kodetrx = button.data('kodetrx')
-var tujuan = button.data('tujuan')
-var nama = button.data('nama')
-var tugas = button.data('tugas')
-var tglkuitansi = button.data('tglkuitansi')
-var totalbiaya = button.data('totalbiaya')
-
-var modal = $(this)
-modal.find('.modal-body #trxid').val(trxid)
-modal.find('.modal-body #kuitansi_id').val(kid)
-modal.find('.modal-body #kodetrx').val(kodetrx)
-modal.find('.modal-body #tujuan').val(tujuan)
-modal.find('.modal-body #nama').val(nama)
-modal.find('.modal-body #tugas').val(tugas)
-modal.find('.modal-body #tgl_kuitansi').val(tglkuitansi)
-modal.find('.modal-body #totalbiaya').val(totalbiaya)
-});
-
+<script>
 $(function () {
     $("#DataTableCustom").dataTable({
         dom: 'Bfrtip',
         buttons: [
             'copy', 'excel', 'pdf', 'print'
-        ]
+        ],
+        "pageLength": 15,
     });
 });
-     </script>
+</script>
 @stop
 @extends('layouts.default')
 
@@ -76,16 +33,17 @@ $(function () {
 <div class="container-fluid">
                 <div class="row bg-title">
                     <!-- .page title -->
-                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                        <h4 class="page-title">Kuitansi Perjalanan Dinas</h4>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <h4 class="page-title">Laporan - Rekap Perjalanan Menurut Pegawai</h4>
                     </div>
                     <!-- /.page title -->
                     <!-- .breadcrumb -->
-                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
 
                         <ol class="breadcrumb">
                             <li><a href="{{url('')}}">Dashboard</a></li>
-                            <li class="active">Data Kuitansi</li>
+                            <li>Laporan</li>
+                            <li class="active">Rekap Pegawai</li>
                         </ol>
                     </div>
                     <!-- /.breadcrumb -->
@@ -99,41 +57,35 @@ $(function () {
                                 </div>
                     <div class="col-lg-12">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0">Daftar Kuitansi</h3>
+                            <h3 class="box-title m-b-0">Rekap Anggaran Perjalanan Dinas yang telah dilaksanakan</h3>
                             <p class="text-muted m-b-20">Keadaan <code>tanggal hari ini</code></p>
                             <div class="table-responsive">
                                 <table id="DataTableCustom" class="table table-striped">
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Kode Trx</th>
-                                            <th>Tanggal Kuitansi</th>
                                             <th>Nama Pegawai</th>
-                                            <th>Tugas</th>
-                                            <th>Tanggal Pergi</th>
-                                            <!--<th>Tanggal Kembali</th>-->
-                                            <th>Status Kuitansi</th>
-                                            <th>Aksi</th>
+                                            <th>Bidang/Bagian</th>
+                                            <th class="text-right">Jumlah Perjalanan</th>
+                                            <th class="text-right">Total Biaya</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($DataKuitansi as $item)
+                                        @foreach ($RekapPegawai as $item)
                                             <tr>
                                                 <td>{{$loop->iteration}}</td>
                                                 <td>
-                                                    @if ($item->tgl_kuitansi=="")
-                                                    {{$item->Transaksi->kode_trx}}
+                                                    @if ($item->jumlah>0)
+                                                    <a href="{{route('lap_pegawai',$item->peg_id)}}">{{$item->nama_pegawai}}</a>
                                                     @else
-                                                    <a href="{{route('kuitansi.view',$item->Transaksi->kode_trx)}}">{{$item->Transaksi->kode_trx}}</a>
+                                                    {{$item->nama_pegawai}}
                                                     @endif
+                                                    <br />
+                                                    <small>NIP. {{$item->nip_baru}}</small>
                                                 </td>
-                                                <td>{{$item->tgl_kuitansi}}</td>
-                                                <td>{{$item->Transaksi->TabelPegawai->nama}}</td>
-                                                <td>{{$item->Transaksi->tugas}}</td>
-                                                <td>{{$item->Transaksi->tgl_brkt}}</td>
-                                                <!--<td>{{$item->Transaksi->tgl_balik}}</td>-->
-                                                <td>@include('kuitansi.flag')</td>
-                                                <td>@include('kuitansi.aksi')</td>
+                                                <td>{{$item->nama_unitkerja}}</td>
+                                                <td class="text-right">{{$item->jumlah}}</td>
+                                                <td class="text-right">@duit($item->totalbiaya)</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -145,5 +97,4 @@ $(function () {
                 <!-- /.row -->
             </div>
             <!-- /.container-fluid -->
-            @include('kuitansi.modal')
 @endsection

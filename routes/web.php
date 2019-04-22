@@ -36,6 +36,8 @@ Route::get('/golongan', function () {
 Route::match(['get', 'post'], '/login', 'AdminController@login')->name('admin.login');
 */
 //Route::get('/pegawai/tambah','PegawaiController@tambah');
+Route::get('view/{kodetrx}','ViewController@view');
+
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('golongan','GolonganController');
     Route::get('pegawai/import','PegawaiController@import')->name('pegawai.import');
@@ -60,9 +62,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('kuitansi','KuitansiController');
     Route::get('setuju/daftar','PersetujuanController@daftar')->name('setuju.daftar');
     Route::resource('setuju','PersetujuanController');
+    Route::get('laporan/pegawai/{idpeg}','LaporanController@pegawai')->name('lap_pegawai');
+    Route::get('laporan/bidang/{bidangid}','LaporanController@bidang')->name('lap_bidang');
     Route::resource('laporan','LaporanController');
 });
-
-
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 //Route::get('/home', 'HomeController@index')->name('home');

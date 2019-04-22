@@ -236,6 +236,26 @@ class KuitansiController extends Controller
                  return redirect()->to('kuitansi');
             }
         }
+        elseif ($request->aksi == "flag") {
+            //cek kuitansi dulu hanya admin yang bisa
+            $count = Kuitansi::where('kuitansi_id','=',$request->kuitansi_id)->count();
+            if ($count>0) {
+                //kalo ada update flag kuitansi jadi selesai
+                $dataKuitansi = Kuitansi::where('kuitansi_id','=',$request->kuitansi_id)->first();
+                $dataKuitansi -> flag_kuitansi = 0;
+                $dataKuitansi -> update();
+
+                Session::flash('message', 'Kuitansi an. '.$request->nama.' tujuan ke '. $request->nama_tujuan .' sudah diupdate');
+                Session::flash('message_type', 'success');
+                return redirect()->to('kuitansi');
+            }
+            else {
+                 //kuitansi tidak ada
+                 Session::flash('message', 'Kuitansi tidak ditemukan');
+                 Session::flash('message_type', 'danger');
+                 return redirect()->to('kuitansi');
+            }
+        }
         else {
             dd($request->all());
         }
