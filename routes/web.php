@@ -62,6 +62,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('kuitansi','KuitansiController');
     Route::get('setuju/daftar','PersetujuanController@daftar')->name('setuju.daftar');
     Route::resource('setuju','PersetujuanController');
+    Route::get('laporan/pegawai','LaporanController@pegawai')->name('lap_pegawai');
     Route::resource('laporan','LaporanController');
 });
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
