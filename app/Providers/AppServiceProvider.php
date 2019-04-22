@@ -24,7 +24,8 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('duit', function ($angka) {
             return "<?php echo number_format($angka,0,',','.'); ?>";
         });
-        Carbon::setLocale('id');
+        config(['app.locale' => 'id']);
+        \Carbon\Carbon::setLocale('id');
     }
 
     /**

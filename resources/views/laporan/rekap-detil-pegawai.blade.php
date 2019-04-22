@@ -57,38 +57,44 @@ $(function () {
                                 </div>
                     <div class="col-lg-12">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0">Rekap Anggaran Perjalanan Dinas yang telah dilaksanakan</h3>
+                            <h3 class="box-title m-b-0">Detil Perjalanan Dinas An. {{$DataPegawai->nama}} - NIP. {{$DataPegawai->nip_baru}}</h3>
                             <p class="text-muted m-b-20">Keadaan <code>tanggal hari ini</code></p>
                             <div class="table-responsive">
                                 <table id="DataTableCustom" class="table table-striped">
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Nama Pegawai</th>
-                                            <th>Bidang/Bagian</th>
-                                            <th class="text-right">Jumlah Perjalanan</th>
-                                            <th class="text-right">Total Biaya</th>
+                                            <th>Tujuan</th>
+                                            <th>Tugas</th>
+                                            <th>Tgl Brkt</th>
+                                            <th>Tgl Kembali</th>
+                                            <th>Total Biaya</th>
                                         </tr>
                                     </thead>
+                                    @php
+                                        $totalbiaya=0;
+                                    @endphp
                                     <tbody>
                                         @foreach ($RekapPegawai as $item)
                                             <tr>
                                                 <td>{{$loop->iteration}}</td>
-                                                <td>
-                                                    @if ($item->jumlah>0)
-                                                    <a href="{{route('lap_pegawai',$item->peg_id)}}">{{$item->nama_pegawai}}</a>
-                                                    @else
-                                                    {{$item->nama_pegawai}}
-                                                    @endif
-                                                    <br />
-                                                    <small>NIP. {{$item->nip_baru}}</small>
-                                                </td>
-                                                <td>{{$item->nama_unitkerja}}</td>
-                                                <td class="text-right">{{$item->jumlah}}</td>
-                                                <td class="text-right">@duit($item->totalbiaya)</td>
+                                                <td>{{$item->Matrik->Tujuan->nama_kabkota}}</td>
+                                                <td>{{$item->tugas}}</td>
+                                                <td class="text-right">{{Tanggal::Panjang($item->tgl_brkt)}}</td>
+                                                <td class="text-right">{{Tanggal::Panjang($item->tgl_balik)}}</td>
+                                                <td class="text-right">@duit($item->Kuitansi->total_biaya)</td>
                                             </tr>
+                                            @php
+                                                $totalbiaya += $item->Kuitansi->total_biaya;
+                                            @endphp
                                         @endforeach
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th colspan="5" class="text-center">Total</th>
+                                            <th class="text-right">@duit($totalbiaya)</th>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>

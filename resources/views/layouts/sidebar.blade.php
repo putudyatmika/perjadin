@@ -52,7 +52,7 @@
                     </a></li>
                     <li> <a href="forms.html" class="waves-effect"><i data-icon="&#xe00b;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Laporan<span class="fa arrow"></span></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a href="{{url('laporan/pegawai')}}">Rekap pegawai</a></li>
+                            <li><a href="{{route('lap_pegawai','0')}}">Rekap pegawai</a></li>
                             <li><a href="{{url('laporan/bidang')}}">Rekap Bidang</a></li>
                             <li><a href="{{url('laporan/transaksi')}}">Rekap Transaksi</a></li>
                             <li><a href="{{route('laporan.index')}}">Rekap Anggaran</a></li>
