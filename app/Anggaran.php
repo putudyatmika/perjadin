@@ -14,4 +14,12 @@ class Anggaran extends Model
     {
         return $this->hasMany('App\MatrikPerjalanan', 'mak_id', 'id');
     }
+    public function Turunan()
+    {
+        return $this->belongsTo('App\TurunanAnggaran', 'a_id', 'id');
+    }
+    public function Unitkerja()
+    {
+        return $this->belongsTo('App\Unitkerja', 'unitkerja', 'kode');
+    }
 }

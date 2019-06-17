@@ -66,7 +66,8 @@ $(function () {
         dom: 'Bfrtip',
         buttons: [
             'copy', 'excel', 'pdf', 'print'
-        ]
+        ],
+        "pageLength": 30
     });
 });
 </script>
@@ -129,11 +130,9 @@ $(function () {
                                             <th>No</th>
                                             <th>ID</th>
                                             <th>Tahun</th>
-                                            <th>MAK</th>
                                             <th>Uraian</th>
                                             <th>Unitkerja</th>
                                             <th>Pagu Awal</th>
-                                            <th>Pagu Tersedia</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -143,11 +142,11 @@ $(function () {
                                                 <td>{{ $loop->iteration}}</td>
                                                 <td>{{ $item->id}}</td>
                                                 <td>{{ $item->tahun_anggaran}}</td>
-                                                <td>{{ $item->mak}}</td>
-                                                <td>{{ $item->uraian}}</td>
+                                                <td><a href="" data-toggle="modal" data-target="#ViewModal">{{ $item->uraian}}</a>
+                                                    <br />
+                                                <small>{{ $item->mak}}</small></td>
                                                 <td>{{ $item->unit_nama}}</td>
                                                 <td><div class="pull-right">@duit($item->pagu)</div></td>
-                                                <td><div class="pull-right">@duit($item->pagu-$item->rencana_pagu)</div></td>
                                                 <td>
                                                     @if (Auth::user()->pengelola>3)
                                                     <button type="button" class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#EditModal" data-tahun="{{ $item->tahun_anggaran}}" data-mak="{{ $item->mak}}" data-pagu="{{ $item->pagu}}" data-uraian="{{$item->uraian}}" data-unitkode="{{$item->unitkerja}}" data-anggaranid="{{$item->id}}">Edit</button>
@@ -284,5 +283,6 @@ $(function () {
                     </div>
             </div>
             <!--end modal delete anggaran-->
+            @include('anggaran.modal')
 @endsection
 
