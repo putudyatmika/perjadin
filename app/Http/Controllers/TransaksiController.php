@@ -314,6 +314,25 @@ class TransaksiController extends Controller
             Session::flash('message_type', 'info');
             return redirect()->route('transaksi.index');
         }
+        elseif ($request->aksi == "editalokasi") {
+            //menu ini hanya superadmin
+            $bnyk_hari = $request->lamanya - 1;
+            $datatrx = Transaksi::where('trx_id','=',$request->trxid)->first();
+            $datatrx -> bnyk_hari = $request->lamanya;
+            $datatrx -> tugas = $request->tugas;
+            $datatrx -> tgl_brkt = Carbon::parse($request->tglberangkat)->format('Y-m-d');
+            $datatrx -> tgl_balik = Carbon::parse($request->tglberangkat)->addDays($bnyk_hari)->format('Y-m-d');
+            $datatrx -> peg_nip = $request->peg_nip;
+            $datatrx -> flag_trx = $request->flag_transaksi;
+            $datatrx -> kabid_konfirmasi = $request->kabid_setuju;
+            $datatrx -> ppk_konfirmasi = $request->ppk_setuju;
+            $datatrx -> kpa_konfirmasi = $request->kpa_setuju;
+            $datatrx -> update();
+
+            Session::flash('message', 'Data Perjalanan ke '.$request->tujuan.' tanggal '. $request->tglberangkat .' sudah diupdate');
+            Session::flash('message_type', 'info');
+            return redirect()->route('transaksi.index');
+        }
         else {
              dd($request->all());
         }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Golongan;
 use App\Unitkerja;
 use App\Pegawai;
+use App\MatrikPerjalanan;
 use Validator;
 use Carbon\Carbon;
 use Session;
@@ -158,5 +159,44 @@ class AnggaranController extends Controller
             return back();
         }
         return redirect()->back()->with(['error' => 'Please choose file before']);
+    }
+    public function sinkron()
+    {
+       //sinkroninsasi data anggaran ke turunan anggaran
+       $dataAnggaran = Anggaran::with('Unitkerja')->get();
+       foreach ($dataAnggaran as $item) {
+            $count = \App\TurunanAnggaran::where([['a_id','=',$item->id],['unit_pelaksana','=',$item->unitkerja]])->count();
+            if ($count > 0) {
+                //sudah ada
+                $dataSinkron[] = array(
+                    'id'=>$item->id,
+                    'mak'=>$item->mak,
+                    'uraian'=>$item->uraian,
+                    'unitkerja'=>$item->unitkerja,
+                    'namaunit'=>$item->Unitkerja->nama,
+                    'pagu'=>$item->pagu,
+                    'status'=> 'Data sudah tersinkron'
+                );
+            }
+            else {
+                //belum ada insert
+                //$dataTurunan = \App\TurunanAnggaran::where([['a_id','=',$item->id],['unit_pelaksana','=',$item->unitkerja]])->first();
+                $dataTurunan = new \App\TurunanAnggaran();
+                $dataTurunan -> a_id = $item->id;
+                $dataTurunan -> unit_pelaksana = $item->unitkerja;
+                $dataTurunan -> pagu_awal = $item->pagu;
+                $dataTurunan -> save();
+                $dataSinkron[] = array(
+                    'id'=>$item->id,
+                    'mak'=>$item->mak,
+                    'uraian'=>$item->uraian,
+                    'unitkerja'=>$item->unitkerja,
+                    'namaunit'=>$item->Unitkerja->nama,
+                    'pagu'=>$item->pagu,
+                    'status'=> 'Data sudah ditambahkan'
+                );
+            }
+       }
+       dd($dataSinkron);
     }
 }
