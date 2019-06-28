@@ -17,6 +17,7 @@ use App\Anggaran;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Gate;
 class UserController extends Controller
 {
     public function __construct()
@@ -31,6 +32,10 @@ class UserController extends Controller
     public function index()
     {
         //
+        if (!Gate::allows('isAdmin') && !Gate::allows('isSuperAdmin')){
+            abort(404,'Maaf.. anda tidak bisa mengakses halaman ini');
+        }
+
         $DataUnitkerja = Unitkerja::where('eselon','<','4')->get();
         //$DataUser = User::all();
         $DataUser = DB::table('users')
