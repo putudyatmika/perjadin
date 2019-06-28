@@ -13,6 +13,6 @@ class TurunanAnggaran extends Model
 
     public function Anggaran()
     {
-        return $this->hasMany('App\Anggaran', 'id', 'a_id');
+        return $this->belongsTo('App\Anggaran', 'id', 'a_id');
     }
 }
