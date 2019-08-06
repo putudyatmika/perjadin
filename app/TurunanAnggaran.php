@@ -15,4 +15,8 @@ class TurunanAnggaran extends Model
     {
         return $this->belongsTo('App\Anggaran', 'id', 'a_id');
     }
+    public function Unitkerja()
+    {
+        return $this->belongsTo('App\Unitkerja', 'unit_pelaksana', 'kode');
+    }
 }
