@@ -6,25 +6,31 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title text-white" id="exampleModalLabel1">Anggaran Keterpaduan</h4> </div>
             <div class="modal-body">
-                    <dl class="row">
-                            <dt class="col-sm-3">Tahun</dt>
-                            <dd class="col-sm-9"><span id="tahun_anggaran"></span></dd>
-                            <dt class="col-sm-3">MAK</dt>
-                            <dd class="col-sm-9"><span id="mak_anggaran"></span></dd>
-                            <dt class="col-sm-3">Uraian</dt>
-                            <dd class="col-sm-9"><span id="uraian_anggaran"></span></dd>
-                            <dt class="col-sm-3">Subject Matter</dt>
-                            <dd class="col-sm-9"><span id="sm_anggaran"></span></dd>
-                    </dl>
+                <dl class="row">
+                        <dt class="col-sm-3">Tahun</dt>
+                        <dd class="col-sm-9"><span id="tahun_anggaran"></span></dd>
+                        <dt class="col-sm-3">MAK</dt>
+                        <dd class="col-sm-9"><span id="mak_anggaran"></span></dd>
+                        <dt class="col-sm-3">Uraian</dt>
+                        <dd class="col-sm-9"><span id="uraian_anggaran"></span></dd>
+                        <dt class="col-sm-3">Subject Matter</dt>
+                        <dd class="col-sm-9"><span id="sm_anggaran"></span></dd>
+                        <dt class="col-sm-3">Pagu Utama</dt>
+                        <dd class="col-sm-9"><span id="pagu_utama"></span></dd>
+                </dl>
 
-                <table class="table">
+                <table class="table" id="tabelturunan">
+                    <thead>
                     <tr>
-                        <td>No</td>
-                        <td>Bidang/Bagian</td>
-                        <td>%</td>
-                        <td>Pagu Alokasi</td>
-                        <td>Realisasi</td>
+                        <th>No</th>
+                        <th>Bidang/Bagian</th>
+                        <th>%</th>
+                        <th>Pagu Alokasi</th>
+                        <th>Realisasi</th>
                     </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
                 </table>
             </div>
             <div class="modal-footer">

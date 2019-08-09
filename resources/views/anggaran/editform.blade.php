@@ -1,11 +1,11 @@
 @section('js')
 <script>
     jQuery(document).ready(function() {
-        
+
         // For select 2
         $(".select2").select2();
         $('.selectpicker').selectpicker();
-        
+
     });
     </script>
 
@@ -44,8 +44,8 @@
                                                     <label for="tahun_anggaran">Tahun</label>
                                                     <div class="input-group">
                                                         <div class="input-group-addon"><i class="ti-lock"></i></div>
-                                                        <input type="text" class="form-control" id="tahun_anggaran" name="tahun_anggaran" placeholder="Tahun Anggaran" data-mask="9999" required=""> 
-                                                        
+                                                        <input type="text" class="form-control" id="tahun_anggaran" name="tahun_anggaran" placeholder="Tahun Anggaran" data-mask="9999" required="">
+
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -65,10 +65,10 @@
                                                     <label for="pagu">Pagu</label>
                                                     <div class="input-group">
                                                         <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
-                                                        <input type="text" class="form-control" id="pagu" name="pagu" placeholder="Pagu Anggaran" required=""> </div>
+                                                        <input type="text" class="form-control" id="pagu_utama" name="pagu_utama" placeholder="Pagu Anggaran" required=""> </div>
                                                 </div>
-                                                
-                                                
+
+
                                                 <div class="form-group">
                                                     <label for="unitkerja">Unitkerja</label>
                                                     <div class="input-group">
@@ -79,10 +79,10 @@
                                                                 <option value="{{ $Unit -> kode }}">[{{ $Unit -> kode }}] {{ $Unit -> nama }}</option>
                                                             @endforeach
                                                         </select>
-                            
+
                                                         </div>
                                                 </div>
-                                                
+
                                                 <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
                                                 <button type="submit" class="btn btn-inverse waves-effect waves-light">Cancel</button>
                                             </form>
@@ -90,7 +90,7 @@
                                     </div>
                                 </div>
                             </div>
-        
+
                 </div>
                 <!-- /.row -->
             </div>

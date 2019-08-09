@@ -135,7 +135,7 @@ class AnggaranController extends Controller
                 'tahun_anggaran' => null,
                 'mak' => null,
                 'uraian' => null,
-                'pagu' => null,
+                'pagu_utama' => null,
                 'unitkerja' => 'kode bidang/bagian 5 digit'
             ]
         ];
@@ -160,6 +160,67 @@ class AnggaranController extends Controller
         }
         return redirect()->back()->with(['error' => 'Please choose file before']);
     }
+    public function viewturunan($aid)
+    {
+        $dataAnggaran = Anggaran::where('id','=',$aid)->with('Turunan','Unitkerja')->first();
+
+        $arr = array('hasil' => 'Data tidak tersedia', 'status' => false);
+        if($dataAnggaran) {
+            //$arr = array('hasil' => $dataAnggaran, 'status' => true);
+                $arrTurunan=array();
+                $tCount = \App\TurunanAnggaran::where('a_id','=',$aid)->count();
+                if ($tCount>0) {
+                    $dTurunan = \App\TurunanAnggaran::where('a_id','=',$aid)->get();
+                    $i=1;
+                    $tStatus = true;
+                    foreach ($dTurunan as $item) {
+                        $arrTurunan[] = array(
+                            'no'=>$i,
+                            't_id'=>$item->t_id,
+                            'a_id'=>$item->a_id,
+                            't_unitkode'=>$item->unit_pelaksana,
+                            't_unitnama'=>$item->Unitkerja->nama,
+                            't_paguawal'=>(int) $item->pagu_awal,
+                            't_pagurencana'=>(int) $item->pagu_rencana,
+                            't_pagurealisasi'=>(int)$item->pagu_realiasi
+                        );
+                        $i++;
+                    }
+                }
+                else {
+                    $tStatus = false;
+
+                }
+            $arr = array(
+                'hasil'=>array(
+                    'id'=> $dataAnggaran->id,
+                    'tahun_anggaran'=> $dataAnggaran->tahun_anggaran,
+                    'mak'=> $dataAnggaran->mak,
+                    'uraian'=>$dataAnggaran->uraian,
+                    'pagu_utama'=> (int)$dataAnggaran->pagu_utama,
+                    'rencana_pagu'=> (int) $dataAnggaran->rencana_pagu,
+                    'unitkode'=> $dataAnggaran->unitkerja,
+                    'unitnama'=> $dataAnggaran->Unitkerja->nama,
+                    'turunan_status'=>$tStatus,
+                    't_jumlah'=>$tCount,
+                    'turunan'=>$arrTurunan
+                ),
+                'status'=>true,
+
+            );
+        }
+        return Response()->json($arr);
+        //return response()->json($ritems);
+        //return response()->json(array('data'=> $data), 200);
+
+    }
+    public function alokasi($id) {
+        $dataAnggaran = Anggaran::where('id','=',$id)->with('Turunan','Unitkerja')->first();
+        $dataTurunan = \App\TurunanAnggaran::where('a_id','=',$id)->get();
+        $DataUnitkerja = DB::table('unitkerja')
+                        -> where('eselon','=','3')->get();
+        return view('anggaran.alokasi',compact('dataAnggaran','dataTurunan','DataUnitkerja'));
+    }
     public function sinkron()
     {
        //sinkroninsasi data anggaran ke turunan anggaran
@@ -174,7 +235,7 @@ class AnggaranController extends Controller
                     'uraian'=>$item->uraian,
                     'unitkerja'=>$item->unitkerja,
                     'namaunit'=>$item->Unitkerja->nama,
-                    'pagu'=>$item->pagu,
+                    'pagu_utama'=>$item->pagu_utama,
                     'status'=> 'Data sudah tersinkron'
                 );
             }
@@ -184,7 +245,7 @@ class AnggaranController extends Controller
                 $dataTurunan = new \App\TurunanAnggaran();
                 $dataTurunan -> a_id = $item->id;
                 $dataTurunan -> unit_pelaksana = $item->unitkerja;
-                $dataTurunan -> pagu_awal = $item->pagu;
+                $dataTurunan -> pagu_awal = $item->pagu_utama;
                 $dataTurunan -> save();
                 $dataSinkron[] = array(
                     'id'=>$item->id,
@@ -192,7 +253,7 @@ class AnggaranController extends Controller
                     'uraian'=>$item->uraian,
                     'unitkerja'=>$item->unitkerja,
                     'namaunit'=>$item->Unitkerja->nama,
-                    'pagu'=>$item->pagu,
+                    'pagu_utama'=>$item->pagu_utama,
                     'status'=> 'Data sudah ditambahkan'
                 );
             }

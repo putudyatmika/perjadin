@@ -37,7 +37,7 @@ $('#EditModal').on('show.bs.modal', function (event) {
   modal.find('.modal-body #tahun_anggaran').val(tahun_anggaran)
   modal.find('.modal-body #mak').val(mak)
   modal.find('.modal-body #uraian').val(uraian)
-  modal.find('.modal-body #pagu').val(pagu)
+  modal.find('.modal-body #pagu_utama').val(pagu)
   modal.find('.modal-body #unitkerja').val(unitkerja)
   modal.find('.modal-body #anggaranid').val(anggaranid)
 })
@@ -57,7 +57,7 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
   modal.find('.modal-body #tahun_anggaran').val(tahun_anggaran)
   modal.find('.modal-body #mak').val(mak)
   modal.find('.modal-body #uraian').val(uraian)
-  modal.find('.modal-body #pagu').val(pagu)
+  modal.find('.modal-body #pagu_utama').val(pagu)
   modal.find('.modal-body #unitkerja').val(unitkerja)
   modal.find('.modal-body #anggaranid').val(anggaranid)
 });
@@ -71,6 +71,7 @@ $(function () {
     });
 });
 </script>
+@include('anggaran.js')
 @stop
 @extends('layouts.default')
 
@@ -85,7 +86,7 @@ $(function () {
                     <!-- .breadcrumb -->
                     <div class="col-lg-8 col-sm-8 col-md-8 col-xs-12">
                         <ol class="breadcrumb">
-                            <li><a href="#">Dashboard</a></li>
+                            <li><a href="{{url('')}}">Dashboard</a></li>
                             <li class="active">Data Anggaran Perjalanan</li>
                         </ol>
                     </div>
@@ -104,8 +105,8 @@ $(function () {
                           <div class="input-group {{ $errors->has('importAnggaran') ? 'has-error' : '' }}">
                             <input type="file" class="form-control" name="importAnggaran" required="">
                             <span class="input-group-btn">
-                                            <button type="submit" class="btn btn-success" style="height: 38px;margin-left: -2px;">Import</button>
-                                          </span>
+                                    <button type="submit" class="btn btn-success" style="height: 38px;margin-left: -2px;">Import</button>
+                            </span>
                           </div>
                         </form>
                 </div>
@@ -133,7 +134,7 @@ $(function () {
                                             <th>Uraian</th>
                                             <th>Unitkerja</th>
                                             <th>Pagu Awal</th>
-                                            <th>Aksi</th>
+                                            <th width="15%">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -142,15 +143,16 @@ $(function () {
                                                 <td>{{ $loop->iteration}}</td>
                                                 <td>{{ $item->id}}</td>
                                                 <td>{{ $item->tahun_anggaran}}</td>
-                                                <td><a href="" data-toggle="modal" data-target="#ViewModal">{{ $item->uraian}}</a>
+                                                <td><a href="" data-toggle="modal" data-target="#ViewModal" data-anggaranid="{{$item->id}}">{{ $item->uraian}}</a>
                                                     <br />
                                                 <small>{{ $item->mak}}</small></td>
                                                 <td>{{ $item->unit_nama}}</td>
-                                                <td><div class="pull-right">@duit($item->pagu)</div></td>
+                                                <td><div class="pull-right">{{$item->pagu_utama}}</div></td>
                                                 <td>
                                                     @if (Auth::user()->pengelola>3)
-                                                    <button type="button" class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#EditModal" data-tahun="{{ $item->tahun_anggaran}}" data-mak="{{ $item->mak}}" data-pagu="{{ $item->pagu}}" data-uraian="{{$item->uraian}}" data-unitkode="{{$item->unitkerja}}" data-anggaranid="{{$item->id}}">Edit</button>
-                                                    <button type="button" class="btn btn-danger btn-rounded" data-toggle="modal" data-target="#DeleteModal" data-tahun="{{ $item->tahun_anggaran}}" data-mak="{{ $item->mak}}" data-pagu="{{ $item->pagu}}" data-uraian="{{$item->uraian}}" data-unitkode="{{$item->unit_nama}}" data-anggaranid="{{$item->id}}">Delete</button>
+                                                    <a href="{{route('anggaran.alokasi',$item->id)}}" class="btn btn-sm btn-success btn-rounded">Alokasi</a>
+                                                    <button type="button" class="btn btn-sm btn-primary btn-rounded" data-toggle="modal" data-target="#EditModal" data-tahun="{{ $item->tahun_anggaran}}" data-mak="{{ $item->mak}}" data-pagu="{{ $item->pagu_utama}}" data-uraian="{{$item->uraian}}" data-unitkode="{{$item->unitkerja}}" data-anggaranid="{{$item->id}}"><i class="fa fa-pencil"></i></button>
+                                                    <button type="button" class="btn btn-sm btn-danger btn-rounded" data-toggle="modal" data-target="#DeleteModal" data-tahun="{{ $item->tahun_anggaran}}" data-mak="{{ $item->mak}}" data-pagu="{{ $item->pagu_utama}}" data-uraian="{{$item->uraian}}" data-unitkode="{{$item->unit_nama}}" data-anggaranid="{{$item->id}}"><i class="fa fa-trash-o"></i></button>
                                                     @endif
                                                 </td>
                                             </tr>
@@ -208,7 +210,7 @@ $(function () {
                                                 <label for="pagu">Pagu</label>
                                                 <div class="input-group">
                                                     <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
-                                                    <input type="text" class="form-control" id="pagu" name="pagu" placeholder="Pagu Anggaran" required=""> </div>
+                                                    <input type="text" class="form-control" id="pagu_utama" name="pagu_utama" placeholder="Pagu Anggaran" required=""> </div>
                                             </div>
 
 
