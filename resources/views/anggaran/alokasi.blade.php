@@ -47,6 +47,10 @@
                                 <dd class="col-sm-9">[{{$dataAnggaran->unitkerja}}] {{$dataAnggaran->Unitkerja->nama}}</dd>
                                 <dt class="col-sm-3">Pagu Utama</dt>
                                 <dd class="col-sm-9">Rp. @duit($dataAnggaran->pagu_utama)</dd>
+                                <dt class="col-sm-3">Pagu sudah teralokasi</dt>
+                                <dd class="col-sm-9">Rp. @duit($dataAnggaran->rencana_pagu)</dd>
+                                <dt class="col-sm-3">Sisa Pagu Utama</dt>
+                                <dd class="col-sm-9">Rp. @duit(($dataAnggaran->pagu_utama-$dataAnggaran->rencana_pagu))</dd>
                             </dl>
                             <div class="text-right" style="margin-bottom:10px;"><button type="button" class="btn btn-sm btn-success btn-rounded" data-toggle="modal" data-target="#TambahAlokasiModal" data-tahun="{{$dataAnggaran->tahun_anggaran}}"><i class="fa fa-plus"></i> Tambah Alokasi</button>
                             </div>

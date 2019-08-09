@@ -15,6 +15,7 @@ $('#ViewModal').on('show.bs.modal', function (event) {
             $('#ViewModal .modal-body #uraian_anggaran').text(data.hasil.uraian)
             $('#ViewModal .modal-body #sm_anggaran').text("["+ data.hasil.unitkode +"] "+data.hasil.unitnama)
             $('#ViewModal .modal-body #pagu_utama').text(pagu_utama)
+            $('#ViewModal .modal-footer #ViewAlokasi').attr("href","{{route('anggaran.alokasi','')}}/"+anggaranid)
             if (data.hasil.turunan_status==false) {
                 $('#ViewModal .modal-body #tabelturunan tbody').html("<tr><td colspan='5' align='center'>Belum ada alokasi</td></tr>")
             }

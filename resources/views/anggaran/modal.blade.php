@@ -34,6 +34,7 @@
                 </table>
             </div>
             <div class="modal-footer">
+                <a href="" class="btn btn-success waves-effect waves-light" id="ViewAlokasi">Alokasi</a>
                 <button type="button" class="btn btn-inverse waves-effect waves-light" data-dismiss="modal">Close</button>
                 {{-- <button type="submit" class="btn btn-success waves-effect waves-light" id="EditView">Edit Data</button>
                 <button type="button" class="btn btn-danger waves-effect waves-light" id="DeleteView">Delete Data</button> --}}

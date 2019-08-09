@@ -43,16 +43,44 @@ class TurunanController extends Controller
     {
         //
         //cek dulu sisa anggaran utamanya
+        //$anggaran_id = $request->a_id;
+        //$count = Anggaran::where('id', '=', $request->a_id)->with('Turunan', 'Unitkerja')->count();
+        $count = Anggaran::where('id', '=', $request->a_id)->count();
+        if ($count > 0) {
+            //anggaran id ada
+            $dataAnggaran = Anggaran::where('id', '=', $request->a_id)->with('Turunan', 'Unitkerja')->first();
+            $sisa = $dataAnggaran->pagu_utama - $dataAnggaran->rencana_pagu;
+            if ($sisa >= $request->pagu_utama) {
+                //boleh ditambahkan
+                //edit rencana pagu
+                $rencana_pagu = $dataAnggaran->rencana_pagu + $request->pagu_utama;
+                $dataAnggaran->rencana_pagu = $rencana_pagu;
+                $dataAnggaran->update();
 
-        $dataTurunan = new TurunanAnggaran();
-        $dataTurunan -> a_id = $request->a_id;
-        $dataTurunan -> unit_pelaksana = $request->unitkerja;
-        $dataTurunan -> pagu_awal = $request->pagu_utama;
-        $dataTurunan -> save();
 
-        Session::flash('message', 'Data alokasi anggaran sudah ditambahkan');
-        Session::flash('message_type', 'success');
-        return redirect()->route('anggaran.alokasi',$request->a_id);
+                $dataTurunan = new TurunanAnggaran();
+                $dataTurunan->a_id = $request->a_id;
+                $dataTurunan->unit_pelaksana = $request->unitkerja;
+                $dataTurunan->pagu_awal = $request->pagu_utama;
+                $dataTurunan->save();
+                $pesan_error = 'Data alokasi anggaran sudah ditambahkan';
+                $warna_error = 'success';
+            } else {
+                //sisa pagu tidak bisa
+                $pesan_error = 'Sisa Pagu Utama kurang dari alokasi yang diajukan';
+                $warna_error = 'danger';
+            }
+        } else {
+            //anggaran id tidak ada
+            $pesan_error = 'ID Anggaran ini tidak tersedia';
+            $warna_error = 'danger';
+        }
+
+
+
+        Session::flash('message', $pesan_error);
+        Session::flash('message_type', $warna_error);
+        return redirect()->route('anggaran.alokasi', $request->a_id);
         //dd($request->all());
     }
 
@@ -88,20 +116,18 @@ class TurunanController extends Controller
     public function update(Request $request)
     {
         //
-        $count = TurunanAnggaran::where([['t_id','=',$request->tid],['a_id','=',$request->a_id]])->count();
+        $count = TurunanAnggaran::where([['t_id', '=', $request->tid], ['a_id', '=', $request->a_id]])->count();
         if ($count > 0) {
             //datanya ada dan di update
-            $dataTurunan = TurunanAnggaran::where([['t_id','=',$request->tid],['a_id','=',$request->a_id]])->first();
-            $dataTurunan -> unit_pelaksana = $request -> unitkerja;
-            $dataTurunan -> pagu_awal  = $request -> pagu_utama;
-            $dataTurunan -> update();
+            $dataTurunan = TurunanAnggaran::where([['t_id', '=', $request->tid], ['a_id', '=', $request->a_id]])->first();
+            $dataTurunan->unit_pelaksana = $request->unitkerja;
+            $dataTurunan->pagu_awal  = $request->pagu_utama;
+            $dataTurunan->update();
 
             Session::flash('message', 'Data alokasi anggaran sudah diupdate');
             Session::flash('message_type', 'info');
-            return redirect()->route('anggaran.alokasi',$request->a_id);
-
-        }
-        else {
+            return redirect()->route('anggaran.alokasi', $request->a_id);
+        } else {
             //data tidak ditemukan balikin
             Session::flash('message', 'Data tidak tersedia');
             Session::flash('message_type', 'warning');
