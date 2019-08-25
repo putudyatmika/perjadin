@@ -32,6 +32,7 @@ class AnggaranController extends Controller
         $DataAnggaran = DB::table('anggaran')
                         -> leftJoin('unitkerja','anggaran.unitkerja','=','unitkerja.kode')
                         -> select(DB::Raw('anggaran.*,unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                        -> orderBy('created_at','desc')
                         -> get();
         return view('anggaran.index',compact('DataAnggaran','DataUnitkerja'));
     }
@@ -103,12 +104,47 @@ class AnggaranController extends Controller
     public function update(Request $request)
     {
         //
+       // dd($request->all());
+       /* 
        $dataAnggaran = Anggaran::findOrFail($request->anggaran_id);
        $dataAnggaran -> update($request->all());
        //alert()->success('Berhasil.','Data telah ditambahkan!');
        Session::flash('message', 'Data telah diupdate');
        Session::flash('message_type', 'success');
        return back();
+       "_token" => "S589TEdVimK16g0QMtR4MzEbAUdp4RLXcy86WVeo"
+        "_method" => "patch"
+        "anggaran_id" => "68"
+        "tahun_anggaran" => "2019"
+        "mak" => "054.01.06.2895.038.054.524119"
+        "uraian" => "Biaya Transport INNAS Pendataan Statistik Pertanian Tanaman Pangan Terintegrasi dengan Metode Kerangka Sampel Area (KSA Jagung)"
+        "pagu_utama" => "7879100"
+        "pagu_rencana" => "0"
+        "unitkerja" => "52530"
+       */
+      //cek dulu id anggaran
+      $count = Anggaran::where('id','=',$request->anggaran_id)->count();
+      if ($count>0) {
+        $dataAnggaran = Anggaran::where('id', '=', $request->anggaran_id)->first();        
+        $dataAnggaran -> tahun_anggaran = $request->tahun_anggaran;
+        $dataAnggaran -> mak = $request->mak;
+        $dataAnggaran -> uraian = $request->uraian;
+        $dataAnggaran -> rencana_pagu = $request->pagu_rencana;
+        $dataAnggaran -> pagu_utama = $request->pagu_utama;
+        $dataAnggaran -> unitkerja = $request->unitkerja;
+        $dataAnggaran -> update();
+
+        $pesan_error = 'Data anggaran sudah diupdate';
+        $warna_error = 'success';
+      }
+      else {
+          //data anggaran tidak ada
+          $pesan_error = 'ID Anggaran ini tidak tersedia';
+          $warna_error = 'danger';
+      }
+    Session::flash('message', $pesan_error);
+    Session::flash('message_type', $warna_error);
+    return back();
     }
 
     /**
@@ -135,7 +171,7 @@ class AnggaranController extends Controller
                 'tahun_anggaran' => null,
                 'mak' => null,
                 'uraian' => null,
-                'pagu' => null,
+                'pagu_utama' => null,
                 'unitkerja' => 'kode bidang/bagian 5 digit'
             ]
         ];
@@ -160,6 +196,74 @@ class AnggaranController extends Controller
         }
         return redirect()->back()->with(['error' => 'Please choose file before']);
     }
+    public function viewturunan($aid)
+    {
+        $dataAnggaran = Anggaran::where('id','=',$aid)->with('Turunan','Unitkerja')->first();
+
+        $arr = array('hasil' => 'Data tidak tersedia', 'status' => false);
+        if($dataAnggaran) {
+            //$arr = array('hasil' => $dataAnggaran, 'status' => true);
+                $arrTurunan=array();
+                $arrTotal = array();
+                $tCount = \App\TurunanAnggaran::where('a_id','=',$aid)->count();
+                if ($tCount>0) {
+                    $dTurunan = \App\TurunanAnggaran::where('a_id','=',$aid)->get();
+                    $i=1;
+                    $tStatus = true;
+                    foreach ($dTurunan as $item) {
+                        $arrTurunan[] = array(
+                            'no'=>$i,
+                            't_id'=>$item->t_id,
+                            'a_id'=>$item->a_id,
+                            't_unitkode'=>$item->unit_pelaksana,
+                            't_unitnama'=>$item->Unitkerja->nama,
+                            't_paguawal'=>(int) $item->pagu_awal,
+                            't_pagurencana'=>(int) $item->pagu_rencana,
+                            't_pagurealisasi'=>(int)$item->pagu_realisasi
+                        );
+                        $i++;
+                    }
+                    $arrTotal = array(
+                        'persen'=> (float)number_format(($dTurunan->sum('pagu_rencana')/$dTurunan->sum('pagu_awal'))*100,2),
+                        'pagu_awal'=> $dTurunan->sum('pagu_awal'),
+                        'pagu_rencana'=> $dTurunan->sum('pagu_rencana'),
+                        'pagu_realisasi'=> $dTurunan->sum('pagu_realisasi'),
+                    );
+                }
+                else {
+                    $tStatus = false;
+                }
+                $arr = array(
+                'hasil'=>array(
+                    'id'=> $dataAnggaran->id,
+                    'tahun_anggaran'=> $dataAnggaran->tahun_anggaran,
+                    'mak'=> $dataAnggaran->mak,
+                    'uraian'=>$dataAnggaran->uraian,
+                    'pagu_utama'=> (int)$dataAnggaran->pagu_utama,
+                    'rencana_pagu'=> (int) $dataAnggaran->rencana_pagu,
+                    'unitkode'=> $dataAnggaran->unitkerja,
+                    'unitnama'=> $dataAnggaran->Unitkerja->nama,
+                    'turunan_status'=>$tStatus,
+                    't_jumlah'=>$tCount,
+                    'total' => $arrTotal,
+                    'turunan'=>$arrTurunan,
+                ),
+                'status'=>true,
+
+            );
+        }
+        return Response()->json($arr);
+        //return response()->json($ritems);
+        //return response()->json(array('data'=> $data), 200);
+
+    }
+    public function alokasi($id) {
+        $dataAnggaran = Anggaran::where('id','=',$id)->with('Turunan','Unitkerja')->first();
+        $dataTurunan = \App\TurunanAnggaran::where('a_id','=',$id)->get();
+        $DataUnitkerja = DB::table('unitkerja')
+                        -> where('eselon','=','3')->get();
+        return view('anggaran.alokasi',compact('dataAnggaran','dataTurunan','DataUnitkerja'));
+    }
     public function sinkron()
     {
        //sinkroninsasi data anggaran ke turunan anggaran
@@ -174,7 +278,7 @@ class AnggaranController extends Controller
                     'uraian'=>$item->uraian,
                     'unitkerja'=>$item->unitkerja,
                     'namaunit'=>$item->Unitkerja->nama,
-                    'pagu'=>$item->pagu,
+                    'pagu_utama'=>$item->pagu_utama,
                     'status'=> 'Data sudah tersinkron'
                 );
             }
@@ -184,7 +288,7 @@ class AnggaranController extends Controller
                 $dataTurunan = new \App\TurunanAnggaran();
                 $dataTurunan -> a_id = $item->id;
                 $dataTurunan -> unit_pelaksana = $item->unitkerja;
-                $dataTurunan -> pagu_awal = $item->pagu;
+                $dataTurunan -> pagu_awal = $item->pagu_utama;
                 $dataTurunan -> save();
                 $dataSinkron[] = array(
                     'id'=>$item->id,
@@ -192,7 +296,7 @@ class AnggaranController extends Controller
                     'uraian'=>$item->uraian,
                     'unitkerja'=>$item->unitkerja,
                     'namaunit'=>$item->Unitkerja->nama,
-                    'pagu'=>$item->pagu,
+                    'pagu_utama'=>$item->pagu_utama,
                     'status'=> 'Data sudah ditambahkan'
                 );
             }

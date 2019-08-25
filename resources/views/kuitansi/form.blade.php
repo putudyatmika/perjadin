@@ -206,11 +206,19 @@ else {
 
             </div>
         </div>
-        <div class="form-group row">
+            <div class="form-group row">
                 <label for="dana_pagu" class="col-2 col-form-label">Pagu</label>
                 <div class="input-group col-8">
                     <div class="input-group-addon"><i class="ti-user"></i></div>
-                    <input type="text" class="form-control" id="dana_pagu" name="dana_pagu" placeholder="Pagu Dana" value="{{$dataTransaksi[0]->Matrik->DanaAnggaran->pagu}}" readonly="">
+                    <input type="text" class="form-control" id="dana_pagu" name="dana_pagu" placeholder="Pagu Dana" value="{{$dataTransaksi[0]->Matrik->AnggaranTurunan->pagu_awal}}" readonly="">
+
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="dana_pagu" class="col-2 col-form-label">Sisa Pagu</label>
+                <div class="input-group col-8">
+                    <div class="input-group-addon"><i class="ti-user"></i></div>
+                    <input type="text" class="form-control" id="dana_pagusisa" name="dana_pagusisa" placeholder="Sisa Pagu Dana" value="{{$dataTransaksi[0]->Matrik->AnggaranTurunan->pagu_awal-$dataTransaksi[0]->Matrik->AnggaranTurunan->pagu_realisasi}}" readonly="">
 
                 </div>
             </div>

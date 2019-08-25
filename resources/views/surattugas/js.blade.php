@@ -62,6 +62,8 @@ var nama = button.data('nama')
 var tugas = button.data('tugas')
 var tgl_brkt = button.data('tglbrkt')
 var tgl_balik = button.data('tglbalik')
+var tid = button.data('tid')
+var pagu_rencana = button.data('pagu_rencana')
 
 var modal = $(this)
 modal.find('.modal-body #trxid').val(trxid)
@@ -72,6 +74,8 @@ modal.find('.modal-body #nama').val(nama)
 modal.find('.modal-body #tugas').val(tugas)
 modal.find('.modal-body #tgl_brkt').val(tgl_brkt)
 modal.find('.modal-body #tgl_balik').val(tgl_balik)
+modal.find('.modal-body #dana_tid').val(tid)
+modal.find('.modal-body #pagu_rencana').val(pagu_rencana)
 });
 
 $('#ViewModal').on('show.bs.modal', function (event) {

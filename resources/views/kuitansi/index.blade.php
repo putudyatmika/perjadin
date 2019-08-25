@@ -26,6 +26,9 @@ var nama = button.data('nama')
 var tugas = button.data('tugas')
 var tglkuitansi = button.data('tglkuitansi')
 var totalbiaya = button.data('totalbiaya')
+var tid = button.data('tid')
+var makid = button.data('makid')
+var pagu_realisasi = button.data('pagu_realisasi')
 
 var modal = $(this)
 modal.find('.modal-body #trxid').val(trxid)
@@ -36,6 +39,9 @@ modal.find('.modal-body #nama').val(nama)
 modal.find('.modal-body #tugas').val(tugas)
 modal.find('.modal-body #tgl_kuitansi').val(tglkuitansi)
 modal.find('.modal-body #totalbiaya').val(totalbiaya)
+modal.find('.modal-body #dana_tid').val(tid)
+modal.find('.modal-body #mak_id').val(makid)
+modal.find('.modal-body #pagu_realisasi').val(pagu_realisasi)
 });
 
 $('#FlagModal').on('show.bs.modal', function (event) {

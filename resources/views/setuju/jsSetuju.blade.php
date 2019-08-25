@@ -17,6 +17,9 @@ var flagket = button.data('flagket')
 var matrikid = button.data('matrikid')
 var tugas = button.data('tugas')
 var sumberdana = button.data('sumberdana')
+var tid = button.data('tid')
+var pagurencana = button.data('pagurencana')
+var makid = button.data('makid')
 
 var modal = $(this)
 modal.find('.modal-body #trxid').val(trxid)
@@ -38,6 +41,10 @@ modal.find('.modal-body #ket_kabid').val(flagket)
 modal.find('input[name="kabidsm_setuju"][value="'+flagkabid+'"]').prop('checked',true)
 modal.find('.modal-body #tugas').text(tugas)
 modal.find('.modal-body #sumberdana').text(sumberdana)
+modal.find('.modal-body #penugasan').val(tugas)
+modal.find('.modal-body #dana_tid').val(tid)
+modal.find('.modal-body #pagu_rencana').val(pagurencana)
+modal.find('.modal-body #mak_id').val(makid)
 });
 
 $('#KonfirmasiPPKModal').on('show.bs.modal', function (event) {
@@ -58,6 +65,9 @@ var flagket = button.data('flagket')
 var matrikid = button.data('matrikid')
 var tugas = button.data('tugas')
 var sumberdana = button.data('sumberdana')
+var tid = button.data('tid')
+var pagurencana = button.data('pagurencana')
+var makid = button.data('makid')
 
 var modal = $(this)
 modal.find('.modal-body #trxid').val(trxid)
@@ -79,6 +89,10 @@ modal.find('.modal-body #ket_ppk').val(flagket)
 modal.find('input[name="ppk_setuju"][value="'+flagppk+'"]').prop('checked',true)
 modal.find('.modal-body #tugas').text(tugas)
 modal.find('.modal-body #sumberdana').text(sumberdana)
+modal.find('.modal-body #penugasan').val(tugas)
+modal.find('.modal-body #dana_tid').val(tid)
+modal.find('.modal-body #pagu_rencana').val(pagurencana)
+modal.find('.modal-body #mak_id').val(makid)
 });
 
 $('#KonfirmasiKPAModal').on('show.bs.modal', function (event) {
@@ -99,6 +113,9 @@ var flagket = button.data('flagket')
 var matrikid = button.data('matrikid')
 var tugas = button.data('tugas')
 var sumberdana = button.data('sumberdana')
+var tid = button.data('tid')
+var pagurencana = button.data('pagurencana')
+var makid = button.data('makid')
 
 var modal = $(this)
 modal.find('.modal-body #trxid').val(trxid)
@@ -121,6 +138,9 @@ modal.find('input[name="kpa_setuju"][value="'+flagkpa+'"]').prop('checked',true)
 modal.find('.modal-body #tugas').text(tugas)
 modal.find('.modal-body #penugasan').val(tugas)
 modal.find('.modal-body #sumberdana').text(sumberdana)
+modal.find('.modal-body #dana_tid').val(tid)
+modal.find('.modal-body #pagu_rencana').val(pagurencana)
+modal.find('.modal-body #mak_id').val(makid)
 });
 
 $('#ViewModal').on('show.bs.modal', function (event) {

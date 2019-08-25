@@ -56,7 +56,16 @@
                                             <h3 class="counter text-right m-t-15 text-megna">{{Jumlah::Transaksi(7)}}</h3> </div>
                                         <div class="col-md-12 col-sm-12 col-xs-12">
                                             <div class="progress">
+                                                @if (Jumlah::Transaksi(10)>0) 
+                                                    <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="{{round((Jumlah::Transaksi(7)/Jumlah::Transaksi(10))*100)}}" aria-valuemin="0" aria-valuemax="100" style="width: {{round((Jumlah::Transaksi(7)/Jumlah::Transaksi(10))*100)}}%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                                @else
+                                                    <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                                @endif
+                                                @php
+                                                /*
                                                 <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="{{round((Jumlah::Transaksi(7)/Jumlah::Transaksi(10))*100)}}" aria-valuemin="0" aria-valuemax="100" style="width: {{round((Jumlah::Transaksi(7)/Jumlah::Transaksi(10))*100)}}%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                                */
+                                                @endphp
                                             </div>
                                         </div>
                                     </div>

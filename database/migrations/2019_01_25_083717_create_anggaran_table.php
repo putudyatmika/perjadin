@@ -18,7 +18,7 @@ class CreateAnggaranTable extends Migration
             $table->year('tahun_anggaran');
             $table->string('mak',40);
             $table->string('uraian',254);
-            $table->string('pagu',15);
+            $table->string('pagu_utama',15);
             $table->string('unitkerja',5);
             $table->boolean('flag')->default(1);
             $table->timestamps();

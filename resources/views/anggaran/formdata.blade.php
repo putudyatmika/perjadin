@@ -30,7 +30,7 @@
         <label for="pagu">Pagu</label>
         <div class="input-group">
             <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
-            <input type="text" class="form-control" id="pagu" name="pagu" placeholder="Pagu Anggaran" required=""> </div>
+            <input type="text" class="form-control" id="pagu_utama" name="pagu_utama" placeholder="Pagu Anggaran" required=""> </div>
     </div>
 
 

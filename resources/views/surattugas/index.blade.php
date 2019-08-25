@@ -76,7 +76,7 @@
                                             <th>TTD</th>
                                             <th>Tanggal Pergi</th>
                                             <th>Status Surat</th>
-                                            <th>Aksi</th>
+                                            <th width="13%">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>

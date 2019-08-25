@@ -20,7 +20,7 @@ class AnggaranImport implements ToModel, WithHeadingRow
             'tahun_anggaran' => $row['tahun_anggaran'],
             'mak' => $row['mak'],
             'uraian' => $row['uraian'],
-            'pagu' => $row['pagu'],
+            'pagu_utama' => $row['pagu_utama'],
             'unitkerja' => $row['unitkerja']
         ]);
     }

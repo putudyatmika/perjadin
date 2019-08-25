@@ -30,6 +30,7 @@ $('#EditModal').on('show.bs.modal', function (event) {
   var mak = button.data('mak')
   var uraian = button.data('uraian')
   var pagu = button.data('pagu')
+  var rencana_pagu = button.data('pagurencana')
   var unitkerja = button.data('unitkode')
   var anggaranid = button.data('anggaranid')
 
@@ -37,7 +38,8 @@ $('#EditModal').on('show.bs.modal', function (event) {
   modal.find('.modal-body #tahun_anggaran').val(tahun_anggaran)
   modal.find('.modal-body #mak').val(mak)
   modal.find('.modal-body #uraian').val(uraian)
-  modal.find('.modal-body #pagu').val(pagu)
+  modal.find('.modal-body #pagu_utama').val(pagu)
+  modal.find('.modal-body #pagu_rencana').val(rencana_pagu)
   modal.find('.modal-body #unitkerja').val(unitkerja)
   modal.find('.modal-body #anggaranid').val(anggaranid)
 })
@@ -57,7 +59,7 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
   modal.find('.modal-body #tahun_anggaran').val(tahun_anggaran)
   modal.find('.modal-body #mak').val(mak)
   modal.find('.modal-body #uraian').val(uraian)
-  modal.find('.modal-body #pagu').val(pagu)
+  modal.find('.modal-body #pagu_utama').val(pagu)
   modal.find('.modal-body #unitkerja').val(unitkerja)
   modal.find('.modal-body #anggaranid').val(anggaranid)
 });
@@ -71,6 +73,7 @@ $(function () {
     });
 });
 </script>
+@include('anggaran.js')
 @stop
 @extends('layouts.default')
 
@@ -85,7 +88,7 @@ $(function () {
                     <!-- .breadcrumb -->
                     <div class="col-lg-8 col-sm-8 col-md-8 col-xs-12">
                         <ol class="breadcrumb">
-                            <li><a href="#">Dashboard</a></li>
+                            <li><a href="{{url('')}}">Dashboard</a></li>
                             <li class="active">Data Anggaran Perjalanan</li>
                         </ol>
                     </div>
@@ -104,8 +107,8 @@ $(function () {
                           <div class="input-group {{ $errors->has('importAnggaran') ? 'has-error' : '' }}">
                             <input type="file" class="form-control" name="importAnggaran" required="">
                             <span class="input-group-btn">
-                                            <button type="submit" class="btn btn-success" style="height: 38px;margin-left: -2px;">Import</button>
-                                          </span>
+                                    <button type="submit" class="btn btn-success" style="height: 38px;margin-left: -2px;">Import</button>
+                            </span>
                           </div>
                         </form>
                 </div>
@@ -128,29 +131,32 @@ $(function () {
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>ID</th>
                                             <th>Tahun</th>
                                             <th>Uraian</th>
                                             <th>Unitkerja</th>
                                             <th>Pagu Awal</th>
-                                            <th>Aksi</th>
+                                            <th>ID</th>
+                                            <th>Tgl Dibuat</th>
+                                            <th width="10%">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($DataAnggaran as $item)
                                             <tr>
                                                 <td>{{ $loop->iteration}}</td>
-                                                <td>{{ $item->id}}</td>
                                                 <td>{{ $item->tahun_anggaran}}</td>
-                                                <td><a href="" data-toggle="modal" data-target="#ViewModal">{{ $item->uraian}}</a>
+                                                <td><a href="" data-toggle="modal" data-target="#ViewModal" data-anggaranid="{{$item->id}}"><span data-toggle="tooltip" title="Anggaran {{ $item->unit_nama}} : {{ $item->uraian}}">{{ $item->uraian}}</span></a>
                                                     <br />
                                                 <small>{{ $item->mak}}</small></td>
                                                 <td>{{ $item->unit_nama}}</td>
-                                                <td><div class="pull-right">@duit($item->pagu)</div></td>
+                                                <td><div class="pull-right">{{$item->pagu_utama}}</div></td>
+                                                <td>{{ $item->id}}</td>
+                                                <td>{{Tanggal::Panjang($item->created_at)}}</td>
                                                 <td>
                                                     @if (Auth::user()->pengelola>3)
-                                                    <button type="button" class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#EditModal" data-tahun="{{ $item->tahun_anggaran}}" data-mak="{{ $item->mak}}" data-pagu="{{ $item->pagu}}" data-uraian="{{$item->uraian}}" data-unitkode="{{$item->unitkerja}}" data-anggaranid="{{$item->id}}">Edit</button>
-                                                    <button type="button" class="btn btn-danger btn-rounded" data-toggle="modal" data-target="#DeleteModal" data-tahun="{{ $item->tahun_anggaran}}" data-mak="{{ $item->mak}}" data-pagu="{{ $item->pagu}}" data-uraian="{{$item->uraian}}" data-unitkode="{{$item->unit_nama}}" data-anggaranid="{{$item->id}}">Delete</button>
+                                                    <a href="{{route('anggaran.alokasi',$item->id)}}" class="btn btn-sm btn-success btn-circle"><span data-toggle="tooltip" title="Alokasi anggaran {{ $item->uraian}}"><i class="fa fa-bookmark"></i></span></a>
+                                                    <button type="button" class="btn btn-sm btn-primary btn-circle" data-toggle="modal" data-target="#EditModal" data-tahun="{{ $item->tahun_anggaran}}" data-mak="{{ $item->mak}}" data-pagu="{{ $item->pagu_utama}}" data-pagurencana="{{ $item->rencana_pagu}}" data-uraian="{{$item->uraian}}" data-unitkode="{{$item->unitkerja}}" data-anggaranid="{{$item->id}}"><span data-toggle="tooltip" title="Edit anggaran {{ $item->uraian}}"><i class="fa fa-pencil"></i></span></button>
+                                                    <button type="button" class="btn btn-sm btn-danger btn-circle" data-toggle="modal" data-target="#DeleteModal" data-tahun="{{ $item->tahun_anggaran}}" data-mak="{{ $item->mak}}" data-pagu="{{ $item->pagu_utama}}" data-uraian="{{$item->uraian}}" data-unitkode="{{$item->unit_nama}}" data-anggaranid="{{$item->id}}"><span data-toggle="tooltip" title="Hapus anggaran {{ $item->uraian}}"><i class="fa fa-trash-o"></i></span></button>
                                                     @endif
                                                 </td>
                                             </tr>
@@ -164,125 +170,6 @@ $(function () {
                 <!-- /.row -->
             </div>
             <!-- /.container-fluid -->
-            <!---modal edit-->
-            @php
-                $tahun_skrg=date('Y');
-            @endphp
-            <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="EditModal">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="exampleModalLabel1">Edit Data Anggaran</h4> </div>
-                            <div class="modal-body">
-                                    <form method="POST" action="{{ route('anggaran.update','update') }}">
-                                            @csrf
-                                            @method('patch')
-                                            <input type="hidden" name="anggaran_id" id="anggaranid" value="">
-                                            <div class="form-group">
-                                                <label for="tahun_anggaran">Tahun Anggaran</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-addon"><i class="ti-lock"></i></div>
-                                                    <select class="form-control" name="tahun_anggaran" id="tahun_anggaran">
-                                                        <option value="">Pilih</option>
-                                                        @for ($i=$tahun_skrg-1;$i<=$tahun_skrg+1;$i++)
-                                                            <option value="{{$i}}">{{$i}}</option>
-                                                        @endfor
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="mak">MAK</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                    <input type="text" class="form-control" id="mak" name="mak" placeholder="Mata Anggaran Kegiatan" required=""> </div>
-                                                    <span class="font-13 text-muted">cth : 054.01.06.2895.004.100.524111</span>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="uraian">Uraian</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-addon"><i class="ti-medall"></i></div>
-                                                    <input type="text" class="form-control" id="uraian" name="uraian" placeholder="Uraian Anggaran" required=""> </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="pagu">Pagu</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
-                                                    <input type="text" class="form-control" id="pagu" name="pagu" placeholder="Pagu Anggaran" required=""> </div>
-                                            </div>
-
-
-                                            <div class="form-group">
-                                                <label for="unitkerja">Unitkerja</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
-                                                    <select class="form-control select2" name="unitkerja" id="unitkerja" required="">
-                                                        <option>Select</option>
-                                                        @foreach ($DataUnitkerja as $Unit)
-                                                            <option value="{{ $Unit -> kode }}">[{{ $Unit -> kode }}] {{ $Unit -> nama }}</option>
-                                                        @endforeach
-                                                    </select>
-
-                                                    </div>
-                                            </div>
-
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-inverse waves-effect waves-light" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Update Data</button>
-                            </div>
-                        </form>
-                        </div>
-                    </div>
-            </div>
-            <!--end modal edit-->
-            <!--modal tambah anggaran-->
-            <div class="modal fade" id="TambahModal" tabindex="-1" role="dialog" aria-labelledby="EditModal">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="exampleModalLabel1">Tambah Data Anggaran</h4> </div>
-                            <div class="modal-body">
-                                    <form method="POST" action="{{ route('anggaran.store') }}">
-                                            @csrf
-                                    @include('anggaran.formdata')
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-inverse waves-effect waves-light" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Save Data</button>
-                            </div>
-                        </form>
-                        </div>
-                    </div>
-            </div>
-            <!--end modal tambah anggaran-->
-            <!--modal delete anggaran-->
-            <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModal">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="exampleModalLabel1">Delete Data Anggaran</h4> </div>
-                            <div class="modal-body">
-                                    <form method="POST" class="form" action="{{ route('anggaran.destroy','delete') }}">
-                                    @csrf
-                                    @method('delete')
-                                    <input type="hidden" name="anggaran_id" id="anggaranid" value="">
-                                    @include('anggaran.deleteform')
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-inverse waves-effect waves-light" data-dismiss="modal">Cancel</button>
-                                <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Delete Data</button>
-                            </div>
-                        </form>
-                        </div>
-                    </div>
-            </div>
-            <!--end modal delete anggaran-->
             @include('anggaran.modal')
 @endsection
 

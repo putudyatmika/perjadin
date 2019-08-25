@@ -106,6 +106,7 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
   var matrikid = button.data('matrikid')
   var totalbiaya = button.data('totalbiaya')
   var makid = button.data('makid')
+  var dana_tid = button.data('tid')
 
 
   var modal = $(this)
@@ -116,6 +117,7 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
   modal.find('.modal-body #matrikid').val(matrikid)
   modal.find('.modal-body #totalbiaya').val(totalbiaya)
   modal.find('.modal-body #dana_makid').val(makid)
+  modal.find('.modal-body #dana_tid').val(dana_tid)
 });
 $(function () {
     $("#MatrikTable").dataTable();
@@ -184,7 +186,7 @@ $(function () {
                                             <th>Waktu</th>
                                             <th>Total Biaya</th>
                                             <th>Flag</th>
-                                            <th>Aksi</th>
+                                            <th width="13%">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -236,23 +238,23 @@ $(function () {
                                                 </td>
                                             <td>
                                                 @if (($item->flag_matrik<2 and Auth::user()->pengelola>3) or Auth::user()->user_level>3)
-                                                <button class="btn btn-rounded btn-success btn-sm" data-toggle="modal" data-target="#AlokasiModal" data-tujuan="{{$item->Tujuan->nama_kabkota}}" data-biaya="@rupiah($item->total_biaya)" data-unitkerja="{{$item->unit_pelaksana}}" data-sm="{{$item->dana_unitkerja}}-{{$item->DanaUnitkerja->nama}}" data-matrikid="{{$item->id}}">Alokasi</button>
-                                                <a href="{{route('matrik.edit',$item->id)}}" class="btn btn-rounded btn-custom btn-sm">Edit</a>
+                                                <button class="btn btn-circle btn-success btn-sm" data-toggle="modal" data-target="#AlokasiModal" data-tujuan="{{$item->Tujuan->nama_kabkota}}" data-biaya="@rupiah($item->total_biaya)" data-unitkerja="{{$item->unit_pelaksana}}" data-sm="{{$item->dana_unitkerja}}-{{$item->DanaUnitkerja->nama}}" data-matrikid="{{$item->id}}"><span data-toggle="tooltip" title="Alokasi matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-bookmark"></i></span></button>
+                                                <a href="{{route('matrik.edit',$item->id)}}" class="btn btn-circle btn-custom btn-sm"><span data-toggle="tooltip" title="Edit matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-pencil"></i></span></a>
                                                 @endif
                                                 @if (Auth::user()->user_level>3)
-                                                <button class="btn btn-rounded btn-primary btn-sm" data-toggle="modal" data-target="#FlagModal" data-tujuan="{{$item->Tujuan->nama_kabkota}}" data-biaya="@rupiah($item->total_biaya)" data-flagmatrik="{{$MatrikFlag[$item->flag_matrik]}}" data-matrikid="{{$item->id}}" @if ($item->unit_pelaksana==NULL)
+                                                <button class="btn btn-circle btn-primary btn-sm" data-toggle="modal" data-target="#FlagModal" data-tujuan="{{$item->Tujuan->nama_kabkota}}" data-biaya="@rupiah($item->total_biaya)" data-flagmatrik="{{$MatrikFlag[$item->flag_matrik]}}" data-matrikid="{{$item->id}}" @if ($item->unit_pelaksana==NULL)
                                                         data-pelaksana="{{$item->unit_pelaksana}}"
                                                         @else
                                                         data-pelaksana="{{$item->unit_pelaksana}}-{{$item->UnitPelaksana->nama}}"
-                                                        @endif>Flag</button>
+                                                        @endif><span data-toggle="tooltip" title="Flag matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-flag"></i></span></button>
                                                 @endif
                                                 @if (($item->flag_matrik<2 and Auth::user()->pengelola>3) or Auth::user()->user_level>3)
-                                                        <button class="btn btn-rounded btn-danger btn-sm" data-toggle="modal" data-target="#DeleteModal" data-tujuan="{{$item->Tujuan->nama_kabkota}}" data-biaya="@rupiah($item->total_biaya)" data-totalbiaya="{{$item->total_biaya}}" @if ($item->unit_pelaksana==NULL)
+                                                        <button class="btn btn-circle btn-danger btn-sm" data-toggle="modal" data-target="#DeleteModal" data-tujuan="{{$item->Tujuan->nama_kabkota}}" data-biaya="@rupiah($item->total_biaya)" data-totalbiaya="{{$item->total_biaya}}" @if ($item->unit_pelaksana==NULL)
                                                             data-pelaksana="{{$item->unit_pelaksana}}"
                                                             @else
                                                             data-pelaksana="{{$item->unit_pelaksana}}-{{$Unitkerja[$item->unit_pelaksana]}}"
                                                             @endif
-                                                            data-sm="{{$item->dana_unitkerja}}-{{$item->DanaUnitkerja->nama}}" data-flagmatrik="{{$MatrikFlag[$item->flag_matrik]}}" data-matrikid="{{$item->id}}" data-makid="{{$item->mak_id}}">Hapus</button>
+                                                            data-sm="{{$item->dana_unitkerja}}-{{$item->DanaUnitkerja->nama}}" data-flagmatrik="{{$MatrikFlag[$item->flag_matrik]}}" data-matrikid="{{$item->id}}" data-makid="{{$item->mak_id}}" data-tid="{{$item->dana_tid}}"><span data-toggle="tooltip" title="Hapus matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-trash"></i></span></button>
                                                 @endif
                                             </td>
                                         </tr>
