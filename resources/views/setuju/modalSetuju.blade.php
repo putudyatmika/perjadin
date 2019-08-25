@@ -15,6 +15,10 @@
                         <input type="hidden" id="tujuan" name="tujuan" value="">
                         <input type="hidden" id="tglberangkat" name="tglberangkat" value="">
                         <input type="hidden" id="matrikid" name="matrikid" value="">
+                        <input type="hidden" id="penugasan" name="penugasan" value="">
+                        <input type="hidden" id="dana_tid" name="dana_tid" value="">
+                        <input type="hidden" id="pagu_rencana" name="pagu_rencana" value="">
+                        <input type="hidden" id="mak_id" name="mak_id" value="">
                         @include('setuju.formsetuju')
             </div>
             <div class="modal-footer">
@@ -44,6 +48,10 @@
                             <input type="hidden" id="tujuan" name="tujuan" value="">
                             <input type="hidden" id="tglberangkat" name="tglberangkat" value="">
                             <input type="hidden" id="matrikid" name="matrikid" value="">
+                            <input type="hidden" id="penugasan" name="penugasan" value="">
+                            <input type="hidden" id="dana_tid" name="dana_tid" value="">
+                            <input type="hidden" id="pagu_rencana" name="pagu_rencana" value="">
+                            <input type="hidden" id="mak_id" name="mak_id" value="">
                             @include('setuju.formsetujuppk')
                 </div>
                 <div class="modal-footer">
@@ -74,6 +82,9 @@
                             <input type="hidden" id="tglberangkat" name="tglberangkat" value="">
                             <input type="hidden" id="matrikid" name="matrikid" value="">
                             <input type="hidden" id="penugasan" name="penugasan" value="">
+                            <input type="hidden" id="dana_tid" name="dana_tid" value="">
+                            <input type="hidden" id="pagu_rencana" name="pagu_rencana" value="">
+                            <input type="hidden" id="mak_id" name="mak_id" value="">
                             @include('setuju.formsetujukpa')
                 </div>
                 <div class="modal-footer">

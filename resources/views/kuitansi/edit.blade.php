@@ -63,6 +63,9 @@
                                         <input type="hidden" name="trx_id" value="{{$dataTransaksi[0]->trx_id}}" />
                                         <input type="hidden" name="kuitansi_id" value="{{$dataTransaksi[0]->Kuitansi->kuitansi_id}}" />
                                         <input type="hidden" name="aksi" value="update">
+                                        <input type="hidden" name="dana_tid" value="{{$dataTransaksi[0]->Matrik->dana_tid}}" />
+                                        <input type="hidden" name="mak_id" value="{{$dataTransaksi[0]->Matrik->mak_id}}" />
+
                                         @include('kuitansi.form')
                                         <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
                                         <a href="{{route('kuitansi.index')}}" class="btn btn-inverse waves-effect waves-light">Cancel</a>

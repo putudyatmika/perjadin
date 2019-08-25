@@ -28,5 +28,8 @@ class MatrikPerjalanan extends Model
     {
         return $this->belongsTo('App\Anggaran', 'mak_id', 'id');
     }
-
+    public function AnggaranTurunan()
+    {
+        return $this->belongsTo('App\TurunanAnggaran', 'dana_tid', 't_id');
+    }
 }

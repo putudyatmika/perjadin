@@ -224,6 +224,15 @@ class KuitansiController extends Controller
                 $dataKuitansi = Kuitansi::where('kuitansi_id','=',$request->kuitansi_id)->first();
                 $dataKuitansi -> flag_kuitansi = 2;
                 $dataKuitansi -> update();
+                //update data turunan anggaran dan anggaran
+
+                $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id','=',$request->dana_tid)->first();
+                $dataTurunanAnggaran -> pagu_realisasi = $dataTurunanAnggaran->pagu_realisasi+$request->pagu_realisasi;
+                $dataTurunanAnggaran -> update();
+
+                $dataAnggaran = \App\Anggaran::where('id','=',$request->mak_id)->first();
+                $dataAnggaran -> realisasi_pagu = $dataAnggaran->realisasi_pagu+$request->pagu_realisasi;
+                $dataAnggaran -> update();
 
                 Session::flash('message', 'Kuitansi an. '.$request->nama.' tujuan ke '. $request->nama_tujuan .' sudah selesai');
                 Session::flash('message_type', 'success');

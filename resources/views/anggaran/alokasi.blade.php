@@ -62,8 +62,8 @@
                                             <th>Bidang/Bagian</th>
                                             <th>%</th>
                                             <th>Pagu Alokasi</th>
-                                            <th>Realisasi</th>
-                                            <th>Sisa</th>
+                                            <th>Pagu Rencana</th>
+                                            <th>Pagu Realisasi</th>
                                             <th>aksi</th>
                                         </tr>
                                         </thead>
@@ -73,22 +73,36 @@
                                                 <td colspan="7" align="center">Anggaran belum di alokasi</td>
                                                 </tr>
                                             @else
-                                                @foreach ($dataTurunan as $item )
+                                                @foreach ($dataTurunan as $item)
                                                     <tr>
                                                         <td>{{ $loop->iteration}}</td>
-                                                        <td>[{{$item->unit_pelaksana}}] {{$item->Unitkerja->nama}}</td>
+                                                        <td>@if ($item->unit_pelaksana != "")
+                                                            [{{$item->unit_pelaksana}}] {{$item->Unitkerja->nama}}
+                                                            @endif
+                                                        </td>
                                                         <td>{!! number_format(($item->pagu_awal/$dataAnggaran->pagu_utama)*100,2) !!}</td>
                                                         <td>@duit($item->pagu_awal)</td>
-                                                        <td>{{($item->pagu_rencana+$dataAnggaran->pagu_realisasi)}}</td>
-                                                        <td>@duit($item->pagu_awal-($item->pagu_rencana+$dataAnggaran->pagu_realisasi))</td>
+                                                        <td>@duit($item->pagu_rencana)</td>
+                                                        <td>@duit($item->pagu_realisasi)</td>         
                                                         <td>
-                                                            <button type="button" class="btn btn-sm btn-primary btn-rounded" data-toggle="modal" data-target="#EditAlokasiModal" data-tid="{{$item->t_id}}" data-paguawal="{{$item->pagu_awal}}" data-unitkode="{{$item->unit_pelaksana}}"><i class="fa fa-pencil"></i></button>
-                                                            <button type="button" class="btn btn-sm btn-danger btn-rounded" data-toggle="modal" data-target="#DeleteAlokasiModal"><i class="fa fa-trash-o"></i></button>
-                                                            </td>
+                                                            <button type="button" class="btn btn-sm btn-primary btn-circle" data-toggle="modal" data-target="#EditAlokasiModal" data-tid="{{$item->t_id}}" data-paguawal="{{$item->pagu_awal}}"  data-pagurencana="{{$item->pagu_rencana}}" data-pagurealisasi="{{$item->pagu_realisasi}}" data-unitkode="{{$item->unit_pelaksana}}"><i class="fa fa-pencil"></i></button>
+                                                            <button type="button" class="btn btn-sm btn-danger btn-circle" data-toggle="modal" data-target="#DeleteAlokasiModal" data-tid="{{$item->t_id}}" data-paguawal="{{$item->pagu_awal}}" data-unitkode="{{$item->Unitkerja->nama}}"><i class="fa fa-trash-o"></i></button>
+                                                            <button type="button" class="btn btn-sm btn-info btn-circle" data-toggle="modal" data-target="#SyncAlokasiModal" data-tid="{{$item->t_id}}" data-paguawal="{{$item->pagu_awal}}" data-unitkode="{{$item->unit_pelaksana}}"><i class="fa fa-refresh"></i></button>
+                                                        </td>
                                                     </tr>
                                                 @endforeach
                                             @endif
                                         </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="2" align="center"> Total </td>
+                                                <td>{!! number_format(($dataTurunan->sum('pagu_awal')/$dataAnggaran->pagu_utama)*100,2) !!}</td>
+                                                <td>@duit($dataTurunan->sum('pagu_awal'))</td>
+                                                <td>@duit($dataTurunan->sum('pagu_rencana'))</td>
+                                                <td>@duit($dataTurunan->sum('pagu_realisasi'))</td>
+                                                <td></td>
+                                            </tr>
+                                        </tfoot>
                                 </table>
                             </div>
                             @endif

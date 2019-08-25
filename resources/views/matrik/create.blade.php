@@ -51,9 +51,9 @@
                                 <div class="alert alert-{{ Session::get('message_type') }}" id="waktu2" style="margin-top:10px;">{{ Session::get('message') }}</div>
                                 @endif
                                 </div>
-                    <div class="col-lg-10">
+                    <div class="col-lg-12">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0">Form Matrik Perjalanan Pegawai</h3>
+                            <h3 class="box-title m-b-0">Form Matrik Perjalanan</h3>
                             <p class="text-muted m-b-30 font-13"> BPS Provinsi Nusa Tenggara Barat </p>
 
                             <div class="row">
@@ -61,8 +61,8 @@
                                     <form method="POST" action="{{ route('matrik.store') }}">
                                         @csrf
                                         <div class="form-group row">
-                                            <label for="nama" class="col-2 col-form-label">Tujuan</label>
-                                            <div class="input-group col-8">
+                                            <label for="nama" class="col-lg-2 col-xs-12 col-form-label">Tujuan</label>
+                                            <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                 <div class="input-group-addon"><i class="ti-user"></i></div>
                                                 <input type="text" class="form-control" id="nama_tujuan" name="nama_tujuan" placeholder="Tujuan" required="" readonly="">
                                                 <input id="kode_kabkota" type="hidden" name="kode_kabkota" value="{{ old('kode_kabkota') }}" required readonly="">
@@ -72,8 +72,8 @@
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="nama" class="col-2 col-form-label">Lamanya</label>
-                                            <div class="input-group col-8">
+                                            <label for="nama" class="col-lg-2 col-xs-12 col-form-label">Lamanya</label>
+                                            <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                 <div class="input-group-addon"><i class="ti-user"></i></div>
                                                 <select name="lamanya" id="lamanya" class="form-control">
                                                     <option value="">Pilih</option>
@@ -84,8 +84,8 @@
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                                <label for="Pelaksanaan" class="col-2 col-form-label">Pelaksanaan</label>
-                                                <div class="input-group col-8 input-daterange" id="date-range">
+                                                <label for="Pelaksanaan" class="col-lg-2 col-xs-12 col-form-label">Pelaksanaan</label>
+                                                <div class="input-group col-lg-8 col-sm-8 col-xs-12 input-daterange" id="date-range">
                                                     <div class="input-group-addon" ><i class="ti-user"></i></div>
                                                     <input type="text" class="form-control" id="tglawal" name="tglawal" placeholder="Tgl Awal" required="" autocomplete="off">
                                                     <span class="input-group-addon bg-info b-0 text-white">s/d</span>
@@ -95,8 +95,8 @@
                                         <h3 class="box-title m-t-40">Sumber Dana</h3>
                                         <hr>
                                             <div class="form-group row">
-                                                    <label for="MAK" class="col-2 col-form-label">MAK</label>
-                                                    <div class="input-group col-8">
+                                                    <label for="MAK" class="col-lg-2 col-xs-12 col-form-label">MAK</label>
+                                                    <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                         <div class="input-group-addon"><i class="ti-user"></i></div>
                                                         <input type="text" class="form-control" id="dana_mak" name="dana_mak" placeholder="MAK Dana" required="" readonly="">
                                                     <span class="input-group-btn">
@@ -105,43 +105,44 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                        <label for="dana_uraian" class="col-2 col-form-label">Uraian</label>
-                                                        <div class="input-group col-8">
+                                                        <label for="dana_uraian" class="col-lg-2 col-xs-12 col-form-label">Uraian</label>
+                                                        <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                             <div class="input-group-addon"><i class="ti-user"></i></div>
                                                             <input type="text" class="form-control" id="dana_uraian" name="dana_uraian" placeholder="Uraian Dana" readonly="">
 
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
-                                                        <label for="dana_pagu" class="col-2 col-form-label">Pagu awal</label>
-                                                        <div class="input-group col-8">
+                                                        <label for="dana_pagu" class="col-lg-2 col-xs-12 col-form-label">Pagu awal</label>
+                                                        <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                             <div class="input-group-addon"><i class="ti-user"></i></div>
                                                             <input type="text" class="form-control" id="dana_pagu" name="dana_pagu" placeholder="Pagu Dana" readonly="">
 
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
-                                                        <label for="dana_pagu" class="col-2 col-form-label">Pagu tersedia</label>
-                                                        <div class="input-group col-8">
+                                                        <label for="dana_pagu" class="col-lg-2 col-xs-12 col-form-label">Pagu tersedia</label>
+                                                        <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                             <div class="input-group-addon"><i class="ti-user"></i></div>
                                                             <input type="text" class="form-control" id="dana_pagusisa" name="dana_pagusisa" placeholder="Pagu Dana yang tersedia" readonly="">
 
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
-                                                        <label for="dana_unitkerja" class="col-2 col-form-label">Unitkerja</label>
-                                                        <div class="input-group col-8">
+                                                        <label for="dana_unitkerja" class="col-lg-2 col-xs-12 col-form-label">Unitkerja</label>
+                                                        <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                             <div class="input-group-addon"><i class="ti-user"></i></div>
                                                             <input type="text" class="form-control" id="dana_unitkerja" name="dana_unitkerja" placeholder="Unitkerja Sumber Dana" readonly="">
                                                             <input type="hidden" class="form-control" id="dana_kodeunit" name="dana_kodeunit">
                                                             <input type="hidden" id="dana_makid" name="dana_makid">
+                                                            <input type="hidden" id="dana_tid" name="dana_tid">
                                                         </div>
                                                     </div>
                                         <h3 class="box-title m-t-40">Rencana Anggaran Biaya</h3>
                                         <hr>
                                         <div class="form-group row">
-                                                <label for="nama" class="col-3 col-form-label">Uang Harian</label>
-                                                <div class="input-group col-9">
+                                                <label for="nama" class="col-lg-3 col-xs-12 col-form-label">Uang Harian</label>
+                                                <div class="input-group col-lg-9 col-sm-9 col-xs-12">
                                                     <div class="input-group-addon"><i class="ti-user"></i></div>
                                                     <input type="number" class="form-control" id="uangharian" name="uangharian" placeholder="Nilai Rp." required="">
                                                     <span class="input-group-addon bg-info b-0 text-white">x</span>
@@ -151,14 +152,14 @@
                                                 </div>
                                             </div>
                                         <div class="form-group row">
-                                            <label for="nilaiTransport" class="col-3 col-form-label">Transport</label>
-                                            <div class="input-group col-9">
+                                            <label for="nilaiTransport" class="col-lg-3 col-xs-12 col-form-label">Transport</label>
+                                            <div class="input-group col-lg-9 col-sm-9 col-xs-12">
                                                 <div class="input-group-addon"><i class="ti-user"></i></div>
                                                 <input type="number" class="form-control" id="nilaiTransport" name="nilaiTransport" placeholder="Nilai transport Rp." required="" autocomplete="off"> </div>
                                         </div>
                                         <div class="form-group row">
-                                                <label for="nama" class="col-3 col-form-label">Penginapan</label>
-                                                <div class="input-group col-9">
+                                                <label for="nama" class="col-lg-3 col-xs-12 col-form-label">Penginapan</label>
+                                                <div class="input-group col-lg-9 col-sm-9 col-xs-12">
                                                     <div class="input-group-addon"><i class="ti-user"></i></div>
                                                     <input type="number" class="form-control" id="nilaihotel" name="nilaihotel" placeholder="Nilai Hotel Rp." required="">
                                                     <span class="input-group-addon bg-info b-0 text-white">x</span>
@@ -168,14 +169,14 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                    <label for="pengeluaranrill" class="col-3 col-form-label">Pengeluaran Rill</label>
-                                                    <div class="input-group col-9">
+                                                    <label for="pengeluaranrill" class="col-lg-3 col-xs-12 col-form-label">Pengeluaran Rill</label>
+                                                    <div class="input-group col-lg-9 col-sm-9 col-xs-12">
                                                         <div class="input-group-addon"><i class="ti-user"></i></div>
                                                         <input type="number" class="form-control" id="pengeluaranrill" name="pengeluaranrill" placeholder="Nilai pengeluaran rill Rp." required=""> </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                        <label for="totalbiaya" class="col-3 col-form-label">Total Rencana Biaya</label>
-                                                        <div class="input-group col-9">
+                                                        <label for="totalbiaya" class="col-lg-3 col-xs-12 col-form-label">Total Rencana Biaya</label>
+                                                        <div class="input-group col-lg-9 col-sm-9 col-xs-12">
                                                             <div class="input-group-addon"><i class="ti-user"></i></div>
                                                             <input type="text" class="form-control" id="totalbiaya" name="totalbiaya" placeholder="Total Biaya" required="" readonly=""> </div>
                                                     </div>
@@ -184,7 +185,7 @@
 
 
                                         <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
-                                        <button type="submit" class="btn btn-inverse waves-effect waves-light">Cancel</button>
+                                        <button type="reset" class="btn btn-inverse waves-effect waves-light">Reset</button>
                                     </form>
                                 </div>
                             </div>

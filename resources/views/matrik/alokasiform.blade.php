@@ -135,6 +135,7 @@
                     <input type="hidden" id="sm" name="sm" value="" />
                     <input type="hidden" id="totalbiaya" name="totalbiaya" value="" />
                     <input type="hidden" id="dana_makid" name="dana_makid" value="" />
+                    <input type="hidden" id="dana_tid" name="dana_tid" value="" />
                     <div class="form-group">
                             <label for="tujuan">Tujuan</label>
                             <div class="input-group">

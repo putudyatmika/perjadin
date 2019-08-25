@@ -12,6 +12,9 @@
                         <input type="hidden" id="trxid" name="trxid" value="">
                         <input type="hidden" id="kodetrx" name="kodetrx" value="">
                         <input type="hidden" id="kuitansi_id" name="kuitansi_id" value="">
+                        <input type="hidden" name="dana_tid" id="dana_tid" value="" />
+                        <input type="hidden" name="mak_id" id="mak_id" value="" />
+                        <input type="hidden" name="pagu_realisasi" id="pagu_realisasi" value="" />
                         <input type="hidden" name="aksi" value="selesai">
                         @include('kuitansi.formselesai')
             </div>

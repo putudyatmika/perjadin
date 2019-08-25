@@ -40,6 +40,8 @@
                         <input type="hidden" id="trxid" name="trxid" value="">
                         <input type="hidden" id="kodetrx" name="kodetrx" value="">
                         <input type="hidden" id="srtid" name="srtid" value="">
+                        <input type="hidden" id="dana_tid" name="dana_tid" value="">
+                        <input type="hidden" id="pagu_rencana" name="pagu_rencana" value="">
                         <input type="hidden" name="aksi" value="batal">
                         @include('surattugas.formbatal')
             </div>

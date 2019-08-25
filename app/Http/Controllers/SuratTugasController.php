@@ -147,6 +147,11 @@ class SuratTugasController extends Controller
                 $dataKuitansi -> flag_kuitansi = 3;
                 $dataKuitansi -> update();
             }
+            //update turunan anggaran dibalikin dananya
+
+            $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id','=',$request->dana_tid)->first();
+            $dataTurunanAnggaran -> pagu_rencana = $dataTurunanAnggaran->pagu_rencana - $request->pagu_rencana;
+            $dataTurunanAnggaran -> update();
 
             Session::flash('message', 'Data Perjalanan surat tugas an. '.$request->nama.' ke '.$request->tujuan.' untuk '.$request->tugas.' sudah di update');
             Session::flash('message_type', 'warning');

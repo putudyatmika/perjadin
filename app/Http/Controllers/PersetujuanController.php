@@ -96,6 +96,10 @@ class PersetujuanController extends Controller
                 $flagmatrik=2;
                 $flag_surattugas = 3;
                 $flag_spd =3;
+                //kembalikan dana turunan anggaran karena di batalkan
+                $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id','=',$request->dana_tid)->first();
+                $dataTurunanAnggaran -> pagu_rencana = $dataTurunanAnggaran->pagu_rencana - $request->pagu_rencana;
+                $dataTurunanAnggaran -> update();
             }
             //ubah status matrik
             $dataMatrik = MatrikPerjalanan::where('id',$request->matrikid)->first();
@@ -142,6 +146,10 @@ class PersetujuanController extends Controller
                 $flagmatrik=2;
                 $flag_surattugas = 3;
                 $flag_spd =3;
+                //kembalikan dana turunan anggaran karena di batalkan
+                $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id','=',$request->dana_tid)->first();
+                $dataTurunanAnggaran -> pagu_rencana = $dataTurunanAnggaran->pagu_rencana - $request->pagu_rencana;
+                $dataTurunanAnggaran -> update();
             }
             //ubah status matrik
             $dataMatrik = MatrikPerjalanan::where('id',$request->matrikid)->first();
@@ -188,6 +196,10 @@ class PersetujuanController extends Controller
                 $flagmatrik=2;
                 $flag_surattugas=3;
                 $flag_spd=3;
+                //kembalikan dana turunan anggaran karena di batalkan
+                $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id','=',$request->dana_tid)->first();
+                $dataTurunanAnggaran -> pagu_rencana = $dataTurunanAnggaran->pagu_rencana - $request->pagu_rencana;
+                $dataTurunanAnggaran -> update();
 
             }
             //ubah status matrik
@@ -241,7 +253,7 @@ class PersetujuanController extends Controller
                 }
             }
 
-            Session::flash('message', 'Data Perjalanan ke '.$request->tujuan.' tanggal '. $request->tglberangkat .' sudah di setujui KPA');
+            Session::flash('message', 'Data Perjalanan ke '.$request->tujuan.' tanggal '. $request->tglberangkat .' sudah di konfirmasi KPA');
             Session::flash('message_type', 'info');
             return redirect()->route('setuju.index');
         }

@@ -76,7 +76,7 @@
                                             <th class="hidden-xs hidden-sm">Tanggal Pergi</th>
                                             <th class="hidden-xs hidden-sm">Tanggal Kembali</th>
                                             <th>Status Surat</th>
-                                            <th>Aksi</th>
+                                            <th width="10%">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>

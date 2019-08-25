@@ -39,7 +39,7 @@ class MatrikController extends Controller
                         ->select(DB::raw('matrik.*, matrik.id as matrik_id, anggaran.*,anggaran.id as anggaran_id,tujuan.*,tujuan.id as tujuan_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
                         ->get();
                         */
-        $DataMatrik = MatrikPerjalanan::get();
+        $DataMatrik = MatrikPerjalanan::orderBy('created_at','desc')->get();
         return view('matrik.index',compact('DataMatrik','MatrikFlag','DataUnitkerja'));
         //dd($DataMatrik);
 
@@ -55,9 +55,17 @@ class MatrikController extends Controller
         //
         $DataUnitkerja = DB::table('unitkerja')
                         -> where('eselon','=','3')->get();
+        /*
         $DataAnggaran = DB::table('anggaran')
                         -> leftJoin('unitkerja','anggaran.unitkerja','=','unitkerja.kode')
                         -> select(DB::Raw('anggaran.*,unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                        -> get();
+                        */
+        $DataAnggaran = DB::table('turunan_anggaran')
+                        -> leftJoin('anggaran','anggaran.id','=','turunan_anggaran.a_id')
+                        -> leftJoin('unitkerja','turunan_anggaran.unit_pelaksana','=','unitkerja.kode')
+                        -> select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                        -> orderBy('a_id','desc')
                         -> get();
         $DataTujuan = Tujuan::all();
         return view('matrik.create',compact('DataTujuan','DataAnggaran','DataUnitkerja'));
@@ -71,41 +79,67 @@ class MatrikController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
         //dd($request->all());
-        $datamatrik = new MatrikPerjalanan();
-        $datamatrik -> tahun_matrik = Carbon::parse($request['tglawal'])->format('Y');
-        $datamatrik -> tgl_awal = $request['tglawal'];
-        $datamatrik -> tgl_akhir = $request['tglakhir'];
-        $datamatrik -> kodekab_tujuan = $request['kode_kabkota'];
-        $datamatrik -> lamanya = $request['lamanya'];
-        $datamatrik -> mak_id = $request->dana_makid;
-        $datamatrik -> dana_mak = $request['dana_mak'];
-        $datamatrik -> dana_pagu = $request['dana_pagu'];
-        $datamatrik -> dana_unitkerja = $request['dana_kodeunit'];
-        $datamatrik -> lama_harian = $request['harian'];
-        $datamatrik -> dana_harian = $request['uangharian'];
-        $datamatrik -> total_harian = $request['totalharian'];
-        $datamatrik -> dana_transport = $request['nilaiTransport'];
-        $datamatrik -> lama_hotel = $request['hotelhari'];
-        $datamatrik -> dana_hotel = $request['nilaihotel'];
-        $datamatrik -> total_hotel = $request['totalhotel'];
-        $datamatrik -> pengeluaran_rill = $request['pengeluaranrill'];
-        $datamatrik -> total_biaya = $request['totalbiaya'];
-        $datamatrik -> save();
+        
+        // cek dulu sisa anggaran di turunan_anggaran
+        $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id','=',$request->dana_tid)->first();
+        $sisa_rencana = $dataTurunanAnggaran->pagu_awal - $dataTurunanAnggaran->pagu_rencana;
+        if ($sisa_rencana >= $request->totalbiaya) {
+            //tambah matrik baru
+            $datamatrik = new MatrikPerjalanan();
+            $datamatrik -> tahun_matrik = Carbon::parse($request['tglawal'])->format('Y');
+            $datamatrik -> tgl_awal = $request['tglawal'];
+            $datamatrik -> tgl_akhir = $request['tglakhir'];
+            $datamatrik -> kodekab_tujuan = $request['kode_kabkota'];
+            $datamatrik -> lamanya = $request['lamanya'];
+            $datamatrik -> mak_id = $request->dana_makid;
+            $datamatrik -> dana_tid = $request->dana_tid;
+            $datamatrik -> dana_mak = $request['dana_mak'];
+            $datamatrik -> dana_pagu = $request['dana_pagu'];
+            $datamatrik -> dana_unitkerja = $request['dana_kodeunit'];
+            $datamatrik -> lama_harian = $request['harian'];
+            $datamatrik -> dana_harian = $request['uangharian'];
+            $datamatrik -> total_harian = $request['totalharian'];
+            $datamatrik -> dana_transport = $request['nilaiTransport'];
+            $datamatrik -> lama_hotel = $request['hotelhari'];
+            $datamatrik -> dana_hotel = $request['nilaihotel'];
+            $datamatrik -> total_hotel = $request['totalhotel'];
+            $datamatrik -> pengeluaran_rill = $request['pengeluaranrill'];
+            $datamatrik -> total_biaya = $request['totalbiaya'];
+            $datamatrik -> save();
+
+            //update turunan anggaran
+            $dataTurunanAnggaran->pagu_rencana = $dataTurunanAnggaran->pagu_rencana+$request->totalbiaya;
+            $dataTurunanAnggaran->update();
+
+            $pesan_error = 'Matrik perjalanan berhasil di tambahkan';
+            $warna_error = 'success';
+        }
+        else {
+            //totalbiaya lebih besar dari sisa
+            $pesan_error = 'Sisa anggaran tidak mencukupi';
+            $warna_error = 'danger';
+        }
+
+        
         //Pegawai::create($request->all());
 
-        //update alokasi pagu di anggaran
+        //update alokasi pagu di anggaran dan turunan anggaran
+        /*
         $dataPagu = Anggaran::where('id','=',$request->dana_makid)->get();
         $realisasi_pagu = $dataPagu[0]->rencana_pagu + $request->totalbiaya;
         $inputPagu = Anggaran::where('id','=',$request->dana_makid)->first();
         $inputPagu -> rencana_pagu = $realisasi_pagu;
         $inputPagu -> update();
+        */
 
         //alert()->success('Berhasil.','Data telah ditambahkan!');
-        Session::flash('message', 'Data telah ditambahkan');
-        Session::flash('message_type', 'success');
+        
+        Session::flash('message', $pesan_error);
+        Session::flash('message_type', $warna_error);
         return redirect()->route('matrik.index');
+        
     }
 
     /**
@@ -134,14 +168,22 @@ class MatrikController extends Controller
         $MatrikFlag = config('globalvar.FlagMatrik');
         $DataMatrik = DB::table('matrik')
                 ->leftJoin('anggaran','matrik.dana_mak','=','anggaran.mak')
+                ->leftJoin('turunan_anggaran','matrik.dana_tid','=','turunan_anggaran.t_id')
                 ->leftJoin('tujuan','matrik.kodekab_tujuan','=','tujuan.kode_kabkota')
                 ->leftJoin('unitkerja','matrik.dana_unitkerja','=','unitkerja.kode')
-                ->select(DB::raw('matrik.*, matrik.id as matrik_id, anggaran.*,anggaran.id as anggaran_id,tujuan.*,tujuan.id as tujuan_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                ->select(DB::raw('matrik.*, matrik.id as matrik_id, anggaran.*,anggaran.id as anggaran_id,tujuan.*,tujuan.id as tujuan_id, turunan_anggaran.*, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
                 ->where('matrik.id','=',$id)
                 ->first();
+                /*
         $DataAnggaran = DB::table('anggaran')
                 -> leftJoin('unitkerja','anggaran.unitkerja','=','unitkerja.kode')
                 -> select(DB::Raw('anggaran.*,unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                -> get(); */
+        $DataAnggaran = DB::table('turunan_anggaran')
+                -> leftJoin('anggaran','anggaran.id','=','turunan_anggaran.a_id')
+                -> leftJoin('unitkerja','turunan_anggaran.unit_pelaksana','=','unitkerja.kode')
+                -> select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                -> orderBy('a_id','desc')
                 -> get();
         $DataTujuan = Tujuan::all();
         return view('matrik.editform',compact('DataMatrik','MatrikFlag','DataUnitkerja','DataAnggaran','DataTujuan'));
@@ -217,7 +259,8 @@ class MatrikController extends Controller
             return back();
         }
         elseif ($request['aksi']=='updatematrik') {
-            //update alokasi pagu di anggaran
+            //update alokasi pagu di turunan anggaran
+            /*
             $dataPagu = Anggaran::where('id','=',$request->dana_makid)->get();
             //$realisasi_pagu = $dataPagu[0]->rencana_pagu + $request->totalbiaya;
             $pagu_db = $dataPagu[0]->rencana_pagu;
@@ -227,30 +270,47 @@ class MatrikController extends Controller
             $inputPagu = Anggaran::where('id','=',$request->dana_makid)->first();
             $inputPagu -> rencana_pagu = $realisasi_pagu;
             $inputPagu -> update();
+            */
+            //cek dulu sisanya apakah cukup dgn totalbiaya baru
+            $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id','=',$request->dana_tid)->first();
+            $rencana_awal = $dataTurunanAnggaran->pagu_rencana - $request->totalbiaya_sblmnya;
+            $sisa_rencana = $dataTurunanAnggaran->pagu_awal - $rencana_awal;
+            if ($sisa_rencana >= $request->totalbiaya) {
+                //totalbiaya baru bisa diupdate
+                $datamatrik -> tahun_matrik = Carbon::parse($request['tglawal'])->format('Y');
+                $datamatrik -> tgl_awal = $request['tglawal'];
+                $datamatrik -> tgl_akhir = $request['tglakhir'];
+                $datamatrik -> kodekab_tujuan = $request['kode_kabkota'];
+                $datamatrik -> lamanya = $request['lamanya'];
+                $datamatrik -> mak_id = $request->dana_makid;
+                $datamatrik -> dana_mak = $request['dana_mak'];
+                $datamatrik -> dana_pagu = $request['dana_pagu'];
+                $datamatrik -> dana_unitkerja = $request['dana_kodeunit'];
+                $datamatrik -> lama_harian = $request['harian'];
+                $datamatrik -> dana_harian = $request['uangharian'];
+                $datamatrik -> total_harian = $request['totalharian'];
+                $datamatrik -> dana_transport = $request['nilaiTransport'];
+                $datamatrik -> lama_hotel = $request['hotelhari'];
+                $datamatrik -> dana_hotel = $request['nilaihotel'];
+                $datamatrik -> total_hotel = $request['totalhotel'];
+                $datamatrik -> pengeluaran_rill = $request['pengeluaranrill'];
+                $datamatrik -> total_biaya = $request['totalbiaya'];
+                $datamatrik -> update();
 
-            $datamatrik -> tahun_matrik = Carbon::parse($request['tglawal'])->format('Y');
-            $datamatrik -> tgl_awal = $request['tglawal'];
-            $datamatrik -> tgl_akhir = $request['tglakhir'];
-            $datamatrik -> kodekab_tujuan = $request['kode_kabkota'];
-            $datamatrik -> lamanya = $request['lamanya'];
-            $datamatrik -> mak_id = $request->dana_makid;
-            $datamatrik -> dana_mak = $request['dana_mak'];
-            $datamatrik -> dana_pagu = $request['dana_pagu'];
-            $datamatrik -> dana_unitkerja = $request['dana_kodeunit'];
-            $datamatrik -> lama_harian = $request['harian'];
-            $datamatrik -> dana_harian = $request['uangharian'];
-            $datamatrik -> total_harian = $request['totalharian'];
-            $datamatrik -> dana_transport = $request['nilaiTransport'];
-            $datamatrik -> lama_hotel = $request['hotelhari'];
-            $datamatrik -> dana_hotel = $request['nilaihotel'];
-            $datamatrik -> total_hotel = $request['totalhotel'];
-            $datamatrik -> pengeluaran_rill = $request['pengeluaranrill'];
-            $datamatrik -> total_biaya = $request['totalbiaya'];
-            $datamatrik -> update();
+                $dataTurunanAnggaran -> pagu_rencana = $rencana_awal + $request->totalbiaya;
+                $dataTurunanAnggaran -> update();
 
-            Session::flash('message', 'Data matrik perjalanan sudah diupdate');
-            Session::flash('message_type', 'success');
-            return redirect()->route('matrik.index');
+                Session::flash('message', 'Data matrik perjalanan sudah diupdate');
+                Session::flash('message_type', 'success');
+                return redirect()->route('matrik.index');
+            }
+            else {
+                //totalbiaya baru lebih besar dari sisanya
+                Session::flash('message', 'Total biaya baru lebih besar dari Sisa Anggaran');
+                Session::flash('message_type', 'danger');
+                return redirect()->route('matrik.index');
+            }
+            
         }
         else {
            dd($request->all());
@@ -266,7 +326,8 @@ class MatrikController extends Controller
     public function destroy(Request $request)
     {
         //
-        //update alokasi pagu di anggaran
+        //update alokasi pagu di turunan anggaran
+        /*
         $dataPagu = Anggaran::where('id','=',$request->dana_makid)->get();
         $pagu_db = $dataPagu[0]->rencana_pagu;
         $realisasi_pagu = $pagu_db - $request->totalbiaya;
@@ -274,6 +335,12 @@ class MatrikController extends Controller
         $inputPagu = Anggaran::where('id','=',$request->dana_makid)->first();
         $inputPagu -> rencana_pagu = $realisasi_pagu;
         $inputPagu -> update();
+        */
+        $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id','=',$request->dana_tid)->first();
+        $rencana_awal = $dataTurunanAnggaran->pagu_rencana - $request->totalbiaya;
+        $dataTurunanAnggaran -> pagu_rencana = $rencana_awal;
+        $dataTurunanAnggaran -> update();
+
         $count = Transaksi::where('matrik_id','=',$request->matrikid)->count();
         if ($count>0) {
             $dataTrx = Transaksi::where('matrik_id','=',$request->matrikid)->first();
