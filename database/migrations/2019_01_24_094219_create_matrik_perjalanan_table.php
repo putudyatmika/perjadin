@@ -18,9 +18,10 @@ class CreateMatrikPerjalananTable extends Migration
             $table->year('tahun_matrik');
             $table->date('tgl_awal');
             $table->date('tgl_akhir');
-            $table->string('kodekab_tujuan',4);
+            $table->string('kodekab_tujuan', 4);
             $table->tinyInteger('lamanya');
             $table->integer('mak_id')->unsigned()->nullable();
+            $table->integer('dana_tid')->unsigned()->nullable();
             $table->string('dana_mak', 30);
             $table->string('dana_pagu', 20);
             $table->string('dana_unitkerja', 4);
@@ -34,7 +35,7 @@ class CreateMatrikPerjalananTable extends Migration
             $table->string('pengeluaran_rill', 20)->nullable();
             $table->string('total_biaya', 20)->nullable();
             $table->string('unit_pelaksana', 4)->nullable();
-            $table->tinyInteger('flag')->nullable()->default(0);
+            $table->tinyInteger('flag_matrik')->nullable()->default(0);
             $table->timestamps();
         });
     }

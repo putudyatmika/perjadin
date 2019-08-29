@@ -60,6 +60,16 @@
                     @endif
                     </div>
                     <div class="form-group">
+                        <div class="col-xs-12">
+                            <select name="tahun_anggaran" class="form-control" required="">
+                                <option value="">Tahun Anggaran</option>
+                                @foreach ($dataTahunDasar as $item)
+                                    <option value="{{$item->tahun}}">{{$item->tahun}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <div class="col-md-12">
                             <div class="checkbox checkbox-primary pull-left p-t-0">
                                 <input id="checkbox-signup" type="checkbox">

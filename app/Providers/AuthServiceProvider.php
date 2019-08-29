@@ -28,6 +28,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('isSuperAdmin', function ($user) {
             return $user->user_level == 5;
         });
+
         Gate::define('isAdmin', function ($user) {
             return $user->user_level == 4;
         });
@@ -59,6 +60,5 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('isAdminPengelola', function ($user) {
             return $user->pengelola == 5;
         });
-
     }
 }

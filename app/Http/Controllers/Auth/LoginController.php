@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
-//use Session;
+use Session;
 
 class LoginController extends Controller
 {
@@ -55,7 +56,8 @@ class LoginController extends Controller
     }*/
     public function showLoginForm()
     {
-        return view('login.v2');
+        $dataTahunDasar = \App\TahunDasar::orderBy('tahun', 'asc')->get();
+        return view('login.v2', compact('dataTahunDasar'));
     }
     protected function validateLogin(Request $request)
     {
@@ -67,17 +69,19 @@ class LoginController extends Controller
     protected function attemptLogin(Request $request)
     {
         return $this->guard()->attempt(
-            $this->credentials($request), $request->filled('remember')
+            $this->credentials($request),
+            $request->filled('remember')
         );
     }
     protected function credentials(Request $request)
     {
         return $request->only($this->username(), 'password');
     }
-    public function authenticated(Request $request, $user) {
+    public function authenticated(Request $request, $user)
+    {
         $user->lastlogin = Carbon::now()->toDateTimeString();
         $user->lastip = $request->getClientIp();
         $user->save();
-        //Session::put('tahun_anggaran', $request->tahun_anggaran );
+        Session::put('tahun_anggaran', $request->tahun_anggaran);
     }
 }
