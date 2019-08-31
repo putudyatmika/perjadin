@@ -87,7 +87,17 @@
                     </tr>
                     <tr>
                         <td><b>Status Surat Tugas</b></td>
-                        <td>{{$FlagSrt[$dataTransaksi->SuratTugas->flag_surattugas]}}</td>
+                        <td>
+                            @if ($dataTransaksi->SuratTugas->flag_surattugas==0)
+                            <span class="label label-inverse">{{$FlagSrt[$dataTransaksi->SuratTugas->flag_surattugas]}}</span>
+                            @elseif($dataTransaksi->SuratTugas->flag_surattugas==1)
+                            <span class="label label-success">{{$FlagSrt[$dataTransaksi->SuratTugas->flag_surattugas]}}</span>
+                            @elseif($dataTransaksi->SuratTugas->flag_surattugas==2)
+                            <span class="label label-info">{{$FlagSrt[$dataTransaksi->SuratTugas->flag_surattugas]}}</span>
+                            @else
+                            <span class="label label-danger">{{$FlagSrt[$dataTransaksi->SuratTugas->flag_surattugas]}}</span>
+                            @endif
+                        </td>
                     </tr>
                 </table>
                 @else

@@ -1,7 +1,4 @@
 <!---modal edit-->
-@php
-$tahun_skrg=date('Y');
-@endphp
 <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="EditModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -17,12 +14,7 @@ $tahun_skrg=date('Y');
                                 <label for="tahun_anggaran">Tahun Anggaran</label>
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="ti-lock"></i></div>
-                                    <select class="form-control" name="tahun_anggaran" id="tahun_anggaran">
-                                        <option value="">Pilih</option>
-                                        @for ($i=$tahun_skrg-1;$i<=$tahun_skrg+1;$i++)
-                                            <option value="{{$i}}">{{$i}}</option>
-                                        @endfor
-                                    </select>
+                                    <input type="text" class="form-control" name="tahun_anggaran" id="tahun_anggaran" value="" readonly="" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -85,7 +77,7 @@ $tahun_skrg=date('Y');
                 <h4 class="modal-title" id="exampleModalLabel1">Tambah Data Anggaran</h4> </div>
             <div class="modal-body">
                     <form method="POST" action="{{ route('anggaran.store') }}">
-                            @csrf
+                    @csrf
                     @include('anggaran.formdata')
 
             </div>

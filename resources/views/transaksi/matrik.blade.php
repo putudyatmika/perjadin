@@ -41,7 +41,7 @@ $(function () {
                 <div class="row bg-title">
                     <!-- .page title -->
                     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                        <h4 class="page-title">Matrik Transaksi</h4>
+                        <h4 class="page-title">Transaksi Perjalanan Dinas</h4>
                     </div>
                     <!-- /.page title -->
                     <!-- .breadcrumb -->
@@ -63,8 +63,8 @@ $(function () {
                         </div>
                     <div class="col-lg-12">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0">Matrik Transaksi </h3>
-                            <p class="text-muted m-b-20">Keadaan <code>tanggal hari ini</code></p>
+                            <h3 class="box-title m-b-0">Transaksi Perjalanan Dinas</h3>
+                            <p class="text-muted m-b-20">@if (Session::has('tahun_anggaran')) <code>Tahun Anggaran {{Session::get('tahun_anggaran')}}</code> @endif</p>
                             <div class="table-responsive">
                                 <table id="TransaksiTabel" class="table table-striped">
                                     <thead>

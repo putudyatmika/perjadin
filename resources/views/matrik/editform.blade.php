@@ -142,6 +142,7 @@
                                                             <input type="hidden" class="form-control" id="dana_kodeunit" name="dana_kodeunit" value="{{$DataMatrik->dana_unitkerja}}">
                                                             <input type="hidden" id="dana_makid" name="dana_makid" value="{{$DataMatrik->mak_id}}">
                                                             <input type="hidden" id="dana_tid" name="dana_tid" value="{{$DataMatrik->dana_tid}}" />
+                                                            <input type="hidden" id="dana_tid_sblm" name="dana_tid_sblm" value="{{$DataMatrik->dana_tid}}" />
                                                         </div>
                                                     </div>
                                         <h3 class="box-title m-t-40">Rencana Anggaran Biaya</h3>

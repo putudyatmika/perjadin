@@ -107,7 +107,7 @@ class LaporanController extends Controller
         */
         if ($idpeg>0) {
             $DataPegawai = \App\Pegawai::where('id','=',$idpeg)->first();
-            $RekapPegawai = Transaksi::where('peg_nip','=',$DataPegawai->nip_baru)->orderBy('tgl_brkt','asc')->get();
+            $RekapPegawai = Transaksi::where([['peg_nip','=',$DataPegawai->nip_baru],['flag_trx','=',7]])->orderBy('tgl_brkt','asc')->get();
             //dd($RekapPegawai);
             return view('laporan.rekap-detil-pegawai',compact('DataPegawai','RekapPegawai'));
         }

@@ -26,9 +26,22 @@ class MatrikController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    private $tahun_anggaran;
+
+    public function __construct()
+    {
+        if (Session::has('tahun_anggaran')) {
+            $this->tahun_anggaran = Session::get('tahun_anggaran');
+        }
+        else {
+            $this->tahun_anggaran = date('Y');
+        }
+    }
+    
     public function index()
     {
         //
+        
         $DataUnitkerja = DB::table('unitkerja')
                         -> where('eselon','<','4')->get();
         $MatrikFlag = config('globalvar.FlagMatrik');
@@ -39,7 +52,7 @@ class MatrikController extends Controller
                         ->select(DB::raw('matrik.*, matrik.id as matrik_id, anggaran.*,anggaran.id as anggaran_id,tujuan.*,tujuan.id as tujuan_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
                         ->get();
                         */
-        $DataMatrik = MatrikPerjalanan::orderBy('created_at','desc')->get();
+        $DataMatrik = MatrikPerjalanan::where('tahun_matrik',$this->tahun_anggaran)->orderBy('created_at','desc')->get();
         return view('matrik.index',compact('DataMatrik','MatrikFlag','DataUnitkerja'));
         //dd($DataMatrik);
 
@@ -53,6 +66,7 @@ class MatrikController extends Controller
     public function create()
     {
         //
+        
         $DataUnitkerja = DB::table('unitkerja')
                         -> where('eselon','=','3')->get();
         /*
@@ -65,6 +79,7 @@ class MatrikController extends Controller
                         -> leftJoin('anggaran','anggaran.id','=','turunan_anggaran.a_id')
                         -> leftJoin('unitkerja','turunan_anggaran.unit_pelaksana','=','unitkerja.kode')
                         -> select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                        -> where('anggaran.tahun_anggaran',$this->tahun_anggaran)
                         -> orderBy('a_id','desc')
                         -> get();
         $DataTujuan = Tujuan::all();
@@ -163,6 +178,7 @@ class MatrikController extends Controller
     public function edit($id)
     {
         //
+        
         $DataUnitkerja = DB::table('unitkerja')
         -> where('eselon','<','4')->get();
         $MatrikFlag = config('globalvar.FlagMatrik');
@@ -183,6 +199,7 @@ class MatrikController extends Controller
                 -> leftJoin('anggaran','anggaran.id','=','turunan_anggaran.a_id')
                 -> leftJoin('unitkerja','turunan_anggaran.unit_pelaksana','=','unitkerja.kode')
                 -> select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                -> where('anggaran.tahun_anggaran',$this->tahun_anggaran)
                 -> orderBy('a_id','desc')
                 -> get();
         $DataTujuan = Tujuan::all();
@@ -258,7 +275,7 @@ class MatrikController extends Controller
             Session::flash('message_type', 'success');
             return back();
         }
-        elseif ($request['aksi']=='updatematrik') {
+        elseif ($request->aksi == 'updatematrik') {
             //update alokasi pagu di turunan anggaran
             /*
             $dataPagu = Anggaran::where('id','=',$request->dana_makid)->get();
@@ -270,11 +287,37 @@ class MatrikController extends Controller
             $inputPagu = Anggaran::where('id','=',$request->dana_makid)->first();
             $inputPagu -> rencana_pagu = $realisasi_pagu;
             $inputPagu -> update();
+            $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id','=',$request->dana_tid)->first();
+            $sisa_rencana = $dataTurunanAnggaran->pagu_awal - $dataTurunanAnggaran->pagu_rencana;
             */
             //cek dulu sisanya apakah cukup dgn totalbiaya baru
-            $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id','=',$request->dana_tid)->first();
-            $rencana_awal = $dataTurunanAnggaran->pagu_rencana - $request->totalbiaya_sblmnya;
-            $sisa_rencana = $dataTurunanAnggaran->pagu_awal - $rencana_awal;
+            //$dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id','=',$request->dana_tid)->first();
+            //kondisi 1
+            //matrik dari hasil import dimana mak_id dan dana_tid_sblm kosong
+            if ($request->dana_tid_sblm=="") {
+                //kosong
+                $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id','=',$request->dana_tid)->first();
+                $sisa_rencana = $dataTurunanAnggaran->pagu_awal - $dataTurunanAnggaran->pagu_rencana;
+                $rencana_awal = 0;
+                $dana_tid_berbeda = 0;
+            }
+            elseif ($request->dana_tid_sblm == $request->dana_tid) {
+                //dana_tid sama
+                $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id','=',$request->dana_tid)->first();
+                $rencana_awal = $dataTurunanAnggaran->pagu_rencana - $request->totalbiaya_sblmnya;
+                $sisa_rencana = $dataTurunanAnggaran->pagu_awal - $rencana_awal;
+                $dana_tid_berbeda = 0;
+            }
+            else {
+                //dana_tid berbeda
+                $dataTurunanAwal = \App\TurunanAnggaran::where('t_id','=',$request->dana_tid_sblm)->first();
+                $dana_awal = $dataTurunanAwal->pagu_rencana - $request->totalbiaya_sblmnya;
+                $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id','=',$request->dana_tid)->first();
+                $rencana_awal = $dataTurunanAwal->pagu_rencana;
+                $sisa_rencana = $dataTurunanAnggaran->pagu_awal - $dataTurunanAnggaran->pagu_rencana;
+                $dana_tid_berbeda = 1;
+            }
+           
             if ($sisa_rencana >= $request->totalbiaya) {
                 //totalbiaya baru bisa diupdate
                 $datamatrik -> tahun_matrik = Carbon::parse($request['tglawal'])->format('Y');
@@ -282,7 +325,8 @@ class MatrikController extends Controller
                 $datamatrik -> tgl_akhir = $request['tglakhir'];
                 $datamatrik -> kodekab_tujuan = $request['kode_kabkota'];
                 $datamatrik -> lamanya = $request['lamanya'];
-                $datamatrik -> mak_id = $request->dana_makid;
+                $datamatrik -> mak_id = $dataTurunanAnggaran->a_id;
+                $datamatrik -> dana_tid = $request->dana_tid;
                 $datamatrik -> dana_mak = $request['dana_mak'];
                 $datamatrik -> dana_pagu = $request['dana_pagu'];
                 $datamatrik -> dana_unitkerja = $request['dana_kodeunit'];
@@ -300,7 +344,12 @@ class MatrikController extends Controller
                 $dataTurunanAnggaran -> pagu_rencana = $rencana_awal + $request->totalbiaya;
                 $dataTurunanAnggaran -> update();
 
-                Session::flash('message', 'Data matrik perjalanan sudah diupdate');
+                if ($dana_tid_berbeda == 1) {
+                    $dataTurunanAwal -> pagu_rencana = $dana_awal;
+                    $dataTurunanAwal -> update();
+                }
+                              
+                Session::flash('message', 'Data matrik perjalanan sudah diupdate '.$rencana_awal .' '.$request->totalbiaya);
                 Session::flash('message_type', 'success');
                 return redirect()->route('matrik.index');
             }
@@ -362,12 +411,12 @@ class MatrikController extends Controller
         $fileName = 'format-matrik';
         $data = [
             [
-                'tahun_matrik' => null,
+                //'tahun_matrik' => null,
                 'tgl_awal' => 'Format : YYYY-MM-DD',
                 'tgl_akhir' => 'Cth : 2019-12-30',
                 'kodekab_tujuan' => 'kode 4 digit',
                 'lamanya' => null,
-                'mak_id'=> 'lihat di menu anggaran ',
+                //'mak_id'=> 'lihat di menu anggaran ',
                 'dana_harian'=>null,
                 'dana_hotel'=>null,
                 'transport'=>null,

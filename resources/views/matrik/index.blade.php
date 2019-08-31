@@ -201,7 +201,7 @@ $(function () {
                                                {{$item->Transaksi->kode_trx}}
                                                @endif
                                             </td>
-                                            <td><a href="#" data-toggle="modal" data-target="#ViewModal" data-tahun="{{$item->tahun_matrik}}" data-tujuan="{{$item->kodekab_tujuan}}-{{$item->Tujuan->nama_kabkota}}" data-waktu="{{Tanggal::Panjang($item->tgl_awal)}} s/d {{Tanggal::Panjang($item->tgl_akhir)}}" data-lamanya="{{$item->lamanya}} hari" data-mak="{{$item->dana_mak}} - {{$item->DanaAnggaran->uraian}}" data-sm="{{$item->dana_unitkerja}}-{{$item->DanaUnitkerja->nama}}"
+                                            <td><a href="#" data-toggle="modal" data-target="#ViewModal" data-tahun="{{$item->tahun_matrik}}" data-tujuan="{{$item->kodekab_tujuan}}-{{$item->Tujuan->nama_kabkota}}" data-waktu="{{Tanggal::Panjang($item->tgl_awal)}} s/d {{Tanggal::Panjang($item->tgl_akhir)}}" data-lamanya="{{$item->lamanya}} hari" data-mak="{{$item->dana_mak}} - @if ($item->mak_id!=NULL) {{$item->DanaAnggaran->uraian}} @endif" data-sm="@if ($item->mak_id!=NULL){{$item->dana_unitkerja}}-{{$item->DanaUnitkerja->nama}}@endif"
                                             @if ($item->unit_pelaksana==NULL)
                                             data-pelaksana=""
                                             @else
@@ -212,7 +212,7 @@ $(function () {
                                                 data-biaya="@rupiah($item->total_biaya)"
                                                 data-hotel="Hotel : @duit($item->dana_hotel) x {{$item->lama_hotel}} hari = @rupiah($item->total_hotel)" data-flag="{{$MatrikFlag[$item->flag_matrik]}}" data-matrikid="{{$item->matrik_id}}">{{$item->Tujuan->nama_kabkota}}</a></td>
                                             <td>{{$item->lamanya}} Hari</td>
-                                            <td>{{$item->dana_unitkerja}}-{{$item->DanaUnitkerja->nama}}</td>
+                                            <td>@if ($item->mak_id!=NULL){{$item->dana_unitkerja}}-{{$item->DanaUnitkerja->nama}}@endif</td>
                                             <td>
                                                 @if ($item->UnitPelaksana!=NULL)
                                                     {{$item->unit_pelaksana}}-{{$item->UnitPelaksana->nama}}
@@ -238,7 +238,9 @@ $(function () {
                                                 </td>
                                             <td>
                                                 @if (($item->flag_matrik<2 and Auth::user()->pengelola>3) or Auth::user()->user_level>3)
-                                                <button class="btn btn-circle btn-success btn-sm" data-toggle="modal" data-target="#AlokasiModal" data-tujuan="{{$item->Tujuan->nama_kabkota}}" data-biaya="@rupiah($item->total_biaya)" data-unitkerja="{{$item->unit_pelaksana}}" data-sm="{{$item->dana_unitkerja}}-{{$item->DanaUnitkerja->nama}}" data-matrikid="{{$item->id}}"><span data-toggle="tooltip" title="Alokasi matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-bookmark"></i></span></button>
+                                                @if ($item->dana_tid!=NULL) 
+                                                <button class="btn btn-circle btn-success btn-sm" data-toggle="modal" data-target="#AlokasiModal" data-tujuan="{{$item->Tujuan->nama_kabkota}}" data-biaya="@rupiah($item->total_biaya)" data-unitkerja="{{$item->unit_pelaksana}}" data-sm="@if ($item->mak_id!=NULL){{$item->dana_unitkerja}}-{{$item->DanaUnitkerja->nama}}@endif" data-matrikid="{{$item->id}}"><span data-toggle="tooltip" title="Alokasi matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-bookmark"></i></span></button>
+                                                @endif
                                                 <a href="{{route('matrik.edit',$item->id)}}" class="btn btn-circle btn-custom btn-sm"><span data-toggle="tooltip" title="Edit matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-pencil"></i></span></a>
                                                 @endif
                                                 @if (Auth::user()->user_level>3)
@@ -254,7 +256,7 @@ $(function () {
                                                             @else
                                                             data-pelaksana="{{$item->unit_pelaksana}}-{{$Unitkerja[$item->unit_pelaksana]}}"
                                                             @endif
-                                                            data-sm="{{$item->dana_unitkerja}}-{{$item->DanaUnitkerja->nama}}" data-flagmatrik="{{$MatrikFlag[$item->flag_matrik]}}" data-matrikid="{{$item->id}}" data-makid="{{$item->mak_id}}" data-tid="{{$item->dana_tid}}"><span data-toggle="tooltip" title="Hapus matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-trash"></i></span></button>
+                                                            data-sm="@if ($item->mak_id!=NULL){{$item->dana_unitkerja}}-{{$item->DanaUnitkerja->nama}}@endif" data-flagmatrik="{{$MatrikFlag[$item->flag_matrik]}}" data-matrikid="{{$item->id}}" data-makid="{{$item->mak_id}}" data-tid="{{$item->dana_tid}}"><span data-toggle="tooltip" title="Hapus matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-trash"></i></span></button>
                                                 @endif
                                             </td>
                                         </tr>

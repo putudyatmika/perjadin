@@ -15,6 +15,7 @@ use DB;
 use App\Anggaran;
 use Excel;
 use App\Exports\AnggaranViewExport;
+use App\Exports\AnggaranNewExport;
 use App\Imports\AnggaranImport;
 
 class AnggaranController extends Controller
@@ -24,6 +25,17 @@ class AnggaranController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    private $tahun_anggaran;
+
+    public function __construct()
+    {
+        if (Session::has('tahun_anggaran')) {
+            $this->tahun_anggaran = Session::get('tahun_anggaran');
+        }
+        else {
+            $this->tahun_anggaran = date('Y');
+        }
+    }
     public function index()
     {
         //
@@ -33,6 +45,7 @@ class AnggaranController extends Controller
                         -> leftJoin('unitkerja','anggaran.unitkerja','=','unitkerja.kode')
                         -> select(DB::Raw('anggaran.*,unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
                         -> orderBy('created_at','desc')
+                        -> where('anggaran.tahun_anggaran',$this->tahun_anggaran)
                         -> get();
         return view('anggaran.index',compact('DataAnggaran','DataUnitkerja'));
     }
@@ -168,7 +181,7 @@ class AnggaranController extends Controller
         $fileName = 'format-anggaran';
         $data = [
             [
-                'tahun_anggaran' => null,
+                //'tahun_anggaran' => null,
                 'mak' => null,
                 'uraian' => null,
                 'pagu_utama' => null,
@@ -177,6 +190,7 @@ class AnggaranController extends Controller
         ];
 
         $namafile = $fileName.date('Y-m-d_H-i-s').'.xlsx';
+        //dd($data);
         return Excel::download(new AnggaranViewExport($data), $namafile);
     }
     public function import(Request $request)
@@ -196,6 +210,63 @@ class AnggaranController extends Controller
         }
         return redirect()->back()->with(['error' => 'Please choose file before']);
     }
+    public function export()
+    {
+        
+        $DataAnggaran = DB::table('anggaran')
+                        -> leftJoin('unitkerja','anggaran.unitkerja','=','unitkerja.kode')
+                        -> select(DB::Raw('anggaran.*,unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                        -> orderBy('anggaran.id','asc')
+                        -> where('anggaran.tahun_anggaran',$this->tahun_anggaran)
+                        -> get()->toArray();
+        
+        //$anggaran_array[]=array('ANGGARAN ID','MAK','URAIAN','PAGU UTAMA','PAGU RENCANA','PAGU REALISASI','UNITKERJA');
+        foreach ($DataAnggaran as $item) 
+        {
+            $anggaran_array[]=array(
+                'ANGGARAN ID' => $item->id,
+                'TAHUN ANGGARAN' => $item->tahun_anggaran,
+                'MAK' => $item->mak,
+                'URAIAN' => $item->uraian,
+                'PAGU UTAMA' => $item->pagu_utama,
+                'RENCANA PAGU' => $item->rencana_pagu,
+                'REALISASI PAGU' => $item->realisasi_pagu,
+                'SM UNITKERJA' => "[". $item->unit_kode ."] ". $item->unit_nama,
+                'TURUNAN ID' => "",
+                'PAGU AWAL' => "",
+                'PAGU RENCANA' => "",
+                'PAGU REALISASI' => "",
+                'TURUNAN UNITKERJA' => ""
+            );
+            $count = \App\TurunanAnggaran::where('a_id','=',$item->id)->count();
+            if ($count>0) {
+                $dataTurunan = \App\TurunanAnggaran::where('a_id','=',$item->id)->orderBy('unit_pelaksana','asc')->get();
+                foreach ($dataTurunan as $r) {
+                    $anggaran_array[]=array(
+                        'ANGGARAN ID' => $item->id,
+                        'TAHUN ANGGARAN' => "",
+                        'MAK' => "",
+                        'URAIAN' => "",
+                        'PAGU UTAMA' => "",
+                        'RENCANA PAGU' => "",
+                        'REALISASI PAGU' => "",
+                        'SM UNITKERJA' => "",
+                        'TURUNAN ID' => $r->t_id,
+                        'PAGU AWAL' => $r->pagu_awal,
+                        'PAGU RENCANA' => $r->pagu_rencana,
+                        'PAGU REALISASI' => $r->pagu_realisasi,
+                        'TURUNAN UNITKERJA' => "[". $r->unit_pelaksana ."] ". $r->Unitkerja->nama
+                    );
+                }
+            }
+            
+        }
+        $fileName = 'data-anggaran';
+        $namafile = $fileName.date('Y-m-d_H-i-s').'.xlsx';
+        //dd($anggaran_array);
+        return Excel::download(new AnggaranViewExport($anggaran_array), $namafile);
+    }
+    
     public function viewturunan($aid)
     {
         $dataAnggaran = Anggaran::where('id','=',$aid)->with('Turunan','Unitkerja')->first();

@@ -48,6 +48,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/format_matrik', 'MatrikController@format');
     Route::post('/import_matrik', 'MatrikController@import');
     Route::get('anggaran/sinkron', 'AnggaranController@sinkron');
+    Route::get('anggaran/export', 'AnggaranController@export')->name('anggaran.export');
     Route::get('anggaran/viewturunan/{aid}', 'AnggaranController@viewturunan')->name('anggaran.turunan');
     Route::get('anggaran/alokasi/{id}', 'AnggaranController@alokasi')->name('anggaran.alokasi');
     Route::resource('anggaran', 'AnggaranController');
