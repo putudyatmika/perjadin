@@ -67,7 +67,7 @@ $(function () {
     $("#AnggaranTabel").dataTable({
         dom: 'Bfrtip',
         buttons: [
-            'copy', 'excel', 'pdf', 'print'
+            'copy',  'pdf', 'print'
         ],
         "pageLength": 30
     });
@@ -98,6 +98,7 @@ $(function () {
                 @if (Auth::user()->pengelola>3)
                 <div class="col-lg-4 col-sm-6 col-md-6">
                         <a href="" class="btn btn-danger btn-rounded btn-fw" data-toggle="modal" data-target="#TambahModal"><i class="fa fa-plus"></i> Tambah Anggaran</a>
+                        <a href="{{route('anggaran.export')}}" class="btn btn-success btn-rounded btn-fw"><i class="fa fa-file-excel-o"></i> Export to Excel</a>
                 </div>
                 <div class="col-lg-4">
                 </div>
@@ -124,7 +125,7 @@ $(function () {
                     <div class="col-lg-12">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Data Anggaran Perjalanan BPS Provinsi NTB </h3>  @if (Auth::user()->pengelola>3)<a href="{{url('format_anggaran')}}" class="btn btn-sm btn-info pull-right">Download Format Anggaran</a> @endif
-                            <p class="text-muted m-b-20">Tahun <code>2019</code></p>
+                            <p class="text-muted m-b-20">@if (Session::has('tahun_anggaran')) Tahun Anggaran {{Session::get('tahun_anggaran')}} @endif</p>
 
                             <div class="table-responsive">
                                 <table id="AnggaranTabel" class="table table-striped">

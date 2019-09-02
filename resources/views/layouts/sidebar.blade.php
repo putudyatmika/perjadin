@@ -33,7 +33,7 @@
                     @endif
 
                     <li class="nav-small-cap m-t-10">--- Operator Menu</li>
-                    <li> <a href="{{url('transaksi')}}" class="waves-effect text-primary"><i class="icon-screen-desktop fa-fw"></i><span class="hide-menu" >Matrik Transaksi</span></a> </li>
+                    <li> <a href="{{url('transaksi')}}" class="waves-effect text-primary"><i class="icon-screen-desktop fa-fw"></i><span class="hide-menu" >Transaksi</span></a> </li>
                     <li> <a href="{{url('surattugas')}}" class="waves-effect text-info"><i class="icon-directions fa-fw"></i><span class="hide-menu" >Surat Tugas</span>
                         @if (Jumlah::SuratTugas(0)>0)
                             <span class="label label-rouded label-info pull-right">{{Jumlah::SuratTugas(0)}}</span>

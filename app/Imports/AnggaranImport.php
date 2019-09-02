@@ -1,27 +1,46 @@
 <?php
 
 namespace App\Imports;
-
+use Session;
 use App\Anggaran;
-use Maatwebsite\Excel\Concerns\ToModel;
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow; //TAMBAHKAN CODE INI
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 
-class AnggaranImport implements ToModel, WithHeadingRow
+class AnggaranImport implements ToCollection, WithHeadingRow, WithBatchInserts, WithChunkReading
 {
     /**
     * @param array $row
     *
     * @return \Illuminate\Database\Eloquent\Model|null
     */
-    public function model(array $row)
+    public function collection(Collection $rows)
     {
-        return new Anggaran([
-            //
-            'tahun_anggaran' => $row['tahun_anggaran'],
-            'mak' => $row['mak'],
-            'uraian' => $row['uraian'],
-            'pagu_utama' => $row['pagu_utama'],
-            'unitkerja' => $row['unitkerja']
-        ]);
+        if (Session::has('tahun_anggaran')) {
+            $tahun_anggaran = Session::get('tahun_anggaran');
+        }
+        else {
+            $tahun_anggaran = date('Y');
+        }
+        foreach ($rows as $row)
+        {
+            $dataAnggaran = new Anggaran();
+            $dataAnggaran -> tahun_anggaran =  $tahun_anggaran;
+            $dataAnggaran -> mak = $row['mak'];
+            $dataAnggaran -> uraian = $row['uraian'];
+            $dataAnggaran -> pagu_utama  = $row['pagu_utama'];
+            $dataAnggaran -> unitkerja = $row['unitkerja'];
+            $dataAnggaran -> save();
+        }
+    }
+    public function batchSize(): int
+    {
+        return 1000;
+    }
+    public function chunkSize(): int
+    {
+        return 1000;
     }
 }

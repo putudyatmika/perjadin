@@ -31,7 +31,7 @@ $(function () {
     });
 });
 </script>
-
+@include('tahundasar.js')
 @stop
 @extends('layouts.default')
 
@@ -40,14 +40,14 @@ $(function () {
                 <div class="row bg-title">
                     <!-- .page title -->
                     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                        <h4 class="page-title">Master Data Pegawai</h4>
+                        <h4 class="page-title">Master Data Tahun Dasar</h4>
                     </div>
                     <!-- /.page title -->
                     <!-- .breadcrumb -->
                     <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
                         <ol class="breadcrumb">
                             <li><a href="{{url('')}}">Dashboard</a></li>
-                            <li class="active">Data Pegawai</li>
+                            <li class="active">Data Tahun Dasar</li>
                         </ol>
                     </div>
                     <!-- /.breadcrumb -->
@@ -87,8 +87,8 @@ $(function () {
                                                 <td>{{$loop->iteration}}</td>
                                                 <td>{{$item->tahun}}</td>
                                                 <td>
-                                                    <button type="button" class="btn btn-primary btn-circle btn-sm" data-toggle="modal" data-target="#EditModal"><span data-toggle="tooltip" title="Edit tahun anggaran"><i class="fa fa-pencil"></i></span></button>
-                                                    <button type="button" class="btn btn-danger btn-circle btn-sm" data-toggle="modal" data-target="#HapusModal"><span data-toggle="tooltip" title="Hapus tahun anggaran"><i class="fa fa-trash"></i></span></button>
+                                                    <button type="button" class="btn btn-primary btn-circle btn-sm" data-toggle="modal" data-target="#EditModal" data-tahun="{{$item->tahun}}" data-id="{{$item->id}}"><span data-toggle="tooltip" title="Edit tahun anggaran"><i class="fa fa-pencil"></i></span></button>
+                                                    <button type="button" class="btn btn-danger btn-circle btn-sm" data-toggle="modal" data-target="#HapusModal" data-tahun="{{$item->tahun}}" data-id="{{$item->id}}"><span data-toggle="tooltip" title="Hapus tahun anggaran"><i class="fa fa-trash"></i></span></button>
                                                 </td>
                                             </tr>
                                         @endforeach
