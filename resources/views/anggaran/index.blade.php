@@ -95,10 +95,10 @@ $(function () {
                     <!-- /.breadcrumb -->
                 </div>
                 <div class="row">
-                @if (Auth::user()->pengelola>3)
                 <div class="col-lg-4 col-sm-6 col-md-6">
-                        <a href="" class="btn btn-danger btn-rounded btn-fw" data-toggle="modal" data-target="#TambahModal"><i class="fa fa-plus"></i> Tambah Anggaran</a>
-                        <a href="{{route('anggaran.export')}}" class="btn btn-success btn-rounded btn-fw"><i class="fa fa-file-excel-o"></i> Export to Excel</a>
+                <a href="{{route('anggaran.export')}}" class="btn btn-success btn-rounded btn-fw"><i class="fa fa-file-excel-o"></i> Export to Excel</a>
+                @if (Auth::user()->pengelola>3)
+                    <a href="" class="btn btn-danger btn-rounded btn-fw" data-toggle="modal" data-target="#TambahModal"><i class="fa fa-plus"></i> Tambah Anggaran</a>
                 </div>
                 <div class="col-lg-4">
                 </div>
@@ -112,8 +112,8 @@ $(function () {
                             </span>
                           </div>
                         </form>
-                </div>
                 @endif
+                </div>                
                 <div class="col-lg-12">
                     @if (Session::has('message'))
                     <div class="alert alert-{{ Session::get('message_type') }}" id="waktu2" style="margin-top:10px;">{{ Session::get('message') }}</div>

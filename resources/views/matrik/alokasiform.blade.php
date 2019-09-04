@@ -10,6 +10,7 @@
                         @csrf
                         @method('put')
                         <input type="hidden" name="matrikid" id="matrikid" value="" />
+                        <input type="hidden" name="tahun_matrik" id="tahun_matrik" value="" />
                         <input type="hidden" name="aksi" value="alokasi" />
                         <div class="form-group">
                                 <label for="tujuan">Tujuan</label>

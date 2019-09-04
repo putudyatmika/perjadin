@@ -53,6 +53,7 @@ $('#AlokasiModal').on('show.bs.modal', function (event) {
   var unitkerja = button.data('unitkerja')
   var matrikid = button.data('matrikid')
   var sm = button.data('sm')
+  var tahunmatrik = button.data('tahunmatrik')
 
   var modal = $(this)
   modal.find('.modal-body #tujuan').val(tujuan)
@@ -60,6 +61,7 @@ $('#AlokasiModal').on('show.bs.modal', function (event) {
   modal.find('.modal-body #unit_pelaksana').val(unitkerja)
   modal.find('.modal-body #matrikid').val(matrikid)
   modal.find('.modal-body #sm').val(sm)
+  modal.find('.modal-body #tahun_matrik').val(tahunmatrik)
 })
 $('#ViewModal').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget) // Button that triggered the modal
@@ -142,7 +144,7 @@ $(function () {
                     <!-- /.breadcrumb -->
                 </div>
                 <div class="row">
-                    @if (Auth::user()->pengelola>3)
+                    @if (Auth::user()->pengelola>3 || Auth::user()->pengelola==0)
                     <div class="col-lg-4 col-sm-6 col-md-6">
                             <a href="{{url('matrik/create')}}" class="btn btn-danger btn-rounded btn-fw"><i class="fa fa-plus"></i> Tambah Matrik Perjalanan</a>
                     </div>
@@ -171,7 +173,10 @@ $(function () {
                     <div class="row" style="margin-top: 20px;">
                     <div class="col-lg-12">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0">Matrik Perjalanan Pegawai BPS Provinsi NTB</h3>  @if (Auth::user()->pengelola>3)<a href="{{url('format_matrik')}}" class="btn btn-sm btn-info  m-b-20 pull-right">Download Format Matrik</a> @endif
+                            <h3 class="box-title m-b-0">Matrik Perjalanan Pegawai BPS Provinsi NTB</h3>  
+                            @if (Auth::user()->pengelola>3 || Auth::user()->pengelola==0)
+                            <a href="{{url('format_matrik')}}" class="btn btn-sm btn-info  m-b-20 pull-right">Download Format Matrik</a> 
+                            @endif
                             <p class="text-muted m-b-20">@if (Session::has('tahun_anggaran')) <code>Tahun Anggaran {{Session::get('tahun_anggaran')}}</code> @endif</p>
                             <div class="table-responsive">
                                 <table id="MatrikTable" class="table table-striped">
@@ -237,9 +242,9 @@ $(function () {
                                                 </h5>
                                                 </td>
                                             <td>
-                                                @if (($item->flag_matrik<2 and Auth::user()->pengelola>3) or Auth::user()->user_level>3)
+                                                @if (($item->flag_matrik<2 and (Auth::user()->pengelola>3 or Auth::user()->user_unitkerja==$item->dana_unitkerja))  or Auth::user()->user_level>3)
                                                 @if ($item->dana_tid!=NULL) 
-                                                <button class="btn btn-circle btn-success btn-sm" data-toggle="modal" data-target="#AlokasiModal" data-tujuan="{{$item->Tujuan->nama_kabkota}}" data-biaya="@rupiah($item->total_biaya)" data-unitkerja="{{$item->unit_pelaksana}}" data-sm="@if ($item->mak_id!=NULL){{$item->dana_unitkerja}}-{{$item->DanaUnitkerja->nama}}@endif" data-matrikid="{{$item->id}}"><span data-toggle="tooltip" title="Alokasi matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-bookmark"></i></span></button>
+                                                <button class="btn btn-circle btn-success btn-sm" data-toggle="modal" data-target="#AlokasiModal" data-tujuan="{{$item->Tujuan->nama_kabkota}}" data-biaya="@rupiah($item->total_biaya)" data-unitkerja="{{$item->unit_pelaksana}}" data-sm="@if ($item->mak_id!=NULL){{$item->dana_unitkerja}}-{{$item->DanaUnitkerja->nama}}@endif" data-matrikid="{{$item->id}}" data-tahunmatrik={{$item->tahun_matrik}}><span data-toggle="tooltip" title="Alokasi matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-bookmark"></i></span></button>
                                                 @endif
                                                 <a href="{{route('matrik.edit',$item->id)}}" class="btn btn-circle btn-custom btn-sm"><span data-toggle="tooltip" title="Edit matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-pencil"></i></span></a>
                                                 @endif
