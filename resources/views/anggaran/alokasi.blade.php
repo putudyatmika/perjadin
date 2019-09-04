@@ -52,8 +52,11 @@
                                 <dt class="col-sm-3">Sisa Pagu Utama</dt>
                                 <dd class="col-sm-9">Rp. @duit(($dataAnggaran->pagu_utama-$dataAnggaran->rencana_pagu))</dd>
                             </dl>
-                            <div class="text-right" style="margin-bottom:10px;"><button type="button" class="btn btn-sm btn-success btn-rounded" data-toggle="modal" data-target="#TambahAlokasiModal" data-tahun="{{$dataAnggaran->tahun_anggaran}}"><i class="fa fa-plus"></i> Tambah Alokasi</button>
+                            @if (Auth::user()->pengelola>3)
+                            <div class="text-right" style="margin-bottom:10px;">
+                                <button type="button" class="btn btn-sm btn-success btn-rounded" data-toggle="modal" data-target="#TambahAlokasiModal" data-tahun="{{$dataAnggaran->tahun_anggaran}}"><i class="fa fa-plus"></i> Tambah Alokasi</button>
                             </div>
+                            @endif
                             <div class="table-responsive">
                                 <table id="TurunanTabel" class="table table-striped">
                                     <thead>
@@ -64,7 +67,9 @@
                                             <th>Pagu Alokasi</th>
                                             <th>Pagu Rencana</th>
                                             <th>Pagu Realisasi</th>
+                                            @if (Auth::user()->pengelola>3)
                                             <th>aksi</th>
+                                            @endif
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -83,12 +88,14 @@
                                                         <td>{!! number_format(($item->pagu_awal/$dataAnggaran->pagu_utama)*100,2) !!}</td>
                                                         <td>@duit($item->pagu_awal)</td>
                                                         <td>@duit($item->pagu_rencana)</td>
-                                                        <td>@duit($item->pagu_realisasi)</td>         
+                                                        <td>@duit($item->pagu_realisasi)</td> 
+                                                        @if (Auth::user()->pengelola>3)        
                                                         <td>
                                                             <button type="button" class="btn btn-sm btn-primary btn-circle" data-toggle="modal" data-target="#EditAlokasiModal" data-tid="{{$item->t_id}}" data-paguawal="{{$item->pagu_awal}}"  data-pagurencana="{{$item->pagu_rencana}}" data-pagurealisasi="{{$item->pagu_realisasi}}" data-unitkode="{{$item->unit_pelaksana}}"><i class="fa fa-pencil"></i></button>
                                                             <button type="button" class="btn btn-sm btn-danger btn-circle" data-toggle="modal" data-target="#DeleteAlokasiModal" data-tid="{{$item->t_id}}" data-paguawal="{{$item->pagu_awal}}" data-unitkode="{{$item->Unitkerja->nama}}"><i class="fa fa-trash-o"></i></button>
                                                             <button type="button" class="btn btn-sm btn-info btn-circle" data-toggle="modal" data-target="#SyncAlokasiModal" data-tid="{{$item->t_id}}" data-paguawal="{{$item->pagu_awal}}" data-unitkode="{{$item->unit_pelaksana}}"><i class="fa fa-refresh"></i></button>
                                                         </td>
+                                                        @endif
                                                     </tr>
                                                 @endforeach
                                             @endif
@@ -100,7 +107,9 @@
                                                 <td>@duit($dataTurunan->sum('pagu_awal'))</td>
                                                 <td>@duit($dataTurunan->sum('pagu_rencana'))</td>
                                                 <td>@duit($dataTurunan->sum('pagu_realisasi'))</td>
+                                                @if (Auth::user()->pengelola>3)
                                                 <td></td>
+                                                @endif
                                             </tr>
                                         </tfoot>
                                 </table>
