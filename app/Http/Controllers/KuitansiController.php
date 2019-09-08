@@ -29,7 +29,7 @@ class KuitansiController extends Controller
         $FlagTTD = config('globalvar.FlagTTD');
         $FlagKendaraan = config('globalvar.Kendaraan');
         $DataPPK = Pegawai::where([['jabatan','=','2'],['flag','=','1']])->orderBy('unitkerja')->get();
-        $DataKuitansi = Kuitansi::orderBy('flag_kuitansi','asc')->orderBy('updated_at','desc')->get();
+        $DataKuitansi = Kuitansi::where('tahun_kuitansi','=',Session::get('tahun_anggaran'))->orderBy('flag_kuitansi','asc')->orderBy('updated_at','desc')->get();
         return view('kuitansi.index',compact('DataKuitansi','FlagTrx','FlagKonfirmasi','FlagSrt','MatrikFlag','FlagTTD','DataPPK','FlagKendaraan'));
     }
 

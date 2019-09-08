@@ -2,50 +2,50 @@
 namespace App\Helpers;
 
 Class Jumlah {
-    public static function Pengajuan() {
-        $count = \App\Transaksi::whereIn('flag_trx',array(1,2))->count();
+    public static function Pengajuan($tahun) {
+        $count = \App\Transaksi::where('tahun_trx','=',$tahun)->whereIn('flag_trx',array(1,2))->count();
         return $count;
     }
-    public static function SuratTugas($flag) {
-        $count = \App\SuratTugas::where('flag_surattugas','=',$flag)->count();
+    public static function SuratTugas($flag,$tahun) {
+        $count = \App\SuratTugas::where([['flag_surattugas','=',$flag],['tahun_srt','=',$tahun]])->count();
         return $count;
     }
-    public static function SPD($flag) {
-        $count = \App\Spd::where('flag_spd','=',$flag)->count();
+    public static function SPD($flag,$tahun) {
+        $count = \App\Spd::where([['flag_spd','=',$flag],['tahun_spd','=',$tahun]])->count();
         return $count;
     }
-    public static function Kuitansi($flag) {
-        $count = \App\Kuitansi::where('flag_kuitansi','=',$flag)->count();
+    public static function Kuitansi($flag,$tahun) {
+        $count = \App\Kuitansi::where([['flag_kuitansi','=',$flag],['tahun_kuitansi','=',$tahun]])->count();
         return $count;
     }
-    public static function Matrik($flag) {
+    public static function Matrik($flag,$tahun) {
         if ($flag<10) {
-            $count = \App\MatrikPerjalanan::where('flag_matrik','=',$flag)->count();
+            $count = \App\MatrikPerjalanan::where([['flag_matrik','=',$flag],['tahun_matrik','=',$tahun]])->count();
         }
         else {
-            $count = \App\MatrikPerjalanan::count();
+            $count = \App\MatrikPerjalanan::where('tahun_matrik','=',$tahun)->count();
         }
         return $count;
     }
-    public static function Transaksi($flag) {
+    public static function Transaksi($flag,$tahun) {
         if ($flag<10) {
-            $count = \App\Transaksi::where('flag_trx','=',$flag)->count();
+            $count = \App\Transaksi::where([['flag_trx','=',$flag],['tahun_trx','=',$tahun]])->count();
         }
         else {
-            $count = \App\Transaksi::count();
+            $count = \App\Transaksi::where('tahun_trx','=',$tahun)->count();
         }
         return $count;
     }
-    public static function KuitansiCair() {
-        $sum = \App\Kuitansi::where('flag_kuitansi','<',3)->sum('total_biaya');
+    public static function KuitansiCair($tahun) {
+        $sum = \App\Kuitansi::where([['flag_kuitansi','<',3],['tahun_kuitansi','=',$tahun]])->sum('total_biaya');
         return $sum;
     }
-    public static function Ajuan5Perjadin() {
-        $Data = \App\Transaksi::whereIn('flag_trx',array(1,2))->orderBy('updated_at','desc')->take(5)->get();
+    public static function Ajuan5Perjadin($tahun) {
+        $Data = \App\Transaksi::where('tahun_trx','=',$tahun)->whereIn('flag_trx',array(1,2))->orderBy('updated_at','desc')->take(5)->get();
         return $Data;
     }
-    public static function Surat5Tugas($flag) {
-        $Data = \App\SuratTugas::where('flag_surattugas','=',$flag)->orderBy('updated_at','desc')->take(5)->get();
+    public static function Surat5Tugas($flag,$tahun) {
+        $Data = \App\SuratTugas::where([['flag_surattugas','=',$flag],['tahun_srt','=',$tahun]])->orderBy('updated_at','desc')->take(5)->get();
         return $Data;
     }
 }

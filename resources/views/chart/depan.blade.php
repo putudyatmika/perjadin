@@ -1,6 +1,7 @@
 @php
  $bulan = date('n');
- $tahun = date('Y');
+ //$tahun = date('Y');
+ $tahun = Session::get('tahun_anggaran');
 @endphp
 <script>
     Morris.Bar({

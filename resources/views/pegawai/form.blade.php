@@ -61,7 +61,7 @@
         <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
         <select class="form-control select2" name="jabatan" required="" id="jabatan">
             <option>Select</option>
-            @for ($i = 1; $i < 6; $i++)
+            @for ($i = 1; $i < 7; $i++)
             <option value="{{ $i }}">{{ $JenisJabatanVar[$i] }}</option>
             @endfor
         </select>

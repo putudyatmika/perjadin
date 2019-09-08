@@ -18,7 +18,8 @@
             3=>'Kepala Seksi/Subbag',
             4=>'Staf',
             5=>'Tugas Belajar',
-            6=>'CS/Satpam',
+            6=>'Pensiunan',
+            7=>'CS/Satpam',
         ],
         'UnitEselon'=> [
             1=>'I',

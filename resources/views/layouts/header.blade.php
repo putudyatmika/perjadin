@@ -16,11 +16,11 @@
                                 <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#"><i class="icon-envelope"></i>
                                 @if (Auth::user()->user_level==3 and Auth::user()->pengelola>3)
                                 <!--operator-->
-                                    @if (Jumlah::SuratTugas(0)>0)
+                                    @if (Jumlah::SuratTugas(0,Session::get('tahun_anggaran'))>0)
                                     <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
                                     @endif
                                 @elseif (Auth::user()->pengelola !=0 and Auth::user()->pengelola!=4)
-                                    @if (Jumlah::Pengajuan()>0)
+                                    @if (Jumlah::Pengajuan(Session::get('tahun_anggaran'))>0)
                                     <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
                                     @endif
                                 @endif
@@ -30,14 +30,14 @@
                                         <div class="drop-title text-danger">
                                         @if (Auth::user()->user_level==3 and Auth::user()->pengelola>3)
                                         <!--operator-->
-                                            @if (Jumlah::SuratTugas(0)>0)
-                                                Ada ({{Jumlah::SuratTugas(0)}}) Perjadin disetujui
+                                            @if (Jumlah::SuratTugas(0,Session::get('tahun_anggaran'))>0)
+                                                Ada ({{Jumlah::SuratTugas(0,Session::get('tahun_anggaran'))}}) Perjadin disetujui
                                             @else
                                                 Belum Ada Perjadin disetujui
                                             @endif
                                         @elseif (Auth::user()->pengelola !=0 and Auth::user()->pengelola!=4)
-                                            @if (Jumlah::Pengajuan()>0)
-                                                Ada ({{Jumlah::Pengajuan()}}) Pengajuan Perjadin
+                                            @if (Jumlah::Pengajuan(Session::get('tahun_anggaran'))>0)
+                                                Ada ({{Jumlah::Pengajuan(Session::get('tahun_anggaran'))}}) Pengajuan Perjadin
                                             @else
                                                 Belum Ada Pengajuan Perjadin
                                             @endif
@@ -50,8 +50,8 @@
                                         <div class="message-center">
                                             @if (Auth::user()->user_level==3 and Auth::user()->pengelola>3)
                                             <!--operator-->
-                                                 @if (Jumlah::SuratTugas(0)>0)
-                                                    @foreach (Jumlah::Surat5Tugas(0) as $item)
+                                                 @if (Jumlah::SuratTugas(0,Session::get('tahun_anggaran'))>0)
+                                                    @foreach (Jumlah::Surat5Tugas(0,Session::get('tahun_anggaran')) as $item)
                                                     <a href="{{route('surattugas.index')}}">
                                                             <div class="mail-contnet">
                                                                 <h5>{{$item->Transaksi->TabelPegawai->nama}}</h5>
@@ -67,8 +67,8 @@
                                                     </a>
                                                 @endif
                                             @elseif (Auth::user()->pengelola !=0 and Auth::user()->pengelola!=4)
-                                                @if (Jumlah::Pengajuan()>0)
-                                                    @foreach (Jumlah::Ajuan5Perjadin() as $item)
+                                                @if (Jumlah::Pengajuan(Session::get('tahun_anggaran'))>0)
+                                                    @foreach (Jumlah::Ajuan5Perjadin(Session::get('tahun_anggaran')) as $item)
                                                     <a href="{{route('setuju.index')}}">
                                                             <div class="mail-contnet">
                                                                 <h5>{{$item->TabelPegawai->nama}}</h5>

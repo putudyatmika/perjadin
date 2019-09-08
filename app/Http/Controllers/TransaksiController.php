@@ -277,6 +277,7 @@ class TransaksiController extends Controller
                 $datasrt->flag_ttd = 0;
                 $datasrt->nomor_surat = NULL;
                 $datasrt->tgl_surat = NULL;
+                $datasrt -> tahun_srt = Session::get('tahun_anggaran');
                 $datasrt->update();
             } else {
                 //data belum ada isikan
@@ -284,6 +285,7 @@ class TransaksiController extends Controller
                     $datasrt = new SuratTugas();
                     $datasrt->trx_id = $request->trxid;
                     $datasrt->flag_surattugas = $flag_surattugas;
+                    $datasrt -> tahun_srt = Session::get('tahun_anggaran');
                     $datasrt->save();
                 }
             }
@@ -295,6 +297,7 @@ class TransaksiController extends Controller
                 $dataspd->flag_spd = $flag_spd;
                 $dataspd->flag_ttd = 0;
                 $dataspd->nomor_spd = NULL;
+                $dataspd -> tahun_spd = Session::get('tahun_anggaran');
                 $dataspd->update();
             } else {
                 if ($request->kpa_setuju == 1) {
@@ -303,6 +306,7 @@ class TransaksiController extends Controller
                     $dataspd->trx_id = $request->trxid;
                     $dataspd->flag_spd = $flag_spd;
                     $dataspd->flag_ttd = 0;
+                    $dataspd -> tahun_spd = Session::get('tahun_anggaran');
                     $dataspd->save();
                 }
             }

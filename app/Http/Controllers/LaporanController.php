@@ -85,7 +85,7 @@ class LaporanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
     }
@@ -106,10 +106,19 @@ class LaporanController extends Controller
         select nip_baru, pegawai.nama as nama_pegawai, unitkerja.nama as nama_unitkerja, jumlah, totalbiaya from pegawai left join unitkerja on pegawai.unitkerja=unitkerja.kode LEFT join (SELECT peg_nip, COUNT(*) as jumlah, sum(kuitansi.total_biaya) as totalbiaya FROM transaksi LEFT join kuitansi on transaksi.trx_id=kuitansi.trx_id where flag_trx>3 GROUP by peg_nip order by jumlah desc) as trx on pegawai.nip_baru=trx.peg_nip order by jumlah desc
         */
         if ($idpeg>0) {
-            $DataPegawai = \App\Pegawai::where('id','=',$idpeg)->first();
-            $RekapPegawai = Transaksi::where([['peg_nip','=',$DataPegawai->nip_baru],['flag_trx','=',7]])->orderBy('tgl_brkt','asc')->get();
-            //dd($RekapPegawai);
-            return view('laporan.rekap-detil-pegawai',compact('DataPegawai','RekapPegawai'));
+            $count = \App\Pegawai::where('id','=',$idpeg)->count();
+            if ($count>0) {
+                $DataPegawai = \App\Pegawai::where('id','=',$idpeg)->first();
+                $RekapPegawai = Transaksi::where([['peg_nip','=',$DataPegawai->nip_baru],['flag_trx','=',7]])->orderBy('tgl_brkt','asc')->get();
+                //dd($RekapPegawai);
+                return view('laporan.rekap-detil-pegawai',compact('DataPegawai','RekapPegawai'));
+            }
+            else {
+                //Session::flash('message', 'ID Pegawai tidak tersedia');
+                //Session::flash('message_type', 'error');
+                //return redirect('laporan/pegawai/');
+                return view('laporan.error');
+            }
         }
         else {
             $RekapPegawai = DB::table('pegawai')->
@@ -120,6 +129,9 @@ class LaporanController extends Controller
 
             return view('laporan.rekap-pegawai',compact('RekapPegawai'));
         }
+        
+        
+        //dd($idpeg);
 
     }
     public function bidang($bidang_id)

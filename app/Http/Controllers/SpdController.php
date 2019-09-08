@@ -28,7 +28,7 @@ class SpdController extends Controller
         $FlagTTD = config('globalvar.FlagTTD');
         $FlagKendaraan = config('globalvar.Kendaraan');
         $DataPPK = Pegawai::where([['flag_pengelola','=','2'],['flag','=','1']])->orderBy('unitkerja')->get();
-        $DataSPD = Spd::orderBy('flag_spd','asc')->get();
+        $DataSPD = Spd::where('tahun_spd','=',Session::get('tahun_anggaran'))->orderBy('flag_spd','asc')->get();
         return view('spd.index',compact('DataSPD','FlagTrx','FlagKonfirmasi','FlagSrt','MatrikFlag','FlagTTD','DataPPK','FlagKendaraan'));
         //dd($DataSPD);
     }
@@ -99,6 +99,7 @@ class SpdController extends Controller
             $dataSpd -> flag_spd = 1;
             $dataSpd -> flag_cetak_tujuan = $request->cetaktujuan;
             $dataSpd -> kendaraan = $request->kendaraan;
+            $dataSpd -> tahun_spd = Session::get('tahun_anggaran');
             $dataSpd -> update();
 
             //input tabel kuitansi dan set flag transaksi menunggu pembayaran
@@ -109,6 +110,7 @@ class SpdController extends Controller
             else {
                 $dataKuitansi = new \App\Kuitansi();
                 $dataKuitansi -> trx_id = $request->trxid;
+                $dataKuitansi -> tahun_kuitansi = Session::get('tahun_anggaran');
                 $dataKuitansi -> save();
             }
             //transaksi update

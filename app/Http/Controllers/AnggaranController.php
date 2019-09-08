@@ -328,6 +328,9 @@ class AnggaranController extends Controller
         //sinkroninsasi data anggaran ke turunan anggaran
         $dataAnggaran = Anggaran::with('Unitkerja')->get();
         foreach ($dataAnggaran as $item) {
+            $dataRencana = Anggaran::where('id','=', $item->id)->first();
+            $dataRencana -> rencana_pagu = $item->pagu_utama;
+            $dataRencana -> update();
             $count = \App\TurunanAnggaran::where([['a_id', '=', $item->id], ['unit_pelaksana', '=', $item->unitkerja]])->count();
             if ($count > 0) {
                 //sudah ada
