@@ -25,8 +25,8 @@
                     @if (Auth::user()->pengelola !=0 and Auth::user()->pengelola!=4)
                     <li class="nav-small-cap">--- Persetujuan</li>
                     <li> <a href="{{url('setuju')}}" class="waves-effect"><i class="icon-disc fa-fw"></i><span class="hide-menu" >Pengajuan</span>
-                        @if (Jumlah::Pengajuan()>0)
-                        <span class="label label-rouded label-danger pull-right">{{Jumlah::Pengajuan()}}</span>
+                        @if (Jumlah::Pengajuan(Session::get('tahun_anggaran'))>0)
+                        <span class="label label-rouded label-danger pull-right">{{Jumlah::Pengajuan(Session::get('tahun_anggaran'))}}</span>
                         @endif
                     </a>
                     </li>
@@ -35,24 +35,24 @@
                     <li class="nav-small-cap m-t-10">--- Operator Menu</li>
                     <li> <a href="{{url('transaksi')}}" class="waves-effect text-primary"><i class="icon-screen-desktop fa-fw"></i><span class="hide-menu" >Transaksi</span></a> </li>
                     <li> <a href="{{url('surattugas')}}" class="waves-effect text-info"><i class="icon-directions fa-fw"></i><span class="hide-menu" >Surat Tugas</span>
-                        @if (Jumlah::SuratTugas(0)>0)
-                            <span class="label label-rouded label-info pull-right">{{Jumlah::SuratTugas(0)}}</span>
+                        @if (Jumlah::SuratTugas(0,Session::get('tahun_anggaran'))>0)
+                            <span class="label label-rouded label-info pull-right">{{Jumlah::SuratTugas(0,Session::get('tahun_anggaran'))}}</span>
                         @endif
                     </a>
                     </li>
                     <li><a href="{{url('spd')}}" class="waves-effect text-danger"><i class="icon-book-open fa-fw"></i><span class="hide-menu">SPD</span>
-                        @if (Jumlah::SPD(0)>0)
-                            <span class="label label-rouded label-danger pull-right">{{Jumlah::SPD(0)}}</span>
+                        @if (Jumlah::SPD(0,Session::get('tahun_anggaran'))>0)
+                            <span class="label label-rouded label-danger pull-right">{{Jumlah::SPD(0,Session::get('tahun_anggaran'))}}</span>
                         @endif
                     </a></li>
                     <li><a href="{{url('kuitansi')}}" class="waves-effect"><i class="icon-calculator fa-fw"></i><span class="hide-menu" >Kuitansi</span>
-                        @if (Jumlah::Kuitansi(0)>0)
-                        <span class="label label-rouded label-primary pull-right">{{Jumlah::Kuitansi(0)}}</span>
+                        @if (Jumlah::Kuitansi(0,Session::get('tahun_anggaran'))>0)
+                        <span class="label label-rouded label-primary pull-right">{{Jumlah::Kuitansi(0,Session::get('tahun_anggaran'))}}</span>
                         @endif
                     </a></li>
                     <li> <a href="forms.html" class="waves-effect"><i data-icon="&#xe00b;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Laporan<span class="fa arrow"></span></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a href="{{route('lap_pegawai','0')}}">Rekap pegawai</a></li>
+                            <li><a href="{{route('lap_pegawai','')}}">Rekap pegawai</a></li>
                             <li><a href="{{url('laporan/bidang')}}">Rekap Bidang</a></li>
                             <li><a href="{{url('laporan/transaksi')}}">Rekap Transaksi</a></li>
                             <li><a href="{{route('laporan.index')}}">Rekap Anggaran</a></li>

@@ -207,7 +207,7 @@ class AnggaranController extends Controller
             ->leftJoin('unitkerja', 'anggaran.unitkerja', '=', 'unitkerja.kode')
             ->select(DB::Raw('anggaran.*,unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
             ->orderBy('anggaran.id', 'asc')
-            ->where('anggaran.tahun_anggaran', $this->tahun_anggaran)
+            ->where('anggaran.tahun_anggaran','=', Session::get('tahun_anggaran'))
             ->get()->toArray();
 
         //$anggaran_array[]=array('ANGGARAN ID','MAK','URAIAN','PAGU UTAMA','PAGU RENCANA','PAGU REALISASI','UNITKERJA');
@@ -328,6 +328,9 @@ class AnggaranController extends Controller
         //sinkroninsasi data anggaran ke turunan anggaran
         $dataAnggaran = Anggaran::with('Unitkerja')->get();
         foreach ($dataAnggaran as $item) {
+            $dataRencana = Anggaran::where('id','=', $item->id)->first();
+            $dataRencana -> rencana_pagu = $item->pagu_utama;
+            $dataRencana -> update();
             $count = \App\TurunanAnggaran::where([['a_id', '=', $item->id], ['unit_pelaksana', '=', $item->unitkerja]])->count();
             if ($count > 0) {
                 //sudah ada

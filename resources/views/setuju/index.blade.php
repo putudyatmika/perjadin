@@ -54,7 +54,7 @@
                         <div class="white-box">
                             <h3 class="box-title m-b-0">PERSETUJUAN PENGAJUAN PERJALANAN DINAS PEGAWAI</h3>
                             <p class="text-muted m-b-20">Silakan setujui atau tidak perjalanan dinas yang telah diajukan</p>
-                            @if (Jumlah::Pengajuan()==0)
+                            @if (Jumlah::Pengajuan(Session::get('tahun_anggaran'))==0)
                                 <h3 class="text-center"><b>Belum ada pengajuan perjalanan dinas</b></h3>
                             @else
                             <div class="table-responsive">
