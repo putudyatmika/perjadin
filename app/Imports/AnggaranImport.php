@@ -18,12 +18,8 @@ class AnggaranImport implements ToCollection, WithHeadingRow, WithBatchInserts, 
     */
     public function collection(Collection $rows)
     {
-        if (Session::has('tahun_anggaran')) {
-            $tahun_anggaran = Session::get('tahun_anggaran');
-        }
-        else {
-            $tahun_anggaran = date('Y');
-        }
+        $tahun_anggaran = Session::get('tahun_anggaran');
+       
         foreach ($rows as $row)
         {
             $dataAnggaran = new Anggaran();

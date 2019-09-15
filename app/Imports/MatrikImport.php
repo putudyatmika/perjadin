@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Imports;
+use Generate;
 use Session;
 use App\MatrikPerjalanan;
 use Illuminate\Support\Collection;
@@ -18,17 +19,15 @@ class MatrikImport implements ToCollection, WithHeadingRow, WithBatchInserts, Wi
     */
     public function collection(Collection $rows)
     {
-        if (Session::has('tahun_anggaran')) {
-            $tahun_anggaran = Session::get('tahun_anggaran');
-        }
-        else {
-            $tahun_anggaran = date('Y');
-        }
+        
+        $tahun_anggaran = Session::get('tahun_anggaran');
         foreach ($rows as $row)
         {
+            $kode_trx = Generate::Kode(6);
             $totalbiaya = ($row['lamanya'] * $row['dana_harian'])+$row['transport']+(($row['lamanya']-1) * $row['dana_hotel'])+$row['pengeluaran_rill'];
             $datamatrik = new MatrikPerjalanan();
             $datamatrik -> tahun_matrik = $tahun_anggaran;
+            $datamatrik -> kode_trx = $kode_trx;
             $datamatrik -> tgl_awal = $row['tgl_awal'];
             $datamatrik -> tgl_akhir = $row['tgl_akhir'];
             $datamatrik -> kodekab_tujuan = $row['kodekab_tujuan'];
