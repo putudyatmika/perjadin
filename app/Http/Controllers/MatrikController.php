@@ -106,7 +106,9 @@ class MatrikController extends Controller
         $sisa_rencana = $dataTurunanAnggaran->pagu_awal - $dataTurunanAnggaran->pagu_rencana;
         if ($sisa_rencana >= $request->totalbiaya) {
             //tambah matrik baru
+            $kode_trx = Generate::Kode(6);
             $datamatrik = new MatrikPerjalanan();
+            $datamatrik->kode_trx = $kode_trx;
             $datamatrik->tahun_matrik = Carbon::parse($request['tglawal'])->format('Y');
             $datamatrik->tgl_awal = $request['tglawal'];
             $datamatrik->tgl_akhir = $request['tglakhir'];
@@ -218,9 +220,9 @@ class MatrikController extends Controller
     public function update(Request $request)
     {
         //
+        /*
         function gencode($length)
         {
-
             $kata = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             $code_gen = '';
             for ($i = 0; $i < $length; $i++) {
@@ -230,6 +232,7 @@ class MatrikController extends Controller
             }
             return $code_gen;
         }
+        */
         $count = MatrikPerjalanan::where('id', $request['matrikid'])->count();
 
         if ($count < 1) {
@@ -241,7 +244,7 @@ class MatrikController extends Controller
         if ($request['aksi'] == 'alokasi') {
             //hanya alokasi
             $count = Transaksi::where('matrik_id', $request['matrikid'])->count();
-            $kode_trx = gencode(6);
+            $kode_trx = $datamatrik->kode_trx;
             if ($count > 0) {
                 //data sudah ada tinggal update
                 $dataTrx = Transaksi::where('matrik_id', $request->matrikid)->first();

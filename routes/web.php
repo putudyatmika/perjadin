@@ -74,6 +74,9 @@ Route::group(['middleware' => ['auth']], function () {
     })->name('lap_pegawai');
     Route::get('laporan/bidang/{bidangid}', 'LaporanController@bidang')->name('lap_bidang');
     Route::resource('laporan', 'LaporanController');
+    Route::post('data/import', 'DataController@import')->name('data.import');
+    Route::get('data/format', 'DataController@format')->name('data.format');
+    Route::resource('data', 'DataController');
 });
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 //Route::get('/home', 'HomeController@index')->name('home');

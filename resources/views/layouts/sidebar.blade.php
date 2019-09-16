@@ -74,6 +74,7 @@
                     @if (Auth::user()->user_level>3)
                     <li><a href="{{url('user')}}" class="waves-effect"><i class="icon-people fa-fw"></i><span class="hide-menu" >User</span></a> </li>
                     <li><a href="{{url('tahundasar')}}" class="waves-effect"><i class="icon-compass fa-fw"></i><span class="hide-menu" >Tahun Dasar</span></a> </li>
+                    <li><a href="{{url('data')}}" class="waves-effect"><i class="icon-folder fa-fw"></i><span class="hide-menu" >Database</span></a> </li>
                     @endif
                     <li class="nav-small-cap">--- Quit</li>
                     <li><a href="{{route('logout')}}" class="waves-effect"><i class="icon-logout fa-fw"></i> <span class="hide-menu">Logout</span></a></li>
