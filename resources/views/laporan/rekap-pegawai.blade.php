@@ -42,8 +42,7 @@ $(function () {
 
                         <ol class="breadcrumb">
                             <li><a href="{{url('')}}">Dashboard</a></li>
-                            <li>Laporan</li>
-                            <li class="active">Rekap Pegawai</li>
+                            <li class="active">Laporan Rekap Pegawai</li>
                         </ol>
                     </div>
                     <!-- /.breadcrumb -->

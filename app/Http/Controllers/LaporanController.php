@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\MatrikPerjalanan;
 use App\Anggaran;
+use App\TurunanAnggaran;
 use App\Transaksi;
 use App\Kuitansi;
 use Carbon\Carbon;
 use Session;
 use Illuminate\Support\Facades\Redirect;
 use DB;
+use App\Unitkerja;
+use App\Tujuan;
 
 class LaporanController extends Controller
 {
@@ -21,18 +24,7 @@ class LaporanController extends Controller
      */
     public function index()
     {
-        //
-        //$dataAnggaran = MatrikPerjalanan::with(['DanaAnggaran','Transaksi:trx_id,kode_trx,matrik_id,peg_nip','Transaksi.Kuitansi:kuitansi_id,trx_id,total_biaya'])->where('flag_matrik','>','3')->select('id','tahun_matrik','mak_id','dana_unitkerja','unit_pelaksana')->orderBy('mak_id','asc')->get()->groupBy('mak_id');
-        //return view('laporan.rekap-anggaran',compact('dataAnggaran'));
-        //$dataAnggaran = select(DB::Raw('SELECT anggaran.id as id, mak, uraian, pagu, sum(kuitansi.total_biaya) FROM anggaran left join matrik on matrik.mak_id=anggaran.id left join transaksi on matrik.id = transaksi.matrik_id left join kuitansi on transaksi.trx_id=kuitansi.trx_id where matrik.flag_matrik>3 group by anggaran.id'))->get();
-        $dataAnggaran = DB::table('anggaran') ->
-                        leftJoin('matrik','matrik.mak_id','=','anggaran.id')->
-                        leftJoin('transaksi','matrik.id','=','transaksi.matrik_id')->
-                        leftJoin('kuitansi','transaksi.trx_id','=','kuitansi.trx_id')->
-                        leftJoin('unitkerja','anggaran.unitkerja','=','unitkerja.kode')->
-                        select(DB::Raw('matrik.mak_id, dana_mak, uraian, anggaran.unitkerja,unitkerja.nama, dana_pagu , sum(kuitansi.total_biaya) as total_biaya'))->where('flag_matrik','>','3')->groupBy('matrik.mak_id')->orderBy('total_biaya','desc')->get();
-        //dd($dataAnggaran);
-        return view('laporan.rekap-anggaran',compact('dataAnggaran'));
+        
     }
 
     /**
@@ -100,6 +92,52 @@ class LaporanController extends Controller
     {
         //
     }
+    public function tujuan($tujuanID)
+    {
+        if ($tujuanID>0)
+        {
+            //semua pegawai di tujuan yang sama
+            /*
+            SELECT transaksi.tahun_trx, transaksi.peg_nip, matrik.unit_pelaksana, unitkerja.nama as unit_nama, transaksi.tugas, transaksi.tgl_brkt, transaksi.bnyk_hari, kuitansi.total_biaya as totalbiaya FROM matrik left join transaksi on transaksi.matrik_id=matrik.id left join kuitansi on kuitansi.trx_id=transaksi.trx_id left join unitkerja on matrik.unit_pelaksana=unitkerja.kode where transaksi.flag_trx > 3 and transaksi.tahun_trx = '2019' and matrik.kodekab_tujuan='5201' order by transaksi.tgl_brkt asc
+            */
+            $dataTujuan = Tujuan::where('kode_kabkota','=',$tujuanID)->first();
+            $rekapTujuan = DB::table('pegawai')->
+                           leftJoin(DB::Raw("(SELECT transaksi.tahun_trx, transaksi.kode_trx, transaksi.peg_nip, matrik.unit_pelaksana, unitkerja.nama as unit_nama, transaksi.tugas, transaksi.tgl_brkt, transaksi.bnyk_hari, kuitansi.total_biaya as totalbiaya FROM matrik left join transaksi on transaksi.matrik_id=matrik.id left join kuitansi on kuitansi.trx_id=transaksi.trx_id left join unitkerja on matrik.unit_pelaksana=unitkerja.kode where transaksi.flag_trx > 3 and transaksi.tahun_trx = '".Session::get('tahun_anggaran')."' and matrik.kodekab_tujuan='".$tujuanID."' order by transaksi.tgl_brkt asc) as trx"),'trx.peg_nip','=','pegawai.nip_baru')->
+                           select(DB::Raw('tahun_trx,kode_trx,pegawai.nama, pegawai.nip_baru,unit_pelaksana, unit_nama,tugas,tgl_brkt,bnyk_hari,totalbiaya'))->where('tahun_trx','>','0')->orderBy('tgl_brkt','asc')->get();
+            //dd($rekapTujuan);
+            return view('laporan.rekap-detil-tujuan',compact('dataTujuan','rekapTujuan'));
+        }
+        else {
+            /*
+            SELECT transaksi.tahun_trx, matrik.kodekab_tujuan, COUNT(*) as jumlah, sum(kuitansi.total_biaya) as totalbiaya FROM matrik left join transaksi on transaksi.matrik_id=matrik.id left join kuitansi on kuitansi.trx_id=transaksi.trx_id where transaksi.flag_trx > 3 and transaksi.tahun_trx = '2019' GROUP by matrik.kodekab_tujuan order by matrik.kodekab_tujuan asc
+            */
+            $rekapTujuan = DB::table('tujuan')->
+                           leftJoin(DB::Raw("(SELECT transaksi.tahun_trx, matrik.kodekab_tujuan, COUNT(*) as jumlah, sum(kuitansi.total_biaya) as totalbiaya FROM matrik left join transaksi on transaksi.matrik_id=matrik.id left join kuitansi on kuitansi.trx_id=transaksi.trx_id where transaksi.flag_trx > 3 and transaksi.tahun_trx = '".Session::get('tahun_anggaran')."' GROUP by matrik.kodekab_tujuan order by matrik.kodekab_tujuan asc) as trx"),'trx.kodekab_tujuan','=','tujuan.kode_kabkota')->
+                           select(DB::Raw('nama_kabkota as nama, kode_kabkota,COALESCE(jumlah,0) as jumlah, COALESCE(totalbiaya,0) as total_biaya'))->where('tahun_trx','>','0')->orderBy('jumlah','desc')->get();
+            //dd($rekapTujuan);
+                           return view('laporan.rekap-tujuan',compact('rekapTujuan'));
+        }
+    }
+    public function anggaran($aid)
+    {
+        if ($aid>0) {
+                $dataAnggaran = Anggaran::where('id','=',$aid)->first();
+                /*
+                SELECT transaksi.tahun_trx, transaksi.peg_nip, matrik.unit_pelaksana, unitkerja.nama as unit_nama, matrik.kodekab_tujuan, tujuan.nama_kabkota, transaksi.tugas, transaksi.tgl_brkt, transaksi.bnyk_hari, kuitansi.total_biaya as totalbiaya FROM matrik left join transaksi on transaksi.matrik_id=matrik.id left join kuitansi on kuitansi.trx_id=transaksi.trx_id left join unitkerja on matrik.unit_pelaksana=unitkerja.kode LEFT join tujuan on matrik.kodekab_tujuan=tujuan.kode_kabkota where transaksi.flag_trx > 3 and transaksi.tahun_trx = '2019' and matrik.mak_id='8' order by transaksi.tgl_brkt asc
+                */
+                $rekapAnggaran = DB::table('pegawai')->
+                           leftJoin(DB::Raw("(SELECT transaksi.tahun_trx, transaksi.kode_trx, transaksi.peg_nip, matrik.unit_pelaksana, unitkerja.nama as unit_nama, matrik.kodekab_tujuan, tujuan.nama_kabkota, transaksi.tugas, transaksi.tgl_brkt, transaksi.bnyk_hari, kuitansi.total_biaya as totalbiaya FROM matrik left join transaksi on transaksi.matrik_id=matrik.id left join kuitansi on kuitansi.trx_id=transaksi.trx_id left join unitkerja on matrik.unit_pelaksana=unitkerja.kode LEFT join tujuan on matrik.kodekab_tujuan=tujuan.kode_kabkota where transaksi.flag_trx > 3 and  transaksi.tahun_trx = '".Session::get('tahun_anggaran')."' and matrik.mak_id='".$aid."' order by transaksi.tgl_brkt asc) as trx"),'trx.peg_nip','=','pegawai.nip_baru')->
+                           select(DB::Raw('tahun_trx,kode_trx,pegawai.nama, pegawai.nip_baru,unit_pelaksana, unit_nama,kodekab_tujuan, nama_kabkota,tugas,tgl_brkt,bnyk_hari,totalbiaya'))->where('tahun_trx','>','0')->orderBy('tgl_brkt','asc')->get();
+                return view('laporan.rekap-detil-anggaran',compact('dataAnggaran','rekapAnggaran'));
+        }
+        else {
+            //semua anggaran
+            
+            $dataAnggaran = Anggaran::with('Turunan','Matrik','Unitkerja')->where('tahun_anggaran','=',Session::get('tahun_anggaran'))->get();
+            //dd($dataAnggaran);
+            return view('laporan.rekap-anggaran',compact('dataAnggaran'));
+        }
+    }
     public function pegawai($idpeg)
     {
         /*
@@ -134,8 +172,33 @@ class LaporanController extends Controller
         //dd($idpeg);
 
     }
-    public function bidang($bidang_id)
+    public function bidang($bidangId)
     {
-
+        if ($bidangId>0) {
+            //1 bidang saja
+            /*
+            SELECT transaksi.tahun_trx, transaksi.peg_nip, matrik.kodekab_tujuan, tujuan.nama_kabkota, transaksi.tugas, transaksi.tgl_brkt, transaksi.bnyk_hari, kuitansi.total_biaya as totalbiaya FROM matrik left join transaksi on transaksi.matrik_id=matrik.id left join kuitansi on kuitansi.trx_id=transaksi.trx_id left join tujuan on matrik.kodekab_tujuan=tujuan.kode_kabkota where transaksi.flag_trx > 3 and transaksi.tahun_trx = '2019' and matrik.unit_pelaksana='52550' order by transaksi.tgl_brkt asc
+            */
+            $rekapBidang = DB::table('pegawai')->
+                           leftJoin(DB::Raw("(SELECT transaksi.tahun_trx, transaksi.kode_trx, transaksi.peg_nip, matrik.kodekab_tujuan, tujuan.nama_kabkota, transaksi.tugas, transaksi.tgl_brkt, transaksi.bnyk_hari, kuitansi.total_biaya as totalbiaya FROM matrik left join transaksi on transaksi.matrik_id=matrik.id left join kuitansi on kuitansi.trx_id=transaksi.trx_id left join tujuan on matrik.kodekab_tujuan=tujuan.kode_kabkota where transaksi.flag_trx > 3 and transaksi.tahun_trx = '".Session::get('tahun_anggaran')."' and matrik.unit_pelaksana='".$bidangId."' order by transaksi.tgl_brkt asc) as trx"),'trx.peg_nip','=','pegawai.nip_baru')->
+                           select(DB::Raw('tahun_trx,kode_trx,pegawai.nama, pegawai.nip_baru,kodekab_tujuan,nama_kabkota,tugas,tgl_brkt,bnyk_hari,totalbiaya'))->where('tahun_trx','>','0')->orderBy('tgl_brkt','asc')->get();
+            $dataBidang = Unitkerja::where('kode','=',$bidangId)->first();
+            //dd($rekapBidang);
+            return view('laporan.rekap-detil-bidang',compact('dataBidang','rekapBidang'));
+        }
+        else {
+            //semua bidang ditampilkan
+            //$rekapBidang = Transaksi::with('Matrik','Kuitansi')->where([['tahun_trx','=',Session::get('tahun_anggaran')],['flag_trx','=',7]])->all(); 
+            /*
+            select nama, COALESCE(jumlah,0) as jumlah, COALESCE(totalbiaya,0) as totalbiaya from unitkerja left join (SELECT transaksi.tahun_trx, matrik.unit_pelaksana, COUNT(*) as jumlah, sum(kuitansi.total_biaya) as totalbiaya FROM matrik left join transaksi on transaksi.matrik_id=matrik.id left join kuitansi on kuitansi.trx_id=transaksi.trx_id where transaksi.flag_trx > 3 and transaksi.tahun_trx = '2019' GROUP by matrik.unit_pelaksana order by matrik.unit_pelaksana asc) as trx on trx.unit_pelaksana=unitkerja.kode where unitkerja.eselon < 4
+            */
+            $rekapBidang = DB::table('unitkerja')->
+            leftJoin(DB::Raw("(SELECT transaksi.tahun_trx, matrik.unit_pelaksana, COUNT(*) as jumlah, sum(kuitansi.total_biaya) as totalbiaya FROM matrik left join transaksi on transaksi.matrik_id=matrik.id left join kuitansi on kuitansi.trx_id=transaksi.trx_id where transaksi.flag_trx > 3 and transaksi.tahun_trx = '".Session::get('tahun_anggaran')."' GROUP by matrik.unit_pelaksana order by matrik.unit_pelaksana asc) as trx"),'trx.unit_pelaksana','=','unitkerja.kode')->
+            select(\DB::Raw('kode,nama, COALESCE(jumlah,0) as jumlah, COALESCE(totalbiaya,0) as total_biaya'))->
+            where('unitkerja.eselon','<','4')->
+            get();
+            //dd($rekapBidang);
+            return view('laporan.rekap-bidang',compact('rekapBidang'));
+        }
     }
 }

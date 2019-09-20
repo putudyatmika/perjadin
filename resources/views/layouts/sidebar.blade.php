@@ -53,9 +53,9 @@
                     <li> <a href="forms.html" class="waves-effect"><i data-icon="&#xe00b;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Laporan<span class="fa arrow"></span></span></a>
                         <ul class="nav nav-second-level">
                             <li><a href="{{route('lap_pegawai','')}}">Rekap pegawai</a></li>
-                            <li><a href="{{url('laporan/bidang')}}">Rekap Bidang</a></li>
-                            <li><a href="{{url('laporan/transaksi')}}">Rekap Transaksi</a></li>
-                            <li><a href="{{route('laporan.index')}}">Rekap Anggaran</a></li>
+                            <li><a href="{{route('laporan.bidang')}}">Rekap Bidang</a></li>
+                            <li><a href="{{route('laporan.tujuan')}}">Rekap Tujuan</a></li>
+                            <li><a href="{{route('laporan.anggaran')}}">Rekap Anggaran</a></li>
                         </ul>
                     </li>
                     <li class="nav-small-cap">--- Master Data</li>

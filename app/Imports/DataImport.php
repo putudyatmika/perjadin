@@ -195,8 +195,6 @@ class DataImport implements ToCollection, WithHeadingRow, WithBatchInserts, With
                 $dataspd -> save();
 
                 //insert kuitansi
-
-                // 											created_at	updated_at
                 $dataKuitansi = new Kuitansi();
                 $dataKuitansi -> trx_id = $trx_id;
                 $dataKuitansi -> tahun_kuitansi = $tahun_anggaran;
@@ -229,6 +227,7 @@ class DataImport implements ToCollection, WithHeadingRow, WithBatchInserts, With
                 //update turunan anggaran
                 $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id','=',$row['dana_tid'])->first();
                 $dataTurunanAnggaran -> pagu_realisasi = $dataTurunanAnggaran->pagu_realisasi+$row['total_biaya'];
+                $dataTurunanAnggaran -> pagu_rencana = $dataTurunanAnggaran->pagu_rencana + $row['total_biaya'];
                 $dataTurunanAnggaran -> update();
 
                 $dataAnggaran = \App\Anggaran::where('id','=',$row['mak_id'])->first();

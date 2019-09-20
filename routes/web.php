@@ -72,7 +72,19 @@ Route::group(['middleware' => ['auth']], function () {
         $ctrl = new \App\Http\Controllers\LaporanController();
         return $ctrl->pegawai($idpeg);
     })->name('lap_pegawai');
-    Route::get('laporan/bidang/{bidangid}', 'LaporanController@bidang')->name('lap_bidang');
+    //Route::get('laporan/bidang/{bidangId}', 'LaporanController@bidang')->name('laporan.bidang');
+    Route::get('laporan/bidang/{bidangId?}', function($bidangId=0) {
+        $ctrl = new \App\Http\Controllers\LaporanController();
+        return $ctrl->bidang($bidangId);
+    })->name('laporan.bidang');
+    Route::get('laporan/anggaran/{aid?}', function($aid=0) {
+        $ctrl = new \App\Http\Controllers\LaporanController();
+        return $ctrl->anggaran($aid);
+    })->name('laporan.anggaran');
+    Route::get('laporan/tujuan/{tujuanID?}', function($tujuanID=0) {
+        $ctrl = new \App\Http\Controllers\LaporanController();
+        return $ctrl->tujuan($tujuanID);
+    })->name('laporan.tujuan');
     Route::resource('laporan', 'LaporanController');
     Route::post('data/import', 'DataController@import')->name('data.import');
     Route::get('data/format', 'DataController@format')->name('data.format');

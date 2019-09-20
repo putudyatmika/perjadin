@@ -15,17 +15,17 @@
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
  <!-- end - This is for export functionality only -->
-<script>
-$(function () {
-    $("#DataTableCustom").dataTable({
-        dom: 'Bfrtip',
-        buttons: [
-            'copy', 'excel', 'pdf', 'print'
-        ],
-        "pageLength": 30,
+ <script>
+    $(function () {
+        $("#DataTableCustom").dataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'excel', 'pdf', 'print'
+            ],
+            "pageLength": 30,
+        });
     });
-});
-</script>
+    </script>
 @stop
 @extends('layouts.default')
 
@@ -33,16 +33,17 @@ $(function () {
 <div class="container-fluid">
                 <div class="row bg-title">
                     <!-- .page title -->
-                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                        <h4 class="page-title">Laporan - Rekap Anggaran</h4>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <h4 class="page-title">Laporan - Rekap Detil Perjalanan Menurut Anggaran</h4>
                     </div>
                     <!-- /.page title -->
                     <!-- .breadcrumb -->
-                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
 
                         <ol class="breadcrumb">
                             <li><a href="{{url('')}}">Dashboard</a></li>
-                            <li class="active">Laporan Rekap Anggaran</li>
+                            <li><a href="{{route('laporan.anggaran')}}">Laporan Rekap Anggaran</a></li>
+                            <li class="active">Detil</li>
                         </ol>
                     </div>
                     <!-- /.breadcrumb -->
@@ -56,54 +57,53 @@ $(function () {
                                 </div>
                     <div class="col-lg-12">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0">Rekap Anggaran Perjalanan Dinas yang telah dilaksanakan</h3>
+                            <h3 class="box-title m-b-0">Detil Perjalanan Dinas yang telah dilaksanakan menggunakan Anggaran </h3>
+                            <p class="text-muted m-b-0"><code>{{$dataAnggaran->mak}} - {{$dataAnggaran->uraian}}</code></p>
                             <p class="text-muted m-b-20">@if (Session::has('tahun_anggaran')) <code>Tahun Anggaran {{Session::get('tahun_anggaran')}}</code> @endif</p>
                             <div class="table-responsive">
-                                <table id="DataTableCustom" class="table table-striped">
+                                <table class="table table-striped" id="DataTableCustom">
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>MAK</th>
-                                            <th>Bidang/Bagian</th>
-                                            <th class="text-right">Pagu Awal</th>
-                                            <th class="text-right">Realisasi</th>
-                                            <th class="text-right">Sisa</th>
+                                            <th>Nama</th>
+                                            <th>Bidang</th>
+                                            <th>Kode Trx</th>
+                                            <th>Tujuan</th>
+                                            <th>Tugas</th>
+                                            <th class="text-right">Tgl Berangkat</th>
+                                            <th class="text-right">Hari</th></th>
+                                            <th class="text-right">Total Biaya</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @php
-                                         $totalpagu=0;
-                                         $totalbiaya=0;
+                                          $total_biaya=0;   
                                         @endphp
-                                    @foreach ($dataAnggaran as $item)
-                                        <tr>
-                                            <td>{{$loop->iteration}}</td>
-                                            <td>
-                                                @if ($item->realisasi_pagu>0) 
-                                                <a href="{{route('laporan.anggaran',$item->id)}}">{{$item->mak}}</a>
-                                                @else
-                                                {{$item->mak}}
-                                                @endif
-                                                <br />
-                                                <small>{{$item->uraian}}</small></td>
-                                            <td>[{{$item->unitkerja}}] {{$item->Unitkerja->nama}}</td>
-                                            <td class="text-right">@duit($item->pagu_utama)</td>
-                                            <td class="text-right">@duit($item->realisasi_pagu)</td>
-                                            <td class="text-right">@duit($item->pagu_utama-$item->realisasi_pagu)</td>
-                                        </tr>
-                                       @php
-                                            $totalpagu += $item->pagu_utama;
-                                            $totalbiaya += $item->realisasi_pagu;
-                                       @endphp
-                                    @endforeach
-
+                                       @foreach ($rekapAnggaran as $item)
+                                           <tr>
+                                               <td>{{$loop->iteration}}</td>
+                                               <td>{{$item->nama}}</td>
+                                               <td>{{$item->unit_nama}}</td>
+                                               <td>{{$item->kode_trx}}</td>
+                                               <td>{{$item->nama_kabkota}}</td>
+                                               <td>{{$item->tugas}}</td>
+                                               <td class="text-right">{{$item->tgl_brkt}}</td>
+                                               <td class="text-right">{{$item->bnyk_hari}}</td>
+                                               <td class="text-right">@duit($item->totalbiaya)</td>
+                                           </tr>
+                                           @php
+                                               $total_biaya += $item->totalbiaya;
+                                           @endphp
+                                       @endforeach
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <th colspan="3" class="text-center">Total</th>
-                                            <th class="text-right">@duit($totalpagu)</th>
-                                            <th class="text-right">@duit($totalbiaya)</th>
-                                            <th></th>
+                                            <th colspan="2" class="text-center">Pagu</th>
+                                            <th>@duit($dataAnggaran->pagu_utama)</th>
+                                            <th colspan="2" class="text-right">Sisa (Pagu - Total)</th>
+                                            <th colspan="2">@duit($dataAnggaran->pagu_utama-$total_biaya)</th>
+                                            <th class="text-right">Total</th>
+                                            <th class="text-right">@duit($total_biaya)</th>
                                         </tr>
                                     </tfoot>
                                 </table>
