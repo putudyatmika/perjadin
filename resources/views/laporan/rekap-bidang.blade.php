@@ -15,17 +15,17 @@
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
  <!-- end - This is for export functionality only -->
-<script>
-$(function () {
-    $("#DataTableCustom").dataTable({
-        dom: 'Bfrtip',
-        buttons: [
-            'copy', 'excel', 'pdf', 'print'
-        ],
-        "pageLength": 15,
-    });
-});
-</script>
+ <script>
+        $(function () {
+            $("#DataTableCustom").dataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'excel', 'pdf', 'print'
+                ],
+                "pageLength": 15,
+            });
+        });
+        </script>
 @stop
 @extends('layouts.default')
 
@@ -34,7 +34,7 @@ $(function () {
                 <div class="row bg-title">
                     <!-- .page title -->
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <h4 class="page-title">Laporan - Rekap Perjalanan Menurut Pegawai</h4>
+                        <h4 class="page-title">Laporan - Rekap Perjalanan Menurut Bidang</h4>
                     </div>
                     <!-- /.page title -->
                     <!-- .breadcrumb -->
@@ -42,57 +42,62 @@ $(function () {
 
                         <ol class="breadcrumb">
                             <li><a href="{{url('')}}">Dashboard</a></li>
-                            <li><a href="{{route('lap_pegawai')}}">Laporan Rekap Pegawai</a></li>
-                            <li class="active">Detil</li>
+                            <li class="active">Laporan Rekap Bidang</li>
                         </ol>
                     </div>
                     <!-- /.breadcrumb -->
                 </div>
                 <!-- .row -->
                 <div class="row">
-                    <div class="col-lg-12">
-                        @if (Session::has('message'))
-                        <div class="alert alert-{{ Session::get('message_type') }}" id="waktu2" style="margin-top:10px;">{{ Session::get('message') }}</div>
-                        @endif
-                    </div>
+                        <div class="col-lg-12">
+                                @if (Session::has('message'))
+                                <div class="alert alert-{{ Session::get('message_type') }}" id="waktu2" style="margin-top:10px;">{{ Session::get('message') }}</div>
+                                @endif
+                                </div>
                     <div class="col-lg-12">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0">Detil Perjalanan Dinas An. {{$DataPegawai->nama}} - NIP. {{$DataPegawai->nip_baru}}</h3>
+                            <h3 class="box-title m-b-0">Rekap Anggaran Perjalanan Dinas yang telah dilaksanakan</h3>
                             <p class="text-muted m-b-20">@if (Session::has('tahun_anggaran')) <code>Tahun Anggaran {{Session::get('tahun_anggaran')}}</code> @endif</p>
                             <div class="table-responsive">
-                                <table id="DataTableCustom" class="table table-striped">
+                                <table class="table table-striped" id="DataTableCustom">
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Tujuan</th>
-                                            <th>Tugas</th>
-                                            <th>Tgl Brkt</th>
-                                            <th>Tgl Kembali</th>
-                                            <th>Total Biaya</th>
+                                            <th>Bidang/Bagian</th>
+                                            <th class="text-right">Jumlah Perjalanan</th>
+                                            <th class="text-right">Total Biaya</th>
                                         </tr>
                                     </thead>
-                                    @php
-                                        $totalbiaya=0;
-                                    @endphp
                                     <tbody>
-                                        @foreach ($RekapPegawai as $item)
+                                        @php
+                                         $total_jalan=0;
+                                         $total_biaya=0;
+                                        @endphp 
+                                        @foreach ($rekapBidang as $item)
                                             <tr>
                                                 <td>{{$loop->iteration}}</td>
-                                                <td>{{$item->Matrik->Tujuan->nama_kabkota}}</td>
-                                                <td>{{$item->tugas}}</td>
-                                                <td class="text-right">{{Tanggal::Panjang($item->tgl_brkt)}}</td>
-                                                <td class="text-right">{{Tanggal::Panjang($item->tgl_balik)}}</td>
-                                                <td class="text-right">@duit($item->Kuitansi->total_biaya)</td>
+                                                <td>
+                                                    @if ($item->jumlah>0)
+                                                    <a href="{{route('laporan.bidang',$item->kode)}}">{{$item->nama}}</a>
+                                                    @else
+                                                    {{$item->nama}}
+                                                    @endif
+                                                   
+                                                </td>
+                                                <td class="text-right">{{$item->jumlah}}</td>
+                                                <td class="text-right">@duit($item->total_biaya)</td>
                                             </tr>
                                             @php
-                                                $totalbiaya += $item->Kuitansi->total_biaya;
-                                            @endphp
+                                            $total_jalan += $item->jumlah;
+                                            $total_biaya += $item->total_biaya;
+                                       @endphp
                                         @endforeach
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <th colspan="5" class="text-center">Total</th>
-                                            <th class="text-right">@duit($totalbiaya)</th>
+                                            <th colspan="2" class="text-center">Total</th>
+                                            <th class="text-right">{{$total_jalan}}</th>
+                                            <th class="text-right">@duit($total_biaya)</th>
                                         </tr>
                                     </tfoot>
                                 </table>
