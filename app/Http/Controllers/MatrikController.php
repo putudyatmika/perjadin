@@ -19,6 +19,7 @@ use Excel;
 use App\Exports\MatrikViewExport;
 use App\Imports\MatrikImport;
 use Auth;
+use Generate;
 
 class MatrikController extends Controller
 {
@@ -67,25 +68,24 @@ class MatrikController extends Controller
         if (Auth::User()->pengelola > 3) {
             //operator keuangan atau admin
             $DataAnggaran = DB::table('turunan_anggaran')
-            ->leftJoin('anggaran', 'anggaran.id', '=', 'turunan_anggaran.a_id')
-            ->leftJoin('unitkerja', 'turunan_anggaran.unit_pelaksana', '=', 'unitkerja.kode')
-            ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
-            ->where('anggaran.tahun_anggaran', Session::get('tahun_anggaran'))
-            ->orderBy('a_id', 'desc')
-            ->get();
-        }
-        else {
+                ->leftJoin('anggaran', 'anggaran.id', '=', 'turunan_anggaran.a_id')
+                ->leftJoin('unitkerja', 'turunan_anggaran.unit_pelaksana', '=', 'unitkerja.kode')
+                ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                ->where('anggaran.tahun_anggaran', Session::get('tahun_anggaran'))
+                ->orderBy('a_id', 'desc')
+                ->get();
+        } else {
             //operator bidang
             $unit_pelaksana = Auth::User()->user_unitkerja;
             $DataAnggaran = DB::table('turunan_anggaran')
-            ->leftJoin('anggaran', 'anggaran.id', '=', 'turunan_anggaran.a_id')
-            ->leftJoin('unitkerja', 'turunan_anggaran.unit_pelaksana', '=', 'unitkerja.kode')
-            ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
-            ->where([['anggaran.tahun_anggaran', Session::get('tahun_anggaran')],['unit_pelaksana','=',$unit_pelaksana]])
-            ->orderBy('a_id', 'desc')
-            ->get();
+                ->leftJoin('anggaran', 'anggaran.id', '=', 'turunan_anggaran.a_id')
+                ->leftJoin('unitkerja', 'turunan_anggaran.unit_pelaksana', '=', 'unitkerja.kode')
+                ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                ->where([['anggaran.tahun_anggaran', Session::get('tahun_anggaran')], ['unit_pelaksana', '=', $unit_pelaksana]])
+                ->orderBy('a_id', 'desc')
+                ->get();
         }
-        
+
         $DataTujuan = Tujuan::all();
         return view('matrik.create', compact('DataTujuan', 'DataAnggaran', 'DataUnitkerja'));
     }
