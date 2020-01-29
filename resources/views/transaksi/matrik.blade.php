@@ -86,7 +86,7 @@ $(function () {
                                         @foreach ($dataTransaksi as $item)
                                         @php
                                          if ($item->peg_nip!="") {
-                                            $peg_nama=$item->TabelPegawai->nama;
+                                            $peg_nama=$item->peg_nama;
                                          }
                                          else {
                                              $peg_nama=NULL;

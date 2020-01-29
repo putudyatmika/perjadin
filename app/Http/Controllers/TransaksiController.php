@@ -106,6 +106,9 @@ class TransaksiController extends Controller
 
         */
         if ($request->aksi == "alokasipegawai") {
+            //search pegawai
+            $dt_pegawai = Pegawai::where('nip_baru','=',$request->peg_nip)->first();
+
             $bnyk_hari = $request->lamanya - 1;
             $datatrx = Transaksi::where('trx_id', '=', $request->trxid)->first();
             $datatrx->bnyk_hari = $request->lamanya;
@@ -113,6 +116,10 @@ class TransaksiController extends Controller
             $datatrx->tgl_brkt = Carbon::parse($request->tglberangkat)->format('Y-m-d');
             $datatrx->tgl_balik = Carbon::parse($request->tglberangkat)->addDays($bnyk_hari)->format('Y-m-d');
             $datatrx->peg_nip = $request->peg_nip;
+            $datatrx->peg_nama = $dt_pegawai->nama;
+            $datatrx->peg_gol = $dt_pegawai->gol;
+            $datatrx->peg_unitkerja = $dt_pegawai->unitkerja;
+            $datatrx->peg_jabatan = $dt_pegawai->jabatan;
             $datatrx->flag_trx = $request->diajukan;
             $datatrx->kabid_konfirmasi = 0;
             $datatrx->kabid_ket = NULL;

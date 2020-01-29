@@ -1,7 +1,7 @@
 <?php
     return [
         'FlagUmum' => [
-            0=>'Tidak Aktif',
+            0=>'Nonaktif',
             1=>'Aktif',
         ],
         'JenisKelamin' => [

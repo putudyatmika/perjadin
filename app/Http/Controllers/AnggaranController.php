@@ -320,7 +320,7 @@ class AnggaranController extends Controller
         $dataAnggaran = Anggaran::where('id', '=', $id)->with('Turunan', 'Unitkerja')->first();
         $dataTurunan = \App\TurunanAnggaran::where('a_id', '=', $id)->get();
         $DataUnitkerja = DB::table('unitkerja')
-            ->where('eselon', '=', '3')->get();
+            ->where('eselon', '<', '4')->get();
         return view('anggaran.alokasi', compact('dataAnggaran', 'dataTurunan', 'DataUnitkerja'));
     }
     public function sinkron()
