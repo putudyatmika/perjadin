@@ -79,3 +79,15 @@
             </select>
         </div>
     </div>
+<div class="form-group">
+    <label for="nipbaru">Flag</label>
+    <div class="input-group">
+        <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
+        <select class="form-control select2" name="flag" required="" id="flag">
+            <option value="">Select</option>
+            @for ($i = 0; $i <= 1; $i++)
+            <option value="{{ $i }}">{{ $FlagUmum[$i] }}</option>
+            @endfor
+        </select>
+    </div>
+</div>

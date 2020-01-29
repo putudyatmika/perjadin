@@ -17,8 +17,12 @@ class TabelTransaksi extends Migration
             $table->increments('trx_id');
             $table->string('kode_trx',6)->unique();
             $table->integer('matrik_id')->unsigned();
-            $table->foreign('matrik_id')->references('id')->on('matrik');
+            //$table->foreign('matrik_id')->references('id')->on('matrik');
             $table->string('peg_nip',20)->nullable();
+            $table->string('peg_nama',254)->nullable();
+            $table->string('peg_gol',3)->nullable();
+            $table->boolean('peg_jabatan')->nullable();
+            $table->string('peg_unitkerja',5)->nullable();
             $table->tinyInteger('bnyk_hari')->nullable();
             $table->date('tgl_brkt')->nullable();
             $table->date('tgl_balik')->nullable();

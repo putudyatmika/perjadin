@@ -16,7 +16,9 @@ class Pegawai extends Model
     public function Unitkerja(){
         return $this->belongsTo('App\Unitkerja','unitkerja', 'kode');
     }
+    /*
     public function Transaksi() {
         return $this->hasMany('App\Transaksi', 'peg_nip', 'nip_baru');
     }
+    */
 }

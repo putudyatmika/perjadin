@@ -30,6 +30,7 @@ class PegawaiController extends Controller
         $JenisJabatanVar = config('globalvar.JenisJabatan');
         $jkVar = config('globalvar.JenisKelamin');
         $FlagPengelola = config('globalvar.FlagPengelola');
+        $FlagUmum = config('globalvar.FlagUmum');
         $DataPegawai = DB::table('pegawai')
                         -> leftJoin('unitkerja','pegawai.unitkerja','=','unitkerja.kode')
                         -> leftJoin('m_gol', 'pegawai.gol', '=', 'm_gol.kode')
@@ -38,7 +39,7 @@ class PegawaiController extends Controller
                         ->select('pegawai.*', 'm_gol.gol as nama_gol','m_gol.pangkat as pangkat','unitkerja.nama as unit_nama','unitbidang.bidang_kode','unitbidang.bidang_nama')
                         ->orderBy('unitkerja','asc')->orderBy('jabatan','asc')
                         ->get();
-        return view('pegawai.index',compact('DataPegawai','FlagPengelola','DataGol','DataUnitkerja','UnitEselonVar','JenisUnitVar','JenisJabatanVar','jkVar'));
+        return view('pegawai.index',compact('DataPegawai','FlagUmum','FlagPengelola','DataGol','DataUnitkerja','UnitEselonVar','JenisUnitVar','JenisJabatanVar','jkVar'));
         //return view('pegawai.index',compact('DataPegawai','UnitEselonVar','JenisUnitVar','JenisJabatanVar'));
         //return view('pegawai.index');
     }
@@ -173,6 +174,7 @@ class PegawaiController extends Controller
         $datapeg -> unitkerja = $request['unitkerja'];
         $datapeg -> jabatan = $request['jabatan'];
         $datapeg -> flag_pengelola = $request->flag_pengelola;
+        $datapeg -> flag = $request->flag;
         $datapeg -> update();
 
         Session::flash('message', 'Data telah diupdate');

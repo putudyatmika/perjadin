@@ -93,6 +93,7 @@ $(function () {
                                             <th>Jabatan</th>
                                             <th>Pengelola</th>
                                             <th>Pangkat/Gol</th>
+                                            <th>Flag</th>
                                             @if (Auth::user()->pengelola>3)
                                             <th>Aksi</th>
                                             @endif
@@ -110,9 +111,10 @@ $(function () {
                                                     @endif
                                                 </td>
                                                 <td>{{ $Pegawai -> pangkat }} ({{ $Pegawai->nama_gol}})</td>
+                                                <td>{{ $FlagUmum[$Pegawai -> flag] }}</td>
                                                 @if (Auth::user()->pengelola>3)
                                                 <td>
-                                                    <button type="button" class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#EditModal" data-pegid="{{$Pegawai->id}}" data-nama="{{$Pegawai->nama}}" data-nip="{{$Pegawai->nip_baru}}" data-tgllahir="{{$Pegawai->tgl_lahir}}" data-gol="{{$Pegawai->gol}}" data-unitkerja="{{$Pegawai->unitkerja}}" data-jabatan="{{$Pegawai->jabatan}}" data-jk="{{$Pegawai->jk}}" data-pengelola="{{$Pegawai->flag_pengelola}}">Edit</button>
+                                                    <button type="button" class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#EditModal" data-pegid="{{$Pegawai->id}}" data-nama="{{$Pegawai->nama}}" data-nip="{{$Pegawai->nip_baru}}" data-tgllahir="{{$Pegawai->tgl_lahir}}" data-gol="{{$Pegawai->gol}}" data-unitkerja="{{$Pegawai->unitkerja}}" data-jabatan="{{$Pegawai->jabatan}}" data-jk="{{$Pegawai->jk}}" data-pengelola="{{$Pegawai->flag_pengelola}}" data-flag="{{$Pegawai->flag}}">Edit</button>
                                                     <button type="button" class="btn btn-danger btn-rounded" data-toggle="modal" data-target="#DeleteModal" data-pegid="{{$Pegawai->id}}" data-nama="{{$Pegawai->nama}}" data-nip="{{$Pegawai->nip_baru}}" data-unitkerja="{{$Pegawai->unitkerja}}-{{ $Pegawai -> unit_nama}}">Delete</button>
                                                 </td>
                                                 @endif

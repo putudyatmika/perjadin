@@ -15,10 +15,12 @@ class Transaksi extends Model
     {
         return $this->belongsTO('App\MatrikPerjalanan', 'matrik_id', 'id');
     }
+    /*
    public function TabelPegawai()
     {
         return $this->belongsTo('App\Pegawai', 'peg_nip', 'nip_baru');
     }
+    */
     public function SuratTugas()
     {
         return $this->belongsTO('App\SuratTugas', 'trx_id', 'trx_id');
@@ -30,5 +32,11 @@ class Transaksi extends Model
     public function Kuitansi()
     {
         return $this->belongsTo('App\Kuitansi', 'trx_id', 'trx_id');
+    }
+    public function PegGolongan(){
+        return $this->belongsTo('App\Golongan','peg_gol', 'kode');
+    }
+    public function PegUnitkerja(){
+        return $this->belongsTo('App\Unitkerja','peg_unitkerja', 'kode');
     }
 }
