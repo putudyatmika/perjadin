@@ -80,7 +80,7 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                     <div class="col-lg-12">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Data Tujuan Perjalanan BPS Provinsi NTB </h3>
-                            <p class="text-muted m-b-20">Tahun <code>2019</code></p>
+                            <p class="text-muted m-b-20">Keadaan tahun <code>{{Session::get('tahun_anggaran')}}</code></p>
                             <div class="table-responsive">
                                 <table class="table table-striped">
                                     <thead>

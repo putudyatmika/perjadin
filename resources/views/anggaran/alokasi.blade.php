@@ -41,6 +41,8 @@
                                 <dd class="col-sm-9">{{$dataAnggaran->tahun_anggaran}}</dd>
                                 <dt class="col-sm-3">MAK</dt>
                                 <dd class="col-sm-9">{{$dataAnggaran->mak}}</dd>
+                                <dt class="col-sm-3">Komponen</dt>
+                                <dd class="col-sm-9">[{{$dataAnggaran->komponen_kode}}] {{$dataAnggaran->komponen_nama}}</dd>
                                 <dt class="col-sm-3">Uraian</dt>
                                 <dd class="col-sm-9">{{$dataAnggaran->uraian}}</dd>
                                 <dt class="col-sm-3">Subject Matter</dt>

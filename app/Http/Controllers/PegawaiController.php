@@ -195,7 +195,7 @@ class PegawaiController extends Controller
     {
         //
         Pegawai::findOrFail($request->peg_id)->delete();
-        Session::flash('message', 'Data pegawai <br />nama : <strong>'.$request->nama.'</strong> <br />nip : <strong>'.$request->nipbaru.'</strong><br /> unitkerja : <strong>'.$request->unitkerja.'</strong><br />telah dihapus');
+        Session::flash('message', 'Data pegawai nama : '.$request->nama.' nip : '.$request->nipbaru.' unitkerja : '.$request->unitkerja.' telah dihapus');
         Session::flash('message_type', 'danger');
         return redirect()->route('pegawai.index');
     }

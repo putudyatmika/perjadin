@@ -17,6 +17,7 @@ use Excel;
 use App\Exports\AnggaranViewExport;
 use App\Exports\AnggaranNewExport;
 use App\Imports\AnggaranImport;
+use App\TurunanAnggaran;
 
 class AnggaranController extends Controller
 {
@@ -29,8 +30,13 @@ class AnggaranController extends Controller
     {
         //
 
-        $DataUnitkerja = DB::table('unitkerja')
-            ->where('eselon', '=', '3')->get();
+        $DataUnitkerja = DB::table('unitkerja')->where(function ($query)
+        {
+            $query->where('flag_edit', '=', '0')->where('eselon', '<', '4');
+        })->orWhere(function ($query){
+            $query->where('flag_edit','=','1')
+            ->where('tahun','=',Session::get('tahun_anggaran'));
+        })->get();
         $DataAnggaran = DB::table('anggaran')
             ->leftJoin('unitkerja', 'anggaran.unitkerja', '=', 'unitkerja.kode')
             ->select(DB::Raw('anggaran.*,unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
@@ -63,13 +69,34 @@ class AnggaranController extends Controller
     public function store(Request $request)
     {
         //
+        //dd($request->all());
+        /*
+        "tahun_anggaran" => "2020"
+        "mak" => "054.01.06.2902.004.200.524111"
+        "komponen_kode" => "200"
+        "komponen_nama" => "SURVEI TRIWULANAN KEGIATAN USAHA TERINTEGRASI"
+        "uraian" => "Pengawasan teknis dan administrasi bps provinsi ke kabupaten/kota"
+        "pagu_utama" => "3131000"
+        "unitkerja" => "52540"
         Anggaran::create($request->all());
-
         //alert()->success('Berhasil.','Data telah ditambahkan!');
         Session::flash('message', 'Data telah ditambahkan');
         Session::flash('message_type', 'success');
         return back();
         //return redirect()->route('anggaran.index');
+        */
+        $data = new Anggaran();
+        $data -> tahun_anggaran = $request->tahun_anggaran;
+        $data -> mak = $request->mak;
+        $data -> komponen_kode = $request->komponen_kode;
+        $data -> komponen_nama = $request->komponen_nama;
+        $data -> uraian = $request->uraian;
+        $data -> pagu_utama = $request->pagu_utama;
+        $data -> unitkerja = $request->unitkerja;
+        $data -> save();        
+        Session::flash('message', 'Data telah ditambahkan');
+        Session::flash('message_type', 'success');
+        return back();
     }
 
     /**
@@ -136,6 +163,8 @@ class AnggaranController extends Controller
             $dataAnggaran->rencana_pagu = $request->pagu_rencana;
             $dataAnggaran->pagu_utama = $request->pagu_utama;
             $dataAnggaran->unitkerja = $request->unitkerja;
+            $dataAnggaran -> komponen_kode = $request->komponen_kode;
+            $dataAnggaran -> komponen_nama = $request->komponen_nama;
             $dataAnggaran->update();
 
             $pesan_error = 'Data anggaran sudah diupdate';
@@ -162,6 +191,9 @@ class AnggaranController extends Controller
         $dataAnggaran = Anggaran::findOrFail($request->anggaran_id);
         $dataAnggaran->delete();
 
+        $dataTurunan = TurunanAnggaran::where('a_id','=',$request->anggaran_id)->first();
+        $dataTurunan->delete();
+
         Session::flash('message', 'Data telah di delete');
         Session::flash('message_type', 'danger');
         return back();
@@ -173,6 +205,8 @@ class AnggaranController extends Controller
             [
                 //'tahun_anggaran' => null,
                 'mak' => null,
+                'kode_komponen'=>null,
+                'nama_komponen'=>null,
                 'uraian' => null,
                 'pagu_utama' => null,
                 'unitkerja' => 'kode bidang/bagian 5 digit'
@@ -296,6 +330,8 @@ class AnggaranController extends Controller
                     'id' => $dataAnggaran->id,
                     'tahun_anggaran' => $dataAnggaran->tahun_anggaran,
                     'mak' => $dataAnggaran->mak,
+                    'komponen_kode' => $dataAnggaran->komponen_kode,
+                    'komponen_nama' => $dataAnggaran->komponen_nama,
                     'uraian' => $dataAnggaran->uraian,
                     'pagu_utama' => (int) $dataAnggaran->pagu_utama,
                     'rencana_pagu' => (int) $dataAnggaran->rencana_pagu,

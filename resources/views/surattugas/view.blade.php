@@ -110,16 +110,16 @@
                                         <tr>
                                             <td>Nama</td>
                                             <td>:</td>
-                                            <td><b>{{$dataTransaksi[0]->TabelPegawai->nama}}</b></td>
+                                            <td><b>{{$dataTransaksi[0]->peg_nama}}</b></td>
                                         </tr>
                                         <tr>
                                             <td>Jabatan</td>
                                             <td>:</td>
                                             <td>
-                                                @if ($dataTransaksi[0]->TabelPegawai->jabatan<4)
-                                                Kepala {{$dataTransaksi[0]->TabelPegawai->Unitkerja->nama}}
+                                                @if ($dataTransaksi[0]->peg_jabatan<4)
+                                                Kepala {{$dataTransaksi[0]->PegUnitkerja->nama}}
                                                 @else
-                                                Staf {{$dataTransaksi[0]->TabelPegawai->Unitkerja->nama}}
+                                                Staf {{$dataTransaksi[0]->PegUnitkerja->nama}}
                                                 @endif
                                             </td>
                                         </tr>

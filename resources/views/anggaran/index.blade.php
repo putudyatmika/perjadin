@@ -33,6 +33,8 @@ $('#EditModal').on('show.bs.modal', function (event) {
   var rencana_pagu = button.data('pagurencana')
   var unitkerja = button.data('unitkode')
   var anggaranid = button.data('anggaranid')
+  var komponenkode = button.data('komponenkode')
+  var komponennama = button.data('komponennama')
 
   var modal = $(this)
   modal.find('.modal-body #tahun_anggaran').val(tahun_anggaran)
@@ -42,6 +44,8 @@ $('#EditModal').on('show.bs.modal', function (event) {
   modal.find('.modal-body #pagu_rencana').val(rencana_pagu)
   modal.find('.modal-body #unitkerja').val(unitkerja)
   modal.find('.modal-body #anggaranid').val(anggaranid)
+  modal.find('.modal-body #komponen_kode').val(komponenkode)
+  modal.find('.modal-body #komponen_nama').val(komponennama)
 })
 
 $('#DeleteModal').on('show.bs.modal', function (event) {
@@ -156,7 +160,7 @@ $(function () {
                                                 <td>
                                                     @if (Auth::user()->pengelola>3)
                                                     <a href="{{route('anggaran.alokasi',$item->id)}}" class="btn btn-sm btn-success btn-circle"><span data-toggle="tooltip" title="Alokasi anggaran {{ $item->uraian}}"><i class="fa fa-bookmark"></i></span></a>
-                                                    <button type="button" class="btn btn-sm btn-primary btn-circle" data-toggle="modal" data-target="#EditModal" data-tahun="{{ $item->tahun_anggaran}}" data-mak="{{ $item->mak}}" data-pagu="{{ $item->pagu_utama}}" data-pagurencana="{{ $item->rencana_pagu}}" data-uraian="{{$item->uraian}}" data-unitkode="{{$item->unitkerja}}" data-anggaranid="{{$item->id}}"><span data-toggle="tooltip" title="Edit anggaran {{ $item->uraian}}"><i class="fa fa-pencil"></i></span></button>
+                                                    <button type="button" class="btn btn-sm btn-primary btn-circle" data-toggle="modal" data-target="#EditModal" data-tahun="{{ $item->tahun_anggaran}}" data-mak="{{ $item->mak}}" data-komponenkode="{{ $item->komponen_kode}}" data-pagu="{{ $item->pagu_utama}}" data-komponennama="{{ $item->komponen_nama}}" data-pagurencana="{{ $item->rencana_pagu}}" data-uraian="{{$item->uraian}}" data-unitkode="{{$item->unitkerja}}" data-anggaranid="{{$item->id}}"><span data-toggle="tooltip" title="Edit anggaran {{ $item->uraian}}"><i class="fa fa-pencil"></i></span></button>
                                                     <button type="button" class="btn btn-sm btn-danger btn-circle" data-toggle="modal" data-target="#DeleteModal" data-tahun="{{ $item->tahun_anggaran}}" data-mak="{{ $item->mak}}" data-pagu="{{ $item->pagu_utama}}" data-uraian="{{$item->uraian}}" data-unitkode="{{$item->unit_nama}}" data-anggaranid="{{$item->id}}"><span data-toggle="tooltip" title="Hapus anggaran {{ $item->uraian}}"><i class="fa fa-trash-o"></i></span></button>
                                                     @endif
                                                 </td>

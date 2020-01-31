@@ -31,3 +31,6 @@
                 <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
                 <input type="text" class="form-control" id="unitkerja" name="unitkerja" readonly=""> </div>
     </div>
+    <div class="form-group row">
+        <div class="input-group col-12"><i>*) Semua data anggaran keterpaduan akan dihapus juga</i></div>
+</div>

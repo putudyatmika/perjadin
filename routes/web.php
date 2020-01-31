@@ -61,7 +61,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('transaksi/view', 'TransaksiController@view')->name('transaksi.view');
     Route::resource('transaksi', 'TransaksiController');
     Route::get('surattugas/view/{kodetrx}', 'SuratTugasController@view')->name('surattugas.view');
+    Route::get('surattugas/nomor/{tahun}', 'SuratTugasController@nomor')->name('surattugas.nomor');
     Route::resource('surattugas', 'SuratTugasController');
+    Route::get('spd/nomor/{tahun}', 'SpdController@nomor')->name('spd.nomor');
     Route::get('spd/view/{kodetrx}', 'SpdController@view')->name('spd.view');
     Route::resource('spd', 'SpdController');
     Route::get('kuitansi/view/{kodetrx}', 'KuitansiController@view')->name('kuitansi.view');

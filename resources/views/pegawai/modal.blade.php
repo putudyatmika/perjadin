@@ -7,7 +7,7 @@
                 <h4 class="modal-title" id="exampleModalLabel1">Tambah Data Pegawai</h4> </div>
             <div class="modal-body">
                     <form method="POST" action="{{ route('pegawai.store') }}">
-                            @csrf
+                    @csrf
                     @include('pegawai.form')
 
             </div>
