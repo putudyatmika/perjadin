@@ -25,21 +25,21 @@ Yang bertanda tangan di bawah ini :
     <tr height="40px">
         <td width="10%">Nama</td>
         <td width="3%">:</td>
-        <td width="87%">{{$dataTransaksi[0]->TabelPegawai->nama}}</td>
+        <td width="87%">{{$dataTransaksi[0]->peg_nama}}</td>
     </tr>
     <tr height="40px">
         <td>NIP</td>
         <td>:</td>
-        <td>{{$dataTransaksi[0]->TabelPegawai->nip_baru}}</td>
+        <td>{{$dataTransaksi[0]->peg_nip}}</td>
     </tr>
     <tr height="40px">
         <td>Jabatan</td>
         <td>:</td>
         <td>
-            @if ($dataTransaksi[0]->TabelPegawai->jabatan<4)
-            Kepala {{$dataTransaksi[0]->TabelPegawai->Unitkerja->nama}}
+            @if ($dataTransaksi[0]->peg_jabatan<4)
+            Kepala {{$dataTransaksi[0]->PegUnitkerja->nama}}
             @else
-            Staf {{$dataTransaksi[0]->TabelPegawai->Unitkerja->nama}}
+            Staf {{$dataTransaksi[0]->PegUnitkerja->nama}}
             @endif
             BPS Provinsi NTB</td>
     </tr>
@@ -153,11 +153,11 @@ Yang bertanda tangan di bawah ini :
         </tr>
         <tr class="text-center">
             <td><u><b>{{$dataTransaksi[0]->Spd->ppk_nama}}</b></u></td>
-            <td><u><b>{{$dataTransaksi[0]->TabelPegawai->nama}}</b></u></td>
+            <td><u><b>{{$dataTransaksi[0]->peg_nama}}</b></u></td>
         </tr>
         <tr class="text-center">
             <td>NIP. {{$dataTransaksi[0]->Spd->ppk_nip}}</td>
-            <td>NIP. {{$dataTransaksi[0]->TabelPegawai->nip_baru}}</td>
+            <td>NIP. {{$dataTransaksi[0]->peg_nip}}</td>
         </tr>
     </table>
 </div>

@@ -134,7 +134,7 @@ else {
 <label for="nama" class="col-2 col-form-label">Nama Pegawai</label>
 <div class="input-group col-8">
     <div class="input-group-addon"><i class="ti-user"></i></div>
-    <input type="text" class="form-control" id="nama" name="nama" value="{{$dataTransaksi[0]->TabelPegawai->nama}}" placeholder="Tujuan" readonly="">
+    <input type="text" class="form-control" id="nama" name="nama" value="{{$dataTransaksi[0]->peg_nama}}" placeholder="Tujuan" readonly="">
 </div>
 </div>
 <div class="form-group row">

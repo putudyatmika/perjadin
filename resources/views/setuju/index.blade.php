@@ -81,7 +81,7 @@
                                         @foreach ($dataTransaksi as $item)
                                             <tr>
                                                 <td>{{$loop->iteration}}</td>
-                                                <td>{{$item->TabelPegawai->nama}}</td>
+                                                <td>{{$item->peg_nama}}</td>
                                                 <td>{{$item->Matrik->Tujuan->nama_kabkota}}</td>
                                                 <td>{{$item->Matrik->DanaUnitkerja->nama}}</td>
                                                 <td class="text-left">{{Tanggal::Panjang($item->tgl_brkt)}}</td>

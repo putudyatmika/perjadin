@@ -116,12 +116,12 @@
         <tr class="text-center">
             <td>&nbsp;</td>
             <td><u><b>{{$dataTransaksi[0]->Kuitansi->bendahara_nama}}</b></u></td>
-            <td><u><b>{{$dataTransaksi[0]->TabelPegawai->nama}}</b></u></td>
+            <td><u><b>{{$dataTransaksi[0]->peg_nama}}</b></u></td>
         </tr>
         <tr class="text-center">
             <td>&nbsp;</td>
             <td>NIP. {{$dataTransaksi[0]->Kuitansi->bendahara_nip}}</td>
-            <td>NIP. {{$dataTransaksi[0]->TabelPegawai->nip_baru}}</td>
+            <td>NIP. {{$dataTransaksi[0]->peg_nip}}</td>
         </tr>
         <tr class="text-center" height="25px">
                 <td colspan="3">&nbsp;</td>

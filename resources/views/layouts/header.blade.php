@@ -54,7 +54,7 @@
                                                     @foreach (Jumlah::Surat5Tugas(0,Session::get('tahun_anggaran')) as $item)
                                                     <a href="{{route('surattugas.index')}}">
                                                             <div class="mail-contnet">
-                                                                <h5>{{$item->Transaksi->TabelPegawai->nama}}</h5>
+                                                                <h5>{{$item->Transaksi->peg_nama}}</h5>
                                                             <span class="mail-desc">Perjalanan dinas ke {{$item->Transaksi->Matrik->Tujuan->nama_kabkota}} </span>
                                                             <span class="mail-desc">tanggal {{Tanggal::Panjang($item->Transaksi->tgl_brkt)}}</span> <span class="time">{{$item->updated_at->diffForHumans()}}</span>
                                                         </div>
@@ -71,7 +71,7 @@
                                                     @foreach (Jumlah::Ajuan5Perjadin(Session::get('tahun_anggaran')) as $item)
                                                     <a href="{{route('setuju.index')}}">
                                                             <div class="mail-contnet">
-                                                                <h5>{{$item->TabelPegawai->nama}}</h5>
+                                                                <h5>{{$item->peg_nama}}</h5>
                                                             <span class="mail-desc">Perjalanan dinas ke {{$item->Matrik->Tujuan->nama_kabkota}} </span>
                                                             <span class="mail-desc">tanggal {{Tanggal::Panjang($item->tgl_brkt)}}</span> <span class="time">{{$item->updated_at->diffForHumans()}}</span>
                                                         </div>
