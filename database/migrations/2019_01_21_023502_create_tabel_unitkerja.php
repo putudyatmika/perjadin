@@ -20,6 +20,7 @@ class CreateTabelUnitkerja extends Migration
             $table->string('parent',5)->nullable();
             $table->boolean('jenis')->unsigned();
             $table->boolean('eselon')->unsigned();
+            $table->boolean('flag')->default(1);
         });
     }
 

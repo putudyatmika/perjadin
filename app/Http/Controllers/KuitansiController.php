@@ -85,7 +85,7 @@ class KuitansiController extends Controller
         $FlagKendaraan = config('globalvar.Kendaraan');
         $DataBendahara = Pegawai::where([['flag_pengelola','=','3'],['flag','=','1']])->get();
 
-        $dataTransaksi = \App\Transaksi::with('TabelPegawai','Matrik','SuratTugas','Spd','Kuitansi')->where('trx_id','=',$id)->get();
+        $dataTransaksi = \App\Transaksi::with('Matrik','SuratTugas','Spd','Kuitansi')->where('trx_id','=',$id)->get();
         return view('kuitansi.edit',compact('dataTransaksi','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','Bulan','FlagKendaraan','DataBendahara'));
         //dd($dataTransaksi);
     }
@@ -292,7 +292,7 @@ class KuitansiController extends Controller
         $Bulan = config('globalvar.Bulan');
         $FlagKendaraan = config('globalvar.Kendaraan');
 
-        $dataTransaksi = \App\Transaksi::with('TabelPegawai','Matrik','SuratTugas','Spd','Kuitansi')->where('kode_trx','=',$kodetrx)->get();
+        $dataTransaksi = \App\Transaksi::with('Matrik','SuratTugas','Spd','Kuitansi')->where('kode_trx','=',$kodetrx)->get();
         return view('kuitansi.view',compact('dataTransaksi','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','Bulan','FlagKendaraan'));
 
     }

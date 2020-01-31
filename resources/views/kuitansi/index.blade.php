@@ -134,7 +134,7 @@ $(function () {
                                                     @endif
                                                 </td>
                                                 <td>{{$item->tgl_kuitansi}}</td>
-                                                <td>{{$item->Transaksi->TabelPegawai->nama}}</td>
+                                                <td>{{$item->Transaksi->peg_nama}}</td>
                                                 <td>{{$item->Transaksi->tugas}}</td>
                                                 <td>{{$item->Transaksi->tgl_brkt}}</td>
                                                 <!--<td>{{$item->Transaksi->tgl_balik}}</td>-->

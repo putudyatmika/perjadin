@@ -48,21 +48,21 @@
     <tr class="adagaris">
         <td width="2%" valign="top"><span class="pull-left">2.</span></td>
         <td width="48%"><span class="pull-left" class="adagaris">Nama / NIP Pegawai yang melaksanakan perjalanan dinas</span></td>
-        <td width="50%" class="gariskiri"><b><span class="pull-left">{{$dataTransaksi[0]->TabelPegawai->nama}}</span> <span class="pull-right">{{$dataTransaksi[0]->TabelPegawai->nip_baru}}</span></b></td>
+        <td width="50%" class="gariskiri"><b><span class="pull-left">{{$dataTransaksi[0]->peg_nama}}</span> <span class="pull-right">{{$dataTransaksi[0]->peg_nip}}</span></b></td>
     </tr>
     <tr>
         <td width="2%"><span class="pull-left">3.</span></td>
         <td width="48%"><span class="pull-left">a. Pangkat dan Golongan</span></td>
-        <td width="50%" class="gariskiri">a. {{$dataTransaksi[0]->TabelPegawai->Golongan->pangkat}} ({{$dataTransaksi[0]->TabelPegawai->Golongan->gol}})</td>
+        <td width="50%" class="gariskiri">a. {{$dataTransaksi[0]->PegGolongan->pangkat}} ({{$dataTransaksi[0]->PegGolongan->gol}})</td>
     </tr>
     <tr>
         <td width="2%"></td>
         <td width="48%"><span class="pull-left">b. Jabatan/Instansi</span></td>
         <td width="50%" class="gariskiri">b.
-                @if ($dataTransaksi[0]->TabelPegawai->jabatan<4)
-                Kepala {{$dataTransaksi[0]->TabelPegawai->Unitkerja->nama}}
+                @if ($dataTransaksi[0]->peg_jabatan<4)
+                Kepala {{$dataTransaksi[0]->PegUnitkerja->nama}}
                 @else
-                Staf {{$dataTransaksi[0]->TabelPegawai->Unitkerja->nama}}
+                Staf {{$dataTransaksi[0]->PegUnitkerja->nama}}
                 @endif
         </td>
     </tr>

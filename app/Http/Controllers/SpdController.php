@@ -150,7 +150,7 @@ class SpdController extends Controller
         $Bulan = config('globalvar.Bulan');
         $FlagKendaraan = config('globalvar.Kendaraan');
 
-        $dataTransaksi = \App\Transaksi::with('TabelPegawai','Matrik','SuratTugas','Spd')->where('kode_trx','=',$kodetrx)->orderBy('updated_at','desc')->get();
+        $dataTransaksi = \App\Transaksi::with('Matrik','SuratTugas','Spd')->where('kode_trx','=',$kodetrx)->orderBy('updated_at','desc')->get();
         return view('spd.view',compact('dataTransaksi','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','Bulan','FlagKendaraan'));
         //dd($dataTransaksi);
         //dd($DataSuratTugas);

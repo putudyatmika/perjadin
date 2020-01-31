@@ -85,7 +85,7 @@
                                                 <td>{{$loop->iteration}}</td>
                                                 <td>@include('surattugas.detil')</td>
                                                 <td>{{$item->nomor_surat}}</td>
-                                                <td>{{$item->Transaksi->TabelPegawai->nama}}</td>
+                                                <td>{{$item->Transaksi->peg_nama}}</td>
                                                 <td>@if ($item->tgl_surat != NULL) {{Tanggal::Pendek($item->tgl_surat)}} @endif</td>
                                                 <td>{{$item->ttd_jabatan}}</td>
                                                 <td>{{Tanggal::Pendek($item->Transaksi->tgl_brkt)}}</td>
