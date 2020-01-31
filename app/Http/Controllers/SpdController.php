@@ -156,4 +156,13 @@ class SpdController extends Controller
         //dd($DataSuratTugas);
         //return view('surattugas.view');
     }
+    public function nomor($tahun)
+    {
+        $count = Spd::where('tahun_spd','=',$tahun)->where('flag_spd','>',0)->count();
+        $arr = array(
+            'nomor'=> $count,
+            'status'=> true,
+        );
+        return Response()->json($arr);
+    }
 }

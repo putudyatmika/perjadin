@@ -107,15 +107,21 @@ $(function () {
                                                 <td><strong>{{ $JenisJabatanVar[$Pegawai -> jabatan] }}</strong> {{ $Pegawai -> unit_nama}}</td>
                                                 <td>
                                                     @if ($Pegawai -> flag_pengelola>0)
-                                                        <span class="label label-rouded label-success">{{$FlagPengelola[$Pegawai -> flag_pengelola]}}</span>
+                                                        <span class="label label-rouded label-info">{{$FlagPengelola[$Pegawai -> flag_pengelola]}}</span>
                                                     @endif
                                                 </td>
                                                 <td>{{ $Pegawai -> pangkat }} ({{ $Pegawai->nama_gol}})</td>
-                                                <td>{{ $FlagUmum[$Pegawai -> flag] }}</td>
+                                                <td>
+                                                    @if ($Pegawai->flag > 0)
+                                                    <span class="label label-rouded label-success">{{ $FlagUmum[$Pegawai -> flag] }}</span>
+                                                    @else 
+                                                    <span class="label label-rouded label-danger">{{ $FlagUmum[$Pegawai -> flag] }}</span>
+                                                    @endif
+                                                </td>
                                                 @if (Auth::user()->pengelola>3)
                                                 <td>
-                                                    <button type="button" class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#EditModal" data-pegid="{{$Pegawai->id}}" data-nama="{{$Pegawai->nama}}" data-nip="{{$Pegawai->nip_baru}}" data-tgllahir="{{$Pegawai->tgl_lahir}}" data-gol="{{$Pegawai->gol}}" data-unitkerja="{{$Pegawai->unitkerja}}" data-jabatan="{{$Pegawai->jabatan}}" data-jk="{{$Pegawai->jk}}" data-pengelola="{{$Pegawai->flag_pengelola}}" data-flag="{{$Pegawai->flag}}">Edit</button>
-                                                    <button type="button" class="btn btn-danger btn-rounded" data-toggle="modal" data-target="#DeleteModal" data-pegid="{{$Pegawai->id}}" data-nama="{{$Pegawai->nama}}" data-nip="{{$Pegawai->nip_baru}}" data-unitkerja="{{$Pegawai->unitkerja}}-{{ $Pegawai -> unit_nama}}">Delete</button>
+                                                    <button type="button" class="btn btn-sm btn-primary btn-rounded" data-toggle="modal" data-target="#EditModal" data-pegid="{{$Pegawai->id}}" data-nama="{{$Pegawai->nama}}" data-nip="{{$Pegawai->nip_baru}}" data-tgllahir="{{$Pegawai->tgl_lahir}}" data-gol="{{$Pegawai->gol}}" data-unitkerja="{{$Pegawai->unitkerja}}" data-jabatan="{{$Pegawai->jabatan}}" data-jk="{{$Pegawai->jk}}" data-pengelola="{{$Pegawai->flag_pengelola}}" data-flag="{{$Pegawai->flag}}">Edit</button>
+                                                    <button type="button" class="btn btn-sm btn-danger btn-rounded" data-toggle="modal" data-target="#DeleteModal" data-pegid="{{$Pegawai->id}}" data-nama="{{$Pegawai->nama}}" data-nip="{{$Pegawai->nip_baru}}" data-unitkerja="{{$Pegawai->unitkerja}}-{{ $Pegawai -> unit_nama}}">Delete</button>
                                                 </td>
                                                 @endif
                                             </tr>

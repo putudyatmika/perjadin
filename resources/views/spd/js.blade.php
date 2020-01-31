@@ -20,6 +20,7 @@ $('#EditModal').on('show.bs.modal', function (event) {
 var button = $(event.relatedTarget) // Button that triggered the modal
 var trxid = button.data('trxid') // Extract info from data-* attributes
 var spdid = button.data('spdid') // Extract info from data-* attributes
+var tahun = button.data('tahun')
 var kodetrx = button.data('kodetrx')
 var tujuan = button.data('tujuan')
 var nama = button.data('nama')
@@ -29,13 +30,32 @@ var nomor = button.data('nomor')
 var kendaraan = button.data('kendaraan')
 var ppknip = button.data('ppknip')
 var flagcetaktujuan = button.data('flagcetaktujuan')
-if (nomor === "") {
-var Tanggal = new Date();
-var srttugas = 'B-'+ tambahNol(spdid) +'/BPS/52514/'+ (Tanggal.getMonth()+1) + '/' + Tanggal.getFullYear()
-}
-else {
-    var srttugas = nomor
-}
+$.ajax({
+        url : '{{route("spd.nomor","")}}/'+tahun,
+        method : 'get',
+        cache: false,
+        dataType: 'json',
+        success: function(data){     
+            var nomor_baru = data.nomor+1;
+            var Tanggal = new Date();
+            //B-001/52.ST/1/2020
+            //B-001/52.SPD/1/2020
+            if (nomor === "") {
+            var Tanggal = new Date();
+            //B-001/52.SPD/1/2020
+            var srttugas = 'B-'+ tambahNol(nomor_baru) +'/52.SPD/'+ (Tanggal.getMonth()+1) + '/' + Tanggal.getFullYear()
+            }
+            else {
+                var srttugas = nomor;
+            }
+            
+            $('#EditModal .modal-body #nomor_surat').val(srttugas)
+        },
+        error: function(){
+            alert("error");
+        }
+
+    });
 var modal = $(this)
 modal.find('.modal-body #trxid').val(trxid)
 modal.find('.modal-body #spdid').val(spdid)
@@ -44,7 +64,6 @@ modal.find('.modal-body #tujuan').val(tujuan)
 modal.find('.modal-body #nama').val(nama)
 modal.find('.modal-body #tglsurat').val(tglsrt)
 modal.find('.modal-body #tugas').val(tugas)
-modal.find('.modal-body #nomor_surat').val(srttugas)
 modal.find('.modal-body #kendaraan').val(kendaraan)
 modal.find('input[name="cetaktujuan"][value="'+flagcetaktujuan+'"]').prop('checked',true)
 modal.find('.modal-body #ppk_nip').val(ppknip)

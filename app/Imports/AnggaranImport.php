@@ -25,6 +25,8 @@ class AnggaranImport implements ToCollection, WithHeadingRow, WithBatchInserts, 
             $dataAnggaran = new Anggaran();
             $dataAnggaran -> tahun_anggaran =  $tahun_anggaran;
             $dataAnggaran -> mak = $row['mak'];
+            $dataAnggaran -> komponen_kode = $row['kode_komponen'];
+            $dataAnggaran -> komponen_nama = $row['nama_komponen'];
             $dataAnggaran -> uraian = $row['uraian'];
             $dataAnggaran -> pagu_utama  = $row['pagu_utama'];
             $dataAnggaran -> unitkerja = $row['unitkerja'];

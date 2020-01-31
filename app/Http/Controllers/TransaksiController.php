@@ -120,6 +120,7 @@ class TransaksiController extends Controller
             $datatrx->peg_gol = $dt_pegawai->gol;
             $datatrx->peg_unitkerja = $dt_pegawai->unitkerja;
             $datatrx->peg_jabatan = $dt_pegawai->jabatan;
+            $datatrx->peg_unitkerja_nama = $dt_pegawai->Unitkerja->nama;
             $datatrx->flag_trx = $request->diajukan;
             $datatrx->kabid_konfirmasi = 0;
             $datatrx->kabid_ket = NULL;

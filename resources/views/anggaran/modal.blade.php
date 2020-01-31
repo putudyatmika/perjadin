@@ -25,6 +25,20 @@
                                     <span class="font-13 text-muted">cth : 054.01.06.2895.004.100.524111</span>
                             </div>
                             <div class="form-group">
+                                <label for="mak">Kode Komponen</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="ti-user"></i></div>
+                                    <input type="text" class="form-control" id="komponen_kode" name="komponen_kode" placeholder="Kode Komponen Kegiatan" required=""> </div>
+                                    <span class="font-13 text-muted">cth : 100</span>
+                            </div>
+                            <div class="form-group">
+                                <label for="mak">Nama Komponen</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="ti-user"></i></div>
+                                    <input type="text" class="form-control" id="komponen_nama" name="komponen_nama" placeholder="Nama Komponen Kegiatan" required=""> </div>
+                                    <span class="font-13 text-muted">cth : SURVEI ANGKATAN KERJA NASIONAL (SAKERNAS) SEMESTERAN</span>
+                            </div>
+                            <div class="form-group">
                                 <label for="uraian">Uraian</label>
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="ti-medall"></i></div>
@@ -127,6 +141,8 @@
                         <dd class="col-sm-9"><span id="tahun_anggaran"></span></dd>
                         <dt class="col-sm-3">MAK</dt>
                         <dd class="col-sm-9"><span id="mak_anggaran"></span></dd>
+                        <dt class="col-sm-3">Komponen</dt>
+                        <dd class="col-sm-9"><span id="komponen"></span></dd>
                         <dt class="col-sm-3">Uraian</dt>
                         <dd class="col-sm-9"><span id="uraian_anggaran"></span></dd>
                         <dt class="col-sm-3">Subject Matter</dt>

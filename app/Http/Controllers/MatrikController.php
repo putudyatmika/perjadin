@@ -33,7 +33,7 @@ class MatrikController extends Controller
         //
 
         $DataUnitkerja = DB::table('unitkerja')
-            ->where('eselon', '<', '4')->get();
+            ->where('eselon', '<', '4')->where('flag_edit','=','0')->get();
         $MatrikFlag = config('globalvar.FlagMatrik');
         /*$DataMatrik = DB::table('matrik')
                         ->leftJoin('anggaran','matrik.dana_mak','=','anggaran.mak')
@@ -100,11 +100,14 @@ class MatrikController extends Controller
     {
 
         //dd($request->all());
-
+        //hitung ulang totalharian, totalhotel, totalbiaya
+        $totalharian = $request->uangharian * $request->harian;
+        $totalhotel = $request->nilaihotel * $request->hotelhari;
+        $totalbiaya = $totalharian + $totalhotel + $request->nilaiTransport + $request->pengeluaranrill;
         // cek dulu sisa anggaran di turunan_anggaran
         $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id', '=', $request->dana_tid)->first();
         $sisa_rencana = $dataTurunanAnggaran->pagu_awal - $dataTurunanAnggaran->pagu_rencana;
-        if ($sisa_rencana >= $request->totalbiaya) {
+        if ($sisa_rencana >= $totalbiaya) {
             //tambah matrik baru
             $kode_trx = Generate::Kode(6);
             $datamatrik = new MatrikPerjalanan();
@@ -121,17 +124,17 @@ class MatrikController extends Controller
             $datamatrik->dana_unitkerja = $request['dana_kodeunit'];
             $datamatrik->lama_harian = $request['harian'];
             $datamatrik->dana_harian = $request['uangharian'];
-            $datamatrik->total_harian = $request['totalharian'];
+            $datamatrik->total_harian = $totalharian;
             $datamatrik->dana_transport = $request['nilaiTransport'];
             $datamatrik->lama_hotel = $request['hotelhari'];
             $datamatrik->dana_hotel = $request['nilaihotel'];
-            $datamatrik->total_hotel = $request['totalhotel'];
+            $datamatrik->total_hotel = $totalhotel;
             $datamatrik->pengeluaran_rill = $request['pengeluaranrill'];
-            $datamatrik->total_biaya = $request['totalbiaya'];
+            $datamatrik->total_biaya = $totalbiaya;
             $datamatrik->save();
 
             //update turunan anggaran
-            $dataTurunanAnggaran->pagu_rencana = $dataTurunanAnggaran->pagu_rencana + $request->totalbiaya;
+            $dataTurunanAnggaran->pagu_rencana = $dataTurunanAnggaran->pagu_rencana + $totalbiaya;
             $dataTurunanAnggaran->update();
 
             $pesan_error = 'Matrik perjalanan berhasil di tambahkan';
@@ -279,6 +282,11 @@ class MatrikController extends Controller
             Session::flash('message_type', 'success');
             return back();
         } elseif ($request->aksi == 'updatematrik') {
+            //dd($request->all());
+            //hitung ulang totalharian, totalhotel, totalbiaya
+            $totalharian = $request->uangharian * $request->harian;
+            $totalhotel = $request->nilaihotel * $request->hotelhari;
+            $totalbiaya = $totalharian + $totalhotel + $request->nilaiTransport + $request->pengeluaranrill;
             //update alokasi pagu di turunan anggaran
             /*
             $dataPagu = Anggaran::where('id','=',$request->dana_makid)->get();
@@ -319,7 +327,7 @@ class MatrikController extends Controller
                 $dana_tid_berbeda = 1;
             }
 
-            if ($sisa_rencana >= $request->totalbiaya) {
+            if ($sisa_rencana >= $totalbiaya) {
                 //totalbiaya baru bisa diupdate
                 $datamatrik->tahun_matrik = Carbon::parse($request['tglawal'])->format('Y');
                 $datamatrik->tgl_awal = $request['tglawal'];
@@ -333,16 +341,16 @@ class MatrikController extends Controller
                 $datamatrik->dana_unitkerja = $request['dana_kodeunit'];
                 $datamatrik->lama_harian = $request['harian'];
                 $datamatrik->dana_harian = $request['uangharian'];
-                $datamatrik->total_harian = $request['totalharian'];
+                $datamatrik->total_harian = $totalharian;
                 $datamatrik->dana_transport = $request['nilaiTransport'];
                 $datamatrik->lama_hotel = $request['hotelhari'];
                 $datamatrik->dana_hotel = $request['nilaihotel'];
-                $datamatrik->total_hotel = $request['totalhotel'];
+                $datamatrik->total_hotel = $totalhotel;
                 $datamatrik->pengeluaran_rill = $request['pengeluaranrill'];
-                $datamatrik->total_biaya = $request['totalbiaya'];
+                $datamatrik->total_biaya = $totalbiaya;
                 $datamatrik->update();
 
-                $dataTurunanAnggaran->pagu_rencana = $rencana_awal + $request->totalbiaya;
+                $dataTurunanAnggaran->pagu_rencana = $rencana_awal + $totalbiaya;
                 $dataTurunanAnggaran->update();
 
                 if ($dana_tid_berbeda == 1) {
@@ -350,7 +358,7 @@ class MatrikController extends Controller
                     $dataTurunanAwal->update();
                 }
 
-                Session::flash('message', 'Data matrik perjalanan sudah diupdate ' . $rencana_awal . ' ' . $request->totalbiaya);
+                Session::flash('message', 'Data matrik perjalanan sudah diupdate');
                 Session::flash('message_type', 'success');
                 return redirect()->route('matrik.index');
             } else {

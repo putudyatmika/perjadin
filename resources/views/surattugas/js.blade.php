@@ -20,6 +20,7 @@ function tambahNol(x){
 }
 $('#EditModal').on('show.bs.modal', function (event) {
 var button = $(event.relatedTarget) // Button that triggered the modal
+var tahun = button.data('tahun')
 var trxid = button.data('trxid') // Extract info from data-* attributes
 var srtid = button.data('srtid') // Extract info from data-* attributes
 var kodetrx = button.data('kodetrx')
@@ -31,13 +32,34 @@ var tugas = button.data('tugas')
 var nomor = button.data('nomor')
 var ttd = button.data('ttd')
 var ttdnip = button.data('ttdnip')
-if (nomor === "") {
-var Tanggal = new Date();
-var srttugas = 'B-'+ tambahNol(srtid) +'/BPS/52510/'+ (Tanggal.getMonth()+1) + '/' + Tanggal.getFullYear()
-}
-else {
-    var srttugas = nomor
-}
+
+$.ajax({
+        url : '{{route("surattugas.nomor","")}}/'+tahun,
+        method : 'get',
+        cache: false,
+        dataType: 'json',
+        success: function(data){     
+            var nomor_baru = data.nomor+1;
+            var Tanggal = new Date();
+            //B-001/52.ST/1/2020
+            //B-001/52.SPD/1/2020
+            if (nomor === "") {
+            var Tanggal = new Date();
+            //B-001/52.SPD/1/2020
+            var srttugas = 'B-'+ tambahNol(nomor_baru) +'/52.ST/'+ (Tanggal.getMonth()+1) + '/' + Tanggal.getFullYear();
+            }
+            else {
+                var srttugas = nomor;
+            }
+            
+            $('#EditModal .modal-body #nomor_surat').val(srttugas)
+        },
+        error: function(){
+            alert("error");
+        }
+
+    });
+
 var modal = $(this)
 modal.find('.modal-body #trxid').val(trxid)
 modal.find('.modal-body #srtid').val(srtid)
@@ -47,7 +69,6 @@ modal.find('.modal-body #nama').val(nama)
 modal.find('.modal-body #tglsurat').val(tglsrt)
 modal.find('.modal-body #tgl_pergi').val(tglbrkt)
 modal.find('.modal-body #tugas').val(tugas)
-modal.find('.modal-body #nomor_surat').val(srttugas)
 modal.find('.modal-body #ttd').val(ttd)
 modal.find('.modal-body #ttd_pejabat').val(ttdnip)
 });

@@ -17,6 +17,8 @@ class CreateAnggaranTable extends Migration
             $table->increments('id');
             $table->year('tahun_anggaran');
             $table->string('mak',40);
+            $table->string('komponen_kode',5)->nullable();
+            $table->string('komponen_nama',250)->nullable();
             $table->string('uraian',254);
             $table->string('pagu_utama',15);
             $table->string('unitkerja',5);

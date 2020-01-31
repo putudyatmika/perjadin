@@ -182,10 +182,19 @@ class SuratTugasController extends Controller
         $FlagTTD = config('globalvar.FlagTTD');
         $Bilangan = config('globalvar.Bilangan');
         $Bulan = config('globalvar.Bulan');
-        $dataTransaksi = \App\Transaksi::with('TabelPegawai','Matrik','SuratTugas')->where('kode_trx','=',$kodetrx)->get();
+        $dataTransaksi = \App\Transaksi::with('Matrik','SuratTugas')->where('kode_trx','=',$kodetrx)->get();
         return view('surattugas.view',compact('dataTransaksi','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','Bulan'));
         //dd($dataTransaksi);
         //dd($DataSuratTugas);
         //return view('surattugas.view');
+    }
+    public function nomor($tahun)
+    {
+        $count = SuratTugas::where('tahun_srt','=',$tahun)->where('flag_surattugas','>',0)->count();
+        $arr = array(
+            'nomor'=> $count,
+            'status'=> true,
+        );
+        return Response()->json($arr);
     }
 }

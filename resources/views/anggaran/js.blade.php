@@ -14,6 +14,7 @@ $('#ViewModal').on('show.bs.modal', function (event) {
             var pagu_sisa = number_format(data.hasil.pagu_utama - data.hasil.rencana_pagu);
             $('#ViewModal .modal-body #tahun_anggaran').text(data.hasil.tahun_anggaran)
             $('#ViewModal .modal-body #mak_anggaran').text(data.hasil.mak)
+            $('#ViewModal .modal-body #komponen').text("["+data.hasil.komponen_kode+"] "+data.hasil.komponen_nama)
             $('#ViewModal .modal-body #uraian_anggaran').text(data.hasil.uraian)
             $('#ViewModal .modal-body #sm_anggaran').text("["+ data.hasil.unitkode +"] "+data.hasil.unitnama)
             $('#ViewModal .modal-body #pagu_utama').text(pagu_utama)
