@@ -184,3 +184,27 @@
     </div>
 </div>
 <!--end modal view transaksi-->
+<!--modal kunci anggaran-->
+<div class="modal fade" id="KunciModal" tabindex="-1" role="dialog" aria-labelledby="KunciModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="KunciModal">Lock/Unlock Anggaran</h4> </div>
+            <div class="modal-body">
+                    <form method="POST" class="form" action="{{route('anggaran.kunci')}}">
+                    @csrf
+                    <input type="hidden" name="anggaran_id" id="anggaranid" value="">
+                    <input type="hidden" name="flag_kunci" id="flag_kunci" value="">
+                    @include('anggaran.kunciform')
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-inverse waves-effect waves-light" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-success waves-effect waves-light m-r-10" name="btn_tulisan" id="btn_tulisan">Update</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+<!--end modal kunci anggaran-->
