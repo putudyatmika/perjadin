@@ -74,4 +74,33 @@ $('.turunan').click(function(){
 });
 });
 */
+$('#KunciModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var tahun_anggaran = button.data('tahun') // Extract info from data-* attributes
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var mak = button.data('mak')
+  var uraian = button.data('uraian')
+  var pagu = button.data('pagu')
+  var unitkerja = button.data('unitkode')
+  var anggaranid = button.data('anggaranid')
+  var flag_kunci = button.data('kunci')
+  if (flag_kunci == 0)
+  {
+      var btn_text = 'Kunci';
+  }
+  else {
+      var btn_text = 'Buka kunci';
+  }
+
+  var modal = $(this)
+  modal.find('.modal-body #tahun_anggaran').val(tahun_anggaran)
+  modal.find('.modal-body #mak').val(mak)
+  modal.find('.modal-body #uraian').val(uraian)
+  modal.find('.modal-body #pagu_utama').val(pagu)
+  modal.find('.modal-body #unitkerja').val(unitkerja)
+  modal.find('.modal-body #anggaranid').val(anggaranid)
+  modal.find('.modal-body #flag_kunci').val(flag_kunci)
+  modal.find('.modal-footer #btn_tulisan').html(btn_text)
+});
 </script>

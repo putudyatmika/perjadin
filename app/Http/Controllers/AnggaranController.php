@@ -191,8 +191,15 @@ class AnggaranController extends Controller
         $dataAnggaran = Anggaran::findOrFail($request->anggaran_id);
         $dataAnggaran->delete();
 
-        $dataTurunan = TurunanAnggaran::where('a_id','=',$request->anggaran_id)->first();
-        $dataTurunan->delete();
+        //cek dulu
+
+        $count = TurunanAnggaran::where('a_id','=',$request->anggaran_id)->count();
+        if ($count>0) {
+            //delete
+            $dataTurunan = TurunanAnggaran::where('a_id','=',$request->anggaran_id)->get();
+            $dataTurunan->delete();
+        }
+        
 
         Session::flash('message', 'Data telah di delete');
         Session::flash('message_type', 'danger');
@@ -353,11 +360,26 @@ class AnggaranController extends Controller
     }
     public function alokasi($id)
     {
-        $dataAnggaran = Anggaran::where('id', '=', $id)->with('Turunan', 'Unitkerja')->first();
-        $dataTurunan = \App\TurunanAnggaran::where('a_id', '=', $id)->get();
-        $DataUnitkerja = DB::table('unitkerja')
-            ->where('eselon', '<', '4')->get();
-        return view('anggaran.alokasi', compact('dataAnggaran', 'dataTurunan', 'DataUnitkerja'));
+        $count = Anggaran::where('id', '=', $id)->where('flag_kunci','=',0)->count();
+        if ($count>0)
+        {
+            //bisa di buka
+            $dataAnggaran = Anggaran::where('id', '=', $id)->where('flag_kunci','=',0)->with('Turunan', 'Unitkerja')->first();
+            $dataTurunan = \App\TurunanAnggaran::where('a_id', '=', $id)->get();
+            $DataUnitkerja = DB::table('unitkerja')
+                ->where('eselon', '<', '4')->get();
+            return view('anggaran.alokasi', compact('dataAnggaran', 'dataTurunan', 'DataUnitkerja'));
+        }
+        else{
+            //pesan error
+            $pesan_error = 'Data anggaran terkunci, belum bisa di alokasi';
+            $warna_error = 'danger';
+            Session::flash('message', $pesan_error);
+            Session::flash('message_type', $warna_error);
+            return back();
+        }
+       
+       
     }
     public function sinkron()
     {
@@ -399,5 +421,52 @@ class AnggaranController extends Controller
             }
         }
         dd($dataSinkron);
+    }
+    public function kunci(Request $request)
+    {
+        //dd($request->all());
+        //cek dulu id anggaran
+        //cek flag dulu
+        if ($request->flag_kunci == 0)
+        {
+            //flag tidak terkunci
+            $flag_kunci = 1;
+        }
+        else 
+        {
+            //flag terkunci
+            $flag_kunci = 0;
+        }
+        $count = Anggaran::where('id', '=', $request->anggaran_id)->count();
+        
+        if ($count > 0) {
+
+            $dataAnggaran = Anggaran::where('id', '=', $request->anggaran_id)->first();
+            $dataAnggaran->flag_kunci = $flag_kunci;
+            $dataAnggaran->update();
+
+            $count = TurunanAnggaran::where('a_id','=',$request->anggaran_id)->count();
+            if ($count>0)
+            {
+                //ada turunan
+                $dataTurunan = TurunanAnggaran::where('a_id','=',$request->anggaran_id)->get();
+                foreach ($dataTurunan as $d)
+                {
+                    $d->flag_kunci_turunan = $flag_kunci;
+                    $d->update();
+                }
+               
+            }
+
+            $pesan_error = 'Data anggaran sudah diupdate';
+            $warna_error = 'success';
+        } else {
+            //data anggaran tidak ada
+            $pesan_error = 'ID Anggaran ini tidak tersedia';
+            $warna_error = 'danger';
+        }
+        Session::flash('message', $pesan_error);
+        Session::flash('message_type', $warna_error);
+        return back();
     }
 }

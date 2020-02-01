@@ -71,7 +71,7 @@ class MatrikController extends Controller
                 ->leftJoin('anggaran', 'anggaran.id', '=', 'turunan_anggaran.a_id')
                 ->leftJoin('unitkerja', 'turunan_anggaran.unit_pelaksana', '=', 'unitkerja.kode')
                 ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
-                ->where('anggaran.tahun_anggaran', Session::get('tahun_anggaran'))
+                ->where('anggaran.tahun_anggaran', Session::get('tahun_anggaran'))->where('flag_kunci_turunan','=',0)
                 ->orderBy('a_id', 'desc')
                 ->get();
         } else {
@@ -81,7 +81,7 @@ class MatrikController extends Controller
                 ->leftJoin('anggaran', 'anggaran.id', '=', 'turunan_anggaran.a_id')
                 ->leftJoin('unitkerja', 'turunan_anggaran.unit_pelaksana', '=', 'unitkerja.kode')
                 ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
-                ->where([['anggaran.tahun_anggaran', Session::get('tahun_anggaran')], ['unit_pelaksana', '=', $unit_pelaksana]])
+                ->where([['anggaran.tahun_anggaran', Session::get('tahun_anggaran')], ['unit_pelaksana', '=', $unit_pelaksana]])->where('flag_kunci_turunan','=',0)
                 ->orderBy('a_id', 'desc')
                 ->get();
         }

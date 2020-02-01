@@ -136,12 +136,12 @@ $(function () {
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>Tahun</th>
                                             <th>Uraian</th>
                                             <th>Unitkerja</th>
                                             <th>Pagu Awal</th>
                                             <th>ID</th>
                                             <th>Tgl Dibuat</th>
+                                            <th>Lock?</th>
                                             <th width="10%">Aksi</th>
                                         </tr>
                                     </thead>
@@ -149,16 +149,34 @@ $(function () {
                                         @foreach ($DataAnggaran as $item)
                                             <tr>
                                                 <td>{{ $loop->iteration}}</td>
-                                                <td>{{ $item->tahun_anggaran}}</td>
-                                                <td><a href="" data-toggle="modal" data-target="#ViewModal" data-anggaranid="{{$item->id}}"><span data-toggle="tooltip" title="Anggaran {{ $item->unit_nama}} : {{ $item->uraian}}">{{ $item->uraian}}</span></a>
+                                                <td>
+                                                    <a href="" data-toggle="modal" data-target="#ViewModal" data-anggaranid="{{$item->id}}"><span data-toggle="tooltip" title="Anggaran {{ $item->unit_nama}} : {{ $item->uraian}}">{{ $item->uraian}}</span></a>
                                                     <br />
-                                                <small>{{ $item->mak}}</small></td>
+                                                    <small>{{ $item->mak}}</small>
+                                                    <br />
+                                                    <small>[{{ $item->komponen_kode}}] {{$item->komponen_nama}}</small>
+                                                </td>
                                                 <td>{{ $item->unit_nama}}</td>
                                                 <td><div class="pull-right">{{$item->pagu_utama}}</div></td>
                                                 <td>{{ $item->id}}</td>
-                                                <td>{{Tanggal::Panjang($item->created_at)}}</td>
+                                                <td>{{Tanggal::Pendek($item->created_at)}}</td>
                                                 <td>
-                                                    @if (Auth::user()->pengelola>3)
+                                                    @if ((Auth::user()->pengelola==2) or ((Auth::user()->pengelola==5)))
+                                                        @if ($item->flag_kunci==0)
+                                                        <button class="btn btn-circle btn-info" data-toggle="modal" data-target="#KunciModal" data-tahun="{{ $item->tahun_anggaran}}" data-mak="{{ $item->mak}}" data-pagu="{{ $item->pagu_utama}}" data-uraian="{{$item->uraian}}" data-unitkode="{{$item->unit_nama}}" data-anggaranid="{{$item->id}}" data-kunci="{{$item->flag_kunci}}"><span data-toggle="tooltip" title="Kunci anggaran {{ $item->uraian}}"><i class="fa fa-unlock"></i></span></button>
+                                                        @else 
+                                                        <button class="btn btn-circle label-warning" data-toggle="modal" data-target="#KunciModal" data-tahun="{{ $item->tahun_anggaran}}" data-mak="{{ $item->mak}}" data-pagu="{{ $item->pagu_utama}}" data-uraian="{{$item->uraian}}" data-unitkode="{{$item->unit_nama}}" data-anggaranid="{{$item->id}}" data-kunci="{{$item->flag_kunci}}"><span data-toggle="tooltip" title="Buka kunci anggaran {{ $item->uraian}}"><i class="fa fa-lock"></i></span></button>
+                                                        @endif
+                                                    @else 
+                                                        @if ($item->flag_kunci==0)
+                                                        <button class="btn btn-circle btn-info"><span data-toggle="tooltip" title="anggaran {{ $item->uraian}} terbuka"><i class="fa fa-unlock"></i></span></button>
+                                                        @else 
+                                                        <button class="btn btn-circle label-warning"><span data-toggle="tooltip" title="anggaran {{ $item->uraian}} terkunci"><i class="fa fa-lock"></i></span></button>
+                                                        @endif
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if (Auth::user()->pengelola>3 and $item->flag_kunci==0)
                                                     <a href="{{route('anggaran.alokasi',$item->id)}}" class="btn btn-sm btn-success btn-circle"><span data-toggle="tooltip" title="Alokasi anggaran {{ $item->uraian}}"><i class="fa fa-bookmark"></i></span></a>
                                                     <button type="button" class="btn btn-sm btn-primary btn-circle" data-toggle="modal" data-target="#EditModal" data-tahun="{{ $item->tahun_anggaran}}" data-mak="{{ $item->mak}}" data-komponenkode="{{ $item->komponen_kode}}" data-pagu="{{ $item->pagu_utama}}" data-komponennama="{{ $item->komponen_nama}}" data-pagurencana="{{ $item->rencana_pagu}}" data-uraian="{{$item->uraian}}" data-unitkode="{{$item->unitkerja}}" data-anggaranid="{{$item->id}}"><span data-toggle="tooltip" title="Edit anggaran {{ $item->uraian}}"><i class="fa fa-pencil"></i></span></button>
                                                     <button type="button" class="btn btn-sm btn-danger btn-circle" data-toggle="modal" data-target="#DeleteModal" data-tahun="{{ $item->tahun_anggaran}}" data-mak="{{ $item->mak}}" data-pagu="{{ $item->pagu_utama}}" data-uraian="{{$item->uraian}}" data-unitkode="{{$item->unit_nama}}" data-anggaranid="{{$item->id}}"><span data-toggle="tooltip" title="Hapus anggaran {{ $item->uraian}}"><i class="fa fa-trash-o"></i></span></button>

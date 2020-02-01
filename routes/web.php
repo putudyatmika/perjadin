@@ -51,6 +51,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('anggaran/export', 'AnggaranController@export')->name('anggaran.export');
     Route::get('anggaran/viewturunan/{aid}', 'AnggaranController@viewturunan')->name('anggaran.turunan');
     Route::get('anggaran/alokasi/{id}', 'AnggaranController@alokasi')->name('anggaran.alokasi');
+    Route::post('anggaran/kunci', 'AnggaranController@kunci')->name('anggaran.kunci');
     Route::resource('anggaran', 'AnggaranController');
     Route::get('/format_anggaran', 'AnggaranController@format');
     Route::post('/import_anggaran', 'AnggaranController@import');
