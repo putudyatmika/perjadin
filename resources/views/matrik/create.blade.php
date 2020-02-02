@@ -77,7 +77,7 @@
                                                 <div class="input-group-addon"><i class="ti-user"></i></div>
                                                 <select name="lamanya" id="lamanya" class="form-control">
                                                     <option value="">Pilih</option>
-                                                    @for ($i = 1; $i < 7; $i++)
+                                                    @for ($i = 1; $i <= 30; $i++)
                                                         <option value="{{$i}}">{{$i}} Hari</option>
                                                     @endfor
                                                 </select>
