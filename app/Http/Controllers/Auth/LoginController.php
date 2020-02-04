@@ -80,7 +80,8 @@ class LoginController extends Controller
     public function authenticated(Request $request, $user)
     {
         $user->lastlogin = Carbon::now()->toDateTimeString();
-        $user->lastip = $request->getClientIp();
+        //$user->lastip = $request->getClientIp();
+        $user->lastip = $request->ip();
         $user->save();
         Session::put('tahun_anggaran', $request->tahun_anggaran);
     }

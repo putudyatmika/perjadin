@@ -15,6 +15,8 @@ use App\Spd;
 use App\Unitkerja;
 use App\Mail\MailPersetujuan;
 use Illuminate\Support\Facades\Mail;
+use App\Helpers\Tanggal;
+use App\Mail\MailPerjalanan;
 
 class PersetujuanController extends Controller
 {
@@ -160,28 +162,27 @@ class PersetujuanController extends Controller
                     <b>Total biaya :</b>&nbsp;{{ $objEmail->totalbiaya }}<br/>
                 </p>
             */
-            $objDemo = new \stdClass();
-            $objDemo->setuju = 'PPK';
-            $objDemo->bidang = ;
-            $objDemo->trx_id = ;
-            $objDemo->nama = ;
-            $objDemo->nip = ;
-            $objDemo->tugas = ;
-            $objDemo->tgl_brkt = ;
-            $objDemo->tgl_kembali = ;
-            $objDemo->tujuan = ;
-            $objDemo->durasi = ;
-            $objDemo->sm = ;
-            $objDemo->up = ;
-            $objDemo->mak = ;
-            $objDemo->komponen = ;
-            $objDemo->detil = ;
-            $objDemo->totalbiaya = ;
+                $objEmail = new \stdClass();
+                $objEmail->setuju = 'PPK';
+                $objEmail->bidang = $dataMatrik->UnitPelaksana->nama;
+                $objEmail->trx_id = $datatrx->kode_trx;
+                $objEmail->nama = $datatrx->peg_nama;
+                $objEmail->nip = $datatrx->peg_nip;
+                $objEmail->tugas = $datatrx->tugas;
+                $objEmail->tgl_brkt = Tanggal::Panjang($datatrx->tgl_brkt);
+                $objEmail->tgl_kembali = Tanggal::Panjang($datatrx->tgl_balik);
+                $objEmail->tujuan = $dataMatrik->Tujuan->nama_kabkota;
+                $objEmail->durasi = $datatrx->bnyk_hari.' hari';
+                $objEmail->sm = $dataMatrik->DanaUnitkerja->nama;
+                $objEmail->up = $dataMatrik->UnitPelaksana->nama;
+                $objEmail->mak = $dataMatrik->DanaAnggaran->mak;
+                $objEmail->komponen = '['.$dataMatrik->DanaAnggaran->komponen_kode.'] '.$dataMatrik->DanaAnggaran->komponen_nama;
+                $objEmail->detil = $dataMatrik->DanaAnggaran->uraian;
+                $objEmail->totalbiaya = 'Rp. '.number_format($dataMatrik->total_biaya,0,',','.');
 
-            $objDemo->Sender = 'Perjadin BPS Provinsi Nusa Tenggara Barat';
-            $objDemo->Subject = '[NO REPLY - LAPORAN PENGADUAN]';
+                $dataPPK = Pegawai::where('flag_pengelola','=','2')->where('flag','=','1')->first();
 
-            Mail::to("pdyatmika@gmail.com")->send(new MailPersetujuan($objDemo));
+                Mail::to($dataPPK->email)->send(new MailPersetujuan($objEmail));
 
             Session::flash('message', 'Data Perjalanan ke '.$request->tujuan.' tanggal '. $request->tglberangkat .' sudah di setujui Kabid SM');
             Session::flash('message_type', 'warning');
@@ -232,7 +233,28 @@ class PersetujuanController extends Controller
                  $dataspd -> flag_spd = $flag_spd;
                  $dataspd -> update();
              }
+             //persetujuan kpa
+             $objEmail = new \stdClass();
+             $objEmail->setuju = 'KPA';
+             $objEmail->bidang = $dataMatrik->UnitPelaksana->nama;
+             $objEmail->trx_id = $datatrx->kode_trx;
+             $objEmail->nama = $datatrx->peg_nama;
+             $objEmail->nip = $datatrx->peg_nip;
+             $objEmail->tugas = $datatrx->tugas;
+             $objEmail->tgl_brkt = Tanggal::Panjang($datatrx->tgl_brkt);
+             $objEmail->tgl_kembali = Tanggal::Panjang($datatrx->tgl_balik);
+             $objEmail->tujuan = $dataMatrik->Tujuan->nama_kabkota;
+             $objEmail->durasi = $datatrx->bnyk_hari.' hari';
+             $objEmail->sm = $dataMatrik->DanaUnitkerja->nama;
+             $objEmail->up = $dataMatrik->UnitPelaksana->nama;
+             $objEmail->mak = $dataMatrik->DanaAnggaran->mak;
+             $objEmail->komponen = '['.$dataMatrik->DanaAnggaran->komponen_kode.'] '.$dataMatrik->DanaAnggaran->komponen_nama;
+             $objEmail->detil = $dataMatrik->DanaAnggaran->uraian;
+             $objEmail->totalbiaya = 'Rp. '.number_format($dataMatrik->total_biaya,0,',','.');
 
+             $dataKPA = Pegawai::where('flag_pengelola','=','1')->where('flag','=','1')->first();
+
+             Mail::to($dataKPA->email)->send(new MailPersetujuan($objEmail));
             Session::flash('message', 'Data Perjalanan ke '.$request->tujuan.' tanggal '. $request->tglberangkat .' sudah di setujui PPK');
             Session::flash('message_type', 'info');
             return redirect()->route('setuju.index');
@@ -309,7 +331,28 @@ class PersetujuanController extends Controller
                     $dataspd -> save();
                 }
             }
+            //kirim email ke pegawai yg mau berangkat dan aris
+            $objEmail = new \stdClass();
+            $objEmail->setuju = 'KPA';
+            $objEmail->bidang = $dataMatrik->UnitPelaksana->nama;
+            $objEmail->trx_id = $datatrx->kode_trx;
+            $objEmail->nama = $datatrx->peg_nama;
+            $objEmail->nip = $datatrx->peg_nip;
+            $objEmail->tugas = $datatrx->tugas;
+            $objEmail->tgl_brkt = Tanggal::Panjang($datatrx->tgl_brkt);
+            $objEmail->tgl_kembali = Tanggal::Panjang($datatrx->tgl_balik);
+            $objEmail->tujuan = $dataMatrik->Tujuan->nama_kabkota;
+            $objEmail->durasi = $datatrx->bnyk_hari.' hari';
+            $objEmail->sm = $dataMatrik->DanaUnitkerja->nama;
+            $objEmail->up = $dataMatrik->UnitPelaksana->nama;
+            $objEmail->mak = $dataMatrik->DanaAnggaran->mak;
+            $objEmail->komponen = '['.$dataMatrik->DanaAnggaran->komponen_kode.'] '.$dataMatrik->DanaAnggaran->komponen_nama;
+            $objEmail->detil = $dataMatrik->DanaAnggaran->uraian;
+            $objEmail->totalbiaya = 'Rp. '.number_format($dataMatrik->total_biaya,0,',','.');
 
+            $dataPegawai = Pegawai::where('nip_baru','=',$datatrx->peg_nip)->where('flag','=','1')->first();
+
+            Mail::to($dataPegawai->email)->send(new MailPerjalanan($objEmail));
             Session::flash('message', 'Data Perjalanan ke '.$request->tujuan.' tanggal '. $request->tglberangkat .' sudah di konfirmasi KPA');
             Session::flash('message_type', 'info');
             return redirect()->route('setuju.index');

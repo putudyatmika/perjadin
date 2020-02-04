@@ -16,9 +16,12 @@ class MailPersetujuan extends Mailable
      *
      * @return void
      */
-    public function __construct()
+    public $objEmail;
+
+    public function __construct($objEmail)
     {
         //
+        $this->objEmail = $objEmail;
     }
 
     /**
@@ -28,7 +31,8 @@ class MailPersetujuan extends Mailable
      */
     public function build()
     {
-        return $this->from('noreply@perjadin.bpsntb.id')
+        return $this->from('noreply@perjadin.bpsntb.id','PERJADIN')
+                    ->subject('[NOREPLY] PENGAJUAN PERJADIN')
                     ->view('setuju.mail');
     }
 }
