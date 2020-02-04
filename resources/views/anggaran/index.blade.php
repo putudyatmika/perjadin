@@ -139,6 +139,7 @@ $(function () {
                                             <th>Uraian</th>
                                             <th>Unitkerja</th>
                                             <th>Pagu Awal</th>
+                                            <th>Pagu Alokasi</th>
                                             <th>ID</th>
                                             <th>Tgl Dibuat</th>
                                             <th>Lock?</th>
@@ -158,6 +159,7 @@ $(function () {
                                                 </td>
                                                 <td>{{ $item->unit_nama}}</td>
                                                 <td><div class="pull-right">{{$item->pagu_utama}}</div></td>
+                                                <td><div class="pull-right">{{$item->rencana_pagu}}</div></td>
                                                 <td>{{ $item->id}}</td>
                                                 <td>{{Tanggal::Pendek($item->created_at)}}</td>
                                                 <td>

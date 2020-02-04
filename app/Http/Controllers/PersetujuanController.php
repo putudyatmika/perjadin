@@ -13,6 +13,8 @@ use DB;
 use App\SuratTugas;
 use App\Spd;
 use App\Unitkerja;
+use App\Mail\MailPersetujuan;
+use Illuminate\Support\Facades\Mail;
 
 class PersetujuanController extends Controller
 {
@@ -129,6 +131,57 @@ class PersetujuanController extends Controller
                 $dataspd -> flag_spd = $flag_spd;
                 $dataspd -> update();
             }
+            //kirim email ke ppk
+            /*
+            <h3>Sistem Perjalanan Dinas - BPS Provinsi NTB</h3>
+                <p>Menunggu persetujuan <b>{{ $objEmail->setuju}}</b> pengajuan perjalanan dinas dari <br/>
+                <strong>{{$objEmail->bidang}}</strong>
+                </p>
+                
+                <div>
+                <p>Detil perjalanan dinas :<br/>
+                <b>Trx ID :</b>&nbsp;{{ $objEmail->trx_id}}<br/>
+                <b>Nama :</b>&nbsp;{{ $objEmail->nama }}<br/>
+                <b>NIP :</b>&nbsp;{{ $objEmail->nip }}<br/>
+                <b>Tugas :</b>&nbsp;{{ $objEmail->tugas }}<br/>
+                <b>Tgl berangkat :</b>&nbsp;{{ $objEmail->tgl_brkt }}<br/>
+                <b>Tgl kembali :</b>&nbsp;{{ $objEmail->tgl_kembali }}<br/>
+                <b>Tujuan :</b>&nbsp;{{ $objEmail->tujuan }}<br/>
+                <b>Durasi :</b>&nbsp;{{ $objEmail->durasi }}<br/>
+                <b>Subject Matter :</b>&nbsp;{{ $objEmail->sm }}<br/>
+                <b>Unit Pelaksana :</b>&nbsp;{{ $objEmail->up }}<br/>
+                </p>
+                </div>
+                <div>
+                    <p>Sumber Dana :<br/>
+                    <b>MAK :</b>&nbsp;{{ $objEmail->mak}}<br/>
+                    <b>Komponen :</b>&nbsp;{{ $objEmail->komponen }}<br/>
+                    <b>Detil :</b>&nbsp;{{ $objEmail->detil }}<br/>
+                    <b>Total biaya :</b>&nbsp;{{ $objEmail->totalbiaya }}<br/>
+                </p>
+            */
+            $objDemo = new \stdClass();
+            $objDemo->setuju = 'PPK';
+            $objDemo->bidang = ;
+            $objDemo->trx_id = ;
+            $objDemo->nama = ;
+            $objDemo->nip = ;
+            $objDemo->tugas = ;
+            $objDemo->tgl_brkt = ;
+            $objDemo->tgl_kembali = ;
+            $objDemo->tujuan = ;
+            $objDemo->durasi = ;
+            $objDemo->sm = ;
+            $objDemo->up = ;
+            $objDemo->mak = ;
+            $objDemo->komponen = ;
+            $objDemo->detil = ;
+            $objDemo->totalbiaya = ;
+
+            $objDemo->Sender = 'Perjadin BPS Provinsi Nusa Tenggara Barat';
+            $objDemo->Subject = '[NO REPLY - LAPORAN PENGADUAN]';
+
+            Mail::to("pdyatmika@gmail.com")->send(new MailPersetujuan($objDemo));
 
             Session::flash('message', 'Data Perjalanan ke '.$request->tujuan.' tanggal '. $request->tglberangkat .' sudah di setujui Kabid SM');
             Session::flash('message_type', 'warning');
