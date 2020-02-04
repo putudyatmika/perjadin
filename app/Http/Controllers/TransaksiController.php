@@ -13,6 +13,9 @@ use DB;
 use App\SuratTugas;
 use App\Spd;
 use App\Unitkerja;
+use App\Mail\MailPersetujuan;
+use Illuminate\Support\Facades\Mail;
+use App\Helpers\Tanggal;
 
 class TransaksiController extends Controller
 {
@@ -158,6 +161,29 @@ class TransaksiController extends Controller
                 $dataMatrik = MatrikPerjalanan::where('id', $request->matrikid)->first();
                 $dataMatrik->flag_matrik = '3';
                 $dataMatrik->update();
+                //kirim mail pemberitahuan ke kabid sm
+
+                $objEmail = new \stdClass();
+                $objEmail->setuju = 'KABID/KABAG';
+                $objEmail->bidang = $dataMatrik->UnitPelaksana->nama;
+                $objEmail->trx_id = $datatrx->kode_trx;
+                $objEmail->nama = $datatrx->peg_nama;
+                $objEmail->nip = $datatrx->peg_nip;
+                $objEmail->tugas = $datatrx->tugas;
+                $objEmail->tgl_brkt = Tanggal::Panjang($datatrx->tgl_brkt);
+                $objEmail->tgl_kembali = Tanggal::Panjang($datatrx->tgl_balik);
+                $objEmail->tujuan = $dataMatrik->Tujuan->nama_kabkota;
+                $objEmail->durasi = $datatrx->bnyk_hari.' hari';
+                $objEmail->sm = $dataMatrik->DanaUnitkerja->nama;
+                $objEmail->up = $dataMatrik->UnitPelaksana->nama;
+                $objEmail->mak = $dataMatrik->DanaAnggaran->mak;
+                $objEmail->komponen = '['.$dataMatrik->DanaAnggaran->komponen_kode.'] '.$dataMatrik->DanaAnggaran->komponen_nama;
+                $objEmail->detil = $dataMatrik->DanaAnggaran->uraian;
+                $objEmail->totalbiaya = 'Rp. '.number_format($dataMatrik->total_biaya,0,',','.');
+
+                $dataKabid = Pegawai::where('unitkerja','=',$dataMatrik->unit_pelaksana)->where('jabatan','=','2')->where('flag','=','1')->first();
+
+                Mail::to($dataKabid->email)->send(new MailPersetujuan($objEmail));
 
                 Session::flash('message', 'Data Perjalanan ke ' . $request->tujuan . ' tanggal ' . $request->tglberangkat . ' sudah di ajukan');
                 Session::flash('message_type', 'warning');
