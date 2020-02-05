@@ -54,6 +54,27 @@ class LoginController extends Controller
             return redirect()->intended('anggaran');
         }
     }*/
+    public function getUserIpAddr()
+    {
+        $ipaddress = '';
+        if (isset($_SERVER['HTTP_CLIENT_IP']))
+            $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+        else if(isset($_SERVER['HTTP_X_REAL_IP']))
+            $ipaddress = $_SERVER['HTTP_X_REAL_IP'];
+        else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        else if(isset($_SERVER['HTTP_X_FORWARDED']))
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+        else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
+            $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+        else if(isset($_SERVER['HTTP_FORWARDED']))
+            $ipaddress = $_SERVER['HTTP_FORWARDED'];
+        else if(isset($_SERVER['REMOTE_ADDR']))
+            $ipaddress = $_SERVER['REMOTE_ADDR'];
+        else
+            $ipaddress = 'UNKNOWN';    
+        return $ipaddress;
+     }
     public function showLoginForm()
     {
         $dataTahunDasar = \App\TahunDasar::orderBy('tahun', 'asc')->get();
@@ -81,7 +102,7 @@ class LoginController extends Controller
     {
         $user->lastlogin = Carbon::now()->toDateTimeString();
         //$user->lastip = $request->getClientIp();
-        $user->lastip = $request->ip();
+        $user->lastip = $this->getUserIpAddr();
         $user->save();
         Session::put('tahun_anggaran', $request->tahun_anggaran);
     }

@@ -90,6 +90,7 @@ $(function () {
                                         <tr>
                                             <th>NIP</th>
                                             <th>Nama</th>
+                                            <th>Email</th>
                                             <th>Jabatan</th>
                                             <th>Pengelola</th>
                                             <th>Pangkat/Gol</th>
@@ -104,6 +105,7 @@ $(function () {
                                         <tr>
                                                 <td><a href="#" data-toggle="modal" data-target="#ViewModal" data-pegid="{{$Pegawai->id}}" data-nama="{{$Pegawai->nama}}" data-nip="{{$Pegawai->nip_baru}}" data-tgllahir="{{Tanggal::HariPanjang($Pegawai->tgl_lahir)}}" data-gol="{{ $Pegawai -> pangkat }} ({{ $Pegawai->nama_gol}})" data-unitkerja="{{$Pegawai -> unit_nama}}" data-jabatan="{{$JenisJabatanVar[$Pegawai -> jabatan]}}" data-jk="{{$jkVar[$Pegawai->jk]}}" data-bidang="{{ $Pegawai -> bidang_nama}}">{{ $Pegawai -> nip_baru }}</a></td>
                                                 <td>{{ $Pegawai -> nama}}</td>
+                                                <td>{{ $Pegawai -> email}}</td>
                                                 <td><strong>{{ $JenisJabatanVar[$Pegawai -> jabatan] }}</strong> {{ $Pegawai -> unit_nama}}</td>
                                                 <td>
                                                     @if ($Pegawai -> flag_pengelola>0)

@@ -349,7 +349,9 @@ class TransaksiController extends Controller
             Session::flash('message_type', 'info');
             return redirect()->route('transaksi.index');
         } elseif ($request->aksi == "editalokasi") {
-            //menu ini hanya superadmin
+            //search pegawai
+            $dt_pegawai = Pegawai::where('nip_baru','=',$request->peg_nip)->first();
+            //menu ini hanya superadmin            
             $bnyk_hari = $request->lamanya - 1;
             $datatrx = Transaksi::where('trx_id', '=', $request->trxid)->first();
             $datatrx->bnyk_hari = $request->lamanya;
@@ -357,6 +359,11 @@ class TransaksiController extends Controller
             $datatrx->tgl_brkt = Carbon::parse($request->tglberangkat)->format('Y-m-d');
             $datatrx->tgl_balik = Carbon::parse($request->tglberangkat)->addDays($bnyk_hari)->format('Y-m-d');
             $datatrx->peg_nip = $request->peg_nip;
+            $datatrx->peg_nama = $dt_pegawai->nama;
+            $datatrx->peg_gol = $dt_pegawai->gol;
+            $datatrx->peg_unitkerja = $dt_pegawai->unitkerja;
+            $datatrx->peg_jabatan = $dt_pegawai->jabatan;
+            $datatrx->peg_unitkerja_nama = $dt_pegawai->Unitkerja->nama;
             $datatrx->flag_trx = $request->flag_transaksi;
             $datatrx->kabid_konfirmasi = $request->kabid_setuju;
             $datatrx->ppk_konfirmasi = $request->ppk_setuju;

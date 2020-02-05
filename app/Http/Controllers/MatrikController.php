@@ -70,7 +70,7 @@ class MatrikController extends Controller
             $DataAnggaran = DB::table('turunan_anggaran')
                 ->leftJoin('anggaran', 'anggaran.id', '=', 'turunan_anggaran.a_id')
                 ->leftJoin('unitkerja', 'turunan_anggaran.unit_pelaksana', '=', 'unitkerja.kode')
-                ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.komponen_kode, anggaran.komponen_nama, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
                 ->where('anggaran.tahun_anggaran', Session::get('tahun_anggaran'))->where('flag_kunci_turunan','=',0)
                 ->orderBy('a_id', 'desc')
                 ->get();
@@ -80,7 +80,7 @@ class MatrikController extends Controller
             $DataAnggaran = DB::table('turunan_anggaran')
                 ->leftJoin('anggaran', 'anggaran.id', '=', 'turunan_anggaran.a_id')
                 ->leftJoin('unitkerja', 'turunan_anggaran.unit_pelaksana', '=', 'unitkerja.kode')
-                ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.komponen_kode, anggaran.komponen_nama, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
                 ->where([['anggaran.tahun_anggaran', Session::get('tahun_anggaran')], ['unit_pelaksana', '=', $unit_pelaksana]])->where('flag_kunci_turunan','=',0)
                 ->orderBy('a_id', 'desc')
                 ->get();
@@ -205,7 +205,7 @@ class MatrikController extends Controller
         $DataAnggaran = DB::table('turunan_anggaran')
             ->leftJoin('anggaran', 'anggaran.id', '=', 'turunan_anggaran.a_id')
             ->leftJoin('unitkerja', 'turunan_anggaran.unit_pelaksana', '=', 'unitkerja.kode')
-            ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+            ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak,anggaran.komponen_kode, anggaran.komponen_nama, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
             ->where('anggaran.tahun_anggaran', Session::get('tahun_anggaran'))
             ->orderBy('a_id', 'desc')
             ->get();

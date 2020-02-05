@@ -105,6 +105,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
+                                                    <label for="dana_komponen" class="col-lg-2 col-xs-12 col-form-label">Komponen</label>
+                                                    <div class="input-group col-lg-8 col-sm-8 col-xs-12">
+                                                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                        <input type="text" class="form-control" id="dana_komponen" name="dana_komponen" placeholder="Komponen Anggaran" readonly="">
+
+                                                    </div>
+                                                </div>
+                                                    <div class="form-group row">
                                                         <label for="dana_uraian" class="col-lg-2 col-xs-12 col-form-label">Uraian</label>
                                                         <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                             <div class="input-group-addon"><i class="ti-user"></i></div>
