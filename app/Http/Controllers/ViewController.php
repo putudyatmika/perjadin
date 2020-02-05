@@ -13,8 +13,9 @@ class ViewController extends Controller
         $FlagKonfirmasi = config('globalvar.FlagKonfirmasi');
         $MatrikFlag = config('globalvar.FlagMatrik');
         $FlagSrt = config('globalvar.FlagSurat');
-        $dataTransaksi = Transaksi::where('kode_trx','=',$kodetrx)->first();
-        return view('verify.index',compact('dataTransaksi','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagSrt'));
+        $JenisJabatanVar = config('globalvar.JenisJabatan');
+        $dataTransaksi = Transaksi::where('kode_trx','=',$kodetrx)->where('flag_trx','>','3')->first();
+        return view('verify.index',compact('dataTransaksi','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagSrt','JenisJabatanVar'));
 
     }
 }

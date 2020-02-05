@@ -9,6 +9,7 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow; //TAMBAHKAN CODE INI
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Auth;
 
 class MatrikImport implements ToCollection, WithHeadingRow, WithBatchInserts, WithChunkReading
 {
@@ -40,6 +41,7 @@ class MatrikImport implements ToCollection, WithHeadingRow, WithBatchInserts, Wi
             $datamatrik -> dana_hotel = $row['dana_hotel'];
             $datamatrik -> total_hotel = ($row['lamanya']-1) * $row['dana_hotel'];
             $datamatrik -> pengeluaran_rill = $row['pengeluaran_rill'];
+            $datamatrik -> dana_unitkerja = Auth::user()->user_unitkerja;
             $datamatrik -> total_biaya = $totalbiaya;
             $datamatrik -> save();
             

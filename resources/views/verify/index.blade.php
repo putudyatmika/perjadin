@@ -51,15 +51,19 @@
                     </tr>
                     <tr>
                         <td><b>Tanggal Surat</b></td>
-                        <td>{{Tanggal::Panjang($dataTransaksi->SuratTugas->tgl_surat)}}</td>
+                        <td>@if ($dataTransaksi->SuratTugas->tgl_surat) {{Tanggal::Panjang($dataTransaksi->SuratTugas->tgl_surat)}} @endif</td>
                     </tr>
                     <tr>
                         <td><b>Nama</b></td>
-                        <td>{{$dataTransaksi->TabelPegawai->nama}}</td>
+                        <td>{{$dataTransaksi->peg_nama}}</td>
                     </tr>
                     <tr>
                         <td><b>NIP</b></td>
-                        <td>{{$dataTransaksi->TabelPegawai->nip_baru}}</td>
+                        <td>{{$dataTransaksi->peg_nip}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Jabatan</b></td>
+                        <td><b>{{$JenisJabatanVar[$dataTransaksi->peg_jabatan]}}</b> {{$dataTransaksi->peg_unitkerja_nama}}</td>
                     </tr>
                     <tr>
                         <td><b>Subject Matter</b></td>
@@ -68,7 +72,11 @@
                     <tr>
                             <td><b>Sumber Dana</b></td>
                             <td>{{$dataTransaksi->Matrik->DanaAnggaran->mak}} - {{$dataTransaksi->Matrik->DanaAnggaran->uraian}}</td>
-                        </tr>
+                    </tr>
+                    <tr>
+                        <td><b>Komponen</b></td>
+                        <td>{{$dataTransaksi->Matrik->DanaAnggaran->komponen_kode}} - {{$dataTransaksi->Matrik->DanaAnggaran->komponen_nama}}</td>
+                </tr>
                     <tr>
                         <td><b>Tujuan</b></td>
                         <td>{{$dataTransaksi->Matrik->Tujuan->nama_kabkota}}</td>
