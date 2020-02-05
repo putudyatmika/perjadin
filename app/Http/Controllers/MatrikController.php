@@ -70,7 +70,7 @@ class MatrikController extends Controller
             $DataAnggaran = DB::table('turunan_anggaran')
                 ->leftJoin('anggaran', 'anggaran.id', '=', 'turunan_anggaran.a_id')
                 ->leftJoin('unitkerja', 'turunan_anggaran.unit_pelaksana', '=', 'unitkerja.kode')
-                ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.komponen_kode, anggaran.komponen_nama, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
                 ->where('anggaran.tahun_anggaran', Session::get('tahun_anggaran'))->where('flag_kunci_turunan','=',0)
                 ->orderBy('a_id', 'desc')
                 ->get();
@@ -80,7 +80,7 @@ class MatrikController extends Controller
             $DataAnggaran = DB::table('turunan_anggaran')
                 ->leftJoin('anggaran', 'anggaran.id', '=', 'turunan_anggaran.a_id')
                 ->leftJoin('unitkerja', 'turunan_anggaran.unit_pelaksana', '=', 'unitkerja.kode')
-                ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.komponen_kode, anggaran.komponen_nama, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
                 ->where([['anggaran.tahun_anggaran', Session::get('tahun_anggaran')], ['unit_pelaksana', '=', $unit_pelaksana]])->where('flag_kunci_turunan','=',0)
                 ->orderBy('a_id', 'desc')
                 ->get();
@@ -186,8 +186,11 @@ class MatrikController extends Controller
     {
         //
 
-        $DataUnitkerja = DB::table('unitkerja')
+        /*$DataUnitkerja = DB::table('unitkerja')
             ->where('eselon', '<', '4')->get();
+        */
+        $DataUnitkerja = DB::table('unitkerja')
+        ->where('eselon', '<', '4')->get();
         $MatrikFlag = config('globalvar.FlagMatrik');
         $DataMatrik = DB::table('matrik')
             ->leftJoin('anggaran', 'matrik.dana_mak', '=', 'anggaran.mak')
@@ -202,13 +205,35 @@ class MatrikController extends Controller
                 -> leftJoin('unitkerja','anggaran.unitkerja','=','unitkerja.kode')
                 -> select(DB::Raw('anggaran.*,unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
                 -> get(); */
+                /*
         $DataAnggaran = DB::table('turunan_anggaran')
             ->leftJoin('anggaran', 'anggaran.id', '=', 'turunan_anggaran.a_id')
             ->leftJoin('unitkerja', 'turunan_anggaran.unit_pelaksana', '=', 'unitkerja.kode')
-            ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+            ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak,anggaran.komponen_kode, anggaran.komponen_nama, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
             ->where('anggaran.tahun_anggaran', Session::get('tahun_anggaran'))
             ->orderBy('a_id', 'desc')
             ->get();
+            */
+            if (Auth::User()->pengelola > 3) {
+                //operator keuangan atau admin
+                $DataAnggaran = DB::table('turunan_anggaran')
+                    ->leftJoin('anggaran', 'anggaran.id', '=', 'turunan_anggaran.a_id')
+                    ->leftJoin('unitkerja', 'turunan_anggaran.unit_pelaksana', '=', 'unitkerja.kode')
+                    ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.komponen_kode, anggaran.komponen_nama, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                    ->where('anggaran.tahun_anggaran', Session::get('tahun_anggaran'))->where('flag_kunci_turunan','=',0)
+                    ->orderBy('a_id', 'desc')
+                    ->get();
+            } else {
+                //operator bidang
+                $unit_pelaksana = Auth::User()->user_unitkerja;
+                $DataAnggaran = DB::table('turunan_anggaran')
+                    ->leftJoin('anggaran', 'anggaran.id', '=', 'turunan_anggaran.a_id')
+                    ->leftJoin('unitkerja', 'turunan_anggaran.unit_pelaksana', '=', 'unitkerja.kode')
+                    ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.komponen_kode, anggaran.komponen_nama, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                    ->where([['anggaran.tahun_anggaran', Session::get('tahun_anggaran')], ['unit_pelaksana', '=', $unit_pelaksana]])->where('flag_kunci_turunan','=',0)
+                    ->orderBy('a_id', 'desc')
+                    ->get();
+            }
         $DataTujuan = Tujuan::all();
         return view('matrik.editform', compact('DataMatrik', 'MatrikFlag', 'DataUnitkerja', 'DataAnggaran', 'DataTujuan'));
     }

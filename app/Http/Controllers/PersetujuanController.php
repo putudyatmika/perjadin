@@ -17,6 +17,7 @@ use App\Mail\MailPersetujuan;
 use Illuminate\Support\Facades\Mail;
 use App\Helpers\Tanggal;
 use App\Mail\MailPerjalanan;
+use App\User;
 
 class PersetujuanController extends Controller
 {
@@ -353,6 +354,12 @@ class PersetujuanController extends Controller
             $dataPegawai = Pegawai::where('nip_baru','=',$datatrx->peg_nip)->where('flag','=','1')->first();
 
             Mail::to($dataPegawai->email)->send(new MailPerjalanan($objEmail));
+            //kirim mail ke subbag keuangan
+            $Keuangan = User::where('pengelola','=','4')->get();
+            foreach ($Keuangan as $k)
+            {
+                Mail::to($k->email)->send(new MailPerjalanan($objEmail));
+            }
             Session::flash('message', 'Data Perjalanan ke '.$request->tujuan.' tanggal '. $request->tglberangkat .' sudah di konfirmasi KPA');
             Session::flash('message_type', 'info');
             return redirect()->route('setuju.index');

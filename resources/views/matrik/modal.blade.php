@@ -11,6 +11,7 @@ $(document).on('click', '.pilihSumberDana', function (e) {
     document.getElementById("dana_makid").value = $(this).attr('data-makid');
     document.getElementById("dana_tid").value = $(this).attr('data-tid');
     document.getElementById("dana_mak").value = $(this).attr('data-mak');
+    document.getElementById("dana_komponen").value = $(this).attr('data-komponen');
     document.getElementById("dana_uraian").value = $(this).attr('data-uraian');
     document.getElementById("dana_pagu").value = $(this).attr('data-pagu');
     document.getElementById("dana_kodeunit").value = $(this).attr('data-unitkerja');

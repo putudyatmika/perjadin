@@ -19,9 +19,13 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($DataAnggaran as $dana)
-                                            <tr class="pilihSumberDana" data-makid="{{$dana->a_id}}" data-tid="{{$dana->t_id}}" data-mak="{{$dana->mak}}" data-uraian="{{$dana->uraian}}" data-pagu="{{$dana->pagu_awal}}" data-unitkerja="{{$dana->unit_pelaksana}}" data-namaunitkerja="{{$dana->unit_nama}}" data-sisapagu="{{$dana->pagu_awal-$dana->pagu_rencana}}">
+                                            <tr class="pilihSumberDana" data-makid="{{$dana->a_id}}" data-komponen="[{{$dana->komponen_kode}}] {{$dana->komponen_nama}}" data-tid="{{$dana->t_id}}" data-mak="{{$dana->mak}}" data-uraian="{{$dana->uraian}}" data-pagu="{{$dana->pagu_awal}}" data-unitkerja="{{$dana->unit_pelaksana}}" data-namaunitkerja="{{$dana->unit_nama}}" data-sisapagu="{{$dana->pagu_awal-$dana->pagu_rencana}}">
                                                 <td>{{$loop->iteration}}</td>
-                                                <td>{{$dana->uraian}} <br /> <strong>{{$dana->mak}}</strong></td>
+                                                <td>
+                                                    {{$dana->uraian}} <br /> 
+                                                    <strong>{{$dana->mak}}</strong><br />
+                                                    [{{$dana->komponen_kode}}] {{$dana->komponen_nama}}
+                                                </td>
                                                 <td>{{$dana->pagu_awal}}</td>
                                                 <td>{{$dana->pagu_awal-$dana->pagu_rencana}}</td>
                                                 <td>{{$dana->unit_nama}}</td>
