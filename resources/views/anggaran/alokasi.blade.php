@@ -39,6 +39,8 @@
                             <dl class="row">
                                 <dt class="col-sm-3">Tahun</dt>
                                 <dd class="col-sm-9">{{$dataAnggaran->tahun_anggaran}}</dd>
+                                <dt class="col-sm-3">ID</dt>
+                                <dd class="col-sm-9">{{$dataAnggaran->id}}</dd>
                                 <dt class="col-sm-3">MAK</dt>
                                 <dd class="col-sm-9">{{$dataAnggaran->mak}}</dd>
                                 <dt class="col-sm-3">Komponen</dt>
@@ -64,6 +66,7 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
+                                            <th>t_id</th>
                                             <th>Bidang/Bagian</th>
                                             <th>%</th>
                                             <th>Pagu Alokasi</th>
@@ -77,12 +80,13 @@
                                         <tbody>
                                             @if ($dataTurunan->isEmpty())
                                                 <tr>
-                                                <td colspan="7" align="center">Anggaran belum di alokasi</td>
+                                                <td colspan="8" align="center">Anggaran belum di alokasi</td>
                                                 </tr>
                                             @else
                                                 @foreach ($dataTurunan as $item)
                                                     <tr>
                                                         <td>{{ $loop->iteration}}</td>
+                                                        <td>{{ $item->t_id}}</td>
                                                         <td>@if ($item->unit_pelaksana != "")
                                                             [{{$item->unit_pelaksana}}] {{$item->Unitkerja->nama}}
                                                             @endif
@@ -104,7 +108,7 @@
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <td colspan="2" align="center"> Total </td>
+                                                <td colspan="3" align="center"> Total </td>
                                                 <td>{!! number_format(($dataTurunan->sum('pagu_awal')/$dataAnggaran->pagu_utama)*100,2) !!}</td>
                                                 <td>@duit($dataTurunan->sum('pagu_awal'))</td>
                                                 <td>@duit($dataTurunan->sum('pagu_rencana'))</td>
@@ -124,6 +128,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Trx ID</th>
+                                            <th>t_id</th>
                                             <th>Bidang/Bagian</th>
                                             <th>Nama</th>
                                             <th>Tujuan</th>
@@ -145,13 +150,36 @@
                                                 <tr>
                                                     <td>{{$loop->iteration}}</td>
                                                     <td>{{$r->kode_trx}}</td>
-                                                    <td>[{{$r->unit_pelaksana}}] {{$r->UnitPelaksana->nama}}</td>
-                                                    <td>{{$r->Transaksi->peg_nama}}</td>
+                                                    <td>{{$r->dana_tid}}</td>
+                                                    <td>@if ($r->unit_pelaksana)
+                                                        [{{$r->unit_pelaksana}}] {{$r->UnitPelaksana->nama}}
+                                                        @endif
+                                                    </td>
+                                                    <td>@if ($r->flag_matrik>0)
+                                                         {{$r->Transaksi->peg_nama}}
+                                                         @endif
+                                                    </td>
                                                     <td>{{$r->Tujuan->nama_kabkota}}</td>
-                                                    <td>{{Tanggal::Pendek($r->Transaksi->tgl_brkt)}}</td>
-                                                    <td>{{$r->Transaksi->bnyk_hari}} hari</td>
-                                                    <td>@duit($r->total_biaya)</td>
                                                     <td>
+                                                      @if ($r->flag_matrik>0)
+                                                      {{Tanggal::Pendek($r->Transaksi->tgl_brkt)}}
+                                                      @endif
+                                                    </td>
+                                                    <td>@if ($r->flag_matrik>0)
+                                                         {{$r->Transaksi->bnyk_hari}} hari
+                                                         @endif
+                                                       </td>
+                                                    <td>
+                                                      @if ($r->flag_matrik>0)
+                                                        @if ($r->Transaksi->flag_trx != 3)
+                                                          @duit($r->total_biaya)
+                                                        @endif
+                                                      @else
+                                                        @duit($r->total_biaya)
+                                                      @endif
+                                                  </td>
+                                                    <td>
+                                                      @if ($r->flag_matrik>0)
                                                       @if ($r->Transaksi->flag_trx==0)
                                                       <span class="label label-inverse">{{$FlagTrx[$r->Transaksi->flag_trx]}}</span>
                                                       @elseif ($r->Transaksi->flag_trx==1)
@@ -167,18 +195,25 @@
                                                       @elseif ($r->Transaksi->flag_trx==7)
                                                       <span class="label label-info">{{$FlagTrx[$r->Transaksi->flag_trx]}}</span>
                                                       @endif
+
                                                       <h5>
                                                           <small>{{$r->Transaksi->updated_at->diffForHumans()}}</small>
                                                       </h5>
-
+                                                        @endif
                                                     </td>
                                                 </tr>
-                                                 @php $total = $total + $r->total_biaya; @endphp
+                                                @if ($r->flag_matrik>0)
+                                                 @if ($r->Transaksi->flag_trx != 3)
+                                                    @php $total = $total + $r->total_biaya; @endphp
+                                                 @endif
+                                               @else
+                                                    @php $total = $total + $r->total_biaya; @endphp
+                                                @endif
                                               @endforeach
                                         </tbody>
                                         <tfoot>
                                           <tr>
-                                              <td colspan="6"></td>
+                                              <td colspan="7"></td>
                                               <td>Total</td>
                                               <td>@duit($total)</td>
                                               <td>&nbsp;</td>

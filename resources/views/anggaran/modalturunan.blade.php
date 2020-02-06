@@ -209,11 +209,11 @@
         <div class="modal-content">
             <div class="modal-header bg-danger">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel1">Sync Alokasi Anggaran</h4> </div>
+                <h4 class="modal-title" id="exampleModalLabel1">Sync Alokasi Anggaran (belum bisa)</h4> </div>
             <div class="modal-body">
                     <form method="POST" action="">
                     @csrf
-                    @method('delete')
+
                     @if ($dataAnggaran==null)
                             <center>Data anggaran tidak tersedia</center>
                     @else
@@ -228,7 +228,7 @@
                         <dd class="col-sm-9">[{{$dataAnggaran->unitkerja}}] {{$dataAnggaran->Unitkerja->nama}}</dd>
                         <dt class="col-sm-3">Pagu Utama</dt>
                         <dd class="col-sm-9">Rp. @duit($dataAnggaran->pagu_utama)</dd>
-                        
+
                     </dl>
                     @endif
                     <div class="form-group">
