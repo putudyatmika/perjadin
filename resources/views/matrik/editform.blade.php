@@ -114,7 +114,7 @@
                                                     <label for="dana_komponen" class="col-lg-2 col-xs-12 col-form-label">Komponen</label>
                                                     <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                         <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                        <input type="text" class="form-control" id="dana_komponen" name="dana_komponen" placeholder="Komponen Anggaran" readonly="">
+                                                        <input type="text" class="form-control" id="dana_komponen" name="dana_komponen" value="[{{$DataMatrik->komponen_kode}}] {{$DataMatrik->komponen_nama}}" placeholder="Komponen Anggaran" readonly="">
 
                                                     </div>
                                                 </div>

@@ -93,7 +93,7 @@ class AnggaranController extends Controller
         $data -> uraian = $request->uraian;
         $data -> pagu_utama = $request->pagu_utama;
         $data -> unitkerja = $request->unitkerja;
-        $data -> save();        
+        $data -> save();
         Session::flash('message', 'Data telah ditambahkan');
         Session::flash('message_type', 'success');
         return back();
@@ -136,7 +136,7 @@ class AnggaranController extends Controller
     {
         //
         // dd($request->all());
-        /* 
+        /*
        $dataAnggaran = Anggaran::findOrFail($request->anggaran_id);
        $dataAnggaran -> update($request->all());
        //alert()->success('Berhasil.','Data telah ditambahkan!');
@@ -199,7 +199,7 @@ class AnggaranController extends Controller
             $dataTurunan = TurunanAnggaran::where('a_id','=',$request->anggaran_id)->get();
             $dataTurunan->delete();
         }
-        
+
 
         Session::flash('message', 'Data telah di delete');
         Session::flash('message_type', 'danger');
@@ -366,9 +366,12 @@ class AnggaranController extends Controller
             //bisa di buka
             $dataAnggaran = Anggaran::where('id', '=', $id)->where('flag_kunci','=',0)->with('Turunan', 'Unitkerja')->first();
             $dataTurunan = \App\TurunanAnggaran::where('a_id', '=', $id)->get();
+            $dataJalan = MatrikPerjalanan::where('mak_id','=',$id)->get();
+            $MatrikFlag = config('globalvar.FlagMatrik');
+            $FlagTrx = config('globalvar.FlagTransaksi');
             $DataUnitkerja = DB::table('unitkerja')
                 ->where('eselon', '<', '4')->get();
-            return view('anggaran.alokasi', compact('dataAnggaran', 'dataTurunan', 'DataUnitkerja'));
+            return view('anggaran.alokasi', compact('dataAnggaran', 'dataTurunan', 'DataUnitkerja','dataJalan','MatrikFlag','FlagTrx'));
         }
         else{
             //pesan error
@@ -378,8 +381,8 @@ class AnggaranController extends Controller
             Session::flash('message_type', $warna_error);
             return back();
         }
-       
-       
+
+
     }
     public function sinkron()
     {
@@ -432,13 +435,13 @@ class AnggaranController extends Controller
             //flag tidak terkunci
             $flag_kunci = 1;
         }
-        else 
+        else
         {
             //flag terkunci
             $flag_kunci = 0;
         }
         $count = Anggaran::where('id', '=', $request->anggaran_id)->count();
-        
+
         if ($count > 0) {
 
             $dataAnggaran = Anggaran::where('id', '=', $request->anggaran_id)->first();
@@ -455,7 +458,7 @@ class AnggaranController extends Controller
                     $d->flag_kunci_turunan = $flag_kunci;
                     $d->update();
                 }
-               
+
             }
 
             $pesan_error = 'Data anggaran sudah diupdate';
