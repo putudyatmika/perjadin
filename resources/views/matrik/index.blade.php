@@ -110,7 +110,7 @@
                                                         <button class="btn btn-circle btn-success btn-sm" data-toggle="modal" data-target="#AlokasiModal">
                                                             <span data-toggle="tooltip" title="Alokasi matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-bookmark"></i></span>
                                                         </button>
-                                                        <a href="" class="btn btn-circle btn-custom btn-sm">
+                                                        <a href="{{route('matrik.edit',$item->id)}}" class="btn btn-circle btn-custom btn-sm">
                                                             <span data-toggle="tooltip" title="Edit matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-pencil"></i></span>
                                                         </a>
                                                         <button class="btn btn-circle btn-primary btn-sm" data-toggle="modal" data-target="#FlagModal">
