@@ -243,9 +243,10 @@ $(function () {
                                                 </td>
                                             <td>
                                                 @if (($item->flag_matrik<2 and (Auth::user()->pengelola>3 or Auth::user()->user_unitkerja==$item->dana_unitkerja))  or Auth::user()->user_level>3)
-                                                @if ($item->dana_tid!=NULL) 
-                                                <button class="btn btn-circle btn-success btn-sm" data-toggle="modal" data-target="#AlokasiModal" data-tujuan="{{$item->Tujuan->nama_kabkota}}" data-biaya="@rupiah($item->total_biaya)" data-unitkerja="{{$item->unit_pelaksana}}" data-sm="@if ($item->mak_id!=NULL){{$item->dana_unitkerja}}-{{$item->DanaUnitkerja->nama}}@endif" data-matrikid="{{$item->id}}" data-tahunmatrik={{$item->tahun_matrik}}><span data-toggle="tooltip" title="Alokasi matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-bookmark"></i></span></button>
-                                                @endif
+                                                    @if ($item->dana_tid!=NULL) 
+                                                    <button class="btn btn-circle btn-success btn-sm" data-toggle="modal" data-target="#AlokasiModal" data-tujuan="{{$item->Tujuan->nama_kabkota}}" data-biaya="@rupiah($item->total_biaya)" data-unitkerja="{{$item->unit_pelaksana}}" data-sm="@if ($item->mak_id!=NULL){{$item->dana_unitkerja}}-{{$item->DanaUnitkerja->nama}}@endif" data-matrikid="{{$item->id}}" data-tahunmatrik={{$item->tahun_matrik}}><span data-toggle="tooltip" title="Alokasi matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-bookmark"></i></span></button>
+                                                    @endif
+
                                                 <a href="{{route('matrik.edit',$item->id)}}" class="btn btn-circle btn-custom btn-sm"><span data-toggle="tooltip" title="Edit matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-pencil"></i></span></a>
                                                 @endif
                                                 @if (Auth::user()->user_level>3)
@@ -255,7 +256,7 @@ $(function () {
                                                         data-pelaksana="{{$item->unit_pelaksana}}-{{$item->UnitPelaksana->nama}}"
                                                         @endif><span data-toggle="tooltip" title="Flag matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-flag"></i></span></button>
                                                 @endif
-                                                @if (($item->flag_matrik<2 and Auth::user()->pengelola>3) or Auth::user()->user_level>3)
+                                                @if (($item->flag_matrik<2 and Auth::user()->user_unitkerja==$item->dana_unitkerja) or Auth::user()->pengelola>3 or Auth::user()->user_level>3)
                                                         <button class="btn btn-circle btn-danger btn-sm" data-toggle="modal" data-target="#DeleteModal" data-tujuan="{{$item->Tujuan->nama_kabkota}}" data-biaya="@rupiah($item->total_biaya)" data-totalbiaya="{{$item->total_biaya}}" @if ($item->unit_pelaksana==NULL)
                                                             data-pelaksana="{{$item->unit_pelaksana}}"
                                                             @else
