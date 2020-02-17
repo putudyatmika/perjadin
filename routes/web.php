@@ -11,31 +11,11 @@
 |
 */
 Auth::routes();
-
-/*
-Route::get('/', function () {
-    return view('dashboard');
-});
-*/
 Route::get('/', function () {
     // Only authenticated users may enter...
     return view('dashboard');
 })->middleware('auth');
-/*
-Route::get('/login', function () {
-    return view('login.index');
-})->name('login');
-/*
-Route::get('/dashboard', function () {
-    return view('layout.default');
-});
 
-Route::get('/golongan', function () {
-    return view('golongan');
-});
-Route::match(['get', 'post'], '/login', 'AdminController@login')->name('admin.login');
-*/
-//Route::get('/pegawai/tambah','PegawaiController@tambah');
 Route::get('view/{kodetrx}', 'ViewController@view');
 
 Route::group(['middleware' => ['auth']], function () {
@@ -43,10 +23,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('pegawai/import', 'PegawaiController@import')->name('pegawai.import');
     Route::resource('pegawai', 'PegawaiController');
     Route::resource('unitkerja', 'UnitkerjaController');
-    Route::get('matrik/transaksi', 'MatrikController@transaksi')->name('matrik.transaksi');
-    Route::resource('matrik', 'MatrikController');
-    Route::get('/format_matrik', 'MatrikController@format');
-    Route::post('/import_matrik', 'MatrikController@import');
+    //Route::get('matrik/transaksi', 'MatrikController@transaksi')->name('matrik.transaksi');
+    Route::get('matrik/baru', 'MatrikController@baru')->name('matrik.baru');
+    Route::post('matrik/simpan', 'MatrikController@simpan')->name('matrik.simpan');
+    Route::get('matrik/edit/{mid}', 'MatrikController@editMatrik')->name('matrik.edit');
+    Route::get('matrik', 'MatrikController@list')->name('matrik.list');
+    //Route::resource('matrik', 'MatrikController');
+    Route::get('/format_matrik', 'MatrikController@format')->name('matrik.format');
+    Route::post('/import_matrik', 'MatrikController@import')->name('matrik.import');
     Route::get('anggaran/sinkron', 'AnggaranController@sinkron');
     Route::get('anggaran/export', 'AnggaranController@export')->name('anggaran.export');
     Route::get('anggaran/viewturunan/{aid}', 'AnggaranController@viewturunan')->name('anggaran.turunan');
@@ -71,20 +55,19 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('kuitansi', 'KuitansiController');
     Route::get('setuju/daftar', 'PersetujuanController@daftar')->name('setuju.daftar');
     Route::resource('setuju', 'PersetujuanController');
-    Route::get('laporan/pegawai/{idpeg?}', function($idpeg=0) {
+    Route::get('laporan/pegawai/{idpeg?}', function ($idpeg = 0) {
         $ctrl = new \App\Http\Controllers\LaporanController();
         return $ctrl->pegawai($idpeg);
     })->name('lap_pegawai');
-    //Route::get('laporan/bidang/{bidangId}', 'LaporanController@bidang')->name('laporan.bidang');
-    Route::get('laporan/bidang/{bidangId?}', function($bidangId=0) {
+    Route::get('laporan/bidang/{bidangId?}', function ($bidangId = 0) {
         $ctrl = new \App\Http\Controllers\LaporanController();
         return $ctrl->bidang($bidangId);
     })->name('laporan.bidang');
-    Route::get('laporan/anggaran/{aid?}', function($aid=0) {
+    Route::get('laporan/anggaran/{aid?}', function ($aid = 0) {
         $ctrl = new \App\Http\Controllers\LaporanController();
         return $ctrl->anggaran($aid);
     })->name('laporan.anggaran');
-    Route::get('laporan/tujuan/{tujuanID?}', function($tujuanID=0) {
+    Route::get('laporan/tujuan/{tujuanID?}', function ($tujuanID = 0) {
         $ctrl = new \App\Http\Controllers\LaporanController();
         return $ctrl->tujuan($tujuanID);
     })->name('laporan.tujuan');

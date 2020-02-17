@@ -1,3 +1,11 @@
+<!-- Clock Plugin JavaScript -->
+<script src="{{asset('tema/plugins/bower_components/clockpicker/dist/jquery-clockpicker.min.js')}}"></script>
+<!-- Date Picker Plugin JavaScript -->
+<script src="{{asset('tema/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
+<!-- Date range Plugin JavaScript -->
+<script src="{{asset('tema/plugins/bower_components/timepicker/bootstrap-timepicker.min.js')}}"></script>
+<script src="{{asset('tema/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+
 <script>
 jQuery('#date-range').datepicker({
     format: 'yyyy-mm-dd',
@@ -78,41 +86,5 @@ var rill =  $('#pengeluaranrill').val(); */
 var totalbiaya = parseInt($('#totalhotel').val())+ parseInt(rill) + parseInt($('#totalharian').val()) + parseInt($('#nilaiTransport').val());
 $('#totalbiaya').val(totalbiaya);
 
-});
-/*
-jscript untuk tujuan dan sumberdana
-*/
-$(document).on('click', '.pilihTujuan', function (e) {
-    document.getElementById("nama_tujuan").value = $(this).attr('data-tujuan');
-    document.getElementById("kode_kabkota").value = $(this).attr('data-kodekabkota');
-    document.getElementById("nilaiTransport").value = $(this).attr('data-rate');
-    $('#CariTujuan').modal('hide');
-});
-
-$(document).on('click', '.pilihSumberDana', function (e) {
-    //var sumberdana = $(this).attr('data-mak') + " " + $(this).attr('data-uraian');
-    document.getElementById("dana_makid").value = $(this).attr('data-makid');
-    document.getElementById("dana_tid").value = $(this).attr('data-tid');
-    document.getElementById("dana_mak").value = $(this).attr('data-mak');
-    document.getElementById("dana_komponen").value = $(this).attr('data-komponen');
-    document.getElementById("dana_uraian").value = $(this).attr('data-uraian');
-    document.getElementById("dana_pagu").value = $(this).attr('data-pagu');
-    document.getElementById("dana_kodeunit").value = $(this).attr('data-unitkerja');
-    document.getElementById("dana_unitkerja").value = $(this).attr('data-namaunitkerja');
-    document.getElementById("dana_pagusisa").value = $(this).attr('data-sisapagu');
-    $('#SumberDana').modal('hide');
-});
-//batas tujuan dan sumber dana //
-$(function () {
-    $("#TabelSumberDana").dataTable();
-});
-$(function () {
-    $("#MatrikTable").dataTable({
-        dom: 'Bfrtip',
-        buttons: [
-            'copy',  'pdf', 'print'
-        ],
-        "pageLength": 30
-    });
 });
 </script>
