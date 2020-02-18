@@ -47,7 +47,7 @@ $('#ViewModal').on('show.bs.modal', function (event) {
         }
 
     });
-})
+});
 
 /*
 $(document).ready(function(){

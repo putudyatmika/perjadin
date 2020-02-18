@@ -362,4 +362,32 @@ class MatrikController extends Controller
     {
 
     }
+    public function view($mid)
+    {
+        $MatrikFlag = config('globalvar.FlagMatrik');
+        $arr = array(
+            'status'=>false,
+            'hasil'=>'Data matrik perjalanan tidak tersedia'
+        );
+        $count = MatrikPerjalanan::where('id','=',$mid)->count();
+        if ($count>0)
+        {
+            $data = DB::table('matrik')
+                    ->leftJoin(DB::raw("(select kode_kabkota,nama_kabkota from tujuan) as tujuan"),'matrik.kodekab_tujuan','=','tujuan.kode_kabkota')
+                    ->leftJoin(DB::raw("(select kode as pelaksana_unitkode, nama as pelaksana_unitnama from unitkerja) as unit_pelaksana"),'matrik.unit_pelaksana','=','unit_pelaksana.pelaksana_unitkode')
+                    ->leftJoin(DB::raw("(select id as a_id,mak,komponen_kode,komponen_nama,uraian,pagu_utama,rencana_pagu,realisasi_pagu,status,flag_kunci from anggaran) as dana"),'matrik.mak_id','=','dana.a_id')
+                    ->leftJoin(DB::raw("(select t_id,unit_pelaksana as t_unitkerja, pagu_awal, pagu_rencana,pagu_realisasi,flag_kunci_turunan from turunan_anggaran) as turunan"),'matrik.dana_tid','=','turunan.t_id')
+                    ->leftJoin(DB::raw("(select kode as turunan_unitkode, nama as turunan_unitnama from unitkerja) as unit_turunan"),'turunan.t_unitkerja','=','unit_turunan.turunan_unitkode')
+                    ->where('id','=',$mid)
+                    ->first();
+            //dd($data);
+            $flag = $MatrikFlag[$data->flag_matrik];
+            $arr = array(
+                'status'=>true,
+                'hasil'=>$data,
+                'flag'=>$flag
+            );
+        }
+        return Response()->json($arr);
+    }
 }

@@ -107,6 +107,9 @@
                                                         <h5><small>{{$item->updated_at->diffForHumans()}}</small></h5>
                                                     </td>
                                                     <td>
+                                                        <button class="btn btn-circle btn-warning btn-sm" data-toggle="modal" data-target="#ViewModal" data-mid="{{$item->id}}">
+                                                            <span data-toggle="tooltip" title="Detil matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-link"></i></span>
+                                                        </button>
                                                         <button class="btn btn-circle btn-success btn-sm" data-toggle="modal" data-target="#AlokasiModal">
                                                             <span data-toggle="tooltip" title="Alokasi matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-bookmark"></i></span>
                                                         </button>
@@ -132,7 +135,7 @@
                 </div>
                 <!-- /.row -->
             </div>
-           
+           @include('matrik.modal')
 @endsection
 
 @section('css')
@@ -158,5 +161,14 @@
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
  <!-- end - This is for export functionality only -->
+ <script>
+     $("#MatrikTable").dataTable({
+    dom: 'Bfrtip',
+    buttons: [
+        'copy',  'pdf', 'print'
+    ],
+    "pageLength": 30
+});
+ </script>
  @include('matrik.js')
 @endsection
