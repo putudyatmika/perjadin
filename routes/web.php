@@ -28,6 +28,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('matrik/simpan', 'MatrikController@simpan')->name('matrik.simpan');
     Route::post('matrik/update', 'MatrikController@updateMatrik')->name('matrik.update');
     Route::get('matrik/edit/{mid}', 'MatrikController@editMatrik')->name('matrik.edit');
+    Route::post('matrik/alokasi', 'MatrikController@updateAlokasi')->name('matrik.alokasi');
+    Route::get('matrik/view/{mid}', 'MatrikController@view')->name('matrik.view');
     Route::get('matrik', 'MatrikController@list')->name('matrik.list');
     //Route::resource('matrik', 'MatrikController');
     Route::get('/format_matrik', 'MatrikController@format')->name('matrik.format');

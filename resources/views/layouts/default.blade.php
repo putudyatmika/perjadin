@@ -103,7 +103,7 @@
 
     <!--Style Switcher -->
     <script src="{{ asset('tema/plugins/bower_components/styleswitcher/jQuery.style.switcher.js')}}"></script>
-    <script src="{{ asset('js/numberformat.js') }}"></script>
+    <script src="{{asset('js/numberformat.js')}}"></script>
     @section('js')
 
     @show
