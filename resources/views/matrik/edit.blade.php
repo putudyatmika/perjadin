@@ -24,9 +24,12 @@
                                 @if (Session::has('message'))
                                 <div class="alert alert-{{ Session::get('message_type') }}" id="waktu2" style="margin-top:10px;">{{ Session::get('message') }}</div>
                                 @endif
-                                </div>
+                        </div>
                     <div class="col-lg-12">
                         <div class="white-box">
+                            @if ($DataMatrik == '')
+                                <h3 class="box-title m-b-0">Data Matrik tidak tersedia</h3>
+                            @else
                             <h3 class="box-title m-b-0">Form Matrik Perjalanan</h3>
                             <p class="text-muted m-b-30 font-13"> BPS Provinsi Nusa Tenggara Barat </p>
 
@@ -38,7 +41,7 @@
                                             <label for="nama" class="col-lg-2 col-xs-12 col-form-label">Tujuan</label>
                                             <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                 <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                <input type="text" class="form-control" id="nama_tujuan" name="nama_tujuan" placeholder="Tujuan" required readonly="" value="{{$DataMatrik->Tujuan->nama_kabkota}}">
+                                                <input type="text" class="form-control" id="nama_tujuan" name="nama_tujuan" placeholder="Tujuan" required readonly="" value="{{$DataMatrik->nama_kabkota}}">
                                                 <input id="kode_kabkota" type="hidden" name="kode_kabkota" value="{{ $DataMatrik->kodekab_tujuan }}" required readonly="">
                                             <span class="input-group-btn">
                                                     <button type="button" id="check-minutes" class="btn waves-effect waves-light btn-success" data-toggle="modal" data-target="#CariTujuan"><i class="fa fa-search"></i></button>
@@ -72,7 +75,7 @@
                                                     <label for="MAK" class="col-lg-2 col-xs-12 col-form-label">MAK</label>
                                                     <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                         <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                        <input type="text" class="form-control" id="dana_mak" name="dana_mak" placeholder="MAK Dana" required readonly="" @if ($DataMatrik->dana_tid) value="{{$DataMatrik->DanaAnggaran->mak}}" @endif>
+                                                        <input type="text" class="form-control" id="dana_mak" name="dana_mak" placeholder="MAK Dana" required readonly="" @if ($DataMatrik->dana_tid) value="{{$DataMatrik->mak}}" @endif>
                                                     <span class="input-group-btn">
                                                             <button type="button" id="check-minutes" class="btn waves-effect waves-light btn-success" data-toggle="modal" data-target="#SumberDana"><i class="fa fa-search"></i></button>
                                                     </span>
@@ -82,7 +85,7 @@
                                                     <label for="dana_komponen" class="col-lg-2 col-xs-12 col-form-label">Komponen</label>
                                                     <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                         <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                        <input type="text" class="form-control" id="dana_komponen" name="dana_komponen" @if ($DataMatrik->dana_tid) value="[{{$DataMatrik->DanaAnggaran->komponen_kode}}] {{$DataMatrik->DanaAnggaran->komponen_nama}}" @endif placeholder="Komponen Anggaran" readonly="">
+                                                        <input type="text" class="form-control" id="dana_komponen" name="dana_komponen" @if ($DataMatrik->dana_tid) value="[{{$DataMatrik->komponen_kode}}] {{$DataMatrik->komponen_nama}}" @endif placeholder="Komponen Anggaran" readonly="">
 
                                                     </div>
                                                 </div>
@@ -90,7 +93,7 @@
                                                         <label for="dana_uraian" class="col-lg-2 col-xs-12 col-form-label">Uraian</label>
                                                         <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                             <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                            <input type="text" class="form-control" id="dana_uraian" name="dana_uraian" required placeholder="Uraian Dana" readonly=""  @if ($DataMatrik->dana_tid) value="{{$DataMatrik->DanaAnggaran->uraian}}" @endif>
+                                                            <input type="text" class="form-control" id="dana_uraian" name="dana_uraian" required placeholder="Uraian Dana" readonly=""  @if ($DataMatrik->dana_tid) value="{{$DataMatrik->uraian}}" @endif>
 
                                                         </div>
                                                     </div>
@@ -98,7 +101,7 @@
                                                         <label for="dana_pagu" class="col-lg-2 col-xs-12 col-form-label">Pagu awal</label>
                                                         <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                             <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                            <input type="text" class="form-control" id="dana_pagu" name="dana_pagu" required placeholder="Pagu Dana" @if ($DataMatrik->dana_tid) value="{{$DataMatrik->AnggaranTurunan->pagu_awal}}" @endif readonly="">
+                                                            <input type="text" class="form-control" id="dana_pagu" name="dana_pagu" required placeholder="Pagu Dana" @if ($DataMatrik->dana_tid) value="{{$DataMatrik->pagu_awal}}" @endif readonly="">
 
                                                         </div>
                                                     </div>
@@ -106,7 +109,7 @@
                                                         <label for="dana_pagu" class="col-lg-2 col-xs-12 col-form-label">Pagu tersedia</label>
                                                         <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                             <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                            <input type="text" class="form-control" id="dana_pagusisa" name="dana_pagusisa" placeholder="Pagu Dana yang tersedia" readonly=""  @if ($DataMatrik->dana_tid) value="{{$DataMatrik->AnggaranTurunan->pagu_awal-$DataMatrik->AnggaranTurunan->pagu_rencana}}" @endif>
+                                                            <input type="text" class="form-control" id="dana_pagusisa" name="dana_pagusisa" placeholder="Pagu Dana yang tersedia" readonly=""  @if ($DataMatrik->dana_tid) value="{{$DataMatrik->pagu_awal-$DataMatrik->pagu_rencana}}" @endif>
 
                                                         </div>
                                                     </div>
@@ -114,7 +117,7 @@
                                                         <label for="dana_unitkerja" class="col-lg-2 col-xs-12 col-form-label">Unitkerja</label>
                                                         <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                             <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                            <input type="text" class="form-control" id="dana_unitkerja" name="dana_unitkerja" placeholder="Unitkerja Sumber Dana" readonly="" value="{{$DataMatrik->DanaUnitkerja->nama}}">
+                                                            <input type="text" class="form-control" id="dana_unitkerja" name="dana_unitkerja" placeholder="Unitkerja Sumber Dana" readonly="" value="{{$DataMatrik->dana_unitnama}}">
                                                             <input type="hidden" class="form-control" id="dana_kodeunit" name="dana_kodeunit" value="{{$DataMatrik->dana_unitkerja}}">
                                                             <input type="hidden" id="dana_makid" name="dana_makid" value="{{$DataMatrik->mak_id}}">
                                                             <input type="hidden" id="dana_tid" name="dana_tid" value="{{$DataMatrik->dana_tid}}" />
@@ -175,11 +178,14 @@
                                     </form>
                                 </div>
                             </div>
-
+                            @endif
                         </div>
+                       
                     </div>
+                    
                 </div>
                 <!-- /.row -->
+                
             </div>
             <!-- /.container-fluid -->
             @include('matrik.modalmaster')
@@ -215,5 +221,12 @@
 <script src="{{asset('tema/plugins/bower_components/timepicker/bootstrap-timepicker.min.js')}}"></script>
 <script src="{{asset('tema/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 @include('matrik.js')
+<script>
+    jQuery('#date-range').datepicker({
+    format: 'yyyy-mm-dd',
+    toggleActive: true,
+    todayHighlight: true
 
+    });
+</script>
 @endsection
