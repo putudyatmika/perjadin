@@ -21,6 +21,8 @@ use App\Imports\MatrikImport;
 use Auth;
 use Generate;
 use App\TurunanAnggaran;
+use App\Helpers\Tanggal;
+use App\SuratTugas;
 
 class MatrikController extends Controller
 {
@@ -152,7 +154,46 @@ class MatrikController extends Controller
     }
     public function editMatrik($mid)
     {
-        $DataMatrik = MatrikPerjalanan::where('id','=',$mid)->first();
+        if (Auth::user()->user_level>3) 
+        {
+            //hanya adamin/superadmin bisa
+            //$DataMatrik = MatrikPerjalanan::where('id','=',$mid)->first();
+            $DataMatrik = DB::table('matrik')
+            ->leftJoin(DB::raw("(select kode_kabkota,nama_kabkota from tujuan) as tujuan"),'matrik.kodekab_tujuan','=','tujuan.kode_kabkota')
+            ->leftJoin(DB::raw("(select kode as dana_unitkode, nama as dana_unitnama from unitkerja) as dana_unit"),'matrik.dana_unitkerja','=','dana_unit.dana_unitkode')
+            ->leftJoin(DB::raw("(select kode as pelaksana_unitkode, nama as pelaksana_unitnama from unitkerja) as unit_pelaksana"),'matrik.unit_pelaksana','=','unit_pelaksana.pelaksana_unitkode')
+            ->leftJoin(DB::raw("(select id as a_id,mak,komponen_kode,komponen_nama,uraian,pagu_utama,rencana_pagu,realisasi_pagu,status,flag_kunci from anggaran) as dana"),'matrik.mak_id','=','dana.a_id')
+            ->leftJoin(DB::raw("(select t_id,unit_pelaksana as t_unitkerja, pagu_awal, pagu_rencana,pagu_realisasi,flag_kunci_turunan from turunan_anggaran) as turunan"),'matrik.dana_tid','=','turunan.t_id')
+            ->leftJoin(DB::raw("(select kode as turunan_unitkode, nama as turunan_unitnama from unitkerja) as unit_turunan"),'turunan.t_unitkerja','=','unit_turunan.turunan_unitkode')
+            ->where('id','=',$mid)
+            ->first();
+        }
+        else 
+        {
+            //selain admin
+            /*
+            $DataMatrik = MatrikPerjalanan::where([
+                ['id','=',$mid],
+                ['tahun_matrik','=',Session::get('tahun_anggaran')]
+            ])->first();
+            */
+            $DataMatrik = DB::table('matrik')
+            ->leftJoin(DB::raw("(select kode_kabkota,nama_kabkota from tujuan) as tujuan"),'matrik.kodekab_tujuan','=','tujuan.kode_kabkota')
+            ->leftJoin(DB::raw("(select kode as dana_unitkode, nama as dana_unitnama from unitkerja) as dana_unit"),'matrik.dana_unitkerja','=','dana_unit.dana_unitkode')
+            ->leftJoin(DB::raw("(select kode as pelaksana_unitkode, nama as pelaksana_unitnama from unitkerja) as unit_pelaksana"),'matrik.unit_pelaksana','=','unit_pelaksana.pelaksana_unitkode')
+            ->leftJoin(DB::raw("(select id as a_id,mak,komponen_kode,komponen_nama,uraian,pagu_utama,rencana_pagu,realisasi_pagu,status,flag_kunci from anggaran) as dana"),'matrik.mak_id','=','dana.a_id')
+            ->leftJoin(DB::raw("(select t_id,unit_pelaksana as t_unitkerja, pagu_awal, pagu_rencana,pagu_realisasi,flag_kunci_turunan from turunan_anggaran) as turunan"),'matrik.dana_tid','=','turunan.t_id')
+            ->leftJoin(DB::raw("(select kode as turunan_unitkode, nama as turunan_unitnama from unitkerja) as unit_turunan"),'turunan.t_unitkerja','=','unit_turunan.turunan_unitkode')
+            ->where([
+                ['id','=',$mid],
+                ['tahun_matrik','=',Session::get('tahun_anggaran')],
+                ['flag_matrik','<','2'],
+                ['dana_unitkerja','=',Auth::user()->user_unitkerja]
+                ])
+            ->first();
+            
+        }
+        //dd($DataMatrik);
         $MatrikFlag = config('globalvar.FlagMatrik');
         if (Auth::User()->pengelola > 3) {
             //operator keuangan atau admin
@@ -356,11 +397,158 @@ class MatrikController extends Controller
     }
     public function updateAlokasi(Request $request)
     {
+        //dd($request->all());
+        /*
+        1. cek dulu matrik yang mau di ajukan (ada/tidak)
+        2. cek dulu di transaksi sudah ada apa tidak
+        */
+        $count = MatrikPerjalanan::where('id','=',$request->mid)->count();
+        if ($count > 0)
+        {
+            //matrik ada
+            $data = MatrikPerjalanan::where('id','=',$request->mid)->first();
+            //cekk dulu di transaksi
+            $cek_transaksi = Transaksi::where('matrik_id','=',$request->mid)->count();
+            if ($cek_transaksi > 0)
+            {
+                //matrik sudah ada update aja
+
+                $pesan_error = 'Matrik perjalanan sudah dialokasikan';
+                $warna_error = 'warning';
+            }
+            else 
+            {
+                //tambah transaksi
+                $dataTrx = new Transaksi();
+                $dataTrx->kode_trx = $data->kode_trx;
+                $dataTrx->matrik_id = $request->mid;
+                $dataTrx->tahun_trx = $data->tahun_matrik;
+                $dataTrx->save();
+                //matrik tidak ditemukan
+                $pesan_error = 'Alokasi matrik perjalanan sudah di update';
+                $warna_error = 'success';
+            }
+            //update flag matrik
+            $data->unit_pelaksana = $request->unit_pelaksana;
+            $data->flag_matrik = 1;
+            $data->update();
+        }
+        else 
+        {
+            //matrik tidak ditemukan
+            $pesan_error = 'Matrik perjalanan tidak ditemukan';
+            $warna_error = 'danger';
+        }
+        Session::flash('message', $pesan_error);
+        Session::flash('message_type', $warna_error);
+        return redirect()->route('matrik.list');
 
     }
     public function updateFlag(Request $request)
     {
-
+        //dd($request->all());
+        $count = MatrikPerjalanan::where('id','=',$request->mid)->count();
+        if ($count > 0)
+        {
+            //matrik ada
+            $data = MatrikPerjalanan::where('id','=',$request->mid)->first();
+            
+            //update flag matrik
+            $data->flag_matrik = $request->flag_baru;
+            $data->update();
+            $pesan_error = 'flag matrik perjalanan sudah di update';
+            $warna_error = 'success';
+        }
+        else 
+        {
+            //matrik tidak ditemukan
+            $pesan_error = 'Matrik perjalanan tidak ditemukan';
+            $warna_error = 'danger';
+        }
+        Session::flash('message', $pesan_error);
+        Session::flash('message_type', $warna_error);
+        return redirect()->route('matrik.list');
+    }
+    public function hapus(Request $request)
+    {
+        //dd($request->all());
+        $count = MatrikPerjalanan::where('id','=',$request->mid)->count();
+        if ($count > 0)
+        {
+            //matrik ada
+            $data = MatrikPerjalanan::where('id','=',$request->mid)->first();
+            $kode_trx = $data->kode_trx;
+            //cek dulu dana_tid ada tidak
+            //bila kosong langsung hapus saja
+            //bila sudah terisi balikkan dana ke tid
+            //bila flag batal langsung hapus
+            //bila flag < 5 hapus semua dan balikkan dana ke tid
+            if ($data->flag_matrik < 5)
+            {
+                if ($data->dana_tid != '')
+                {
+                    //ada isian
+                    //ini kalo flag tidak batal
+                    if ($data->flag_matrik != 2)
+                    {
+                        $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id', '=', $data->dana_tid)->first();
+                        $rencana_awal = $dataTurunanAnggaran->pagu_rencana - $data->total_biaya;
+                        $dataTurunanAnggaran->pagu_rencana = $rencana_awal;
+                        $dataTurunanAnggaran->update();
+                    }
+                    $data->delete();
+                    //transaksi
+                    $count = Transaksi::where('matrik_id', '=', $request->mid)->count();
+                   
+                    if ($count > 0) {
+                        $dataTrx = Transaksi::where('matrik_id', '=', $request->mid)->first();
+                        $trx_id = $dataTrx->trx_id;
+                        $dataTrx->delete();
+                        
+                        //surattugas
+                        $count = SuratTugas::where('trx_id','=',$trx_id)->count();
+                        if ($count > 0)
+                        {
+                            $dataSrt = SuratTugas::where('trx_id','=',$trx_id)->delete();
+                        }
+                        //spd
+                        $count = \App\Spd::where('trx_id','=',$trx_id)->count();
+                        if ($count > 0)
+                        {
+                            $dataSrt = \App\Spd::where('trx_id','=',$trx_id)->delete();
+                        }
+                        //kuitansi
+                        $count = \App\Kuitansi::where('trx_id','=',$trx_id)->count();
+                        if ($count > 0)
+                        {
+                            $dataSrt = \App\Kuitansi::where('trx_id','=',$trx_id)->delete();
+                        }
+                    }
+                    
+                }
+                else 
+                {
+                    //langsung delete
+                    $data->delete();
+                }
+                $pesan_error = '['.$kode_trx.'] matrik perjalanan sudah di hapus';
+                $warna_error = 'success';
+            }
+            else 
+            {
+                $pesan_error = '['.$kode_trx.'] matrik perjalanan tidak bisa di hapus karena sudah terlaksana';
+                $warna_error = 'danger';
+            }
+        }
+        else 
+        {
+            //matrik tidak ditemukan
+            $pesan_error = 'Matrik perjalanan tidak ditemukan';
+            $warna_error = 'danger';
+        }
+        Session::flash('message', $pesan_error);
+        Session::flash('message_type', $warna_error);
+        return redirect()->route('matrik.list');
     }
     public function view($mid)
     {
@@ -374,6 +562,7 @@ class MatrikController extends Controller
         {
             $data = DB::table('matrik')
                     ->leftJoin(DB::raw("(select kode_kabkota,nama_kabkota from tujuan) as tujuan"),'matrik.kodekab_tujuan','=','tujuan.kode_kabkota')
+                    ->leftJoin(DB::raw("(select kode as dana_unitkode, nama as dana_unitnama from unitkerja) as dana_unit"),'matrik.dana_unitkerja','=','dana_unit.dana_unitkode')
                     ->leftJoin(DB::raw("(select kode as pelaksana_unitkode, nama as pelaksana_unitnama from unitkerja) as unit_pelaksana"),'matrik.unit_pelaksana','=','unit_pelaksana.pelaksana_unitkode')
                     ->leftJoin(DB::raw("(select id as a_id,mak,komponen_kode,komponen_nama,uraian,pagu_utama,rencana_pagu,realisasi_pagu,status,flag_kunci from anggaran) as dana"),'matrik.mak_id','=','dana.a_id')
                     ->leftJoin(DB::raw("(select t_id,unit_pelaksana as t_unitkerja, pagu_awal, pagu_rencana,pagu_realisasi,flag_kunci_turunan from turunan_anggaran) as turunan"),'matrik.dana_tid','=','turunan.t_id')
@@ -382,12 +571,51 @@ class MatrikController extends Controller
                     ->first();
             //dd($data);
             $flag = $MatrikFlag[$data->flag_matrik];
+            $tgl_pelaksanaan=Tanggal::Panjang($data->tgl_awal)." s/d ".Tanggal::Panjang($data->tgl_akhir);
             $arr = array(
                 'status'=>true,
                 'hasil'=>$data,
-                'flag'=>$flag
+                'flag'=>$flag,
+                'tanggal'=>$tgl_pelaksanaan
             );
         }
         return Response()->json($arr);
+    }
+    public function format()
+    {
+        $fileName = 'format-matrik';
+        $data = [
+            [
+                //'tahun_matrik' => null,
+                'tgl_awal' => 'Format : YYYY-MM-DD',
+                'tgl_akhir' => 'Cth : 2019-12-30',
+                'kodekab_tujuan' => 'kode 4 digit',
+                'lamanya' => null,
+                //'mak_id'=> 'lihat di menu anggaran ',
+                'dana_harian' => null,
+                'dana_hotel' => null,
+                'transport' => null,
+                'pengeluaran_rill' => null
+            ]
+        ];
+        $namafile = $fileName . date('Y-m-d_H-i-s') . '.xlsx';
+        return Excel::download(new MatrikViewExport($data), $namafile);
+    }
+    public function import(Request $request)
+    {
+        //VALIDASI
+        $this->validate($request, [
+            'importMatrik' => 'required|mimes:xls,xlsx'
+        ]);
+
+        if ($request->hasFile('importMatrik')) {
+            $file = $request->file('importMatrik'); //GET FILE
+            Excel::import(new MatrikImport, $file); //IMPORT FILE
+
+            Session::flash('message', 'Data excel berhasil di import');
+            Session::flash('message_type', 'info');
+            return back();
+        }
+        return redirect()->back()->with(['error' => 'Please choose file before']);
     }
 }

@@ -28,7 +28,7 @@
     <div class="radio-list">
         <label class="radio-inline p-0">
             <div class="radio radio-info">
-                <input type="radio" name="kpa_setuju" id="kpa1" value="1">
+                <input type="radio" name="kpa_setuju" id="kpa1" value="1" required>
                 <label for="kpa1" class="text-info">Ya, disetujui</label>
             </div>
         </label>

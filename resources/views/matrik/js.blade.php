@@ -2,7 +2,7 @@
 $('#ViewModal').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget) // Button that triggered the modal
   var mid = button.data('mid')
-
+  var user_unitkerja = button.data('userunitkerja')
   $.ajax({
         url : '{{route("matrik.view","")}}/'+mid,
         method : 'get',
@@ -13,31 +13,41 @@ $('#ViewModal').on('show.bs.modal', function (event) {
             $('#ViewModal .modal-body #tahun').text(data.hasil.tahun_matrik)
             $('#ViewModal .modal-body #tujuan').text("["+data.hasil.kode_kabkota+"] "+data.hasil.nama_kabkota)
             $('#ViewModal .modal-body #lamanya').text(data.hasil.lamanya+" hari")
-            $('#ViewModal .modal-body #subjectmatter').text("["+data.hasil.turunan_unitkode+"] "+data.hasil.turunan_unitnama)
+            if (data.hasil.t_id != null)
+            {
+                $('#ViewModal .modal-body #subjectmatter').text("["+data.hasil.dana_unitkode+"] "+data.hasil.dana_unitnama)
+                $('#ViewModal .modal-body #komponen').text("["+data.hasil.komponen_kode+"] "+data.hasil.komponen_nama)
+                $('#ViewModal .modal-body #mak').text(data.hasil.dana_mak+" - "+data.hasil.uraian)
+            }
             if (data.hasil.pelaksana_unitkode != null)
             {
                 $('#ViewModal .modal-body #pelaksana').text("["+ data.hasil.pelaksana_unitkode +"] "+data.hasil.pelaksana_unitnama)
             }
-            $('#ViewModal .modal-body #komponen').text("["+data.hasil.komponen_kode+"] "+data.hasil.komponen_nama)
-            $('#ViewModal .modal-body #mak').text(data.hasil.dana_mak+" - "+data.hasil.uraian)
+           
             $('#ViewModal .modal-body #pagu_rencana').text(data.hasil.pagu_rencana)
             $('#ViewModal .modal-body #totalbiaya').text("Rp. "+number_format(data.hasil.total_biaya))
             $('#ViewModal .modal-body #flag').text(data.flag)
-            $('#ViewModal .modal-body #waktu').text(data.hasil.tgl_awal+" s/d "+data.hasil.tgl_akhir)
-            $('#ViewModal .modal-body #harian').text("Harian : Rp. "+number_format(data.hasil.dana_harian)+" x "+data.hasil.lamanya+" hari = Rp. "+number_format(data.hasil.total_harian))
+            $('#ViewModal .modal-body #waktu').text(data.tanggal)
+            $('#ViewModal .modal-body #harian').text("> Harian : Rp. "+number_format(data.hasil.dana_harian)+" x "+data.hasil.lamanya+" hari = Rp. "+number_format(data.hasil.total_harian))
             if (data.hasil.dana_transport != 0)
             {
-                $('#ViewModal .modal-body #transport').text("Transport : Rp. "+number_format(data.hasil.dana_transport))
+                $('#ViewModal .modal-body #transport').text("> Transport : Rp. "+number_format(data.hasil.dana_transport))
             }
             if (data.hasil.total_hotel != 0)
             {
-                $('#ViewModal .modal-body #hotel').text("Penginapan : Rp. "+number_format(data.hasil.dana_hotel)+" x "+data.hasil.lama_hotel+" hari = Rp. "+number_format(data.hasil.total_hotel))
+                $('#ViewModal .modal-body #hotel').text("> Penginapan : Rp. "+number_format(data.hasil.dana_hotel)+" x "+data.hasil.lama_hotel+" hari = Rp. "+number_format(data.hasil.total_hotel))
             }
             if (data.hasil.pengeluaran_rill != 0)
             {
-                $('#ViewModal .modal-body #rill').text("Pengeluaran Rill : Rp. "+number_format(data.hasil.pengeluaran_rill))
+                $('#ViewModal .modal-body #rill').text("> Pengeluaran Rill : Rp. "+number_format(data.hasil.pengeluaran_rill))
             }
-            $('#ViewModal .modal-footer #EditMatrik').attr("href","{{route('matrik.edit','')}}/"+mid)
+            $('#ViewModal .modal-footer #EditMatrik').toggle(false);
+            if (data.hasil.flag_matrik < 2 && data.hasil.dana_unitkerja==user_unitkerja)
+            {
+                $('#ViewModal .modal-footer #EditMatrik').toggle(true);
+                $('#ViewModal .modal-footer #EditMatrik').attr("href","{{route('matrik.edit','')}}/"+mid)
+            }
+            
         },
         error: function(){
             alert("error");
@@ -46,13 +56,78 @@ $('#ViewModal').on('show.bs.modal', function (event) {
     });
 });
 
-jQuery('#date-range').datepicker({
-    format: 'yyyy-mm-dd',
-    toggleActive: true,
-    todayHighlight: true
+$('#AlokasiModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var mid = button.data('mid')
+  $.ajax({
+        url : '{{route("matrik.view","")}}/'+mid,
+        method : 'get',
+        cache: false,
+        dataType: 'json',
+        success: function(data){
+           
+            $('#AlokasiModal .modal-body #tujuan').val("["+data.hasil.kode_kabkota+"] "+data.hasil.nama_kabkota)
+            $('#AlokasiModal .modal-body #biaya').val("Rp. "+number_format(data.hasil.total_biaya))
+            $('#AlokasiModal .modal-body #sm').val("["+data.hasil.turunan_unitkode+"] "+data.hasil.turunan_unitnama)
+            $('#AlokasiModal .modal-body #mid').val(mid)
+            $('#AlokasiModal .modal-body #unit_pelaksana').val(data.hasil.pelaksana_unitkode)
+            
+        },
+        error: function(){
+            alert("error");
+        }
 
     });
+});
+$('#FlagModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var mid = button.data('mid')
+  $.ajax({
+        url : '{{route("matrik.view","")}}/'+mid,
+        method : 'get',
+        cache: false,
+        dataType: 'json',
+        success: function(data){
+           
+            $('#FlagModal .modal-body #tujuan').val("["+data.hasil.kode_kabkota+"] "+data.hasil.nama_kabkota)
+            $('#FlagModal .modal-body #biaya').val("Rp. "+number_format(data.hasil.total_biaya))
+            $('#FlagModal .modal-body #sm').val("["+data.hasil.dana_unitkode+"] "+data.hasil.dana_unitnama)
+            $('#FlagModal .modal-body #pelaksana').val("["+data.hasil.pelaksana_unitkode+"] "+data.hasil.pelaksana_unitnama)
+            $('#FlagModal .modal-body #mid').val(mid)
+            $('#FlagModal .modal-body #flag_old').val(data.flag)
+            
+        },
+        error: function(){
+            alert("error");
+        }
 
+    });
+});
+
+$('#DeleteModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var mid = button.data('mid')
+  $.ajax({
+        url : '{{route("matrik.view","")}}/'+mid,
+        method : 'get',
+        cache: false,
+        dataType: 'json',
+        success: function(data){
+           
+            $('#DeleteModal .modal-body #tujuan').val("["+data.hasil.kode_kabkota+"] "+data.hasil.nama_kabkota)
+            $('#DeleteModal .modal-body #biaya').val("Rp. "+number_format(data.hasil.total_biaya))
+            $('#DeleteModal .modal-body #sm').val("["+data.hasil.dana_unitkode+"] "+data.hasil.dana_unitnama)
+            $('#DeleteModal .modal-body #pelaksana').val("["+data.hasil.pelaksana_unitkode+"] "+data.hasil.pelaksana_unitnama)
+            $('#DeleteModal .modal-body #mid').val(mid)
+            $('#DeleteModal .modal-body #flagmatrik').val(data.flag)
+            
+        },
+        error: function(){
+            alert("error");
+        }
+
+    });
+});
 $('#lamanya').on('change paste keyup',function(e){
 
         var hari =  e.target.value;

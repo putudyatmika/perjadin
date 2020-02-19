@@ -107,25 +107,34 @@
                                                         <h5><small>{{$item->updated_at->diffForHumans()}}</small></h5>
                                                     </td>
                                                     <td>
-                                                        <button class="btn btn-circle btn-warning btn-sm" data-toggle="modal" data-target="#ViewModal" data-mid="{{$item->id}}">
+                                                        <button class="btn btn-circle btn-warning btn-sm" data-toggle="modal" data-target="#ViewModal" data-mid="{{$item->id}}" data-userunitkerja="{{Auth::user()->user_unitkerja}}">
                                                             <span data-toggle="tooltip" title="Detil matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-link"></i></span>
                                                         </button>
-                                                        <button class="btn btn-circle btn-success btn-sm" data-toggle="modal" data-target="#AlokasiModal">
+                                                        @if (($item->flag_matrik<2 and $item->dana_unitkerja==Auth::user()->user_unitkerja) or Auth::user()->user_level>3)
+                                                            @if ($item->dana_tid)
+                                                        <button class="btn btn-circle btn-success btn-sm" data-toggle="modal" data-target="#AlokasiModal" data-mid="{{$item->id}}">
                                                             <span data-toggle="tooltip" title="Alokasi matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-bookmark"></i></span>
                                                         </button>
+                                                            @endif                                                       
                                                         <a href="{{route('matrik.edit',$item->id)}}" class="btn btn-circle btn-custom btn-sm">
                                                             <span data-toggle="tooltip" title="Edit matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-pencil"></i></span>
                                                         </a>
-                                                        <button class="btn btn-circle btn-primary btn-sm" data-toggle="modal" data-target="#FlagModal">
+                                                        @endif
+                                                        @if (Auth::user()->user_level>3)
+                                                        <button class="btn btn-circle btn-primary btn-sm" data-toggle="modal" data-target="#FlagModal" data-mid="{{$item->id}}">
                                                             <span data-toggle="tooltip" title="Flag matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-flag"></i></span>
                                                         </button>
-                                                        <button class="btn btn-circle btn-danger btn-sm" data-toggle="modal" data-target="#DeleteModal">
+                                                        @endif
+                                                        @if ($item->dana_unitkerja==Auth::user()->user_unitkerja  or Auth::user()->user_level>3)
+                                                            @if ($item->flag_matrik<5)
+                                                        <button class="btn btn-circle btn-danger btn-sm" data-toggle="modal" data-target="#DeleteModal" data-mid="{{$item->id}}">
                                                             <span data-toggle="tooltip" title="Hapus matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-trash"></i></span>
                                                         </button>
+                                                        @endif
+                                                        @endif
                                                     </td>
                                                 </tr>   
                                             @endforeach
-                                      
                                        @endif
                                     </tbody>
                                 </table>
@@ -156,8 +165,8 @@
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
- <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
- <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+ <script src="https://cdn.staticaly.com/gh/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+ <script src="https://cdn.staticaly.com/gh/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
  <!-- end - This is for export functionality only -->
