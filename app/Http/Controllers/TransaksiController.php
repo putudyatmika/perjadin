@@ -183,7 +183,7 @@ class TransaksiController extends Controller
 
                 $dataKabid = Pegawai::where('unitkerja','=',$dataMatrik->unit_pelaksana)->where('jabatan','=','2')->where('flag','=','1')->first();
 
-                Mail::to($dataKabid->email)->send(new MailPersetujuan($objEmail));
+                //Mail::to($dataKabid->email)->send(new MailPersetujuan($objEmail));
 
                 Session::flash('message', 'Data Perjalanan ke ' . $request->tujuan . ' tanggal ' . $request->tglberangkat . ' sudah di ajukan');
                 Session::flash('message_type', 'warning');

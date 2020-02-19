@@ -89,18 +89,21 @@ class PersetujuanController extends Controller
     public function update(Request $request)
     {
         //
+        //dd($request->all());
         if ($request->aksi == "SetujuKabid") {
             if ($request->kabidsm_setuju==1) {
                 $flagtrx = 2;
                 $flagmatrik=3;
                 $flag_surattugas = 0;
                 $flag_spd = 0;
+                $kirim_mail = 1;
             }
             else {
                 $flagtrx = 3;
                 $flagmatrik=2;
                 $flag_surattugas = 3;
                 $flag_spd =3;
+                $kirim_mail = 0;
                 //kembalikan dana turunan anggaran karena di batalkan
                 $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id','=',$request->dana_tid)->first();
                 $dataTurunanAnggaran -> pagu_rencana = $dataTurunanAnggaran->pagu_rencana - $request->pagu_rencana;
@@ -163,6 +166,9 @@ class PersetujuanController extends Controller
                     <b>Total biaya :</b>&nbsp;{{ $objEmail->totalbiaya }}<br/>
                 </p>
             */
+            if ($kirim_mail == 1) 
+            {
+                //disetujui Kabid SM dan kirim mail ke PPK
                 $objEmail = new \stdClass();
                 $objEmail->setuju = 'PPK';
                 $objEmail->bidang = $dataMatrik->UnitPelaksana->nama;
@@ -184,6 +190,13 @@ class PersetujuanController extends Controller
                 $dataPPK = Pegawai::where('flag_pengelola','=','2')->where('flag','=','1')->first();
 
                 Mail::to($dataPPK->email)->send(new MailPersetujuan($objEmail));
+            }
+            else 
+            {
+                //kirim mail ke pegawai yang bersangkutan bahwa di tolak
+                //nanti dibuatkan
+            }
+                
 
             Session::flash('message', 'Data Perjalanan ke '.$request->tujuan.' tanggal '. $request->tglberangkat .' sudah di setujui Kabid SM');
             Session::flash('message_type', 'warning');
@@ -195,12 +208,14 @@ class PersetujuanController extends Controller
                 $flagmatrik=3;
                 $flag_surattugas = 0;
                 $flag_spd = 0;
+                $kirim_mail = 1;
             }
             else {
                 $flagtrx = 3;
                 $flagmatrik=2;
                 $flag_surattugas = 3;
                 $flag_spd =3;
+                $kirim_mail = 0;
                 //kembalikan dana turunan anggaran karena di batalkan
                 $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id','=',$request->dana_tid)->first();
                 $dataTurunanAnggaran -> pagu_rencana = $dataTurunanAnggaran->pagu_rencana - $request->pagu_rencana;
@@ -235,27 +250,35 @@ class PersetujuanController extends Controller
                  $dataspd -> update();
              }
              //persetujuan kpa
-             $objEmail = new \stdClass();
-             $objEmail->setuju = 'KPA';
-             $objEmail->bidang = $dataMatrik->UnitPelaksana->nama;
-             $objEmail->trx_id = $datatrx->kode_trx;
-             $objEmail->nama = $datatrx->peg_nama;
-             $objEmail->nip = $datatrx->peg_nip;
-             $objEmail->tugas = $datatrx->tugas;
-             $objEmail->tgl_brkt = Tanggal::Panjang($datatrx->tgl_brkt);
-             $objEmail->tgl_kembali = Tanggal::Panjang($datatrx->tgl_balik);
-             $objEmail->tujuan = $dataMatrik->Tujuan->nama_kabkota;
-             $objEmail->durasi = $datatrx->bnyk_hari.' hari';
-             $objEmail->sm = $dataMatrik->DanaUnitkerja->nama;
-             $objEmail->up = $dataMatrik->UnitPelaksana->nama;
-             $objEmail->mak = $dataMatrik->DanaAnggaran->mak;
-             $objEmail->komponen = '['.$dataMatrik->DanaAnggaran->komponen_kode.'] '.$dataMatrik->DanaAnggaran->komponen_nama;
-             $objEmail->detil = $dataMatrik->DanaAnggaran->uraian;
-             $objEmail->totalbiaya = 'Rp. '.number_format($dataMatrik->total_biaya,0,',','.');
+             if ($kirim_mail == 1)
+             {
+                $objEmail = new \stdClass();
+                $objEmail->setuju = 'KPA';
+                $objEmail->bidang = $dataMatrik->UnitPelaksana->nama;
+                $objEmail->trx_id = $datatrx->kode_trx;
+                $objEmail->nama = $datatrx->peg_nama;
+                $objEmail->nip = $datatrx->peg_nip;
+                $objEmail->tugas = $datatrx->tugas;
+                $objEmail->tgl_brkt = Tanggal::Panjang($datatrx->tgl_brkt);
+                $objEmail->tgl_kembali = Tanggal::Panjang($datatrx->tgl_balik);
+                $objEmail->tujuan = $dataMatrik->Tujuan->nama_kabkota;
+                $objEmail->durasi = $datatrx->bnyk_hari.' hari';
+                $objEmail->sm = $dataMatrik->DanaUnitkerja->nama;
+                $objEmail->up = $dataMatrik->UnitPelaksana->nama;
+                $objEmail->mak = $dataMatrik->DanaAnggaran->mak;
+                $objEmail->komponen = '['.$dataMatrik->DanaAnggaran->komponen_kode.'] '.$dataMatrik->DanaAnggaran->komponen_nama;
+                $objEmail->detil = $dataMatrik->DanaAnggaran->uraian;
+                $objEmail->totalbiaya = 'Rp. '.number_format($dataMatrik->total_biaya,0,',','.');
 
-             $dataKPA = Pegawai::where('flag_pengelola','=','1')->where('flag','=','1')->first();
-
-             Mail::to($dataKPA->email)->send(new MailPersetujuan($objEmail));
+                $dataKPA = Pegawai::where('flag_pengelola','=','1')->where('flag','=','1')->first();
+                Mail::to($dataKPA->email)->send(new MailPersetujuan($objEmail));
+             }
+             else 
+             {
+                //kirim mail ke pegawai yang bersangkutan bahwa perjadinnya di tolak
+                //dibuatkan
+             }
+             
             Session::flash('message', 'Data Perjalanan ke '.$request->tujuan.' tanggal '. $request->tglberangkat .' sudah di setujui PPK');
             Session::flash('message_type', 'info');
             return redirect()->route('setuju.index');
@@ -266,12 +289,14 @@ class PersetujuanController extends Controller
                 $flagmatrik=4;
                 $flag_surattugas=0;
                 $flag_spd=0;
+                $kirim_mail = 1;
             }
             else {
                 $flagtrx = 3;
                 $flagmatrik=2;
                 $flag_surattugas=3;
                 $flag_spd=3;
+                $kirim_mail = 0;
                 //kembalikan dana turunan anggaran karena di batalkan
                 $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id','=',$request->dana_tid)->first();
                 $dataTurunanAnggaran -> pagu_rencana = $dataTurunanAnggaran->pagu_rencana - $request->pagu_rencana;
@@ -332,34 +357,43 @@ class PersetujuanController extends Controller
                     $dataspd -> save();
                 }
             }
-            //kirim email ke pegawai yg mau berangkat dan aris
-            $objEmail = new \stdClass();
-            $objEmail->setuju = 'KPA';
-            $objEmail->bidang = $dataMatrik->UnitPelaksana->nama;
-            $objEmail->trx_id = $datatrx->kode_trx;
-            $objEmail->nama = $datatrx->peg_nama;
-            $objEmail->nip = $datatrx->peg_nip;
-            $objEmail->tugas = $datatrx->tugas;
-            $objEmail->tgl_brkt = Tanggal::Panjang($datatrx->tgl_brkt);
-            $objEmail->tgl_kembali = Tanggal::Panjang($datatrx->tgl_balik);
-            $objEmail->tujuan = $dataMatrik->Tujuan->nama_kabkota;
-            $objEmail->durasi = $datatrx->bnyk_hari.' hari';
-            $objEmail->sm = $dataMatrik->DanaUnitkerja->nama;
-            $objEmail->up = $dataMatrik->UnitPelaksana->nama;
-            $objEmail->mak = $dataMatrik->DanaAnggaran->mak;
-            $objEmail->komponen = '['.$dataMatrik->DanaAnggaran->komponen_kode.'] '.$dataMatrik->DanaAnggaran->komponen_nama;
-            $objEmail->detil = $dataMatrik->DanaAnggaran->uraian;
-            $objEmail->totalbiaya = 'Rp. '.number_format($dataMatrik->total_biaya,0,',','.');
 
-            $dataPegawai = Pegawai::where('nip_baru','=',$datatrx->peg_nip)->where('flag','=','1')->first();
-
-            Mail::to($dataPegawai->email)->send(new MailPerjalanan($objEmail));
-            //kirim mail ke subbag keuangan
-            $Keuangan = User::where('pengelola','=','4')->get();
-            foreach ($Keuangan as $k)
+            if ($kirim_mail == 1)
             {
-                Mail::to($k->email)->send(new MailPerjalanan($objEmail));
+                //kirim email ke pegawai yg mau berangkat dan aris
+                $objEmail = new \stdClass();
+                $objEmail->setuju = 'KPA';
+                $objEmail->bidang = $dataMatrik->UnitPelaksana->nama;
+                $objEmail->trx_id = $datatrx->kode_trx;
+                $objEmail->nama = $datatrx->peg_nama;
+                $objEmail->nip = $datatrx->peg_nip;
+                $objEmail->tugas = $datatrx->tugas;
+                $objEmail->tgl_brkt = Tanggal::Panjang($datatrx->tgl_brkt);
+                $objEmail->tgl_kembali = Tanggal::Panjang($datatrx->tgl_balik);
+                $objEmail->tujuan = $dataMatrik->Tujuan->nama_kabkota;
+                $objEmail->durasi = $datatrx->bnyk_hari.' hari';
+                $objEmail->sm = $dataMatrik->DanaUnitkerja->nama;
+                $objEmail->up = $dataMatrik->UnitPelaksana->nama;
+                $objEmail->mak = $dataMatrik->DanaAnggaran->mak;
+                $objEmail->komponen = '['.$dataMatrik->DanaAnggaran->komponen_kode.'] '.$dataMatrik->DanaAnggaran->komponen_nama;
+                $objEmail->detil = $dataMatrik->DanaAnggaran->uraian;
+                $objEmail->totalbiaya = 'Rp. '.number_format($dataMatrik->total_biaya,0,',','.');
+
+                $dataPegawai = Pegawai::where('nip_baru','=',$datatrx->peg_nip)->where('flag','=','1')->first();
+
+                Mail::to($dataPegawai->email)->send(new MailPerjalanan($objEmail));
+                //kirim mail ke subbag keuangan
+                $Keuangan = User::where('pengelola','=','4')->get();
+                foreach ($Keuangan as $k)
+                {
+                    Mail::to($k->email)->send(new MailPerjalanan($objEmail));
+                }
             }
+            else 
+            {
+                //kirim email berisi penolakan
+            }
+            
             Session::flash('message', 'Data Perjalanan ke '.$request->tujuan.' tanggal '. $request->tglberangkat .' sudah di konfirmasi KPA');
             Session::flash('message_type', 'info');
             return redirect()->route('setuju.index');

@@ -28,18 +28,18 @@ $('#ViewModal').on('show.bs.modal', function (event) {
             $('#ViewModal .modal-body #totalbiaya').text("Rp. "+number_format(data.hasil.total_biaya))
             $('#ViewModal .modal-body #flag').text(data.flag)
             $('#ViewModal .modal-body #waktu').text(data.tanggal)
-            $('#ViewModal .modal-body #harian').text("Harian : Rp. "+number_format(data.hasil.dana_harian)+" x "+data.hasil.lamanya+" hari = Rp. "+number_format(data.hasil.total_harian))
+            $('#ViewModal .modal-body #harian').text("> Harian : Rp. "+number_format(data.hasil.dana_harian)+" x "+data.hasil.lamanya+" hari = Rp. "+number_format(data.hasil.total_harian))
             if (data.hasil.dana_transport != 0)
             {
-                $('#ViewModal .modal-body #transport').text("Transport : Rp. "+number_format(data.hasil.dana_transport))
+                $('#ViewModal .modal-body #transport').text("> Transport : Rp. "+number_format(data.hasil.dana_transport))
             }
             if (data.hasil.total_hotel != 0)
             {
-                $('#ViewModal .modal-body #hotel').text("Penginapan : Rp. "+number_format(data.hasil.dana_hotel)+" x "+data.hasil.lama_hotel+" hari = Rp. "+number_format(data.hasil.total_hotel))
+                $('#ViewModal .modal-body #hotel').text("> Penginapan : Rp. "+number_format(data.hasil.dana_hotel)+" x "+data.hasil.lama_hotel+" hari = Rp. "+number_format(data.hasil.total_hotel))
             }
             if (data.hasil.pengeluaran_rill != 0)
             {
-                $('#ViewModal .modal-body #rill').text("Pengeluaran Rill : Rp. "+number_format(data.hasil.pengeluaran_rill))
+                $('#ViewModal .modal-body #rill').text("> Pengeluaran Rill : Rp. "+number_format(data.hasil.pengeluaran_rill))
             }
             $('#ViewModal .modal-footer #EditMatrik').toggle(false);
             if (data.hasil.flag_matrik < 2 && data.hasil.dana_unitkerja==user_unitkerja)

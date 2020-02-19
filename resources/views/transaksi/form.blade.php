@@ -82,5 +82,5 @@
             </label>
         </div>
         <span class="pull-left"><i><b>Catatan : Perjadin yang sudah diajukan tidak bisa ditarik kembali</b></i></span>
-        <input type="hidden" name="tglstart" id="tglstart"  value="" />
+        
     </div>

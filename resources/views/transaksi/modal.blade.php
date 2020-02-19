@@ -90,7 +90,7 @@
                             <label for="tglbrkt">Tanggal Berangkat</label>
                             <div class="input-group">
                                 <div class="input-group-addon"><i class="ti-lock"></i></div>
-                                <input type="text" class="form-control tglbrkt" id="tglberangkat" name="tglberangkat" placeholder="Tanggal Berangkat Perjalanan" required="" autocomplete="off">
+                                <input type="text" class="form-control tglbrkt" id="edittglberangkat" name="edittglberangkat" placeholder="Tanggal Berangkat Perjalanan" required="" autocomplete="off">
                             </div>
                             <span id="infotgl"></span>
                         </div>

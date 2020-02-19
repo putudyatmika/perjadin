@@ -211,5 +211,12 @@
 <script src="{{asset('tema/plugins/bower_components/timepicker/bootstrap-timepicker.min.js')}}"></script>
 <script src="{{asset('tema/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 @include('matrik.js')
+<script>
+    jQuery('#date-range').datepicker({
+    format: 'yyyy-mm-dd',
+    toggleActive: true,
+    todayHighlight: true
 
+    });
+</script>
 @endsection
