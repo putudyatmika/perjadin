@@ -1,5 +1,5 @@
 @if ($item->Transaksi->SuratTugas->tgl_surat!=NULL and ($item->flag_spd!=3 and $item->flag_spd !=0))
-<a href="{{route('spd.view',$item->Transaksi->kode_trx)}}" class="btn btn-rounded btn-primary btn-sm"><span data-toggle="tooltip" title="Cetak SPD an. {{$item->Transaksi->peg_nama}}"><i class="fa fa-print"></i></span></a>
+<a href="{{route('spd.view',$item->Transaksi->kode_trx)}}" target="_blank" class="btn btn-rounded btn-primary btn-sm"><span data-toggle="tooltip" title="Cetak SPD an. {{$item->Transaksi->peg_nama}}"><i class="fa fa-print"></i></span></a>
 @endif
 
 @if (($item->Transaksi->SuratTugas->flag_surattugas==1 and Auth::user()->pengelola>3) or Auth::user()->pengelola==5)

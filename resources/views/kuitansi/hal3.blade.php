@@ -25,7 +25,7 @@ Yang bertanda tangan di bawah ini :
     <tr height="40px">
         <td width="10%">Nama</td>
         <td width="3%">:</td>
-        <td width="87%">{{$dataTransaksi[0]->peg_nama}}</td>
+        <td width="87%">{{strtoupper($dataTransaksi[0]->peg_nama)}}</td>
     </tr>
     <tr height="40px">
         <td>NIP</td>
@@ -152,8 +152,8 @@ Yang bertanda tangan di bawah ini :
             <td>&nbsp;</td>
         </tr>
         <tr class="text-center">
-            <td><u><b>{{$dataTransaksi[0]->Spd->ppk_nama}}</b></u></td>
-            <td><u><b>{{$dataTransaksi[0]->peg_nama}}</b></u></td>
+            <td><u><b>{{strtoupper($dataTransaksi[0]->Spd->ppk_nama)}}</b></u></td>
+            <td><u><b>{{strtoupper($dataTransaksi[0]->peg_nama)}}</b></u></td>
         </tr>
         <tr class="text-center">
             <td>NIP. {{$dataTransaksi[0]->Spd->ppk_nip}}</td>

@@ -27,7 +27,7 @@ class SpdController extends Controller
         $FlagSrt = config('globalvar.FlagSurat');
         $FlagTTD = config('globalvar.FlagTTD');
         $FlagKendaraan = config('globalvar.Kendaraan');
-        $DataPPK = Pegawai::where([['flag_pengelola','=','2'],['flag','=','1']])->orderBy('unitkerja')->get();
+        $DataPPK = Pegawai::where([['flag_pengelola','=','2'],['flag','=','1']])->orderBy('unitkerja')->first();
         $DataSPD = Spd::where('tahun_spd','=',Session::get('tahun_anggaran'))->orderBy('flag_spd','asc')->get();
         return view('spd.index',compact('DataSPD','FlagTrx','FlagKonfirmasi','FlagSrt','MatrikFlag','FlagTTD','DataPPK','FlagKendaraan'));
         //dd($DataSPD);

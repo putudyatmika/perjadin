@@ -89,7 +89,7 @@
     </tr>
 </table>
 </div>
-<div class="hal2drpd">
+<div style="margin-top:20px;margin-bottom:20px;">
     <table width="100%">
         <tr height="40px">
             <td width="5%"></td>
@@ -115,8 +115,8 @@
         </tr>
         <tr class="text-center">
             <td>&nbsp;</td>
-            <td><u><b>{{$dataTransaksi[0]->Kuitansi->bendahara_nama}}</b></u></td>
-            <td><u><b>{{$dataTransaksi[0]->peg_nama}}</b></u></td>
+            <td><u><b>{{strtoupper($dataTransaksi[0]->Kuitansi->bendahara_nama)}}</b></u></td>
+            <td><u><b>{{strtoupper($dataTransaksi[0]->peg_nama)}}</b></u></td>
         </tr>
         <tr class="text-center">
             <td>&nbsp;</td>
@@ -167,7 +167,7 @@
         <tr class="text-center">
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td><u><b>{{$dataTransaksi[0]->Spd->ppk_nama}}</b></u></td>
+            <td><u><b>{{strtoupper($dataTransaksi[0]->Spd->ppk_nama)}}</b></u></td>
         </tr>
         <tr class="text-center">
                 <td>&nbsp;</td>

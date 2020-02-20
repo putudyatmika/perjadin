@@ -43,12 +43,12 @@
     <tr class="adagaris">
         <td width="2%" valign="top"><span class="pull-left">1.</span></td>
         <td width="48%"><span class="pull-left">Pejabat Pembuat Komitmen</span></td>
-        <td width="50%" class="gariskiri">{{$dataTransaksi[0]->Spd->ppk_nama}}</td>
+        <td width="50%" class="gariskiri">{{strtoupper($dataTransaksi[0]->Spd->ppk_nama)}}</td>
     </tr>
     <tr class="adagaris">
         <td width="2%" valign="top"><span class="pull-left">2.</span></td>
         <td width="48%"><span class="pull-left" class="adagaris">Nama / NIP Pegawai yang melaksanakan perjalanan dinas</span></td>
-        <td width="50%" class="gariskiri"><b><span class="pull-left">{{$dataTransaksi[0]->peg_nama}}</span> <span class="pull-right">{{$dataTransaksi[0]->peg_nip}}</span></b></td>
+        <td width="50%" class="gariskiri"><b><span class="pull-left">{{strtoupper($dataTransaksi[0]->peg_nama)}}</span> <span class="pull-right">{{$dataTransaksi[0]->peg_nip}}</span></b></td>
     </tr>
     <tr>
         <td width="2%"><span class="pull-left">3.</span></td>
@@ -166,7 +166,7 @@
     <table width="100%">
         <tr>
             <td width="50%"></td>
-            <td width="50%"><b><span class="pull-left">{{$dataTransaksi[0]->Spd->ppk_nama}}</span></b></td>
+            <td width="50%"><b><span class="pull-left">{{strtoupper($dataTransaksi[0]->Spd->ppk_nama)}}</span></b></td>
         </tr>
     </table>
 </div>

@@ -96,10 +96,10 @@ font-size:12pt !important;
     text-align: center;
 }
 .qrcode {
-    width: 95%;
+    width: 96%;
     position: relative;
-    bottom: 20px;
-    padding: 5px;
+    bottom: 10px;
+    padding: 3px;
     text-align: left;
 }
 .spdhal1 table {

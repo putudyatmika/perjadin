@@ -2,18 +2,7 @@
 <script src="{{asset('tema/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
 
 <script>
-$(".tglsurat").datepicker({
-    autoclose: true,
-    format: 'yyyy-mm-dd',
-    toggleActive: true,
-    todayHighlight: true,
-    startDate: $('#minHari').val(),
-    endDate: $('#maxHari').val()
-}).on('show.bs.modal', function(event) {
-    // prevent datepicker from firing bootstrap modal "show.bs.modal"
-    event.stopPropagation();
 
-});
 function tambahNol(x){
    y=(x>9)?(x>99)?x:'0'+x:'00'+x;
    return y;
@@ -28,6 +17,7 @@ var tujuan = button.data('tujuan')
 var nama = button.data('nama')
 var tglsrt = button.data('tglsurat')
 var tglbrkt = button.data('tglbrkt')
+var tglend = button.data('tglend')
 var tugas = button.data('tugas')
 var nomor = button.data('nomor')
 var ttd = button.data('ttd')
@@ -71,6 +61,17 @@ modal.find('.modal-body #tgl_pergi').val(tglbrkt)
 modal.find('.modal-body #tugas').val(tugas)
 modal.find('.modal-body #ttd').val(ttd)
 modal.find('.modal-body #ttd_pejabat').val(ttdnip)
+$(".tglsurat").datepicker({
+    autoclose: true,
+    format: 'yyyy-mm-dd',
+    toggleActive: true,
+    todayHighlight: true,
+    endDate: tglend
+}).on('show.bs.modal', function(event) {
+    // prevent datepicker from firing bootstrap modal "show.bs.modal"
+    event.stopPropagation();
+
+});
 });
 
 $('#BatalModal').on('show.bs.modal', function (event) {
