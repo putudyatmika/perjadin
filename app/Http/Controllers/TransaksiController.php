@@ -392,4 +392,23 @@ class TransaksiController extends Controller
     {
         return view('transaksi.viewpage');
     }
+    public function syncPegawai($tahun)
+    {
+        $data = Transaksi::where('tahun_trx', '=', $tahun)->get();
+        $jml_record = 0 ;
+        $arr = array('status'=>false,'data'=>'Tidak tersedia');
+        foreach ($data as $i)
+        {
+            $dataPeg = Pegawai::where('nip_baru','=',$i->peg_nip)->first();
+            $dataUpdate = Transaksi::where('peg_nip', '=', $i->peg_nip)->first();
+            $dataUpdate->peg_nama = $dataPeg->nama;
+            $dataUpdate->peg_gol = $dataPeg->gol;
+            $dataUpdate->peg_jabatan = $dataPeg->jabatan;
+            $dataUpdate->peg_unitkerja = $dataPeg->unitkerja;
+            $dataUpdate->peg_unitkerja_nama = $dataPeg->Golongan->nama;
+            $dataUpdate->update();
+            $jml_record++;
+        }
+        return Response()->json($jml_record);
+    }
 }

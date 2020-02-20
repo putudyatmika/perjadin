@@ -48,6 +48,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('tujuan', 'TujuanController');
     Route::resource('user', 'UserController');
     Route::resource('tahundasar', 'TahunDasarController');
+    Route::get('transaksi/pegawai/sync/{tahun}', 'TransaksiController@syncPegawai')->name('transaksi.sync');
     Route::get('transaksi/view', 'TransaksiController@view')->name('transaksi.view');
     Route::resource('transaksi', 'TransaksiController');
     Route::get('surattugas/view/{kodetrx}', 'SuratTugasController@view')->name('surattugas.view');
