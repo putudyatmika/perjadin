@@ -13,6 +13,7 @@
                             <input type="hidden" id="kodetrx" name="kodetrx" value="">
                             <input type="hidden" id="spdid" name="spdid" value="">
                             <input type="hidden" name="aksi" value="edit">
+                            <input type="hidden" name="ppk_nip" id="ppk_nip" value="{{$DataPPK->nip_baru}}">
                             @include('spd.form')
                 </div>
                 <div class="modal-footer">

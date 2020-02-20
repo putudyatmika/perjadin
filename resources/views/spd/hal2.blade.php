@@ -55,7 +55,7 @@
                 @if ($dataTransaksi[0]->SuratTugas->flag_ttd>0)
                 {{$dataTransaksi[0]->SuratTugas->ttd_jabatan}}
                 @endif
-                <p style="margin-top:40pt;">{{$dataTransaksi[0]->SuratTugas->ttd_nama}}</p>
+                <p style="margin-top:40pt;">{{strtoupper($dataTransaksi[0]->SuratTugas->ttd_nama)}}</p>
         </td>
     </tr>
 </table>
@@ -113,7 +113,7 @@
                 <br />
                 </span>
                 <p style="margin-top:40pt;">
-                <b>{{$dataTransaksi[0]->Matrik->Tujuan->kepala}}</b>
+                <b>{{strtoupper($dataTransaksi[0]->Matrik->Tujuan->kepala)}}</b>
                 </p>
                 @endif
             </td>
@@ -126,7 +126,7 @@
                     <br />
                     </span>
                     <p style="margin-top:40pt;">
-                    <b>{{$dataTransaksi[0]->Matrik->Tujuan->kepala}}</b>
+                    <b>{{strtoupper($dataTransaksi[0]->Matrik->Tujuan->kepala)}}</b>
                     </p>
                 @endif
             </td>
@@ -253,7 +253,7 @@
 
 
                 <p style="margin-top:40pt;">
-                <b>{{$dataTransaksi[0]->Spd->ppk_nama}}</b>
+                <b>{{strtoupper($dataTransaksi[0]->Spd->ppk_nama)}}</b>
                 </p>
             </td>
             <td class="gariskiri">
@@ -261,7 +261,7 @@
 
 
                     <p style="margin-top:40pt;">
-                    <b>{{$dataTransaksi[0]->Spd->ppk_nama}}</b>
+                    <b>{{strtoupper($dataTransaksi[0]->Spd->ppk_nama)}}</b>
                     </p>
             </td>
         </tr>

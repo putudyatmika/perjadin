@@ -92,11 +92,11 @@
             <td colspan="5"></td>
         </tr>
         <tr>
-            <td><u><b>{{$dataTransaksi[0]->Spd->ppk_nama}}</b></u></td>
+            <td><u><b>{{strtoupper($dataTransaksi[0]->Spd->ppk_nama)}}</b></u></td>
             <td></td>
-            <td><u><b>{{$dataTransaksi[0]->Kuitansi->bendahara_nama}}</b></u></td>
+            <td><u><b>{{strtoupper($dataTransaksi[0]->Kuitansi->bendahara_nama)}}</b></u></td>
             <td></td>
-            <td><u><b>{{$dataTransaksi[0]->peg_nama}}</b></u></td>
+            <td><u><b>{{strtoupper($dataTransaksi[0]->peg_nama)}}</b></u></td>
         </tr>
         <tr>
             <td>NIP. {{$dataTransaksi[0]->Spd->ppk_nip}}</td>

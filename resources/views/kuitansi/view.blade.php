@@ -21,6 +21,15 @@ $(document).ready(function(e) {
         $('#hal3').printArea();
     });
 });
+
+$(document).ready(function () {
+    
+    window.onload = $('#hal1').printArea();
+    window.onfocus = setTimeout(function(){ $('#hal2').printArea(); }, 2000);
+    window.onfocus = setTimeout(function(){ $('#hal3').printArea(); }, 7000);
+    window.onfocus = setTimeout(function () { window.close(); }, 15000); 
+    
+});
  </script>
 
 @stop
@@ -63,10 +72,12 @@ $(document).ready(function(e) {
                                         <div class="clearfix"></div>
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="hal2">
+                                        <div class="clearfix"></div>
                                         @include('kuitansi.hal2')
                                         <div class="clearfix"></div>
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="hal3">
+                                        <div class="clearfix"></div>
                                         @include('kuitansi.hal3')
                                         <div class="clearfix"></div>
                                     </div>

@@ -11,7 +11,8 @@ $("#tgl_kuitansi").datepicker({
     autoclose: true,
     format: 'yyyy-mm-dd',
     toggleActive: true,
-    todayHighlight: true
+    todayHighlight: true,
+    startDate: $('#tgl_start_kuitansi').val()
 });
 
 $('#uangharian').on('change paste keyup',function(e){

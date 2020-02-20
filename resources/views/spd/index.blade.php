@@ -87,8 +87,8 @@
                                                 <td>{{$item->nomor_spd}}</td>
                                                 <td>{{$item->Transaksi->peg_nama}}</td>
                                                 <td class="hidden-xs hidden-sm">{{$FlagKendaraan[$item->kendaraan]}}</td>
-                                                <td class="hidden-xs hidden-sm">{{Tanggal::Panjang($item->Transaksi->tgl_brkt)}}</td>
-                                                <td class="hidden-xs hidden-sm">{{Tanggal::Panjang($item->Transaksi->tgl_balik)}}</td>
+                                                <td class="hidden-xs hidden-sm">{{Tanggal::Pendek($item->Transaksi->tgl_brkt)}}</td>
+                                                <td class="hidden-xs hidden-sm">{{Tanggal::Pendek($item->Transaksi->tgl_balik)}}</td>
                                                 <td>@include('spd.flag')</td>
                                                 <td> @include('spd.aksi') </td>
                                             </tr>

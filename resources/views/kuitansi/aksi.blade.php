@@ -1,5 +1,5 @@
 @if ($item->tgl_kuitansi!=NULL and ($item->flag_spd!=3 and $item->flag_kuitansi!= 0 and $item->flag_kuitansi!= 3))
-<a href="{{route('kuitansi.view',$item->Transaksi->kode_trx)}}" class="btn btn-circle btn-primary btn-sm"><span data-toggle="tooltip" title="Cetak kuitansi an. {{$item->Transaksi->peg_nama}}"><i class="fa fa-print"></i></span></a>
+<a href="{{route('kuitansi.view',$item->Transaksi->kode_trx)}}" target="_blank" class="btn btn-circle btn-primary btn-sm"><span data-toggle="tooltip" title="Cetak kuitansi an. {{$item->Transaksi->peg_nama}}"><i class="fa fa-print"></i></span></a>
 @endif
 
 @if (($item->flag_kuitansi==0 or $item->flag_kuitansi==1) and Auth::user()->pengelola>3)

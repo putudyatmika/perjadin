@@ -26,7 +26,11 @@
                     $('#dataSuratTugas').printArea();
                 });
             });
-
+$(document).ready(function () {
+    
+    window.onload = $('#dataSuratTugas').printArea();
+    setTimeout(function(){ window.close(); }, 3000);
+});
  </script>
 
 @stop
@@ -110,7 +114,7 @@
                                         <tr>
                                             <td>Nama</td>
                                             <td>:</td>
-                                            <td><b>{{$dataTransaksi[0]->peg_nama}}</b></td>
+                                            <td><b>{{strtoupper($dataTransaksi[0]->peg_nama)}}</b></td>
                                         </tr>
                                         <tr>
                                             <td>Jabatan</td>
@@ -136,7 +140,7 @@
                                         <tr>
                                             <td>Jangka Waktu</td>
                                             <td>:</td>
-                                            <td>{{$dataTransaksi[0]->bnyk_hari}} ({{$Bilangan[$dataTransaksi[0]->bnyk_hari]}}) Hari,
+                                            <td>{{$dataTransaksi[0]->bnyk_hari}} ({{strtolower($Bilangan[$dataTransaksi[0]->bnyk_hari])}}) Hari,
                                                 @php
                                                     $tgl_brkt = explode('-',$dataTransaksi[0]->tgl_brkt);
                                                     $tgl_balik = explode('-',$dataTransaksi[0]->tgl_balik);
@@ -181,7 +185,7 @@
                                                         @if ($dataTransaksi[0]->SuratTugas->flag_ttd>0)
                                                         {{$dataTransaksi[0]->SuratTugas->ttd_jabatan}}
                                                         @endif
-                                                        <p style="margin-top:60pt;">{{$dataTransaksi[0]->SuratTugas->ttd_nama}}</p>
+                                                        <p style="margin-top:60pt;text-transform: uppercase;">{{$dataTransaksi[0]->SuratTugas->ttd_nama}}</p>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -190,9 +194,9 @@
                                  </div>
                                  <div class="qrcode">
                                         <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')
-                                        ->size(90)->margin(0)->generate('https://perjadin.bpsntb.id/view/'.$dataTransaksi[0]->kode_trx)) !!} ">
+                                        ->size(80)->margin(0)->generate('https://perjadin.bpsntb.id/view/'.$dataTransaksi[0]->kode_trx)) !!} ">
 
-                                    <div style="font-size:9pt;padding-left:3px;">TRX ID : {{$dataTransaksi[0]->kode_trx}}</div>
+                                    <div style="font-size:8pt;padding-left:3px;">TRX ID : {{$dataTransaksi[0]->kode_trx}}</div>
                                 </div>
                                  <div style="margin-top:20px">
 

@@ -22,6 +22,14 @@ $("#cetak2").bind("click", function(event) {
     $('#hal2').printArea();
 });
 });
+
+$(document).ready(function () {
+    
+    window.onload = $('#hal1').printArea();
+    setTimeout(function(){ $('#hal2').printArea(); }, 2000);
+    window.onfocus = setTimeout(function () { window.close(); }, 9000); 
+    
+});
  </script>
 
 @stop

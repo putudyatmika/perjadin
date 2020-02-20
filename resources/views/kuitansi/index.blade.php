@@ -133,10 +133,14 @@ $(function () {
                                                     <a href="{{route('kuitansi.view',$item->Transaksi->kode_trx)}}">{{$item->Transaksi->kode_trx}}</a>
                                                     @endif
                                                 </td>
-                                                <td>{{$item->tgl_kuitansi}}</td>
+                                                <td>
+                                                    @if ($item->tgl_kuitansi)
+                                                    {{Tanggal::Pendek($item->tgl_kuitansi)}}
+                                                    @endif
+                                                </td>
                                                 <td>{{$item->Transaksi->peg_nama}}</td>
                                                 <td>{{$item->Transaksi->tugas}}</td>
-                                                <td>{{$item->Transaksi->tgl_brkt}}</td>
+                                                <td>{{Tanggal::Pendek($item->Transaksi->tgl_brkt)}}</td>
                                                 <!--<td>{{$item->Transaksi->tgl_balik}}</td>-->
                                                 <td>@include('kuitansi.flag')</td>
                                                 <td>@include('kuitansi.aksi')</td>

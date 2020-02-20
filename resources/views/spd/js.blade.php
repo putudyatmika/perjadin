@@ -66,6 +66,5 @@ modal.find('.modal-body #tglsurat').val(tglsrt)
 modal.find('.modal-body #tugas').val(tugas)
 modal.find('.modal-body #kendaraan').val(kendaraan)
 modal.find('input[name="cetaktujuan"][value="'+flagcetaktujuan+'"]').prop('checked',true)
-modal.find('.modal-body #ppk_nip').val(ppknip)
 });
 </script>
