@@ -147,7 +147,11 @@ class LaporanController extends Controller
             $count = \App\Pegawai::where('id','=',$idpeg)->count();
             if ($count>0) {
                 $DataPegawai = \App\Pegawai::where('id','=',$idpeg)->first();
-                $RekapPegawai = Transaksi::where([['peg_nip','=',$DataPegawai->nip_baru],['flag_trx','=',7]])->orderBy('tgl_brkt','asc')->get();
+                $RekapPegawai = Transaksi::where([
+                    ['peg_nip','=',$DataPegawai->nip_baru],
+                    ['flag_trx','>',5],
+                    ['tahun_trx','=',Session::get('tahun_anggaran')]
+                    ])->orderBy('tgl_brkt','asc')->get();
                 //dd($RekapPegawai);
                 return view('laporan.rekap-detil-pegawai',compact('DataPegawai','RekapPegawai'));
             }
@@ -161,13 +165,12 @@ class LaporanController extends Controller
         else {
             $RekapPegawai = DB::table('pegawai')->
             leftJoin('unitkerja','pegawai.unitkerja','=','unitkerja.kode')->
-            leftJoin(DB::Raw("(SELECT peg_nip, COUNT(*) as jumlah, sum(kuitansi.total_biaya) as totalbiaya FROM transaksi LEFT join kuitansi on transaksi.trx_id=kuitansi.trx_id where flag_trx>3 GROUP by peg_nip order by jumlah desc) as trx"),'trx.peg_nip','=','pegawai.nip_baru')->
+            leftJoin(DB::Raw("(SELECT tahun_trx,peg_nip, COUNT(*) as jumlah, sum(kuitansi.total_biaya) as totalbiaya FROM transaksi LEFT join kuitansi on transaksi.trx_id=kuitansi.trx_id where flag_trx>5 and tahun_trx='".Session::get('tahun_anggaran')."' GROUP by peg_nip order by jumlah desc) as trx"),'trx.peg_nip','=','pegawai.nip_baru')->
             select(DB::Raw('pegawai.id as peg_id,nip_baru, pegawai.nama as nama_pegawai, unitkerja.nama as nama_unitkerja, COALESCE(jumlah,0) as jumlah,COALESCE(totalbiaya,0) as totalbiaya'))->
             where('jabatan','<','5')->where('flag','=','1')->orderBy('jumlah','desc')->get();
-
+            //dd($RekapPegawai);
             return view('laporan.rekap-pegawai',compact('RekapPegawai'));
         }
-        
         
         //dd($idpeg);
 
@@ -180,7 +183,7 @@ class LaporanController extends Controller
             SELECT transaksi.tahun_trx, transaksi.peg_nip, matrik.kodekab_tujuan, tujuan.nama_kabkota, transaksi.tugas, transaksi.tgl_brkt, transaksi.bnyk_hari, kuitansi.total_biaya as totalbiaya FROM matrik left join transaksi on transaksi.matrik_id=matrik.id left join kuitansi on kuitansi.trx_id=transaksi.trx_id left join tujuan on matrik.kodekab_tujuan=tujuan.kode_kabkota where transaksi.flag_trx > 3 and transaksi.tahun_trx = '2019' and matrik.unit_pelaksana='52550' order by transaksi.tgl_brkt asc
             */
             $rekapBidang = DB::table('pegawai')->
-                           leftJoin(DB::Raw("(SELECT transaksi.tahun_trx, transaksi.kode_trx, transaksi.peg_nip, matrik.kodekab_tujuan, tujuan.nama_kabkota, transaksi.tugas, transaksi.tgl_brkt, transaksi.bnyk_hari, kuitansi.total_biaya as totalbiaya FROM matrik left join transaksi on transaksi.matrik_id=matrik.id left join kuitansi on kuitansi.trx_id=transaksi.trx_id left join tujuan on matrik.kodekab_tujuan=tujuan.kode_kabkota where transaksi.flag_trx > 3 and transaksi.tahun_trx = '".Session::get('tahun_anggaran')."' and matrik.unit_pelaksana='".$bidangId."' order by transaksi.tgl_brkt asc) as trx"),'trx.peg_nip','=','pegawai.nip_baru')->
+                           leftJoin(DB::Raw("(SELECT transaksi.tahun_trx, transaksi.kode_trx, transaksi.peg_nip, matrik.kodekab_tujuan, tujuan.nama_kabkota, transaksi.tugas, transaksi.tgl_brkt, transaksi.bnyk_hari, kuitansi.total_biaya as totalbiaya FROM matrik left join transaksi on transaksi.matrik_id=matrik.id left join kuitansi on kuitansi.trx_id=transaksi.trx_id left join tujuan on matrik.kodekab_tujuan=tujuan.kode_kabkota where transaksi.flag_trx > 5 and transaksi.tahun_trx = '".Session::get('tahun_anggaran')."' and matrik.unit_pelaksana='".$bidangId."' order by transaksi.tgl_brkt asc) as trx"),'trx.peg_nip','=','pegawai.nip_baru')->
                            select(DB::Raw('tahun_trx,kode_trx,pegawai.nama, pegawai.nip_baru,kodekab_tujuan,nama_kabkota,tugas,tgl_brkt,bnyk_hari,totalbiaya'))->where('tahun_trx','>','0')->orderBy('tgl_brkt','asc')->get();
             $dataBidang = Unitkerja::where('kode','=',$bidangId)->first();
             //dd($rekapBidang);
@@ -193,7 +196,7 @@ class LaporanController extends Controller
             select nama, COALESCE(jumlah,0) as jumlah, COALESCE(totalbiaya,0) as totalbiaya from unitkerja left join (SELECT transaksi.tahun_trx, matrik.unit_pelaksana, COUNT(*) as jumlah, sum(kuitansi.total_biaya) as totalbiaya FROM matrik left join transaksi on transaksi.matrik_id=matrik.id left join kuitansi on kuitansi.trx_id=transaksi.trx_id where transaksi.flag_trx > 3 and transaksi.tahun_trx = '2019' GROUP by matrik.unit_pelaksana order by matrik.unit_pelaksana asc) as trx on trx.unit_pelaksana=unitkerja.kode where unitkerja.eselon < 4
             */
             $rekapBidang = DB::table('unitkerja')->
-            leftJoin(DB::Raw("(SELECT transaksi.tahun_trx, matrik.unit_pelaksana, COUNT(*) as jumlah, sum(kuitansi.total_biaya) as totalbiaya FROM matrik left join transaksi on transaksi.matrik_id=matrik.id left join kuitansi on kuitansi.trx_id=transaksi.trx_id where transaksi.flag_trx > 3 and transaksi.tahun_trx = '".Session::get('tahun_anggaran')."' GROUP by matrik.unit_pelaksana order by matrik.unit_pelaksana asc) as trx"),'trx.unit_pelaksana','=','unitkerja.kode')->
+            leftJoin(DB::Raw("(SELECT transaksi.tahun_trx, matrik.unit_pelaksana, COUNT(*) as jumlah, sum(kuitansi.total_biaya) as totalbiaya FROM matrik left join transaksi on transaksi.matrik_id=matrik.id left join kuitansi on kuitansi.trx_id=transaksi.trx_id where transaksi.flag_trx > 5 and transaksi.tahun_trx = '".Session::get('tahun_anggaran')."' GROUP by matrik.unit_pelaksana order by matrik.unit_pelaksana asc) as trx"),'trx.unit_pelaksana','=','unitkerja.kode')->
             select(\DB::Raw('kode,nama, COALESCE(jumlah,0) as jumlah, COALESCE(totalbiaya,0) as total_biaya'))->
             where('unitkerja.eselon','<','4')->
             get();

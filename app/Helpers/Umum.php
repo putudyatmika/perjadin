@@ -48,6 +48,10 @@ Class Jumlah {
         $Data = \App\SuratTugas::where([['flag_surattugas','=',$flag],['tahun_srt','=',$tahun]])->orderBy('updated_at','desc')->take(5)->get();
         return $Data;
     }
+    public static function TotalAnggaran($tahun) {
+        $sum = \App\Anggaran::where('tahun_anggaran','=',$tahun)->sum('pagu_utama');
+        return $sum;
+    }
 }
 
 Class Generate {
@@ -115,7 +119,7 @@ Class Generate {
        select nama_kabkota, jumlah from tujuan LEFT join (SELECT matrik.kodekab_tujuan, COUNT(*) as jumlah FROM matrik left join transaksi on transaksi.matrik_id=matrik.id where transaksi.flag_trx > 3 and year(transaksi.tgl_brkt) = '2019' GROUP by matrik.kodekab_tujuan) as trx on trx.kodekab_tujuan = tujuan.kode_kabkota
         */
         $Data = \DB::table('tujuan')->
-                leftJoin(\DB::Raw("(SELECT matrik.kodekab_tujuan, COUNT(*) as jumlah FROM matrik left join transaksi on transaksi.matrik_id=matrik.id where transaksi.flag_trx > 3 and year(transaksi.tgl_brkt) = '".$tahun."' GROUP by matrik.kodekab_tujuan) as trx"),'tujuan.kode_kabkota','=','trx.kodekab_tujuan')->select(\DB::Raw('nama_kabkota as y,  COALESCE(jumlah,0) as a'))->get()->toJson();
+                leftJoin(\DB::Raw("(SELECT matrik.kodekab_tujuan, COUNT(*) as jumlah FROM matrik left join transaksi on transaksi.matrik_id=matrik.id where transaksi.flag_trx > 3 and year(transaksi.tgl_brkt) = '".$tahun."' GROUP by matrik.kodekab_tujuan) as trx"),'tujuan.kode_kabkota','=','trx.kodekab_tujuan')->select(\DB::Raw('nama_kabkota as y,  COALESCE(jumlah,0) as a'))->where('jumlah','>','0')->get()->toJson();
         //dd($Data);
         return $Data;
     }

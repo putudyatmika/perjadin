@@ -64,6 +64,7 @@ $(function () {
                                     <thead>
                                         <tr>
                                             <th>#</th>
+                                            <th>Kode Trx</th>
                                             <th>Tujuan</th>
                                             <th>Tugas</th>
                                             <th>Tgl Brkt</th>
@@ -78,6 +79,7 @@ $(function () {
                                         @foreach ($RekapPegawai as $item)
                                             <tr>
                                                 <td>{{$loop->iteration}}</td>
+                                                <td>{{$item->kode_trx}}</td>
                                                 <td>{{$item->Matrik->Tujuan->nama_kabkota}}</td>
                                                 <td>{{$item->tugas}}</td>
                                                 <td class="text-right">{{Tanggal::Panjang($item->tgl_brkt)}}</td>
@@ -91,7 +93,7 @@ $(function () {
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <th colspan="5" class="text-center">Total</th>
+                                            <th colspan="6" class="text-center">Total</th>
                                             <th class="text-right">@duit($totalbiaya)</th>
                                         </tr>
                                     </tfoot>
