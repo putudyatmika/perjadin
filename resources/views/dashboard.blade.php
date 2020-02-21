@@ -38,7 +38,7 @@
                                 <div class="col-lg-3 col-sm-6 row-in-br">
                                     <div class="col-in row">
                                         <div class="col-md-6 col-sm-6 col-xs-6"> <i data-icon="E" class="linea-icon linea-basic"></i>
-                                            <h5 class="text-muted vb">Jumlah Total Perjalanan</h5> </div>
+                                            <h5 class="text-muted vb">Total Perjalanan</h5> </div>
                                         <div class="col-md-6 col-sm-6 col-xs-6">
                                             <h3 class="counter text-right m-t-15 text-danger">{{Jumlah::Transaksi(10,Session::get('tahun_anggaran'))}}</h3> </div>
                                         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -56,16 +56,7 @@
                                             <h3 class="counter text-right m-t-15 text-megna">{{Jumlah::Transaksi(7,Session::get('tahun_anggaran'))}}</h3> </div>
                                         <div class="col-md-12 col-sm-12 col-xs-12">
                                             <div class="progress">
-                                                @if (Jumlah::Transaksi(10,Session::get('tahun_anggaran'))>0) 
-                                                    <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="{{round((Jumlah::Transaksi(7,Session::get('tahun_anggaran'))/Jumlah::Transaksi(10,Session::get('tahun_anggaran')))*100)}}" aria-valuemin="0" aria-valuemax="100" style="width: {{round((Jumlah::Transaksi(7,Session::get('tahun_anggaran'))/Jumlah::Transaksi(10,Session::get('tahun_anggaran')))*100)}}%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                @else
-                                                    <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                @endif
-                                                @php
-                                                /*
-                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="{{round((Jumlah::Transaksi(7)/Jumlah::Transaksi(10))*100)}}" aria-valuemin="0" aria-valuemax="100" style="width: {{round((Jumlah::Transaksi(7)/Jumlah::Transaksi(10))*100)}}%"> <span class="sr-only">40% Complete (success)</span> </div>
-                                                */
-                                                @endphp
+                                                <div class="progress-bar progress-bar-megna" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: {{(Jumlah::Transaksi(7,Session::get('tahun_anggaran'))/Jumlah::Transaksi(10,Session::get('tahun_anggaran')))*100}}%"> <span class="sr-only">40% Complete (success)</span> </div>
                                             </div>
                                         </div>
                                     </div>
@@ -73,12 +64,12 @@
                                 <div class="col-lg-3 col-sm-6 row-in-br">
                                     <div class="col-in row">
                                         <div class="col-md-6 col-sm-6 col-xs-6"> <i class="linea-icon linea-basic" data-icon="&#xe00b;"></i>
-                                            <h5 class="text-muted vb">Batal dilaksanakan</h5> </div>
+                                            <h5 class="text-muted vb">Total Anggaran</h5> </div>
                                         <div class="col-md-6 col-sm-6 col-xs-6">
-                                            <h3 class="counter text-right m-t-15 text-primary">{{Jumlah::Transaksi(3,Session::get('tahun_anggaran'))}}</h3> </div>
+                                            <h4 class="counter text-right m-t-15 text-primary">@rupiah(Jumlah::TotalAnggaran(Session::get('tahun_anggaran')))</h4> </div>
                                         <div class="col-md-12 col-sm-12 col-xs-12">
                                             <div class="progress">
-                                                <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                                <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{((Jumlah::TotalAnggaran(Session::get('tahun_anggaran'))-Jumlah::KuitansiCair(Session::get('tahun_anggaran')))/Jumlah::TotalAnggaran(Session::get('tahun_anggaran')))*100}}%"> <span class="sr-only">40% Complete (success)</span> </div>
                                             </div>
                                         </div>
                                     </div>
@@ -91,7 +82,7 @@
                                             <h4 class="counter text-right m-t-15 text-success">@rupiah(Jumlah::KuitansiCair(Session::get('tahun_anggaran')))</h4> </div>
                                         <div class="col-md-12 col-sm-12 col-xs-12">
                                             <div class="progress">
-                                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{(Jumlah::KuitansiCair(Session::get('tahun_anggaran'))/Jumlah::TotalAnggaran(Session::get('tahun_anggaran')))*100}}%"> <span class="sr-only">40% Complete (success)</span> </div>
                                             </div>
                                         </div>
                                     </div>

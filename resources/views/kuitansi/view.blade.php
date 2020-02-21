@@ -27,7 +27,7 @@ $(document).ready(function () {
     window.onload = $('#hal1').printArea();
     window.onfocus = setTimeout(function(){ $('#hal2').printArea(); }, 2000);
     window.onfocus = setTimeout(function(){ $('#hal3').printArea(); }, 7000);
-    window.onfocus = setTimeout(function () { window.close(); }, 15000); 
+    window.onfocus = setTimeout(function () { window.close(); }, 20000); 
     
 });
  </script>
