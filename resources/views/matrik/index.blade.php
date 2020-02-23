@@ -127,10 +127,12 @@
                                                         @endif
                                                         @if ($item->dana_unitkerja==Auth::user()->user_unitkerja  or Auth::user()->user_level>3)
                                                             @if ($item->flag_matrik<5)
-                                                        <button class="btn btn-circle btn-danger btn-sm" data-toggle="modal" data-target="#DeleteModal" data-mid="{{$item->id}}">
+                                                                @if (is_null($item->nomor_surat))
+                                                            <button class="btn btn-circle btn-danger btn-sm" data-toggle="modal" data-target="#DeleteModal" data-mid="{{$item->id}}">
                                                             <span data-toggle="tooltip" title="Hapus matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-trash"></i></span>
                                                         </button>
-                                                        @endif
+                                                                @endif
+                                                            @endif
                                                         @endif
                                                     </td>
                                                 </tr>   

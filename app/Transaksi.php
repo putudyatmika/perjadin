@@ -33,10 +33,12 @@ class Transaksi extends Model
     {
         return $this->belongsTo('App\Kuitansi', 'trx_id', 'trx_id');
     }
-    public function PegGolongan(){
+    public function PegGolongan()
+    {
         return $this->belongsTo('App\Golongan','peg_gol', 'kode');
     }
-    public function PegUnitkerja(){
+    public function PegUnitkerja()
+    {
         return $this->belongsTo('App\Unitkerja','peg_unitkerja', 'kode');
     }
 }
