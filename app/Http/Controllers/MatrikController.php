@@ -34,7 +34,10 @@ class MatrikController extends Controller
         $DataUnitkerja = DB::table('unitkerja')
             ->where('eselon', '<', '4')->where('flag_edit', '=', '0')->get();
         $MatrikFlag = config('globalvar.FlagMatrik');
-        $DataMatrik = MatrikPerjalanan::where('tahun_matrik', Session::get('tahun_anggaran'))->orderBy('created_at', 'desc')->get();
+        $DataMatrik = MatrikPerjalanan::with(['DanaUnitkerja','UnitPelaksana'])
+                      ->leftJoin(DB::raw("(select trx_id,kode_trx,matrik_id,tahun_trx from transaksi) as transaksi"),'matrik.id','=','transaksi.matrik_id')
+                      ->leftJoin(DB::raw("(select srt_id,trx_id,tahun_srt,nomor_surat,tgl_surat from surattugas) as surattugas"),'transaksi.trx_id','=','surattugas.trx_id')
+                      ->where('tahun_matrik', Session::get('tahun_anggaran'))->orderBy('created_at', 'desc')->get();
         //dd($DataMatrik);
         return view('matrik.index', compact('DataMatrik', 'MatrikFlag', 'DataUnitkerja'));
     }
