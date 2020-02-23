@@ -3,7 +3,9 @@
 @endif
 
 @if (($item->flag_kuitansi==0 or $item->flag_kuitansi==1) and Auth::user()->pengelola>3)
+    @if (Carbon\Carbon::parse($item->Transaksi->tgl_balik) < Carbon\Carbon::today())
 <a href="{{route('kuitansi.edit',$item->trx_id)}}" class="btn btn-success btn-circle btn-sm" data-trxid="{{$item->Transaksi->trx_id}}" data-kodetrx="{{$item->Transaksi->kode_trx}}"><span data-toggle="tooltip" title="Edit Kuitansi an. {{$item->Transaksi->peg_nama}}"><i class="fa fa-pencil"></i></span></a>
+    @endif
 @endif
 
 @if ($item->flag_kuitansi==1 and Auth::user()->pengelola>3)
