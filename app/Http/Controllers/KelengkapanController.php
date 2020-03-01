@@ -31,6 +31,7 @@ class KelengkapanController extends Controller
         $Bilangan = config('globalvar.Bilangan');
         $FlagKendaraan = config('globalvar.Kendaraan');
         $DataPPK = Pegawai::where([['flag_pengelola','=','2'],['flag','=','1']])->orderBy('unitkerja')->first();
+        $DataPegawai = Pegawai::where([['jabatan','<','3'],['flag','=','1']])->orderBy('unitkerja')->get();
         $data = SuratTugas::leftJoin('spd','surattugas.trx_id','=','spd.trx_id')->where('tahun_srt','=',Session::get('tahun_anggaran'))->orderBy('flag_surattugas','ASC')->orderBy('surattugas.created_at','desc')->get();
         //dd($data);
         return view('kelengkapan.list',[
@@ -42,7 +43,12 @@ class KelengkapanController extends Controller
             'FlagTTD'=>$FlagTTD,
             'Bilangan'=>$Bilangan,
             'FlagKendaraan'=>$FlagKendaraan,
-            'DataPPK'=>$DataPPK
+            'DataPPK'=>$DataPPK,
+            'DataPegawai'=>$DataPegawai
         ]);
+    }
+    public function simpan(Request $request)
+    {
+        dd($request->all());
     }
 }

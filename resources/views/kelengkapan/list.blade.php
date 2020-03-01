@@ -20,6 +20,9 @@
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
  <!-- end - This is for export functionality only -->
+ <!-- Date Picker Plugin JavaScript -->
+<script src="{{asset('tema/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
+ @include('kelengkapan.js')
 <script>
     $(function () {
     $("#DataTableCustom").dataTable({
@@ -70,7 +73,7 @@
                                             <th>#</th>
                                             <th>Kode Trx</th>
                                             <th>Nama Pegawai</th>
-                                           
+                                            <th>Tujuan</th>
                                             <th>Tanggal Surat</th>
                                             <th>Tanggal Perjadin</th>
                                             <th>Status</th>
@@ -84,14 +87,17 @@
                                                <td>{{$loop->iteration}}</td>
                                                <td>{{$item->Transaksi->kode_trx}}</td>
                                                <td>
-                                                   <b>{{$item->Transaksi->peg_nama}}</b> <br />
+                                                   <b class="text-uppercase">{{$item->Transaksi->peg_nama}}</b> <br />
                                                    <small>NIP : {{$item->Transaksi->peg_nip}}</small><br />
-                                                    <div>
-                                                        <small>ST : <b>{{$item->nomor_surat}}</b></small><br />
+                                                    <div class="text-primary">
+                                                        <small class="text-success">ST : <b>{{$item->nomor_surat}}</b></small><br />
                                                         <small>SPD : <b>{{$item->nomor_spd}}</b></small> 
                                                     </div>
                                               </td>
-                                               
+                                               <td>
+                                                   {{$item->Transaksi->Matrik->Tujuan->nama_kabkota}} <br />
+                                                   <small>({{$FlagKendaraan[$item->Transaksi->Spd->kendaraan]}})</small>
+                                                </td>
                                                <td>
                                                 @if ($item->tgl_surat != NULL) {{Tanggal::Pendek($item->tgl_surat)}} @endif
                                                </td>
@@ -114,4 +120,5 @@
                 <!-- /.row -->
             </div>
             <!-- /.container-fluid -->
+            @include('kelengkapan.modal')
 @endsection
