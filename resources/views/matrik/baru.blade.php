@@ -58,7 +58,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                                <label for="Pelaksanaan" class="col-lg-2 col-xs-12 col-form-label">Pelaksanaan</label>
+                                                <label for="Pelaksanaan" class="col-lg-2 col-xs-12 col-form-label">Durasi Kegiatan</label>
                                                 <div class="input-group col-lg-8 col-sm-8 col-xs-12 input-daterange" id="date-range">
                                                     <div class="input-group-addon" ><i class="ti-user"></i></div>
                                                     <input type="text" class="form-control" id="tglawal" name="tglawal" placeholder="Tgl Awal" required="" autocomplete="off">

@@ -51,6 +51,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('transaksi/pegawai/sync/{tahun}', 'TransaksiController@syncPegawai')->name('transaksi.sync');
     Route::get('transaksi/view', 'TransaksiController@view')->name('transaksi.view');
     Route::resource('transaksi', 'TransaksiController');
+    Route::get('surattugas/pdf/{kodetrx}', 'SuratTugasController@UnduhPDF')->name('surattugas.pdf');
     Route::get('surattugas/view/{kodetrx}', 'SuratTugasController@view')->name('surattugas.view');
     Route::get('surattugas/nomor/{tahun}', 'SuratTugasController@nomor')->name('surattugas.nomor');
     Route::resource('surattugas', 'SuratTugasController');
@@ -61,6 +62,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('kuitansi', 'KuitansiController');
     Route::get('setuju/daftar', 'PersetujuanController@daftar')->name('setuju.daftar');
     Route::resource('setuju', 'PersetujuanController');
+    Route::get('kelengkapan/list', 'KelengkapanController@list')->name('kelengkapan.list');
+    Route::post('kelengkapan/simpan', 'KelengkapanController@simpan')->name('kelengkapan.simpan');
+    Route::get('cari/{kodetrx}', 'ViewController@viewTrx')->name('cari.trx');
     Route::get('laporan/pegawai/{idpeg?}', function ($idpeg = 0) {
         $ctrl = new \App\Http\Controllers\LaporanController();
         return $ctrl->pegawai($idpeg);

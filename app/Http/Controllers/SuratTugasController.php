@@ -9,6 +9,7 @@ use Session;
 use Illuminate\Support\Facades\Redirect;
 use DB;
 use App\Pegawai;
+use PDF;
 
 
 class SuratTugasController extends Controller
@@ -196,5 +197,27 @@ class SuratTugasController extends Controller
             'status'=> true,
         );
         return Response()->json($arr);
+    }
+    public function UnduhPDF($kodetrx)
+    {
+        
+        $FlagTrx = config('globalvar.FlagTransaksi');
+        $FlagKonfirmasi = config('globalvar.FlagKonfirmasi');
+        $MatrikFlag = config('globalvar.FlagMatrik');
+        $FlagSrt = config('globalvar.FlagSurat');
+        $FlagTTD = config('globalvar.FlagTTD');
+        $Bilangan = config('globalvar.Bilangan');
+        $Bulan = config('globalvar.Bulan');
+        $dataTransaksi = \App\Transaksi::with('Matrik','SuratTugas')->where('kode_trx','=',$kodetrx)->get();
+        PDF::setOptions(['dpi' => 150, 'defaultFont' => 'Helvetica','isHtml5ParserEnabled'=>true]);
+        $pdf = PDF::loadView('surattugas.pdf',compact('dataTransaksi','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','Bulan'))->setPaper('A4');
+       
+        //$pdf->render();
+        //$filename = $kodetrx.'.pdf';
+    return $pdf->stream();
+        //$nama=strtoupper($dataTransaksi[0]->peg_nama);
+        //return $pdf->download('SPD_'.$nama.'_TRX_ID_'.$kodetrx.'.pdf');
+        //return view('surattugas.pdf',compact('dataTransaksi','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','Bulan'));
+
     }
 }

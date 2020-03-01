@@ -37,7 +37,7 @@ $.ajax({
         dataType: 'json',
         success: function(data){     
             var nomor_baru = data.nomor+1;
-            var Tanggal = new Date();
+            
             //B-001/52.ST/1/2020
             //B-001/52.SPD/1/2020
             if (nomor === "") {

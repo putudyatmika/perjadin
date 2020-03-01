@@ -96,10 +96,10 @@ font-size:12pt !important;
     text-align: center;
 }
 .qrcode {
-    width: 96%;
+    width: 99%;
     position: relative;
-    bottom: 10px;
-    padding: 3px;
+    bottom: 0px;
+    padding: 0px;
     text-align: left;
 }
 .spdhal1 table {
@@ -140,6 +140,9 @@ font-size:12pt !important;
 .tabel3dpr table table {
     padding:2pt !important;
     border: 1px solid black !important;
+}
+.pindah-halaman {
+    page-break-after: always;
 }
 }
 
