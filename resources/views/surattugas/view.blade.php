@@ -1,5 +1,6 @@
 @section('css')
 <link href="{{asset('css/print.css')}}" rel="stylesheet" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 @stop
 @section('js')
 <!-- end - This is for export functionality only -->
@@ -26,11 +27,13 @@
                     $('#dataSuratTugas').printArea();
                 });
             });
+            
 $(document).ready(function () {
     
     window.onload = $('#dataSuratTugas').printArea();
     setTimeout(function(){ window.close(); }, 3000);
 });
+
  </script>
 
 @stop
@@ -112,8 +115,8 @@ $(document).ready(function () {
                                 <div class="row namatable">
                                     <table>
                                         <tr>
-                                            <td>Nama</td>
-                                            <td>:</td>
+                                            <td width="17%">Nama</td>
+                                            <td width="3%">:</td>
                                             <td><b>{{strtoupper($dataTransaksi[0]->peg_nama)}}</b></td>
                                         </tr>
                                         <tr>
@@ -169,7 +172,12 @@ $(document).ready(function () {
                                         <table width="100%" style="margin-top:22px;">
                                             <tr>
                                                 <td width="50%">
-
+                                                    <div class="qrcode" style="margin-top:60pt;">
+                                                        <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')
+                                                        ->size(100)->margin(0)->generate('https://perjadin.bpsntb.id/view/'.$dataTransaksi[0]->kode_trx)) !!}" width="80px">
+                
+                                                    <div style="font-size:8pt;padding-left:3px;">TRX ID : {{$dataTransaksi[0]->kode_trx}}</div>
+                                                </div>
                                                 </td>
                                                 <td width="50%">
                                                     <div class="text-center">
@@ -192,17 +200,12 @@ $(document).ready(function () {
 
                                         </table>
                                  </div>
-                                 <div class="qrcode">
-                                        <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')
-                                        ->size(80)->margin(0)->generate('https://perjadin.bpsntb.id/view/'.$dataTransaksi[0]->kode_trx)) !!} ">
-
-                                    <div style="font-size:8pt;padding-left:3px;">TRX ID : {{$dataTransaksi[0]->kode_trx}}</div>
-                                </div>
+                                 
                                  <div style="margin-top:20px">
 
                                     <div class="bawah text-center">
                                         Jl. Gunung Rinjani No. 2 Mataram 83125  Telp. (0370) 621385, 638321  Fax (0370) 623801 <br />
-                                        Email: bps5200@bps.go.id   Website: http//ntb.bps.go.id
+                                        Email: bps5200@bps.go.id   Website: http://ntb.bps.go.id
                                     </div>
                                  </div>
                                 <div class="text-right">
