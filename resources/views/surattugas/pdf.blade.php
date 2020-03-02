@@ -239,7 +239,7 @@ footer {
                         <table width="100%" style="margin-top:22px;">
                             <tr>
                                 <td width="50%">
-                                    <div class="qrcode" style="margin-top:100pt;">
+                                    <div class="qrcode" style="margin-top:80pt;">
                                         <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')
                                         ->size(100)->margin(0)->generate('https://perjadin.bpsntb.id/view/'.$dataTransaksi[0]->kode_trx)) !!}" width="80px">
 
