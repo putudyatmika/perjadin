@@ -214,7 +214,7 @@ class SuratTugasController extends Controller
        
         //$pdf->render();
         //$filename = $kodetrx.'.pdf';
-    return $pdf->stream();
+        return $pdf->stream();
         //$nama=strtoupper($dataTransaksi[0]->peg_nama);
         //return $pdf->download('SPD_'.$nama.'_TRX_ID_'.$kodetrx.'.pdf');
         //return view('surattugas.pdf',compact('dataTransaksi','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','Bulan'));

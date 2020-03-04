@@ -63,6 +63,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('setuju/daftar', 'PersetujuanController@daftar')->name('setuju.daftar');
     Route::resource('setuju', 'PersetujuanController');
     Route::get('kelengkapan/list', 'KelengkapanController@list')->name('kelengkapan.list');
+    Route::get('kelengkapan/print/{kodetrx}', 'KelengkapanController@print')->name('kelengkapan.print');
+    Route::get('kelengkapan/unduh/{kodetrx}', 'KelengkapanController@unduh')->name('kelengkapan.unduh');
     Route::post('kelengkapan/simpan', 'KelengkapanController@simpan')->name('kelengkapan.simpan');
     Route::get('cari/{kodetrx}', 'ViewController@viewTrx')->name('cari.trx');
     Route::get('laporan/pegawai/{idpeg?}', function ($idpeg = 0) {
