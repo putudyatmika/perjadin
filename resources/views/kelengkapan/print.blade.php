@@ -46,7 +46,12 @@ h1, h2, h3, h4, h5, h6 { page-break-after:avoid;
      page-break-inside:avoid }
 img { page-break-inside:avoid;
      page-break-after:avoid; }
-table, pre { page-break-inside:avoid }
+
+table, pre { page-break-inside:avoid; font-size : 10pt; border-collapse: collapse; }
+table tr .garis-t {  border-top: 1px solid black !important; }
+table tr .garis-b {  border-bottom: 1px solid black !important; }
+table tr .garis-l {  border-left: 1px solid black !important; }
+table tr .garis-r {  border-right: 1px solid black !important; }
 ul, ol, dl  { page-break-before:avoid }
 /* Displaying link color and link behaviour */
 
@@ -149,15 +154,15 @@ footer {
 <body>
     
     <main>
-        <p style="page-break-after: never;">
+        <div style="page-break-after: never;">
             @include('kelengkapan.srttugas')
-        </p>
-        <p style="page-break-after: always;">
+        </div>
+        <div style="page-break-after: always;">
             @include('kelengkapan.spd1')
-        </p>
-        <p style="page-break-after: never;">
+        </div>
+        <div style="page-break-after: never;">
             @include('kelengkapan.spd2')
-        </p>
+        </div>
     </main>
     
 <!-- jQuery -->

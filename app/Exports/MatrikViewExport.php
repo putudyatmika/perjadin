@@ -21,7 +21,7 @@ class MatrikViewExport implements FromView
 
     public function view(): View
     {
-        return view('matrik.xml', [
+        return view('xml', [
             'data' => $this->data
         ]);
     }
