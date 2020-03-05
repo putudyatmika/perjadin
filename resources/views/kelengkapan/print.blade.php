@@ -46,12 +46,19 @@ h1, h2, h3, h4, h5, h6 { page-break-after:avoid;
      page-break-inside:avoid }
 img { page-break-inside:avoid;
      page-break-after:avoid; }
-
-table, pre { page-break-inside:avoid; font-size : 10pt; border-collapse: collapse; }
-table tr .garis-t {  border-top: 1px solid black !important; }
-table tr .garis-b {  border-bottom: 1px solid black !important; }
-table tr .garis-l {  border-left: 1px solid black !important; }
-table tr .garis-r {  border-right: 1px solid black !important; }
+table, pre { page-break-inside:avoid }
+table {  
+        width: 100%;
+        /*line-height: normal; /* inherit */
+        text-align: left;
+        font-size : 10pt; 
+        border-collapse: collapse; 
+        padding:2pt !important;
+}
+table tr .garis-t {  border-top: 1px solid black !important; padding: 5px; }
+table tr .garis-b {  border-bottom: 1px solid black !important; padding: 5px; }
+table tr .garis-l {  border-left: 1px solid black !important; padding: 5px; }
+table tr .garis-r {  border-right: 1px solid black !important; padding: 5px; }
 ul, ol, dl  { page-break-before:avoid }
 /* Displaying link color and link behaviour */
 
@@ -154,15 +161,15 @@ footer {
 <body>
     
     <main>
-        <div style="page-break-after: never;">
+        <p style="page-break-after: never;">
             @include('kelengkapan.srttugas')
-        </div>
-        <div style="page-break-after: always;">
+        </p>
+        <p style="page-break-after: always;">
             @include('kelengkapan.spd1')
-        </div>
-        <div style="page-break-after: never;">
+        </p>
+        <p style="page-break-after: never;">
             @include('kelengkapan.spd2')
-        </div>
+        </p>
     </main>
     
 <!-- jQuery -->

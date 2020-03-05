@@ -2,7 +2,7 @@
     <img src="{{asset('img/logo-bps.png')}}" height="80">
     <h4 class="namabps"><p><i><b>BADAN PUSAT STATISTIK <br />PROVINSI NUSA TENGGARA BARAT</b></i></p></h4>
 </div>
-<table width="100%">
+<table width="100%" cellpadding="0" cellspacing="0">
     <tr>
         <td width="50%"></td>
         <td width="17%">Lembar Ke</td>
@@ -25,31 +25,35 @@
 
 <div class="text-center" style="margin:30px;"><h4><u><b>SURAT PERJALANAN DINAS (SPD)</b></u></h4></div>
 
-<table width="100%" padding="10">
+<table width="100%" cellpadding="0" cellspacing="0">
     <tr height="20px">
         <td width="2%" valign="top" class="garis-t garis-l"><span class="pull-left">1.</span></td>
         <td width="48%" class="garis-t garis-r"><span class="pull-left">Pejabat Pembuat Komitmen</span></td>
         <td width="50%" class="garis-t garis-r">{{strtoupper($data->Spd->ppk_nama)}}</td>
     </tr>
     <tr>
-        <td valign="top"><span class="pull-left">2.</span></td>
-        <td valign="top" height="30"><div class="pull-left">Nama / NIP Pegawai yang melaksanakan perjalanan dinas</div></td>
-        <td valign="top">
-            
-                <b>{{strtoupper($data->peg_nama)}} / {{$data->peg_nip}}</b>
-            
-           
+        <td valign="top" class="garis-t garis-l"><span class="pull-left">2.</span></td>
+        <td valign="top" height="30" class="garis-t garis-r"><div class="pull-left">Nama / NIP Pegawai yang melaksanakan perjalanan dinas</div></td>
+        <td valign="top" class="garis-t garis-r">
+            <table width="100%">
+                <tr>
+                    <td><b>{{strtoupper($data->peg_nama)}}</b></td>
+                </tr>
+                <tr>
+                    <td><b>{{$data->peg_nip}}</b></td>
+                </tr>
+            </table>
         </td>
     </tr>
     <tr>
-        <td><span class="pull-left">3.</span></td>
-        <td><span class="pull-left">a. Pangkat dan Golongan</span></td>
-        <td>a. {{$data->PegGolongan->pangkat}} ({{$data->PegGolongan->gol}})</td>
+        <td class="garis-t garis-l"><span class="pull-left">3.</span></td>
+        <td class="garis-t garis-r"><span class="pull-left">a. Pangkat dan Golongan</span></td>
+        <td class="garis-t garis-r">a. {{$data->PegGolongan->pangkat}} ({{$data->PegGolongan->gol}})</td>
     </tr>
     <tr>
-        <td></td>
-        <td><span class="pull-left">b. Jabatan/Instansi</span></td>
-        <td>b.
+        <td class="garis-l"></td>
+        <td class="garis-r"><span class="pull-left">b. Jabatan/Instansi</span></td>
+        <td class="garis-r">b.
                 @if ($data->peg_jabatan<4)
                 Kepala {{$data->PegUnitkerja->nama}}
                 @else
@@ -57,20 +61,20 @@
                 @endif
         </td>
     </tr>
-<tr class="adagaris">
-    <td></td>
-    <td><span class="pull-left">c.	Tingkat biaya perjalanan dinas</span></td>
-    <td>c. C</td>
-</tr>
-    <tr class="adagaris">
-        <td width="2%"><span class="pull-left">4. </span></td>
-        <td width="48%"><span class="pull-left">Maksud perjalanan dinas</span></td>
-        <td width="50%" class="gariskiri">{{$data->tugas}}</td>
+    <tr>
+        <td class="garis-l"></td>
+        <td class="garis-r"><span class="pull-left">c.	Tingkat biaya perjalanan dinas</span></td>
+        <td class="garis-r">c. C</td>
     </tr>
-    <tr class="adagaris">
-        <td width="2%"><span class="pull-left">5. </span></td>
-        <td width="48%"><span class="pull-left">Alat angkutan yang dipergunakan</span></td>
-        <td width="50%" class="gariskiri">{{$FlagKendaraan[$data->Spd->kendaraan]}}</td>
+    <tr>
+        <td class="garis-t garis-l"><span class="pull-left">4. </span></td>
+        <td class="garis-t garis-r"><span class="pull-left">Maksud perjalanan dinas</span></td>
+        <td class="garis-t garis-r">{{$data->tugas}}</td>
+    </tr>
+    <tr>
+        <td class="garis-t garis-l"><span class="pull-left">5. </span></td>
+        <td class="garis-t garis-r"><span class="pull-left">Alat angkutan yang dipergunakan</span></td>
+        <td class="garis-t garis-r">{{$FlagKendaraan[$data->Spd->kendaraan]}}</td>
     </tr>
     <tr>
         <td width="2%"><span class="pull-left">6. </span></td>
