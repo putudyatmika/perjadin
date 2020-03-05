@@ -66,8 +66,31 @@ class KelengkapanController extends Controller
             $data = Transaksi::where('kode_trx','=',$kodetrx)->where('flag_trx','>','3')->first();
             //dd($data);
             PDF::setOptions(['dpi' => 150, 'defaultFont' => 'Helvetica','isHtml5ParserEnabled'=>true]);
+            //$pdf = PDF::loadView('kelengkapan.print',compact('data','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','FlagKendaraan'))->setPaper('A4');
+            //return $pdf->stream();
+            return view('kelengkapan.print',compact('data','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','FlagKendaraan'));
+        }
+        
+    }
+
+    public function unduh($kodetrx)
+    {
+        $FlagTrx = config('globalvar.FlagTransaksi');
+        $FlagKonfirmasi = config('globalvar.FlagKonfirmasi');
+        $MatrikFlag = config('globalvar.FlagMatrik');
+        $FlagSrt = config('globalvar.FlagSurat');
+        $FlagTTD = config('globalvar.FlagTTD');
+        $Bilangan = config('globalvar.Bilangan');
+        $FlagKendaraan = config('globalvar.Kendaraan');
+        $count = Transaksi::where('kode_trx','=',$kodetrx)->where('flag_trx','>','3')->count();
+        if ($count > 0) 
+        {
+            $data = Transaksi::where('kode_trx','=',$kodetrx)->where('flag_trx','>','3')->first();
+            //dd($data);
+            PDF::setOptions(['dpi' => 150, 'defaultFont' => 'Helvetica','isHtml5ParserEnabled'=>true]);
             $pdf = PDF::loadView('kelengkapan.print',compact('data','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','FlagKendaraan'))->setPaper('A4');
             return $pdf->stream();
+            //return view('kelengkapan.print',compact('data','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','FlagKendaraan'));
         }
         
     }
