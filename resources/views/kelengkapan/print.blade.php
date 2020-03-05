@@ -20,9 +20,7 @@ body {
     background: #fff !important;
     color: #000;
 }
-@page {
-    margin: 60px;
-}
+
 h1 {
 font-size: 20pt;
 }
@@ -55,10 +53,21 @@ table {
         border-collapse: collapse; 
         padding:2pt !important;
 }
-table tr .garis-t {  border-top: 1px solid black !important; padding: 5px; }
-table tr .garis-b {  border-bottom: 1px solid black !important; padding: 5px; }
-table tr .garis-l {  border-left: 1px solid black !important; padding: 5px; }
-table tr .garis-r {  border-right: 1px solid black !important; padding: 5px; }
+.halbox {
+        max-width: 800px;
+        margin: auto;
+        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+}
+table.normal {
+    line-height: normal; /* inherit */
+}
+table.pad5px tr td {
+    padding: 4px;
+}
+table tr .garis-t {  border-top: 1px solid black !important; }
+table tr .garis-b {  border-bottom: 1px solid black !important; }
+table tr .garis-l {  border-left: 1px solid black !important; }
+table tr .garis-r {  border-right: 1px solid black !important; }
 ul, ol, dl  { page-break-before:avoid }
 /* Displaying link color and link behaviour */
 
@@ -128,32 +137,8 @@ footer {
 .pindah-halaman {
     page-break-after: always;
 }
-.spdhal1 table {
-    border: 1px solid black !important;
-}
-.spdhal1 table td {
-    padding:2pt !important;
-}
 .spdhal2 table {
-    padding:2pt !important;
-    border: 1px solid black !important;
-    font-size:10pt !important;
-}
-.spdhal2 table table {
-    padding:2pt !important;
-    border: none !important;
-    font-size:10pt !important;
-}
-.spdhal2 .adagaris {
-    border-bottom: 1px solid black !important;
-    font-size:10pt !important;
-}
-.spdhal1 .adagaris, .tabeldrpd .adagaris, .tabel3dpr .adagaris {
-    border-bottom: 1px solid black !important;
-}
-.spdhal2 .gariskiri, .spdhal1 .gariskiri, .tabeldrpd .gariskiri, .tabel3dpr .gariskiri {
-    border-left: 1px solid black !important;
-    padding-left: 3pt !important;
+    font-size:9pt !important;
 }
     </style>
 
@@ -161,15 +146,17 @@ footer {
 <body>
     
     <main>
-        <p style="page-break-after: never;">
+        <div class="halbox">
             @include('kelengkapan.srttugas')
-        </p>
-        <p style="page-break-after: always;">
+        </div>
+        <div class="pindah-halaman"></div>
+        <div class="halbox">
             @include('kelengkapan.spd1')
-        </p>
-        <p style="page-break-after: never;">
+        </div>
+        <div class="pindah-halaman"></div>
+        <div class="halbox">
             @include('kelengkapan.spd2')
-        </p>
+        </div>
     </main>
     
 <!-- jQuery -->
