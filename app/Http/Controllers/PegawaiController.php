@@ -204,4 +204,73 @@ class PegawaiController extends Controller
     {
         return view("pegawai.import");
     }
+    public function CariPejabat($flagttd)
+    {
+        if ($flagttd==0)
+        {
+            //hanya kepala bps
+            $DataPegawai = Pegawai::where([['jabatan','=','1'],['flag','=','1']])->orderBy('unitkerja')->get();
+            $count = Pegawai::where([['jabatan','=','1'],['flag','=','1']])->orderBy('unitkerja')->count();
+        }
+        else 
+        {
+            //pejabat eselon 3
+            $DataPegawai = Pegawai::where([['jabatan','=','2'],['flag','=','1']])->orderBy('unitkerja')->get();
+            $count = Pegawai::where([['jabatan','=','2'],['flag','=','1']])->orderBy('unitkerja')->count();
+        }
+        //dd($DataPegawai);
+        foreach ($DataPegawai as $item)
+        {
+            $data[] = array(
+                'ttd_nip' => $item->nip_baru,
+                'ttd_nama' => $item->nama,
+                'ttd_jabatan' => 'Kepala '. $item->Unitkerja->nama,
+                'ttd_gol'=> $item->Golongan->pangkat .' ('.$item->Golongan->gol.')'
+            );
+        }
+        $arr = array(
+            'status'=>true,
+            'count'=>$count,
+            'hasil'=>$data
+        );
+        return Response()->json($arr);
+    }
+    public function CariPegawai($nip)
+    {
+        $count = Pegawai::where([['nip_baru','=',$nip],['flag','=','1']])->orderBy('unitkerja')->count();
+        $arr = array(
+            'status'=>false,
+            'hasil'=>'Data tidak tersedia'
+        );
+        if ($count > 0) 
+        {
+            //ada nip pegawai ini
+            $data = Pegawai::where([['nip_baru','=',$nip],['flag','=','1']])->orderBy('unitkerja')->first();
+            if ($data->jabatan<4)
+            {
+                $jabatan_nama = 'Kepala';
+            }
+            else 
+            {
+                $jabatan_nama = 'Staf';
+            }
+            $arr = array(
+                'status'=>true,
+                'peg_id'=>$data->id,
+                'nama'=>$data->nama,
+                'nip_baru'=>$data->nip_baru,
+                'email'=>$data->email,
+                'jabatan_kode'=>$data->jabatan,
+                'jabatan_nama'=>$jabatan_nama,
+                'unit_kode'=>$data->unitkerja,
+                'unit_nama'=>$data->Unitkerja->nama,
+                'golongan'=>$data->Golongan->pangkat .' ('. $data->Golongan->gol.')',
+                'tgl_lahir'=>$data->tgl_lahir,
+                'flag_pengelola'=>$data->flag_pengelola,
+                'tgl_dibuat'=>$data->created_at
+
+            );
+        }
+        return Response()->json($arr);
+    }
 }

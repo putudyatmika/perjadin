@@ -37,9 +37,13 @@
                         <a href="{{url('transaksi')}}" class="waves-effect text-primary"><i class="icon-screen-desktop fa-fw"></i><span class="hide-menu" >Transaksi</span></a> 
                     </li>
                     <li> 
-                        <a href="{{route('kelengkapan.list')}}" class="waves-effect text-primary"><i class="icon-bag fa-fw"></i><span class="hide-menu" >Kelengkapan</span></a> 
+                        <a href="{{route('kelengkapan.list')}}" class="waves-effect text-success"><i class="icon-bag fa-fw"></i><span class="hide-menu" >Kelengkapan</span>
+                            @if (Jumlah::SuratTugas(0,Session::get('tahun_anggaran'))>0)
+                            <span class="label label-rouded label-info pull-right">{{Jumlah::SuratTugas(0,Session::get('tahun_anggaran'))}}</span>
+                            @endif
+                        </a> 
                     </li>
-                    <li> <a href="{{url('surattugas')}}" class="waves-effect text-info"><i class="icon-directions fa-fw"></i><span class="hide-menu" >Surat Tugas</span>
+                    <!--<li> <a href="{{url('surattugas')}}" class="waves-effect text-info"><i class="icon-directions fa-fw"></i><span class="hide-menu" >Surat Tugas</span>
                         @if (Jumlah::SuratTugas(0,Session::get('tahun_anggaran'))>0)
                             <span class="label label-rouded label-info pull-right">{{Jumlah::SuratTugas(0,Session::get('tahun_anggaran'))}}</span>
                         @endif
@@ -49,13 +53,13 @@
                         @if (Jumlah::SPD(0,Session::get('tahun_anggaran'))>0)
                             <span class="label label-rouded label-danger pull-right">{{Jumlah::SPD(0,Session::get('tahun_anggaran'))}}</span>
                         @endif
-                    </a></li>
+                    </a></li>-->
                     <li><a href="{{url('kuitansi')}}" class="waves-effect"><i class="icon-calculator fa-fw"></i><span class="hide-menu" >Kuitansi</span>
                         @if (Jumlah::Kuitansi(0,Session::get('tahun_anggaran'))>0)
                         <span class="label label-rouded label-primary pull-right">{{Jumlah::Kuitansi(0,Session::get('tahun_anggaran'))}}</span>
                         @endif
                     </a></li>
-                    <li> <a href="forms.html" class="waves-effect"><i data-icon="&#xe00b;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Laporan<span class="fa arrow"></span></span></a>
+                    <li> <a href="#" class="waves-effect"><i data-icon="&#xe00b;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Laporan<span class="fa arrow"></span></span></a>
                         <ul class="nav nav-second-level">
                             <li><a href="{{route('lap_pegawai','')}}">Rekap pegawai</a></li>
                             <li><a href="{{route('laporan.bidang')}}">Rekap Bidang</a></li>

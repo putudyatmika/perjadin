@@ -21,6 +21,8 @@ Route::get('view/{kodetrx}', 'ViewController@view');
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('golongan', 'GolonganController');
     Route::get('pegawai/import', 'PegawaiController@import')->name('pegawai.import');
+    Route::get('pejabat/{flagttd}', 'PegawaiController@CariPejabat')->name('cari.pejabat');
+    Route::get('pegawai/{nip}', 'PegawaiController@CariPegawai')->name('cari.pegawai');
     Route::resource('pegawai', 'PegawaiController');
     Route::resource('unitkerja', 'UnitkerjaController');
     //Route::get('matrik/transaksi', 'MatrikController@transaksi')->name('matrik.transaksi');
@@ -66,7 +68,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('kelengkapan/print/{kodetrx}', 'KelengkapanController@print')->name('kelengkapan.print');
     Route::get('kelengkapan/unduh/{kodetrx}', 'KelengkapanController@unduh')->name('kelengkapan.unduh');
     Route::post('kelengkapan/simpan', 'KelengkapanController@simpan')->name('kelengkapan.simpan');
+    Route::post('kelengkapan/batal', 'KelengkapanController@batal')->name('kelengkapan.batal');
     Route::get('cari/{kodetrx}', 'ViewController@viewTrx')->name('cari.trx');
+
     Route::get('laporan/pegawai/{idpeg?}', function ($idpeg = 0) {
         $ctrl = new \App\Http\Controllers\LaporanController();
         return $ctrl->pegawai($idpeg);
