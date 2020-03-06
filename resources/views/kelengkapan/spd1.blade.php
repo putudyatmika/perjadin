@@ -116,10 +116,10 @@
         <td class="garis-t garis-l" height="20px"><span class="pull-left">8. </span></td>
         <td class="garis-t garis-r">
             <span class="pull-left">Pengikut</span> 
-            <span style="margin-right:50px"  class="pull-right">Nama</span> 
+            <span style="margin-left:120px"  class="pull-right">Nama</span> 
         </td>
         <td class="garis-t garis-r" valign="top">
-            <span style="margin-left:20px" class="pull-left">Tanggal Lahir</span><span class="pull-right">Keterangan</span>
+            <span style="margin-left:20px" class="pull-left">Tanggal Lahir</span><span style="margin-left:100px">Keterangan</span>
         </td>
     </tr>
     <tr>

@@ -1,6 +1,6 @@
 <table width="100%" cellpadding="0" cellspacing="0" style="line-height: normal;">
     <tr>
-        <td width="50%"><span class="pull-right" style="margin-right:5px">I.</span></td>
+        <td width="50%" align="right"><span class="pull-right" style="margin-right:5px:text-align:right;">I.</span></td>
         <td width="17%">Berangkat dari</td>
         <td width="3%">:</td>
         <td width="30%">Mataram</td>
@@ -93,7 +93,7 @@
                 {{$data->Matrik->Tujuan->nama_kabkota}}
                 <br />
                 </span>
-                <p style="margin-top:40pt;">
+                <p style="margin-top:50pt;">
                 <b>{{strtoupper($data->Matrik->Tujuan->kepala)}}</b>
                 </p>
                 @endif
@@ -106,7 +106,7 @@
                     {{$data->Matrik->Tujuan->nama_kabkota}}
                     <br />
                     </span>
-                    <p style="margin-top:40pt;">
+                    <p style="margin-top:50pt;">
                     <b>{{strtoupper($data->Matrik->Tujuan->kepala)}}</b>
                     </p>
                 @endif

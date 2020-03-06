@@ -5,8 +5,8 @@
     
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<!-- Bootstrap Core CSS -->
-    <link href="{{ asset('tema/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
-    <link href="{{ asset('tema/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}" rel="stylesheet">
+    <!--<link href="{{ asset('tema/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('tema/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}" rel="stylesheet"> -->
     <!-- Custom CSS -->
     
     <!-- color CSS -->
@@ -14,6 +14,32 @@
        
 /* Setting content width, unsetting floats and margins */
 /* Attention: the classes and IDs vary from theme to theme. Thus, set own classes here */
+.row {
+  margin-right: -15px;
+  margin-left: -15px;
+}
+.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.col-lg-12 {
+    width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  line-height: 1.42857143;
+  color: #333;
+  background-color: #fff;
+}
 body {
     font-size : 10pt;
     font-family: Helvetica !important;
@@ -121,7 +147,7 @@ footer {
     bottom: -60px; 
     left: 0px; 
     right: 0px;
-    height: 60px; 
+    height: 80px; 
     font-size:9pt !important;
     text-align: center;
     

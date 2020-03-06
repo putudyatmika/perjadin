@@ -1,4 +1,4 @@
-@if ($item->tgl_surat!=NULL and ($item->flag_surattugas!=3 and $item->flag_surattugas!=0) )
+@if ($item->nomor_surat!=NULL and $item->nomor_spd!=NULL and ($item->flag_surattugas!=3 and $item->flag_surattugas!=0) )
 <a href="{{route('kelengkapan.print',$item->Transaksi->kode_trx)}}" target="_blank" class="btn btn-circle btn-primary btn-sm"><span data-toggle="tooltip" title="Cetak kelengkapan perjadin an. {{$item->Transaksi->peg_nama}}"><i class="fa fa-print"></i></span></a>
 
 <a href="{{route('kelengkapan.unduh',$item->Transaksi->kode_trx)}}" target="_blank" class="btn btn-circle btn-warning btn-sm"><span data-toggle="tooltip" title="Download kelengkapan perjadin an. {{$item->Transaksi->peg_nama}}"><i class="fa fa-download"></i></span></a>
