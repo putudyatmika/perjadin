@@ -181,7 +181,7 @@ class TransaksiController extends Controller
                 $objEmail->detil = $dataMatrik->DanaAnggaran->uraian;
                 $objEmail->totalbiaya = 'Rp. '.number_format($dataMatrik->total_biaya,0,',','.');
 
-                $dataKabid = Pegawai::where('unitkerja','=',$dataMatrik->unit_pelaksana)->where('jabatan','=','2')->where('flag','=','1')->first();
+                $dataKabid = Pegawai::where('unitkerja','=',$dataMatrik->unit_pelaksana)->where('jabatan','<','3')->where('flag','=','1')->first();
 
                 Mail::to($dataKabid->email)->send(new MailPersetujuan($objEmail));
 
