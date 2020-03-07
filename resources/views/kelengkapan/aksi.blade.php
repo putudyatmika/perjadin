@@ -1,3 +1,6 @@
+<button class="btn btn-circle btn-info btn-sm" data-toggle="modal" data-target="#ViewModal" data-trxid="{{$item->trx_id}}" data-kodetrx="{{$item->Transaksi->kode_trx}}" data-tahun="{{$item->tahun_srt}}" data-tglend="{{Carbon\Carbon::parse($item->Transaksi->tgl_brkt)->subDays(1)->format('Y-m-d')}}">
+    <span data-toggle="tooltip" title="Detil kelengkapan perjadin an. {{$item->Transaksi->peg_nama}}"><i class="fa fa-link"></i></span>
+</button>
 @if ($item->nomor_surat!=NULL and $item->nomor_spd!=NULL and ($item->flag_surattugas!=3 and $item->flag_surattugas!=0) )
 <a href="{{route('kelengkapan.print',$item->Transaksi->kode_trx)}}" target="_blank" class="btn btn-circle btn-primary btn-sm"><span data-toggle="tooltip" title="Cetak kelengkapan perjadin an. {{$item->Transaksi->peg_nama}}"><i class="fa fa-print"></i></span></a>
 
