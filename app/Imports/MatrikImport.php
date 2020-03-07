@@ -44,7 +44,6 @@ class MatrikImport implements ToCollection, WithHeadingRow, WithBatchInserts, Wi
             $datamatrik -> dana_unitkerja = Auth::user()->user_unitkerja;
             $datamatrik -> total_biaya = $totalbiaya;
             $datamatrik -> save();
-            
         }
     }
     public function batchSize(): int

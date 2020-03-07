@@ -139,7 +139,8 @@ class KelengkapanController extends Controller
             //dd($data);
             PDF::setOptions(['dpi' => 150, 'defaultFont' => 'Helvetica','isHtml5ParserEnabled'=>true]);
             $pdf = PDF::loadView('kelengkapan.print',compact('data','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','FlagKendaraan'))->setPaper('A4');
-            return $pdf->stream();
+            $nama=strtoupper($data->peg_nama);
+            return $pdf->stream('PERJADIN_'.$nama.'_TRX_ID_'.$kodetrx.'.pdf');
             //return view('kelengkapan.print',compact('data','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','FlagKendaraan'));
         }
         

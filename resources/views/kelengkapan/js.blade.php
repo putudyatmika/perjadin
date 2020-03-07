@@ -232,4 +232,52 @@ $('#BatalModal').on('show.bs.modal', function (event) {
 
     });
 });
+
+$('#ViewModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget) // Button that triggered the modal
+    var tahun = button.data('tahun')
+    var trxid = button.data('trxid') // Extract info from data-* attributes
+    var kodetrx = button.data('kodetrx')
+    var tglend = button.data('tglend')
+
+    //load dulu transaksinya
+    $.ajax({
+        url : '{{route("cari.trx","")}}/'+kodetrx,
+        method : 'get',
+        cache: false,
+        dataType: 'json',
+        success: function(data){
+            if (data.status == true)
+            {
+            var nomor_surat = data.hasil.nomor_surat;
+            var nomor_spd = data.hasil.nomor_spd;
+            var totalbiaya = number_format(data.hasil.total_biaya);
+            $('#ViewModal .modal-body #kode_trx').text(kodetrx)
+            $('#ViewModal .modal-body #peg_nama').text(data.hasil.peg_nama)
+            $('#ViewModal .modal-body #tujuan').text(data.hasil.tujuan_nama)
+            $('#ViewModal .modal-body #tugas').text(data.hasil.tugas)
+            $('#ViewModal .modal-body #brkt').text(data.hasil.tgl_brkt_nama)
+            $('#ViewModal .modal-body #kembali').text(data.hasil.tgl_balik_nama)
+            $('#ViewModal .modal-body #nomor_surat').text(data.hasil.nomor_surat)
+            $('#ViewModal .modal-body #nomor_spd').text(data.hasil.nomor_spd)
+            $('#ViewModal .modal-body #totalbiaya').text('Rp. '+totalbiaya)          
+            $('#ViewModal .modal-body #sumber_dana').text(data.hasil.dana_mak +'-'+data.hasil.dana_uraian)
+            $('#ViewModal .modal-body #komponen').text('['+data.hasil.komponen_kode +'] '+data.hasil.komponen_nama)
+            $('#ViewModal .modal-body #status').text(data.hasil.flag_surattugas_nama)
+            $('#ViewModal .modal-body #status_kuitansi').text(data.hasil.flag_surattugas_nama)
+            $('#ViewModal .modal-body #status_trx').text(data.hasil.flag_trx_nama)
+            $('#ViewModal .modal-body #status_matrik').text(data.hasil.flag_matrik_nama)
+            $('#ViewModal .modal-body #cetak_tujuan').text(data.hasil.flag_cetak_tujuan_nama)
+            }
+            else 
+            {
+                alert(data.hasil);
+            } 
+        },
+        error: function(){
+            alert("error load transaksi");
+        }
+
+    });
+});
 </script>
