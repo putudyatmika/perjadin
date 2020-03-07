@@ -44,6 +44,14 @@ class ViewController extends Controller
             {
                 $jabatan = 'Staf';
             }
+            if ($data->Spd->flag_cetak_tujuan==0)
+            {
+                $flag_cetak = 'Cetak Langsung';
+            }
+            else 
+            {
+                $flag_cetak = 'Kosongkan';
+            }
             $hasil = array(
                 'kode_trx'=>$kodetrx,
                 'trx_id'=>$data->trx_id,
@@ -123,6 +131,7 @@ class ViewController extends Controller
                 'ppk_nip'=>$data->Spd->ppk_nip,
                 'ppk_nama'=>$data->Spd->ppk_nama,
                 'flag_cetak_tujuan'=>$data->Spd->flag_cetak_tujuan,
+                'flag_cetak_tujuan_nama'=>$flag_cetak,
                 
             );
             $arr = array (

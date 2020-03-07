@@ -124,17 +124,23 @@
                             <dd class="col-sm-8"><span id="brkt"></span></dd>
                             <dt class="col-sm-4">Kembali</dt>
                             <dd class="col-sm-8"><span id="kembali"></span></dd>
+                            <dt class="col-sm-4">Sumber Data</dt>
+                            <dd class="col-sm-8"><span id="sumber_dana"></span></dd>
+                            <dt class="col-sm-4">Komponen</dt>
+                            <dd class="col-sm-8"><span id="komponen"></span></dd>
                             <dt class="col-sm-4">Total Biaya</dt>
                             <dd class="col-sm-8"><span id="totalbiaya"></span></dd>
+                            <dt class="col-sm-4">Cetak Tujuan SPD</dt>
+                            <dd class="col-sm-8"><span class="label label-success" id="cetak_tujuan"></span></dd>
+                            <dt class="col-sm-4">Status</dt>
+                            <dd class="col-sm-8"><span class="label label-warning" id="status"></span></dd>
+                            <dt class="col-sm-4">Status Kuitansi</dt>
+                            <dd class="col-sm-8"><span class="label label-warning" id="status_kuitansi"></span></dd>
+                            <dt class="col-sm-4">Status Transaksi</dt>
+                            <dd class="col-sm-8"><span class="label label-info" id="status_trx"></span></dd>
+                            <dt class="col-sm-4">Status Matrik</dt>
+                            <dd class="col-sm-8"><span class="label label-info" id="status_matrik"></span></dd>
                         </dl>
-                        <input type="hidden" id="kodetrx" name="kodetrx" value="" />
-                        <input type="hidden" id="trx_id" name="trx_id" value="" />
-                        <input type="hidden" id="srt_id" name="srt_id" value="">
-                        <input type="hidden" id="spd_id" name="spd_id" value="">
-                        <input type="hidden" id="t_id" name="t_id" value="">
-                        <input type="hidden" id="a_id" name="a_id" value="">
-                        <input type="hidden" id="m_id" name="m_id" value="">
-                        <input type="hidden" id="pagu_rencana" name="pagu_rencana" value="">
                         
             </div>
             <div class="modal-footer">
