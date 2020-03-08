@@ -137,9 +137,9 @@ $(function () {
                                         <tr>
                                             <th>No</th>
                                             <th>Uraian</th>
-                                            <th>Unitkerja</th>
                                             <th>Pagu Awal</th>
                                             <th>Pagu Alokasi</th>
+                                            <th>Realisasi</th>
                                             <th>ID</th>
                                             <th>Tgl Dibuat</th>
                                             <th>Lock?</th>
@@ -156,10 +156,12 @@ $(function () {
                                                     <small>{{ $item->mak}}</small>
                                                     <br />
                                                     <small>[{{ $item->komponen_kode}}] {{$item->komponen_nama}}</small>
+                                                    <br />
+                                                    <small>{{ $item->unit_nama}}</small>
                                                 </td>
-                                                <td>{{ $item->unit_nama}}</td>
                                                 <td><div class="pull-right">{{$item->pagu_utama}}</div></td>
                                                 <td><div class="pull-right">{{$item->rencana_pagu}}</div></td>
+                                                <td><div class="pull-right">{{$item->realisasi_pagu}}</div></td>
                                                 <td>{{ $item->id}}</td>
                                                 <td>{{Tanggal::Pendek($item->created_at)}}</td>
                                                 <td>

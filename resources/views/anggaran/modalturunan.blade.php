@@ -209,9 +209,9 @@
         <div class="modal-content">
             <div class="modal-header bg-danger">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel1">Sync Alokasi Anggaran (belum bisa)</h4> </div>
+                <h4 class="modal-title" id="exampleModalLabel1">Sync Alokasi Anggaran</h4> </div>
             <div class="modal-body">
-                    <form method="POST" action="">
+                    <form method="POST" action="{{route('turunan.sinkron','')}}">
                     @csrf
 
                     @if ($dataAnggaran==null)
@@ -239,22 +239,15 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="pagu">Pagu Rencana</label>
+                        <label for="pagu_awal">Pagu</label>
                         <div class="input-group">
                             <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
-                            <input type="text" class="form-control" id="pagu_rencana" name="pagu_rencana" placeholder="Pagu Anggaran" value="" readonly="">
+                            <input type="text" class="form-control" id="pagu_awal" name="pagu_awal" placeholder="Pagu Anggaran" value="" readonly="">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="pagu">Pagu Realisasi</label>
-                        <div class="input-group">
-                            <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
-                            <input type="text" class="form-control" id="pagu_realisasi" name="pagu_realisasi" placeholder="Pagu Realisasi" value="" readonly="">
-                        </div>
-                    </div>
+                   
                     <input type="hidden" name="a_id" id="a_id" value="{{$dataAnggaran->id}}" />
-                    <input type="hidden" name="tid" id="tid" value="" />
-                    <input type="hidden" name="pagu_utama" id="pagu_utama" value="" />
+                    <input type="hidden" name="t_id" id="t_id" value="" />
                     <input type="hidden" name="unitkerja" id="unitkerja" value="" />
             </div>
             <div class="modal-footer">
