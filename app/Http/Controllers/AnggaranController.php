@@ -187,7 +187,8 @@ class AnggaranController extends Controller
      */
     public function destroy(Request $request)
     {
-        //
+        //ini masih perlu diperbaiki
+        dd($request->all());
         $dataAnggaran = Anggaran::findOrFail($request->anggaran_id);
         $dataAnggaran->delete();
 

@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Redirect;
 use DB;
 use App\Pegawai;
 use App\Spd;
+use App\Transaksi;
+use PDF;
 
 class KuitansiController extends Controller
 {
@@ -101,13 +103,16 @@ class KuitansiController extends Controller
     {
         //
         if ($request->aksi == "update") {
+            //dd($request->all());
             $count = Kuitansi::where('kuitansi_id','=',$request->kuitansi_id)->count();
-            if ($count>0) {
+            if ($count > 0) {
                 $rill_total = 0;
+                
                 //kuitansi ada
+                
                 //ambil data bendahara
-                $Bendahara = Pegawai::where([['flag','=','1'],['nip_baru','=',$request->bendahara_nip]])->get();
-                $NamaBendahara = $Bendahara[0]->nama;
+                $Bendahara = Pegawai::where([['flag','=','1'],['nip_baru','=',$request->bendahara_nip]])->first();
+                $NamaBendahara = $Bendahara->nama;
 
                 if (!$request->hotel_cek) {
                     //hotel_cek tidak ada ato tidak ada bukti
@@ -119,6 +124,7 @@ class KuitansiController extends Controller
                     $totalhotel = $request->nilaihotel * $request->hotelhari;
                     $flagHotel = 1;
                 }
+               
 
                 $flagTransport = $request->transport_cek ? '1' : '0';
 
@@ -162,52 +168,103 @@ class KuitansiController extends Controller
                     $rill3_flag = 1;
                     $rill_total = $rill_total + $request->rill3;
                 }
+                //cek dulu sisa pagu turunan anggaran
+                //kalo tidak ada sisa pagu tidak bisa di update tampilkan error
+                //kalo flag_kuitansi = 0 (belum diinput di pagu_realiasi) 
+                //selain itu kurangi dulu pagu_realisasi dan tambah dgn realisasi baru
+               //hitung manual lagi yg telah di input
+                
+                //cek dulu dengan pagu turunan anggaran
+                $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id','=',$request->dana_tid)->first();
+                $real_baru = $dataTurunanAnggaran->pagu_realisasi - $request->totalbiaya_sblm;
+                //dd($real_baru);
+                $pagu_sisa = $dataTurunanAnggaran->pagu_awal - $real_baru;
+                
+                if ($pagu_sisa >= $request->totalbiaya)
+                {
+                    
+                    //boleh di update kuitansinya
+                    $dataKuitansi = Kuitansi::where('kuitansi_id','=',$request->kuitansi_id)->first();
+                    $dataKuitansi -> tgl_kuitansi = $request->tgl_kuitansi;
+                    $dataKuitansi -> harian_rupiah = $request->uangharian;
+                    $dataKuitansi -> harian_lama = $request->harian;
+                    $dataKuitansi -> harian_total = $request->totalharian;
+                    $dataKuitansi -> hotel_rupiah = $request->nilaihotel;
+                    $dataKuitansi -> hotel_lama = $request->hotelhari;
+                    $dataKuitansi -> hotel_total = $totalhotel;
+                    $dataKuitansi -> hotel_flag = $flagHotel;
+                    $dataKuitansi -> transport_rupiah = $request->nilaiTransport;
+                    $dataKuitansi -> transport_ket = $request->transport_ket;
+                    $dataKuitansi -> transport_flag = $flagTransport;
+                    $dataKuitansi -> bendahara_nip = $request->bendahara_nip;
+                    $dataKuitansi -> bendahara_nama = $NamaBendahara;
+                    $dataKuitansi -> flag_kuitansi = 1;
+                    $dataKuitansi -> total_biaya = $request->totalbiaya;
+                    $dataKuitansi -> rill1_ket = $rill1_ket;
+                    $dataKuitansi -> rill1_rupiah = $rill1_rupiah;
+                    $dataKuitansi -> rill1_flag = $rill1_flag;
+                    $dataKuitansi -> rill2_ket = $rill2_ket;
+                    $dataKuitansi -> rill2_rupiah = $rill2_rupiah;
+                    $dataKuitansi -> rill2_flag = $rill2_flag;
+                    $dataKuitansi -> rill3_ket = $rill3_ket;
+                    $dataKuitansi -> rill3_rupiah = $rill3_rupiah;
+                    $dataKuitansi -> rill3_flag = $rill3_flag;
+                    $dataKuitansi -> rill_total = $rill_total;
+                    $dataKuitansi -> update();
 
-                $dataKuitansi = Kuitansi::where('kuitansi_id','=',$request->kuitansi_id)->first();
-                $dataKuitansi -> tgl_kuitansi = $request->tgl_kuitansi;
-                $dataKuitansi -> harian_rupiah = $request->uangharian;
-                $dataKuitansi -> harian_lama = $request->harian;
-                $dataKuitansi -> harian_total = $request->totalharian;
-                $dataKuitansi -> hotel_rupiah = $request->nilaihotel;
-                $dataKuitansi -> hotel_lama = $request->hotelhari;
-                $dataKuitansi -> hotel_total = $totalhotel;
-                $dataKuitansi -> hotel_flag = $flagHotel;
-                $dataKuitansi -> transport_rupiah = $request->nilaiTransport;
-                $dataKuitansi -> transport_ket = $request->transport_ket;
-                $dataKuitansi -> transport_flag = $flagTransport;
-                $dataKuitansi -> bendahara_nip = $request->bendahara_nip;
-                $dataKuitansi -> bendahara_nama = $NamaBendahara;
-                $dataKuitansi -> flag_kuitansi = 1;
-                $dataKuitansi -> total_biaya = $request->totalbiaya;
-                $dataKuitansi -> rill1_ket = $rill1_ket;
-                $dataKuitansi -> rill1_rupiah = $rill1_rupiah;
-                $dataKuitansi -> rill1_flag = $rill1_flag;
-                $dataKuitansi -> rill2_ket = $rill2_ket;
-                $dataKuitansi -> rill2_rupiah = $rill2_rupiah;
-                $dataKuitansi -> rill2_flag = $rill2_flag;
-                $dataKuitansi -> rill3_ket = $rill3_ket;
-                $dataKuitansi -> rill3_rupiah = $rill3_rupiah;
-                $dataKuitansi -> rill3_flag = $rill3_flag;
-                $dataKuitansi -> rill_total = $rill_total;
-                $dataKuitansi -> update();
+                    //transaksi update
+                    $dataTrx = \App\Transaksi::where('trx_id','=',$request->trx_id)->first();
+                    $dataTrx -> flag_trx = 7;
+                    $dataTrx -> update();
 
-                //transaksi update
-                $dataTrx = \App\Transaksi::where('trx_id','=',$request->trx_id)->first();
-                $dataTrx -> flag_trx = 7;
-                $dataTrx -> update();
+                    //surat tugas dan spd update status ke terlaksana
+                    $dataSuratTugas = SuratTugas::where('trx_id','=',$request->trx_id)->first();
+                    $dataSuratTugas -> flag_surattugas = 2;
+                    $dataSuratTugas -> update();
 
-                //surat tugas dan spd update status ke terlaksana
-                $dataSuratTugas = SuratTugas::where('trx_id','=',$request->trx_id)->first();
-                $dataSuratTugas -> flag_surattugas = 2;
-                $dataSuratTugas -> update();
+                    $dataSpd = Spd::where('trx_id','=',$request->trx_id)->first();
+                    $dataSpd -> flag_spd = 2;
+                    $dataSpd -> update();
 
-                $dataSpd = Spd::where('trx_id','=',$request->trx_id)->first();
-                $dataSpd -> flag_spd = 2;
-                $dataSpd -> update();
+                    //update turunan anggaran
+                    //update data turunan anggaran dan anggaran
+                    if ($request->flag_kuitansi > 0)
+                    {
+                        //sudah pernah di edit
+                        $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id','=',$request->dana_tid)->first();
+                        $realisasi_baru = $dataTurunanAnggaran->pagu_realisasi - $request->totalbiaya_sblm;
+                        $dataTurunanAnggaran->pagu_realisasi = $realisasi_baru + $request->totalbiaya;
+                        $dataTurunanAnggaran->update();
 
-                Session::flash('message', 'Kuitansi an. '.$request->nama.' tujuan ke '. $request->nama_tujuan .' sudah diupdate');
-                Session::flash('message_type', 'success');
-                return redirect()->to('kuitansi');
+                        $dataAnggaran = \App\Anggaran::where('id','=',$request->mak_id)->first();
+                        $real_anggaran_baru  = $dataAnggaran->realisasi_pagu - $request->totalbiaya_sblm;
+                        $dataAnggaran->realisasi_pagu = $real_anggaran_baru + $request->totalbiaya;
+                        $dataAnggaran->update();
+                    }
+                    else 
+                    {
+                        //baru pertama di edit
+                        $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id','=',$request->dana_tid)->first();
+                        $dataTurunanAnggaran->pagu_realisasi = $dataTurunanAnggaran->pagu_realisasi + $request->totalbiaya;
+                        $dataTurunanAnggaran->update();
+
+                        $dataAnggaran = \App\Anggaran::where('id','=',$request->mak_id)->first();
+                        $dataAnggaran->realisasi_pagu = $dataAnggaran->realisasi_pagu + $request->totalbiaya;
+                        $dataAnggaran->update();
+                    }
+    
+                    Session::flash('message', '('.$request->kode_trx.') Kuitansi an. '.$request->nama.' tujuan ke '. $request->nama_tujuan .' sudah diupdate');
+                    Session::flash('message_type', 'success');
+                    return redirect()->to('kuitansi');
+                }
+                else 
+                {
+                    //sisa dana pagu tidak cukup
+                    Session::flash('message', '('.$request->kode_trx.') Kuitansi an. '.$request->nama.' tujuan ke '. $request->nama_tujuan .' sisa pagu tidak mencukupi');
+                    Session::flash('message_type', 'danger');
+                    return back();
+                }
+                
             }
             else {
                 //kuitansi tidak ada
@@ -295,5 +352,71 @@ class KuitansiController extends Controller
         $dataTransaksi = \App\Transaksi::with('Matrik','SuratTugas','Spd','Kuitansi')->where('kode_trx','=',$kodetrx)->get();
         return view('kuitansi.view',compact('dataTransaksi','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','Bulan','FlagKendaraan'));
 
+    }
+    public function print($kodetrx)
+    {
+        $FlagTrx = config('globalvar.FlagTransaksi');
+        $FlagKonfirmasi = config('globalvar.FlagKonfirmasi');
+        $MatrikFlag = config('globalvar.FlagMatrik');
+        $FlagSrt = config('globalvar.FlagSurat');
+        $FlagTTD = config('globalvar.FlagTTD');
+        $Bilangan = config('globalvar.Bilangan');
+        $FlagKendaraan = config('globalvar.Kendaraan');
+        $count = Transaksi::where('kode_trx','=',$kodetrx)->where('flag_trx','>','3')->count();
+        if ($count > 0) 
+        {
+            $data = Transaksi::where('kode_trx','=',$kodetrx)->where('flag_trx','>','3')->first();
+            //dd($data);
+            PDF::setOptions(['dpi' => 150, 'defaultFont' => 'Helvetica','isHtml5ParserEnabled'=>true]);
+            $pdf = PDF::loadView('kuitansi.print',compact('data','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','FlagKendaraan'))->setPaper('A4');
+            $nama=strtoupper($data->peg_nama);
+            return $pdf->stream('KUITANSI_'.$nama.'_TRX_ID_'.$kodetrx.'.pdf');
+            //return view('kuitansi.print',compact('data','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','FlagKendaraan'));
+        }
+    }
+    public function unduh($kodetrx)
+    {
+        $FlagTrx = config('globalvar.FlagTransaksi');
+        $FlagKonfirmasi = config('globalvar.FlagKonfirmasi');
+        $MatrikFlag = config('globalvar.FlagMatrik');
+        $FlagSrt = config('globalvar.FlagSurat');
+        $FlagTTD = config('globalvar.FlagTTD');
+        $Bilangan = config('globalvar.Bilangan');
+        $FlagKendaraan = config('globalvar.Kendaraan');
+        $count = Transaksi::where('kode_trx','=',$kodetrx)->where('flag_trx','>','3')->count();
+        if ($count > 0) 
+        {
+            $data = Transaksi::where('kode_trx','=',$kodetrx)->where('flag_trx','>','3')->first();
+            //dd($data);
+            PDF::setOptions(['dpi' => 150, 'defaultFont' => 'Helvetica','isHtml5ParserEnabled'=>true]);
+            $pdf = PDF::loadView('kuitansi.print',compact('data','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','FlagKendaraan'))->setPaper('A4');
+            $nama=strtoupper($data->peg_nama);
+            return $pdf->download('KUITANSI_'.$nama.'_TRX_ID_'.$kodetrx.'.pdf');
+            //return view('kuitansi.print',compact('data','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','FlagKendaraan'));
+        }
+    }
+    public function selesai(Request $request)
+    {
+        //dd($request->all());
+        //cek kuitansi dulu
+        $count = Kuitansi::where('kuitansi_id','=',$request->kuitansi_id)->count();
+        if ($count>0) {
+            //kalo ada update flag kuitansi jadi selesai
+            $dataKuitansi = Kuitansi::where('kuitansi_id','=',$request->kuitansi_id)->first();
+            $dataKuitansi -> flag_kuitansi = 2;
+            $dataKuitansi -> update();
+
+            $data = \App\MatrikPerjalanan::where('id','=',$request->m_id)->first();
+
+            Session::flash('message', '('.$request->kodetrx.') Kuitansi an. '.$data->Transaksi->peg_nama.' tujuan ke '. $data->Tujuan->nama_kabkota .' sudah selesai');
+            Session::flash('message_type', 'success');
+            return redirect()->to('kuitansi');
+        }
+        else {
+             //kuitansi tidak ada
+             Session::flash('message', 'Kuitansi tidak ditemukan');
+             Session::flash('message_type', 'danger');
+             return redirect()->to('kuitansi');
+        }
     }
 }

@@ -8,6 +8,7 @@ use Session;
 use Illuminate\Support\Facades\Redirect;
 use DB;
 use App\Anggaran;
+use App\MatrikPerjalanan;
 use App\Unitkerja;
 use App\TurunanAnggaran;
 
@@ -181,17 +182,112 @@ class TurunanController extends Controller
     {
         // a_id
         //cari anggaran dan kurangi nilai pagu_rencana
-        $dataAnggaran = Anggaran::where('id', '=', $request->a_id)->first();
-        $pagu_rencana = $dataAnggaran->rencana_pagu - $request->pagu_utama;
-        $dataAnggaran->rencana_pagu = $pagu_rencana;
-        $dataAnggaran->update();
-        //hapus turunan anggaran
-        $dataTurunan = TurunanAnggaran::findOrFail($request->tid);
-        $dataTurunan -> delete();
+        //cari dulu matrik yang menggunakan turunan anggaran ini 
+        //kalo ada tidak bisa di hapus, kalo tidak ada hapus
+        //dd($request->all());
+        $cek_matrik = MatrikPerjalanan::where([
+            ['mak_id','=',$request->a_id],
+            ['dana_tid','=',$request->tid]
+        ])->count();
+        if ($cek_matrik>0) 
+        {
+            //masih ada
+            Session::flash('message', 'Ada transaksi Perjadin menggunakan turunan anggaran ini');
+            Session::flash('message_type', 'danger');
+            return back();
+        }
+        else
+        {
+            //langsung hapus
+            $dataAnggaran = Anggaran::where('id', '=', $request->a_id)->first();
+            $pagu_rencana = $dataAnggaran->rencana_pagu - $request->pagu_utama;
+            $dataAnggaran->rencana_pagu = $pagu_rencana;
+            $dataAnggaran->update();
+            //hapus turunan anggaran
+            $dataTurunan = TurunanAnggaran::findOrFail($request->tid);
+            $dataTurunan -> delete();
+    
+            Session::flash('message', 'Data turunan anggaran '.$request->unitkerja.' telah di hapus');
+            Session::flash('message_type', 'danger');
+            return back();
+        }
+       
+        //dd($request);
+    }
+    public function TotalKuitansi($tid)
+    {
+        $arr = array(
+            'status'=>false,
+            'hasil'=> 'Data kuitansi tidak tersedia'
+        );
+        $count = MatrikPerjalanan::where('dana_tid','=',$tid)->count();
+        if ($count > 0) 
+        {
+            $data = MatrikPerjalanan::where('dana_tid','=',$tid)->get();
+            $total=0;
+            foreach ($data as $item)
+            {
+                $total = $total + $item->Transaksi->Kuitansi->total_biaya;
+            }
+            dd($total);
+            $arr = array(
+                'status'=>true,
+                'hasil'=>$data
+            );
+        }
+        return Response()->json($arr);
+    }
+    public function SinkronRealiasi(Request $request)
+    {
+        //dd($request->all());
+        /*
+        "unitkerja" => "[52560] Bidang IPDS"
+        "pagu_awal" => "6595000"
+        "a_id" => "214"
+        "t_id" => "158"
+         $data_matrik = MatrikPerjalanan::with('Transaksi')->where([
+            ['mak_id','=',$request->a_id],['flag_matrik','=','5']
+            ])->groupBY('dana_tid')->get();
+        $data_semua_tahun = DB::table('matrik')
+            ->select(DB::Raw('matrik.mak_id,matrik.dana_tid,COALESCE(sum(kuitansi.total_biaya)) as totalbiaya'))
+            ->leftJoin('transaksi','matrik.id','=','transaksi.matrik_id')
+            ->leftJoin('kuitansi','transaksi.trx_id','=','kuitansi.trx_id')
+            ->where([['flag_matrik','=','5'],['tahun_matrik','=',Session::get('tahun_anggaran')]])->groupBy('mak_id')->get(); 
+        */
+       
+        $data_bid = DB::table('matrik')
+                ->select(DB::Raw('matrik.mak_id,matrik.dana_tid,COALESCE(sum(kuitansi.total_biaya)) as totalbiaya'))
+                ->leftJoin('transaksi','matrik.id','=','transaksi.matrik_id')
+                ->leftJoin('kuitansi','transaksi.trx_id','=','kuitansi.trx_id')
+                ->where([
+                    ['mak_id','=',$request->a_id],
+                    ['flag_matrik','=','5']
+                    ])->groupBy('dana_tid')->get();
+        $data_anggaran = DB::table('matrik')
+            ->select(DB::Raw('matrik.mak_id,matrik.dana_tid,COALESCE(sum(kuitansi.total_biaya)) as totalbiaya'))
+            ->leftJoin('transaksi','matrik.id','=','transaksi.matrik_id')
+            ->leftJoin('kuitansi','transaksi.trx_id','=','kuitansi.trx_id')
+            ->where([
+                ['mak_id','=',$request->a_id],
+                ['flag_matrik','=','5']
+                ])->groupBy('mak_id')->first();   
+        
+        //update pagu_realisasi turunan anggaran
+        foreach ($data_bid as $item)
+        {
+            $data = TurunanAnggaran::where('t_id','=',$item->dana_tid)->first();
+            $data->pagu_realisasi = $item->totalbiaya;
+            $data->update();
+        }
+        //update pagu_realisasi di anggaran
 
-        Session::flash('message', 'Data turunan anggaran '.$request->unitkerja.' telah di hapus');
+        $dataAnggaran = Anggaran::where('id','=', $request->a_id)->first();
+        $dataAnggaran->realisasi_pagu = $data_anggaran->totalbiaya;
+        $dataAnggaran->update();
+        
+        //dd($data_semua_tahun);
+        Session::flash('message', 'Data Pagu Realisasi sudah disinkronisasi');
         Session::flash('message_type', 'danger');
         return back();
-        //dd($request);
     }
 }

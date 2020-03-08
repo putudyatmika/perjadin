@@ -46,6 +46,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('anggaran', 'AnggaranController');
     Route::get('/format_anggaran', 'AnggaranController@format');
     Route::post('/import_anggaran', 'AnggaranController@import');
+    Route::get('turunan/kuitansi/{tid}', 'TurunanController@TotalKuitansi')->name('turunan.kuitansi');
+    Route::post('turunan/sinkron/', 'TurunanController@SinkronRealiasi')->name('turunan.sinkron');
     Route::resource('turunan', 'TurunanController');
     Route::resource('tujuan', 'TujuanController');
     Route::resource('user', 'UserController');
@@ -61,6 +63,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('spd/view/{kodetrx}', 'SpdController@view')->name('spd.view');
     Route::resource('spd', 'SpdController');
     Route::get('kuitansi/view/{kodetrx}', 'KuitansiController@view')->name('kuitansi.view');
+    Route::post('kuitansi/selesai', 'KuitansiController@selesai')->name('kuitansi.selesai');
+    Route::get('kuitansi/print/{kodetrx}', 'KuitansiController@print')->name('kuitansi.print');
+    Route::get('kuitansi/unduh/{kodetrx}', 'KuitansiController@unduh')->name('kuitansi.unduh');
     Route::resource('kuitansi', 'KuitansiController');
     Route::get('setuju/daftar', 'PersetujuanController@daftar')->name('setuju.daftar');
     Route::resource('setuju', 'PersetujuanController');
@@ -70,7 +75,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('kelengkapan/simpan', 'KelengkapanController@simpan')->name('kelengkapan.simpan');
     Route::post('kelengkapan/batal', 'KelengkapanController@batal')->name('kelengkapan.batal');
     Route::get('cari/{kodetrx}', 'ViewController@viewTrx')->name('cari.trx');
-
+    Route::get('trx/{kodetrx}', 'ViewController@Transaksi')->name('trx.detil');
     Route::get('laporan/pegawai/{idpeg?}', function ($idpeg = 0) {
         $ctrl = new \App\Http\Controllers\LaporanController();
         return $ctrl->pegawai($idpeg);

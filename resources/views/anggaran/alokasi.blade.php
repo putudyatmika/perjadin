@@ -53,6 +53,8 @@
                                 <dd class="col-sm-9">Rp. @duit($dataAnggaran->pagu_utama)</dd>
                                 <dt class="col-sm-3">Pagu sudah teralokasi</dt>
                                 <dd class="col-sm-9">Rp. @duit($dataAnggaran->rencana_pagu)</dd>
+                                <dt class="col-sm-3">Pagu Realisasi</dt>
+                                <dd class="col-sm-9">Rp. @duit($dataAnggaran->realisasi_pagu)</dd>
                                 <dt class="col-sm-3">Sisa Pagu Utama</dt>
                                 <dd class="col-sm-9">Rp. @duit(($dataAnggaran->pagu_utama-$dataAnggaran->rencana_pagu))</dd>
                             </dl>
@@ -98,8 +100,10 @@
                                                         @if (Auth::user()->pengelola>3)
                                                         <td>
                                                             <button type="button" class="btn btn-sm btn-primary btn-circle" data-toggle="modal" data-target="#EditAlokasiModal" data-tid="{{$item->t_id}}" data-paguawal="{{$item->pagu_awal}}"  data-pagurencana="{{$item->pagu_rencana}}" data-pagurealisasi="{{$item->pagu_realisasi}}" data-unitkode="{{$item->unit_pelaksana}}"><i class="fa fa-pencil"></i></button>
+                                                            
                                                             <button type="button" class="btn btn-sm btn-danger btn-circle" data-toggle="modal" data-target="#DeleteAlokasiModal" data-tid="{{$item->t_id}}" data-paguawal="{{$item->pagu_awal}}" data-unitkode="{{$item->Unitkerja->nama}}"><i class="fa fa-trash-o"></i></button>
-                                                            <button type="button" class="btn btn-sm btn-info btn-circle" data-toggle="modal" data-target="#SyncAlokasiModal" data-tid="{{$item->t_id}}" data-paguawal="{{$item->pagu_awal}}" data-unitkode="{{$item->unit_pelaksana}}"><i class="fa fa-refresh"></i></button>
+
+                                                            <button type="button" class="btn btn-sm btn-info btn-circle" data-toggle="modal" data-target="#SyncAlokasiModal" data-tid="{{$item->t_id}}" data-paguawal="{{$item->pagu_awal}}" data-unitkode="[{{$item->unit_pelaksana}}] {{$item->Unitkerja->nama}}"><i class="fa fa-refresh"></i></button>
                                                         </td>
                                                         @endif
                                                     </tr>
@@ -129,12 +133,12 @@
                                             <th>#</th>
                                             <th>Trx ID</th>
                                             <th>t_id</th>
-                                            <th>Bidang/Bagian</th>
                                             <th>Nama</th>
                                             <th>Tujuan</th>
                                             <th>Tgl Brkt</th>
                                             <th>Durasi</th>
-                                            <th>Totalbiaya</th>
+                                            <th>Rencana Biaya</th>
+                                            <th>Realisasi Biaya</th>
                                             <th>Flag Trx</th>
                                         </tr>
                                         </thead>
@@ -145,19 +149,21 @@
                                                 <td colspan="9" align="center">Data perjalanan tidak tersedia</td>
                                             </tr>
                                           @else
-                                              @php $total = 0; @endphp
+                                              @php $total = 0; $total_real = 0;@endphp
                                               @foreach ($dataJalan as $r)
                                                 <tr>
                                                     <td>{{$loop->iteration}}</td>
                                                     <td>{{$r->kode_trx}}</td>
                                                     <td>{{$r->dana_tid}}</td>
-                                                    <td>@if ($r->unit_pelaksana)
+                                                    <td>@if ($r->flag_matrik>0)
+                                                        {{$r->Transaksi->peg_nama}}
+                                                        @endif 
+                                                        <br />
+                                                        <small>
+                                                            @if ($r->unit_pelaksana)
                                                         [{{$r->unit_pelaksana}}] {{$r->UnitPelaksana->nama}}
                                                         @endif
-                                                    </td>
-                                                    <td>@if ($r->flag_matrik>0)
-                                                         {{$r->Transaksi->peg_nama}}
-                                                         @endif
+                                                        </small>
                                                     </td>
                                                     <td>{{$r->Tujuan->nama_kabkota}}</td>
                                                     <td>
@@ -177,6 +183,13 @@
                                                       @else
                                                         @duit($r->total_biaya)
                                                       @endif
+                                                  </td>
+                                                  <td>
+                                                    @if ($r->flag_matrik>0)
+                                                        @if ($r->Transaksi->flag_trx > 4)
+                                                            @duit($r->Transaksi->Kuitansi->total_biaya)
+                                                        @endif
+                                                    @endif
                                                   </td>
                                                     <td>
                                                       @if ($r->flag_matrik>0)
@@ -204,18 +217,28 @@
                                                 </tr>
                                                 @if ($r->flag_matrik>0)
                                                  @if ($r->Transaksi->flag_trx != 3)
-                                                    @php $total = $total + $r->total_biaya; @endphp
+                                                    @php 
+                                                        $total = $total + $r->total_biaya; 
+                                                    @endphp
+                                                    @if ($r->Transaksi->flag_trx>4)
+                                                    @php
+                                                    $total_real = $total_real + $r->Transaksi->Kuitansi->total_biaya;
+                                                    @endphp
+                                                    @endif
                                                  @endif
                                                @else
-                                                    @php $total = $total + $r->total_biaya; @endphp
+                                                    @php 
+                                                        $total = $total + $r->total_biaya; 
+                                                    @endphp
                                                 @endif
                                               @endforeach
                                         </tbody>
                                         <tfoot>
                                           <tr>
-                                              <td colspan="7"></td>
+                                              <td colspan="6"></td>
                                               <td>Total</td>
                                               <td>@duit($total)</td>
+                                              <td>@duit($total_real)</td>
                                               <td>&nbsp;</td>
                                           </tr>
                                         </tfoot>
