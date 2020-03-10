@@ -47,6 +47,7 @@
                     <div class="row" style="margin-top: 20px;">
                     <div class="col-lg-12">
                         <div class="white-box">
+                            @include('matrik.filter')
                             <h3 class="box-title m-b-0">Matrik Perjalanan Pegawai BPS Provinsi NTB</h3>  
                             @if (Auth::user()->pengelola>3 || Auth::user()->pengelola==0)
                             <a href="{{url('format_matrik')}}" class="btn btn-sm btn-info  m-b-20 pull-right">Download Format Matrik</a> 
