@@ -27,6 +27,13 @@ class TransaksiController extends Controller
     public function index()
     {
         //
+        if (request('flag_trx') == NULL)
+        {
+            $flag_trx = '';
+        }
+        else {
+            $flag_trx = request('flag_trx');
+        }
         $FlagTrx = config('globalvar.FlagTransaksi');
         $FlagKonfirmasi = config('globalvar.FlagKonfirmasi');
         $MatrikFlag = config('globalvar.FlagMatrik');
@@ -37,7 +44,25 @@ class TransaksiController extends Controller
     $query->where('title', 'like', '%first%');
 }])->get();
 */
-        $dataTransaksi = Transaksi::where('tahun_trx', '=', Session::get('tahun_anggaran'))->orderBy('flag_trx', 'ASC')->orderBy('tgl_brkt', 'ASC')->get();
+        if ($flag_trx=='')
+        {
+            $dataTransaksi = Transaksi::with('Matrik')->where('tahun_trx', '=', Session::get('tahun_anggaran'))
+            ->when(request('unitkerja'),function($query){
+                return $query->whereHas('matrik',function($q){
+                    return $q->where('unit_pelaksana',request('unitkerja'));
+                });
+            })->orderBy('flag_trx', 'ASC')->orderBy('tgl_brkt', 'ASC')->get();
+        }
+        else
+        {
+            $dataTransaksi = Transaksi::with('Matrik')->where('tahun_trx', '=', Session::get('tahun_anggaran'))
+            ->when(request('unitkerja'),function($query){
+                return $query->whereHas('Matrik',function($q){
+                    return $q->where('unit_pelaksana',request('unitkerja'));
+                });
+            })->where('flag_trx',request('flag_trx'))->orderBy('flag_trx', 'ASC')->orderBy('tgl_brkt', 'ASC')->get();
+        }
+        
         return view('transaksi.matrik', compact('dataTransaksi', 'FlagTrx', 'FlagKonfirmasi', 'DataPegawai', 'MatrikFlag', 'DataBidang'));
         //dd($dataTransaksi);
     }
