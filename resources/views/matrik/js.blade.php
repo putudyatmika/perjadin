@@ -107,6 +107,7 @@ $('#FlagModal').on('show.bs.modal', function (event) {
 $('#DeleteModal').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget) // Button that triggered the modal
   var mid = button.data('mid')
+  var flagurl = button.data('flagurl')
   $.ajax({
         url : '{{route("matrik.view","")}}/'+mid,
         method : 'get',
@@ -120,6 +121,7 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
             $('#DeleteModal .modal-body #pelaksana').val("["+data.hasil.pelaksana_unitkode+"] "+data.hasil.pelaksana_unitnama)
             $('#DeleteModal .modal-body #mid').val(mid)
             $('#DeleteModal .modal-body #flagmatrik').val(data.flag)
+            $('#DeleteModal .modal-body #flagurl').val(flagurl)
             
         },
         error: function(){

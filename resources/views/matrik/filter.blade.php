@@ -11,7 +11,7 @@
                 @endfor
            </select>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
             <select name="unitkerja" id="unitkerja" class="form-control">
              <option value="">Pilih Bidang/Bagian</option>
              @foreach ($DataUnitkerja as $unit)

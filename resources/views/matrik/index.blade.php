@@ -129,7 +129,9 @@
                                                         @if ($item->dana_unitkerja==Auth::user()->user_unitkerja  or Auth::user()->user_level>3)
                                                             @if ($item->flag_matrik<5)
                                                                 @if (is_null($item->nomor_surat))
-                                                            <button class="btn btn-circle btn-danger btn-sm" data-toggle="modal" data-target="#DeleteModal" data-mid="{{$item->id}}">
+                                                            <button class="btn btn-circle btn-danger btn-sm" data-toggle="modal" data-target="#DeleteModal" data-mid="{{$item->id}}" data-flagurl="@if (request('flag_matrik') != '')
+                                                                {{request('flag_matrik')}}
+                                                                @endif">
                                                             <span data-toggle="tooltip" title="Hapus matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-trash"></i></span>
                                                         </button>
                                                                 @endif

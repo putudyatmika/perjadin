@@ -577,7 +577,7 @@ class MatrikController extends Controller
         }
         Session::flash('message', $pesan_error);
         Session::flash('message_type', $warna_error);
-        return redirect()->route('matrik.list');
+        return redirect()->route('matrik.list',['flag_matrik'=>$request->flagurl]);
     }
     public function view($mid)
     {

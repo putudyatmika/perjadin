@@ -46,14 +46,14 @@
         </td>
     </tr>
     <tr>
-        <td class="garis-t garis-l"><span class="pull-left">3.</span></td>
-        <td class="garis-t garis-r"><span class="pull-left">a. Pangkat dan Golongan</span></td>
-        <td class="garis-t garis-r">a. {{$data->PegGolongan->pangkat}} ({{$data->PegGolongan->gol}})</td>
+        <td valign="top" class="garis-t garis-l"><span class="pull-left">3.</span></td>
+        <td valign="top" class="garis-t garis-r"><span class="pull-left">a. Pangkat dan Golongan</span></td>
+        <td valign="top" class="garis-t garis-r">a. {{$data->PegGolongan->pangkat}} ({{$data->PegGolongan->gol}})</td>
     </tr>
     <tr>
         <td class="garis-l"></td>
-        <td class="garis-r"><span class="pull-left">b. Jabatan/Instansi</span></td>
-        <td class="garis-r" @if (strlen($data->PegUnitkerja->nama)>40) height="30px" @endif>
+        <td valign="top" class="garis-r"><span class="pull-left">b. Jabatan/Instansi</span></td>
+        <td valign="top" class="garis-r">
             @if (strlen($data->PegUnitkerja->nama)>40)
             <div class="pull-left">
             @endif
@@ -74,9 +74,9 @@
         <td class="garis-r">c. C</td>
     </tr>
     <tr>
-        <td class="garis-t garis-l"><span class="pull-left">4. </span></td>
-        <td class="garis-t garis-r"><span class="pull-left">Maksud perjalanan dinas</span></td>
-        <td class="garis-t garis-r" height="50px">
+        <td valign="top" class="garis-t garis-l"><span class="pull-left">4. </span></td>
+        <td valign="top" class="garis-t garis-r"><span class="pull-left">Maksud perjalanan dinas</span></td>
+        <td valign="top" class="garis-t garis-r">
             <div class="pull-left">
                 {{$data->tugas}}
             </div>

@@ -204,6 +204,7 @@
                         <input type="text" class="form-control" id="flagmatrik" name="flagmatrik" disabled> </div>
 
                 </div>
+                <input type="hidden" id="flagurl" name="flagurl" value="" />
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-inverse waves-effect waves-light" data-dismiss="modal">Close</button>
