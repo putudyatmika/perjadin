@@ -51,7 +51,7 @@ class TransaksiController extends Controller
                 return $query->whereHas('matrik',function($q){
                     return $q->where('unit_pelaksana',request('unitkerja'));
                 });
-            })->orderBy('flag_trx', 'ASC')->orderBy('tgl_brkt', 'ASC')->get();
+            })->orderBy('flag_trx', 'ASC')->orderBy('tgl_brkt', 'desc')->get();
         }
         else
         {
@@ -60,7 +60,7 @@ class TransaksiController extends Controller
                 return $query->whereHas('Matrik',function($q){
                     return $q->where('unit_pelaksana',request('unitkerja'));
                 });
-            })->where('flag_trx',request('flag_trx'))->orderBy('flag_trx', 'ASC')->orderBy('tgl_brkt', 'ASC')->get();
+            })->where('flag_trx',request('flag_trx'))->orderBy('flag_trx', 'ASC')->orderBy('tgl_brkt', 'desc')->get();
         }
         
         return view('transaksi.matrik', compact('dataTransaksi', 'FlagTrx', 'FlagKonfirmasi', 'DataPegawai', 'MatrikFlag', 'DataBidang'));

@@ -57,6 +57,7 @@ $(function () {
                                 </div>
                     <div class="col-lg-12">
                         <div class="white-box">
+                            @include('kuitansi.filter')
                             <h3 class="box-title m-b-0">Daftar Kuitansi</h3>
                             <p class="text-muted m-b-20">@if (Session::has('tahun_anggaran')) <code>Tahun Anggaran {{Session::get('tahun_anggaran')}}</code> @endif</p>
                             <div class="table-responsive">
@@ -68,8 +69,7 @@ $(function () {
                                             <th>Tanggal Kuitansi</th>
                                             <th>Nama Pegawai</th>
                                             <th>Tugas</th>
-                                            <th>Tanggal Pergi</th>
-                                            <!--<th>Tanggal Kembali</th>-->
+                                            <th>Total Biaya</th>
                                             <th>Status Kuitansi</th>
                                             <th>Aksi</th>
                                         </tr>
@@ -79,21 +79,36 @@ $(function () {
                                             <tr>
                                                 <td>{{$loop->iteration}}</td>
                                                 <td>
-                                                    @if ($item->tgl_kuitansi=="")
                                                     {{$item->Transaksi->kode_trx}}
-                                                    @else
-                                                    <a href="{{route('kuitansi.view',$item->Transaksi->kode_trx)}}" target="_blank">{{$item->Transaksi->kode_trx}}</a>
-                                                    @endif
                                                 </td>
                                                 <td>
                                                     @if ($item->tgl_kuitansi)
                                                     {{Tanggal::Pendek($item->tgl_kuitansi)}}
                                                     @endif
                                                 </td>
-                                                <td>{{$item->Transaksi->peg_nama}}</td>
-                                                <td>{{$item->Transaksi->tugas}}</td>
-                                                <td>{{Tanggal::Pendek($item->Transaksi->tgl_brkt)}}</td>
-                                                <!--<td>{{$item->Transaksi->tgl_balik}}</td>-->
+                                                <td>
+                                                    <b class="text-uppercase">{{$item->Transaksi->peg_nama}}</b>
+                                                    <br />
+                                                    <small class="text-success">
+                                                        SM: {{$item->Transaksi->Matrik->UnitPelaksana->nama}}
+                                                    </small>
+                                                </td>
+                                                <td>
+                                                    {{$item->Transaksi->tugas}} <br />
+                                                    
+                                                    <small class="text-danger">
+                                                        ({{$item->Transaksi->Matrik->Tujuan->nama_kabkota}} ) <br />
+                                                    </small>
+                                                    <small class="text-primary">
+                                                        Berangkat : <b>{{Tanggal::Pendek($item->Transaksi->tgl_brkt)}}</b><br />
+                                                        Kembali :  <b>{{Tanggal::Pendek($item->Transaksi->tgl_balik)}}</b>
+                                                    </small>
+                                                </td>
+                                                <td align="right">
+                                                    @if ($item->total_biaya)
+                                                    @duit($item->total_biaya)
+                                                    @endif
+                                                </td>
                                                 <td>@include('kuitansi.flag')</td>
                                                 <td>@include('kuitansi.aksi')</td>
                                             </tr>

@@ -20,14 +20,14 @@
 <div class="row aturan">
 <table width="100%" class="table">
     <tr>
-        <td>Menimbang</td>
-        <td>:</td>
-        <td>Bahwa untuk kelancaran pelaksanaan kegiatan di Badan Pusat Statistik Provinsi Nusa Tenggara Barat maka diperlukan dukungan administrasi perkantoran;</td>
+        <td valign="top">Menimbang</td>
+        <td valign="top">:</td>
+        <td valign="top">Bahwa untuk kelancaran pelaksanaan kegiatan di Badan Pusat Statistik Provinsi Nusa Tenggara Barat maka diperlukan dukungan administrasi perkantoran;</td>
     </tr>
     <tr>
-        <td>Mengingat</td>
-        <td>:</td>
-        <td>
+        <td valign="top">Mengingat</td>
+        <td valign="top">:</td>
+        <td valign="top">
             <ol>
                 <li>Undang-Undang Dasar Negara Republik Indonesia Tahun 1945;</li>
                 <li>Undang-Undang Nomor 17 Tahun 2003 tentang Keuangan Negara;</li>
@@ -44,7 +44,7 @@
     </tr>
 </table>
 </div>
-<div class="text-center text-uppercase"><b>Memberikan tugas</b></div>
+<div class="text-center text-uppercase" style="margin-top:15px;margin-bottom:5px;"><b>Memberikan tugas</b></div>
 
 <div class="row namatable">
 <table width="100%" class="table">
@@ -54,14 +54,14 @@
         <td></td>
     </tr>
     <tr>
-        <td width="17%">Nama</td>
-        <td width="3%">:</td>
-        <td><b>{{strtoupper($data->peg_nama)}}</b></td>
+        <td valign="top" width="17%">Nama</td>
+        <td valign="top" width="3%">:</td>
+        <td valign="top"><b>{{strtoupper($data->peg_nama)}}</b></td>
     </tr>
     <tr>
-        <td>Jabatan</td>
-        <td>:</td>
-        <td>
+        <td valign="top">Jabatan</td>
+        <td valign="top">:</td>
+        <td valign="top">
             @if ($data->peg_jabatan<4)
             Kepala {{$data->PegUnitkerja->nama}}
             @else
@@ -75,14 +75,14 @@
         <td>-</td>
     </tr>
     <tr>
-        <td>Tujuan/Tugas</td>
-        <td>:</td>
-        <td>{{$data->Matrik->Tujuan->nama_kabkota}} / {{$data->tugas}}</td>
+        <td valign="top">Tujuan/Tugas</td>
+        <td valign="top">:</td>
+        <td valign="top">{{$data->Matrik->Tujuan->nama_kabkota}} / {{$data->tugas}}</td>
     </tr>
     <tr>
-        <td>Jangka Waktu</td>
-        <td>:</td>
-        <td>{{$data->bnyk_hari}} ({{strtolower($Bilangan[$data->bnyk_hari])}}) hari,
+        <td valign="top">Jangka Waktu</td>
+        <td valign="top">:</td>
+        <td valign="top">{{$data->bnyk_hari}} ({{strtolower($Bilangan[$data->bnyk_hari])}}) hari,
             @if ($data->bnyk_hari==1)
             {{ Tanggal::Panjang($data->tgl_brkt) }}
             @else
@@ -101,7 +101,7 @@
                     <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')
                     ->size(100)->margin(0)->generate('https://perjadin.bpsntb.id/view/'.$data->kode_trx)) !!}" width="80px">
 
-                <div style="font-size:7pt;padding-left:3px;">TRXID : {{$data->kode_trx}}</div>
+                <div style="margin:0px;font-size:7pt;padding-left:3px;">TRXID : {{$data->kode_trx}}</div>
             </div>
             </td>
             <td width="50%">

@@ -58,7 +58,17 @@ class KelengkapanController extends Controller
         }
         else
         {
-
+            $data = SuratTugas::with('Transaksi')
+            ->leftJoin('spd','surattugas.trx_id','=','spd.trx_id')
+            ->leftJoin('transaksi','transaksi.trx_id','=','surattugas.trx_id')
+            ->leftJoin(DB::raw("(select id, unit_pelaksana from matrik) as matrik"),'transaksi.matrik_id','=','matrik.id')
+            ->where('tahun_srt','=',Session::get('tahun_anggaran'))
+            ->when(request('unitkerja'),function($query){
+                    return $query->where('unit_pelaksana',request('unitkerja'));
+            })
+            ->where('flag_surattugas',$flag_kelengkapan)
+            ->orderBy('flag_surattugas','ASC')
+            ->orderBy('transaksi.tgl_brkt','desc')->get();
         }
         return view('kelengkapan.list',[
             'data'=>$data,

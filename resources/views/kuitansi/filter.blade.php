@@ -1,12 +1,12 @@
-<form action="{{route('kelengkapan.list')}}" method="GET" class="form-horizontal">
+<form action="{{url('kuitansi')}}" method="GET" class="form-horizontal">
     <div class="form-group row">
         <label class="control-label text-right col-md-1">Filter</label>
         <div class="col-md-2">
-           <select name="flag_kelengkapan" class="form-control">
-                <option value="">Status Kelengkapan</option>
+           <select name="flag_kuitansi" class="form-control">
+                <option value="">Pilih Flag Kuitansi</option>
                 @for ($i = 0; $i <= 3; $i++)
-                    <option value="{{$i}}" @if (request('flag_kelengkapan') != '')
-                    @if (request('flag_kelengkapan')==$i) selected @endif
+                    <option value="{{$i}}" @if (request('flag_kuitansi') != '')
+                    @if (request('flag_kuitansi')==$i) selected @endif
                     @endif>{{$FlagSrt[$i]}}</option>
                 @endfor
            </select>

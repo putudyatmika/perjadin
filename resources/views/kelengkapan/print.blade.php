@@ -32,7 +32,12 @@
 .text-center {
   text-align: center;
 }
-
+.text-uppercase {
+    text-transform: uppercase;
+}
+ol {
+    margin:0px;
+}
 body {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 12px;
