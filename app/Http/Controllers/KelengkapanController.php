@@ -23,6 +23,13 @@ class KelengkapanController extends Controller
     //
     public function list()
     {
+        if (request('flag_kelengkapan') == NULL)
+        {
+            $flag_kelengkapan = '';
+        }
+        else {
+            $flag_kelengkapan = request('flag_kelengkapan');
+        }
         $FlagTrx = config('globalvar.FlagTransaksi');
         $FlagKonfirmasi = config('globalvar.FlagKonfirmasi');
         $MatrikFlag = config('globalvar.FlagMatrik');
@@ -32,8 +39,27 @@ class KelengkapanController extends Controller
         $FlagKendaraan = config('globalvar.Kendaraan');
         $DataPPK = Pegawai::where([['flag_pengelola','=','2'],['flag','=','1']])->orderBy('unitkerja')->first();
         $DataPegawai = Pegawai::where([['jabatan','<','3'],['flag','=','1']])->orderBy('unitkerja')->get();
-        $data = SuratTugas::leftJoin('spd','surattugas.trx_id','=','spd.trx_id')->where('tahun_srt','=',Session::get('tahun_anggaran'))->orderBy('flag_surattugas','ASC')->orderBy('surattugas.created_at','desc')->get();
+        $DataBidang = Unitkerja::where('eselon', '<', '4')->orderBy('kode', 'asc')->get();
+        
         //dd($data);
+        if ($flag_kelengkapan=='')
+        {
+            //semua flag dan unitkerja 
+            $data = SuratTugas::with('Transaksi')
+                ->leftJoin('spd','surattugas.trx_id','=','spd.trx_id')
+                ->leftJoin('transaksi','transaksi.trx_id','=','surattugas.trx_id')
+                ->leftJoin(DB::raw("(select id, unit_pelaksana from matrik) as matrik"),'transaksi.matrik_id','=','matrik.id')
+                ->where('tahun_srt','=',Session::get('tahun_anggaran'))
+                ->when(request('unitkerja'),function($query){
+                        return $query->where('unit_pelaksana',request('unitkerja'));
+                })
+                ->orderBy('flag_surattugas','ASC')
+                ->orderBy('transaksi.tgl_brkt','desc')->get();
+        }
+        else
+        {
+
+        }
         return view('kelengkapan.list',[
             'data'=>$data,
             'FlagTrx'=>$FlagTrx,
@@ -44,7 +70,8 @@ class KelengkapanController extends Controller
             'Bilangan'=>$Bilangan,
             'FlagKendaraan'=>$FlagKendaraan,
             'DataPPK'=>$DataPPK,
-            'DataPegawai'=>$DataPegawai
+            'DataPegawai'=>$DataPegawai,
+            'DataBidang'=>$DataBidang
         ]);
     }
     public function simpan(Request $request)
