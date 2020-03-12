@@ -31,11 +31,11 @@ class ViewController extends Controller
             'status'=>false,
             'hasil'=>'Kode trx tidak tersedia'
         );
-        $count = Transaksi::where('kode_trx','=',$kodetrx)->where('flag_trx','>','3')->count();
+        $count = Transaksi::where('kode_trx','=',$kodetrx)->count();
         if ($count > 0) {
             //$tgl_pelaksanaan=Tanggal::Panjang($data->tgl_awal)." s/d ".Tanggal::Panjang($data->tgl_akhir);
 
-            $data = Transaksi::where('kode_trx','=',$kodetrx)->where('flag_trx','>','3')->first();
+            $data = Transaksi::where('kode_trx','=',$kodetrx)->first();
             if ($data->peg_jabatan < 4) 
             { 
                 $jabatan = 'Kepala';
@@ -157,11 +157,11 @@ class ViewController extends Controller
             'status'=>false,
             'hasil'=>'Kode trx tidak tersedia'
         );
-        $count = Transaksi::where('kode_trx','=',$kodetrx)->where('flag_trx','>','3')->count();
+        $count = Transaksi::where('kode_trx','=',$kodetrx)->count();
         if ($count > 0) {
             //$tgl_pelaksanaan=Tanggal::Panjang($data->tgl_awal)." s/d ".Tanggal::Panjang($data->tgl_akhir);
 
-            $data = Transaksi::where('kode_trx','=',$kodetrx)->where('flag_trx','>','3')->first();
+            $data = Transaksi::where('kode_trx','=',$kodetrx)->first();
             if ($data->peg_jabatan < 4) 
             { 
                 $jabatan = 'Kepala';

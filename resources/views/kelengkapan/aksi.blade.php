@@ -12,3 +12,9 @@
 <button type="button" class="btn btn-danger btn-circle btn-sm" data-toggle="modal" data-target="#BatalModal" data-trxid="{{$item->trx_id}}" data-kodetrx="{{$item->Transaksi->kode_trx}}" data-tahun="{{$item->tahun_srt}}" data-tglend="{{Carbon\Carbon::parse($item->Transaksi->tgl_brkt)->subDays(1)->format('Y-m-d')}}"><span data-toggle="tooltip" title="Batalkan perjadin an. {{$item->Transaksi->peg_nama}}"><i class="fa fa-times"></i></span></button>
 @endif
 
+<!-- tombol batal masih muncul kalo status surat tugas belum terlaksana--->
+@if ($item->flag_surattugas < 2 and Auth::user()->user_level==2)
+    @if ((Auth::user()->user_unitkerja==$item->Transaksi->Matrik->UnitPelaksana->kode))
+    <button type="button" class="btn btn-danger btn-circle btn-sm" data-toggle="modal" data-target="#BatalModal" data-trxid="{{$item->trx_id}}" data-kodetrx="{{$item->Transaksi->kode_trx}}" data-tahun="{{$item->tahun_srt}}" data-tglend="{{Carbon\Carbon::parse($item->Transaksi->tgl_brkt)->subDays(1)->format('Y-m-d')}}"><span data-toggle="tooltip" title="Batalkan perjadin an. {{$item->Transaksi->peg_nama}}"><i class="fa fa-times"></i></span></button>
+    @endif
+@endif

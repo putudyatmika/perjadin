@@ -271,19 +271,26 @@ class TurunanController extends Controller
                 ['mak_id','=',$request->a_id],
                 ['flag_matrik','=','5']
                 ])->groupBy('mak_id')->first();   
-        
+       
         //update pagu_realisasi turunan anggaran
-        foreach ($data_bid as $item)
+        if ($data_bid)
         {
-            $data = TurunanAnggaran::where('t_id','=',$item->dana_tid)->first();
-            $data->pagu_realisasi = $item->totalbiaya;
-            $data->update();
+            foreach ($data_bid as $item)
+            {
+                $data = TurunanAnggaran::where('t_id','=',$item->dana_tid)->first();
+                $data->pagu_realisasi = $item->totalbiaya;
+                $data->update();
+            }
         }
+        
         //update pagu_realisasi di anggaran
-
-        $dataAnggaran = Anggaran::where('id','=', $request->a_id)->first();
-        $dataAnggaran->realisasi_pagu = $data_anggaran->totalbiaya;
-        $dataAnggaran->update();
+        if ($data_anggaran)
+        {
+            $dataAnggaran = Anggaran::where('id','=', $request->a_id)->first();
+            $dataAnggaran->realisasi_pagu = $data_anggaran->totalbiaya;
+            $dataAnggaran->update();
+        }
+        
         
         //dd($data_semua_tahun);
         Session::flash('message', 'Data Pagu Realisasi sudah disinkronisasi');
