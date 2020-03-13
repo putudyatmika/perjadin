@@ -149,6 +149,7 @@ var transport = button.data('transport')
 var rill = button.data('rill')
 var hotel = button.data('hotel')
 var flagket = button.data('flagket')
+var komponen = button.data('komponen')
 
 var modal = $(this)
 modal.find('.modal-body #trxid').val(trxid)
@@ -178,5 +179,6 @@ modal.find('.modal-body #transport').text(transport)
 modal.find('.modal-body #rill').text(rill)
 modal.find('.modal-body #hotel').text(hotel)
 modal.find('.modal-body #flagket').text(flagket)
+modal.find('.modal-body #komponen').text(komponen)
 });
 </script>

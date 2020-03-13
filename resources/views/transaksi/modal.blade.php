@@ -203,6 +203,8 @@
                         <dd class="col-sm-9"><span id="tgl_pelaksanaan"></span></dd>
                         <dt class="col-sm-3 text-truncate">Sumber Dana</dt>
                         <dd class="col-sm-9"><span id="sumberdana"></span></dd>
+                        <dt class="col-sm-3 text-truncate">Komponen</dt>
+                        <dd class="col-sm-9"><span id="komponen"></span></dd>
                         <dt class="col-sm-3 text-truncate">Rincian Biaya</dt>
                         <dd class="col-sm-9">
                             <ul class="list-icons">

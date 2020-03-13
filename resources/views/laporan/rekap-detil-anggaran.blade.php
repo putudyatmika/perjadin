@@ -68,6 +68,7 @@
                                             <th>Nama</th>
                                             <th>Bidang</th>
                                             <th>Kode Trx</th>
+                                            <th>Tanggal Kuitansi</th>
                                             <th>Tujuan</th>
                                             <th>Tugas</th>
                                             <th class="text-right">Tgl Berangkat</th>
@@ -85,9 +86,14 @@
                                                <td>{{$item->nama}}</td>
                                                <td>{{$item->unit_nama}}</td>
                                                <td>{{$item->kode_trx}}</td>
+                                               <td>
+                                                   @if ($item->tgl_kuitansi)
+                                                   {{Tanggal::Panjang($item->tgl_kuitansi)}}
+                                                   @endif
+                                                </td>
                                                <td>{{$item->nama_kabkota}}</td>
                                                <td>{{$item->tugas}}</td>
-                                               <td class="text-right">{{$item->tgl_brkt}}</td>
+                                               <td class="text-right">{{Tanggal::Panjang($item->tgl_brkt)}}</td>
                                                <td class="text-right">{{$item->bnyk_hari}}</td>
                                                <td class="text-right">@duit($item->totalbiaya)</td>
                                            </tr>
@@ -101,7 +107,7 @@
                                             <th colspan="2" class="text-center">Pagu</th>
                                             <th>@duit($dataAnggaran->pagu_utama)</th>
                                             <th colspan="2" class="text-right">Sisa (Pagu - Total)</th>
-                                            <th colspan="2">@duit($dataAnggaran->pagu_utama-$total_biaya)</th>
+                                            <th colspan="3">@duit($dataAnggaran->pagu_utama-$total_biaya)</th>
                                             <th class="text-right">Total</th>
                                             <th class="text-right">@duit($total_biaya)</th>
                                         </tr>
