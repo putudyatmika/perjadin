@@ -96,14 +96,16 @@ $(function () {
                                             $totalbiaya += $item->realisasi_pagu;
                                        @endphp
                                     @endforeach
-
+                                        @php
+                                            $sisa = $totalpagu - $totalbiaya;
+                                        @endphp
                                     </tbody>
                                     <tfoot>
                                         <tr>
                                             <th colspan="3" class="text-center">Total</th>
                                             <th class="text-right">@duit($totalpagu)</th>
                                             <th class="text-right">@duit($totalbiaya)</th>
-                                            <th></th>
+                                            <th>@duit($sisa)</th>
                                         </tr>
                                     </tfoot>
                                 </table>
