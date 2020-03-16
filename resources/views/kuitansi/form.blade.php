@@ -233,6 +233,27 @@ else {
 <h3 class="box-title m-t-40">Input Anggaran Biaya</h3>
 <hr>
 <div class="form-group row">
+    <label for="jenisperjadin" class="col-2 col-form-label">Jenis Perjadin</label>
+    <div class="input-group col-10">
+     
+            <div class="radio-list">
+                <label class="radio-inline p-0">
+                    <div class="radio radio-success">
+                        <input type="radio" name="jenis_perjadin" id="jenis1" value="1" required @if ($dataTransaksi[0]->Matrik->jenis_perjadin==1) checked="checked" @endif>
+                        <label for="jenis1" class="text-success">Biasa</label>
+                    </div>
+                </label>
+                <label class="radio-inline">
+                    <div class="radio radio-danger">
+                        <input type="radio" name="jenis_perjadin" id="jenis2" value="2" @if ($dataTransaksi[0]->Matrik->jenis_perjadin==2) checked="checked" @endif>
+                        <label for="jenis2" class="text-danger">Paket Meeting</label>
+                    </div>
+                </label>
+            </div>
+       
+    </div>
+</div>
+<div class="form-group row">
         <label for="tgl_kuitansi" class="col-2 col-form-label">Tanggal Kuitansi</label>
         <div class="input-group col-3 input-daterange" id="date-range">
             <div class="input-group-addon"><i class="ti-user"></i></div>
@@ -241,7 +262,7 @@ else {
         </div>
 </div>
 <div class="form-group row">
-    <label for="nama" class="col-2 col-form-label">Uang Harian</label>
+    <label for="nama" class="col-2 col-form-label">Uang Harian Perjalanan</label>
     <div class="input-group col-10">
         <div class="input-group-addon"><i class="ti-user"></i></div>
         <input type="number" class="form-control" id="uangharian" name="uangharian" placeholder="Nilai Rp." value="{{$harian_rupiah}}" required="">
@@ -252,7 +273,7 @@ else {
     </div>
 </div>
 <div class="form-group row">
-    <label for="nama" class="col-2 col-form-label">Biaya Penginapan</label>
+    <label for="nama" id="penginapan_nama" class="col-2 col-form-label">Biaya Penginapan</label>
     <div class="input-group col-10">
         <div class="input-group-addon"><i class="ti-user"></i></div>
         <input type="number" class="form-control" id="nilaihotel" name="nilaihotel" placeholder="Nilai Hotel Rp." value="{{$hotel_rupiah}}" required="">

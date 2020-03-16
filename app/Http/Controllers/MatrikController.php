@@ -41,6 +41,7 @@ class MatrikController extends Controller
         $DataUnitkerja = DB::table('unitkerja')
             ->where('eselon', '<', '4')->where('flag_edit', '=', '0')->get();
         $MatrikFlag = config('globalvar.FlagMatrik');
+        $JenisPerjadin = config('globalvar.JenisPerjadin');
         if ($flag_matrik=='')
         {
             $DataMatrik = MatrikPerjalanan::with(['DanaUnitkerja','UnitPelaksana'])
@@ -65,7 +66,7 @@ class MatrikController extends Controller
         }
         
         //dd($DataMatrik);
-        return view('matrik.index', compact('DataMatrik', 'MatrikFlag', 'DataUnitkerja'));
+        return view('matrik.index', compact('DataMatrik', 'MatrikFlag', 'DataUnitkerja','JenisPerjadin'));
     }
     public function baru()
     {
@@ -135,6 +136,7 @@ class MatrikController extends Controller
                 $datamatrik->total_hotel = $totalhotel;
                 $datamatrik->pengeluaran_rill = $request['pengeluaranrill'];
                 $datamatrik->total_biaya = $totalbiaya;
+                $datamatrik->jenis_perjadin = $request->jenis_perjadin;
                 $datamatrik->save();
 
                 //update turunan anggaran
@@ -170,6 +172,7 @@ class MatrikController extends Controller
             $datamatrik->total_hotel = $totalhotel;
             $datamatrik->pengeluaran_rill = $request['pengeluaranrill'];
             $datamatrik->total_biaya = $totalbiaya;
+            $datamatrik->jenis_perjadin = $request->jenis_perjadin;
             $datamatrik->save();
 
             $pesan_error = '['.$kode_trx.'] Matrik perjalanan berhasil di tambahkan dan belum bisa di alokasikan';
@@ -335,6 +338,7 @@ class MatrikController extends Controller
                         $data->dana_mak = $request->dana_mak;
                         $data->dana_pagu = $request->dana_pagu;
                         $data->dana_unitkerja = $request->dana_kodeunit;
+                        $data->jenis_perjadin = $request->jenis_perjadin;
                         $data->update();
 
                         $pesan_error = '['.$data->kode_trx.'] Matrik perjalanan berhasil di update dan sudah bisa dialokasikan';
@@ -380,6 +384,7 @@ class MatrikController extends Controller
                         $data->dana_mak = $request->dana_mak;
                         $data->dana_pagu = $request->dana_pagu;
                         $data->dana_unitkerja = $request->dana_kodeunit;
+                        $data->jenis_perjadin = $request->jenis_perjadin;
                         $data->update();
 
                         $pesan_error = '['.$data->kode_trx.'] Matrik perjalanan berhasil di update dan sudah bisa dialokasikan';
@@ -408,6 +413,7 @@ class MatrikController extends Controller
                     $data->total_hotel = $totalhotel;
                     $data->pengeluaran_rill = $request->pengeluaranrill;
                     $data->total_biaya = $totalbiaya;
+                    $data->jenis_perjadin = $request->jenis_perjadin;
                     $data->update();
                     $pesan_error = '['.$data->kode_trx.'] Matrik perjalanan berhasil di update akan tetapi belum bisa di alokasikan';
                     $warna_error = 'warning';
@@ -582,6 +588,7 @@ class MatrikController extends Controller
     public function view($mid)
     {
         $MatrikFlag = config('globalvar.FlagMatrik');
+        $JenisPerjadin = config('globalvar.JenisPerjadin');
         $arr = array(
             'status'=>false,
             'hasil'=>'Data matrik perjalanan tidak tersedia'
@@ -600,11 +607,13 @@ class MatrikController extends Controller
                     ->first();
             //dd($data);
             $flag = $MatrikFlag[$data->flag_matrik];
+            $flag_jenisperjadin = $JenisPerjadin[$data->jenis_perjadin];
             $tgl_pelaksanaan=Tanggal::Panjang($data->tgl_awal)." s/d ".Tanggal::Panjang($data->tgl_akhir);
             $arr = array(
                 'status'=>true,
                 'hasil'=>$data,
                 'flag'=>$flag,
+                'flag_jenisperjadin'=>$flag_jenisperjadin,
                 'tanggal'=>$tgl_pelaksanaan
             );
         }

@@ -30,8 +30,10 @@
                     <dd class="col-sm-9"><p id="harian"></p> <p id="transport"></p> <p id="hotel"></p> <p id="rill"></p></dd>
                     <dt class="col-sm-3 text-truncate">Total Biaya</dt>
                     <dd class="col-sm-9"><span id="totalbiaya"></span></dd>
+                    <dt class="col-sm-3 text-truncate">Jenis Perjadin</dt>
+                    <dd class="col-sm-9"><span id="jenis" class="label label-success"></span></dd>
                     <dt class="col-sm-3 text-truncate">Flag</dt>
-                    <dd class="col-sm-9"><span id="flag"></span></dd>
+                    <dd class="col-sm-9"><span id="flag" class="label label-primary"></span></dd>
                   </dl>
                   <input type="hidden" name="mid" id="mid">
 

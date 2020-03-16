@@ -10,16 +10,16 @@
     <tr>
         <td>Tanggal</td>
         <td>:</td>
-        <td>{{$data->SuratTugas->tgl_surat}}</td>
+        <td>{{Tanggal::Panjang($data->SuratTugas->tgl_surat)}}</td>
     </tr>
 </table>
 
 <table width="100%" class="pad5px" cellpadding="0" cellspacing="0" style="line-height: 1.5em;margin-top:10px;margin-bottom:10px;">
     <tr class="text-center semuagaris">
         <td width="5%" height="45px">No</td>
-        <td width="57%">Rincian Biaya</td>
+        <td width="60%">Rincian Biaya</td>
         <td width="13%">Jumlah <br /> (Rp.)</td>
-        <td width="25%">Keterangan</td>
+        <td width="22%">Keterangan</td>
     </tr>
     <tr>
         <td class="garis-l" valign="top" align="center">1.</td>
@@ -33,7 +33,7 @@
     </tr>
     <tr>
         <td class="garis-l" height="30px">&nbsp;</td>
-        <td class="garis-l">1. Uang Harian Selama {{$data->Kuitansi->harian_lama}} ({{strtolower($Bilangan[$data->Kuitansi->harian_lama])}}) hari @ @rupiah($data->Kuitansi->harian_rupiah)</td>
+        <td class="garis-l">1. Uang Harian Perjalanan selama {{$data->Kuitansi->harian_lama}} ({{strtolower($Bilangan[$data->Kuitansi->harian_lama])}}) hari @ @rupiah($data->Kuitansi->harian_rupiah)</td>
         <td class="garis-l" style="padding-right: 5pt !important;" align="right">@duit($data->Kuitansi->harian_total)</td>
         <td class="garis-l garis-r"></td>
     </tr>

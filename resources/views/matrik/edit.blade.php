@@ -126,12 +126,33 @@
                                         <h3 class="box-title m-t-40">Rencana Anggaran Biaya</h3>
                                         <hr>
                                         <div class="form-group row">
+                                            <label for="jenisperjadin" class="col-lg-3 col-xs-12 col-form-label">Jenis Perjadin</label>
+                                            <div class="input-group col-lg-9 col-sm-9 col-xs-12">
+                                             
+                                                    <div class="radio-list">
+                                                        <label class="radio-inline p-0">
+                                                            <div class="radio radio-success">
+                                                                <input type="radio" name="jenis_perjadin" id="jenis1" value="1" required @if ($DataMatrik->jenis_perjadin==1) checked="checked" @endif>
+                                                                <label for="jenis1" class="text-success">Biasa</label>
+                                                            </div>
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            <div class="radio radio-danger">
+                                                                <input type="radio" name="jenis_perjadin" id="jenis2" value="2" @if ($DataMatrik->jenis_perjadin==2) checked="checked" @endif>
+                                                                <label for="jenis2" class="text-danger">Paket Meeting</label>
+                                                            </div>
+                                                        </label>
+                                                    </div>
+                                               
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
                                                 <label for="nama" class="col-lg-3 col-xs-12 col-form-label">Uang Harian</label>
                                                 <div class="input-group col-lg-9 col-sm-9 col-xs-12">
                                                     <div class="input-group-addon"><i class="ti-user"></i></div>
                                                     <input type="number" class="form-control" id="uangharian" name="uangharian" placeholder="Nilai Rp." required value="{{$DataMatrik->dana_harian}}">
                                                     <span class="input-group-addon bg-info b-0 text-white">x</span>
-                                                    <input type="number" class="form-control" id="harian" name="harian" placeholder="Lama hari" readonly="" value="{{$DataMatrik->lama_harian}}">
+                                                    <input type="number" class="form-control" id="harian" name="harian" placeholder="Lama hari" @if ($DataMatrik->jenis_perjadin==1) readonly="" @endif value="{{$DataMatrik->lama_harian}}" required>
                                                     <span class="input-group-addon bg-info b-0 text-white">=</span>
                                                     <input type="number" class="form-control" id="totalharian" name="totalharian" placeholder="" readonly="" value="{{$DataMatrik->total_harian}}">
                                                 </div>
@@ -143,12 +164,12 @@
                                                 <input type="number" class="form-control" id="nilaiTransport" name="nilaiTransport" placeholder="Nilai transport Rp." required autocomplete="off" value="{{$DataMatrik->dana_transport}}"> </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="nama" class="col-lg-3 col-sm-3 col-xs-12 col-form-label">Penginapan</label>
+                                            <label for="nama" id="penginapan_nama" class="col-lg-3 col-sm-3 col-xs-12 col-form-label">Penginapan</label>
                                             <div class="input-group col-lg-9 col-sm-9 col-xs-12">
                                                 <div class="input-group-addon"><i class="ti-user"></i></div>
                                                 <input type="number" class="form-control" id="nilaihotel" name="nilaihotel" placeholder="Nilai Hotel Rp." value="{{$DataMatrik->dana_hotel}}" required="">
                                                 <span class="input-group-addon bg-info b-0 text-white">x</span>
-                                                <input type="number" class="form-control" id="hotelhari" name="hotelhari" placeholder="Lama hari" value="{{$DataMatrik->lama_hotel}}" readonly="">
+                                                <input type="number" class="form-control" id="hotelhari" name="hotelhari" placeholder="Lama hari" value="{{$DataMatrik->lama_hotel}}" @if ($DataMatrik->jenis_perjadin==1) readonly="" @endif required>
                                                 <span class="input-group-addon bg-info b-0 text-white">=</span>
                                                 <input type="number" class="form-control" id="totalhotel" name="totalhotel" value="{{$DataMatrik->total_hotel}}" placeholder="" readonly="">
                                             </div>
