@@ -25,7 +25,7 @@
         <td class="garis-l" valign="top" align="center">1.</td>
         <td class="garis-l">Biaya perjalanan dinas dalam rangka {{$data->tugas}} dari Mataram ke {{$data->Matrik->Tujuan->nama_kabkota}} selama {{$data->bnyk_hari}} ({{strtolower($Bilangan[$data->bnyk_hari])}}) hari 
             @if ($data->bnyk_hari > 1)
-            dari tanggal {{Tanggal::Panjang($data->tgl_brkt)}} s/d {{Tanggal::Panjang($data->tgl_balik)}}@else
+            dari tanggal {{Tanggal::Panjang($data->tgl_brkt)}} s.d. {{Tanggal::Panjang($data->tgl_balik)}}@else
             tanggal {{Tanggal::Panjang($data->tgl_brkt)}}@endif, dengan rincian sebagai berikut :
             </td>
         <td class="garis-l">&nbsp;</td>
@@ -46,7 +46,14 @@
         @endphp
         <tr>
                 <td class="garis-l" height="30px"></td>
-                <td class="garis-l">{{$no}}. Penginapan selama {{$data->Kuitansi->hotel_lama}} ({{strtolower($Bilangan[$data->Kuitansi->hotel_lama])}}) malam @ @rupiah($data->Kuitansi->hotel_rupiah)</td>
+                <td class="garis-l">{{$no}}. 
+                    @if ($data->Kuitansi->flag_jenisperjadin==1)
+                    Penginapan selama {{$data->Kuitansi->hotel_lama}} ({{strtolower($Bilangan[$data->Kuitansi->hotel_lama])}}) malam 
+                    @else 
+                     Uang Harian  {{$data->Kuitansi->txt_jenisperjadin}} {{$data->Kuitansi->hotel_lama}} ({{strtolower($Bilangan[$data->Kuitansi->hotel_lama])}}) hari
+                    @endif
+                    
+                    @ @rupiah($data->Kuitansi->hotel_rupiah)</td>
                 <td class="garis-l" style="padding-right: 5pt !important;" align="right">@duit($data->Kuitansi->hotel_total)</td>
                 <td class="garis-l garis-r"></td>
         </tr>

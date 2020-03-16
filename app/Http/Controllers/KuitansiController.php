@@ -147,21 +147,35 @@ class KuitansiController extends Controller
                 $rill_total = 0;
                 
                 //kuitansi ada
+                //cek dulu flag_jenisperjadin
                 
                 //ambil data bendahara
                 $Bendahara = Pegawai::where([['flag','=','1'],['nip_baru','=',$request->bendahara_nip]])->first();
                 $NamaBendahara = $Bendahara->nama;
 
-                if (!$request->hotel_cek) {
-                    //hotel_cek tidak ada ato tidak ada bukti
-                    $totalhotel = ($request->nilaihotel * $request->hotelhari) * 0.3;
-                    $flagHotel = 0;
-                    $rill_total = $rill_total + $totalhotel;
-                }
-                else {
+                if ($request->jenis_perjadin == 2)
+                {
+                    //jenis perjadin meeting
                     $totalhotel = $request->nilaihotel * $request->hotelhari;
                     $flagHotel = 1;
+                    $txt_jenisperjadin = ucwords(strtolower($request->txt_jenisperjadin));
                 }
+                else 
+                {
+                    //jenis perjadin biasa
+                    if (!$request->hotel_cek) {
+                        //hotel_cek tidak ada ato tidak ada bukti
+                        $totalhotel = ($request->nilaihotel * $request->hotelhari) * 0.3;
+                        $flagHotel = 0;
+                        $rill_total = $rill_total + $totalhotel;
+                    }
+                    else {
+                        $totalhotel = $request->nilaihotel * $request->hotelhari;
+                        $flagHotel = 1;
+                    }
+                    $txt_jenisperjadin=NULL;
+                }
+                
                
 
                 $flagTransport = $request->transport_cek ? '1' : '0';
@@ -248,6 +262,8 @@ class KuitansiController extends Controller
                     $dataKuitansi -> rill3_rupiah = $rill3_rupiah;
                     $dataKuitansi -> rill3_flag = $rill3_flag;
                     $dataKuitansi -> rill_total = $rill_total;
+                    $dataKuitansi -> flag_jenisperjadin = $request->jenis_perjadin;
+                    $dataKuitansi -> txt_jenisperjadin = $txt_jenisperjadin;
                     $dataKuitansi -> update();
 
                     //transaksi update
@@ -293,6 +309,8 @@ class KuitansiController extends Controller
     
                     Session::flash('message', '('.$request->kode_trx.') Kuitansi an. '.$request->nama.' tujuan ke '. $request->nama_tujuan .' sudah diupdate');
                     Session::flash('message_type', 'success');
+                    Session::flash('flash_kodetrx', $request->kode_trx);
+                    Session::flash('flash_nama', $request->nama);
                     return redirect()->to('kuitansi');
                 }
                 else 

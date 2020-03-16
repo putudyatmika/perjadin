@@ -349,5 +349,26 @@ $('#hotel_cek').on('change', function() {
     var totalbiaya = parseInt(totalhotel)+ parseInt($('#nilaiTransport').val()) + parseInt($('#totalharian').val()) + parseInt(rill);
     $('#totalbiaya').val(totalbiaya);
 });
+
+$('#jenis2').on('click change', function(e) {
+    $('#harian').prop('readonly', false);
+    $('#hotelhari').prop('readonly', false);
+    $('#penginapan_nama').text('Uang Harian');
+    $('#nilaihotel').attr("placeholder", "Harian Fullboard/FullDay");
+    $('#txt_jenisperjadin').show();
+    $('#batas_txt_perjadin').show();
+    $('#txt_jenisperjadin').prop('required', true);
+});
+
+$('#jenis1').on('click change', function(e) {
+    $('#harian').prop('readonly', true);
+    $('#hotelhari').prop('readonly', true);
+    $('#penginapan_nama').text('Penginapan');
+    $('#nilaihotel').attr("placeholder", "Nilai Hotel Rp.");
+    $('#txt_jenisperjadin').hide();
+    $('#batas_txt_perjadin').hide();
+    $('#txt_jenisperjadin').prop('required', false);
+    
+});
 </script>
 
