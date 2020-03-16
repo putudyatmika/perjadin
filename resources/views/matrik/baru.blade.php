@@ -41,7 +41,7 @@
                                                 <input type="text" class="form-control" id="nama_tujuan" name="nama_tujuan" placeholder="Tujuan" required readonly="">
                                                 <input id="kode_kabkota" type="hidden" name="kode_kabkota" value="{{ old('kode_kabkota') }}" required readonly="">
                                             <span class="input-group-btn">
-                                                    <button type="button" id="check-minutes" class="btn waves-effect waves-light btn-success" data-toggle="modal" data-target="#CariTujuan"><i class="fa fa-search"></i></button>
+                                                <button type="button" id="check-minutes" class="btn waves-effect waves-light btn-success" data-toggle="modal" data-target="#CariTujuan"><i class="fa fa-search"></i></button>
                                             </span>
                                             </div>
                                         </div>
@@ -123,14 +123,35 @@
                                         <h3 class="box-title m-t-40">Rencana Anggaran Biaya</h3>
                                         <hr>
                                         <div class="form-group row">
-                                                <label for="nama" class="col-lg-3 col-xs-12 col-form-label">Uang Harian</label>
+                                            <label for="jenisperjadin" class="col-lg-3 col-xs-12 col-form-label">Jenis Perjadin</label>
+                                            <div class="input-group col-lg-9 col-sm-9 col-xs-12">
+                                             
+                                                    <div class="radio-list">
+                                                        <label class="radio-inline p-0">
+                                                            <div class="radio radio-success">
+                                                                <input type="radio" name="jenis_perjadin" id="jenis1" value="1" required checked="checked">
+                                                                <label for="jenis1" class="text-success">Biasa</label>
+                                                            </div>
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            <div class="radio radio-danger">
+                                                                <input type="radio" name="jenis_perjadin" id="jenis2" value="2">
+                                                                <label for="jenis2" class="text-danger">Paket Meeting</label>
+                                                            </div>
+                                                        </label>
+                                                    </div>
+                                               
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                                <label for="nama" class="col-lg-3 col-xs-12 col-form-label">Uang Harian Perjadin</label>
                                                 <div class="input-group col-lg-9 col-sm-9 col-xs-12">
                                                     <div class="input-group-addon"><i class="ti-user"></i></div>
                                                     <input type="number" class="form-control" id="uangharian" name="uangharian" placeholder="Nilai Rp." required>
                                                     <span class="input-group-addon bg-info b-0 text-white">x</span>
-                                                    <input type="number" class="form-control" id="harian" name="harian" placeholder="Lama hari" readonly="">
+                                                    <input type="number" class="form-control" id="harian" name="harian" placeholder="Lama hari" readonly="" required>
                                                     <span class="input-group-addon bg-info b-0 text-white">=</span>
-                                                    <input type="number" class="form-control" id="totalharian" name="totalharian" placeholder="" readonly="">
+                                                    <input type="number" class="form-control" id="totalharian" name="totalharian" placeholder="" readonly="" required>
                                                 </div>
                                             </div>
                                         <div class="form-group row">
@@ -140,14 +161,14 @@
                                                 <input type="number" class="form-control" id="nilaiTransport" name="nilaiTransport" placeholder="Nilai transport Rp." required autocomplete="off"> </div>
                                         </div>
                                         <div class="form-group row">
-                                                <label for="nama" class="col-lg-3 col-xs-12 col-form-label">Penginapan</label>
+                                                <label for="nama" id="penginapan_nama" class="col-lg-3 col-xs-12 col-form-label">Penginapan</label>
                                                 <div class="input-group col-lg-9 col-sm-9 col-xs-12">
                                                     <div class="input-group-addon"><i class="ti-user"></i></div>
                                                     <input type="number" class="form-control" id="nilaihotel" name="nilaihotel" placeholder="Nilai Hotel Rp." required="">
                                                     <span class="input-group-addon bg-info b-0 text-white">x</span>
-                                                    <input type="number" class="form-control" id="hotelhari" name="hotelhari" placeholder="Lama hari" readonly="">
+                                                    <input type="number" class="form-control" id="hotelhari" name="hotelhari" placeholder="Lama hari" readonly="" required>
                                                     <span class="input-group-addon bg-info b-0 text-white">=</span>
-                                                    <input type="number" class="form-control" id="totalhotel" name="totalhotel" placeholder="" readonly="">
+                                                    <input type="number" class="form-control" id="totalhotel" name="totalhotel" placeholder="" readonly="" required>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -155,17 +176,13 @@
                                                     <div class="input-group col-lg-9 col-sm-9 col-xs-12">
                                                         <div class="input-group-addon"><i class="ti-user"></i></div>
                                                         <input type="number" class="form-control" id="pengeluaranrill" name="pengeluaranrill" placeholder="Nilai pengeluaran rill Rp." required=""> </div>
-                                                </div>
-                                                <div class="form-group row">
+                                            </div>
+                                            <div class="form-group row">
                                                         <label for="totalbiaya" class="col-lg-3 col-xs-12 col-form-label">Total Rencana Biaya</label>
                                                         <div class="input-group col-lg-9 col-sm-9 col-xs-12">
                                                             <div class="input-group-addon"><i class="ti-user"></i></div>
                                                             <input type="text" class="form-control" id="totalbiaya" name="totalbiaya" placeholder="Total Biaya" required="" readonly=""> </div>
-                                                    </div>
-
-
-
-
+                                            </div>
                                         <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
                                         <button type="reset" class="btn btn-inverse waves-effect waves-light">Reset</button>
                                     </form>

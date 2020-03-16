@@ -78,8 +78,16 @@
                                             @foreach ($DataMatrik as $item)
                                                 <tr>
                                                     <td>{{$loop->iteration}}</td>
-                                                    <td>{{$item->kode_trx}}</td>
-                                                    <td>{{$item->Tujuan->nama_kabkota}}</td>
+                                                    <td>
+                                                        {{$item->kode_trx}}
+                                                        <br />
+                                                        <small @if ($item->jenis_perjadin==1) class="label label-success" @else class="label label-danger" @endif>
+                                                            {{$JenisPerjadin[$item->jenis_perjadin]}}
+                                                        </small>
+                                                    </td>
+                                                    <td>
+                                                        {{$item->Tujuan->nama_kabkota}}
+                                                    </td>
                                                     <td>{{$item->lamanya}} hari</td>
                                                     <td>
                                                         @if ($item->dana_unitkerja)

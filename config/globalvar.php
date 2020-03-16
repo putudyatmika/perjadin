@@ -117,6 +117,10 @@
             '1'=>'KPA',
             '2'=>'PPK',
             '3'=>'Bendahara',
+        ],
+        'JenisPerjadin'=>[
+            '1'=>'Biasa',
+            '2'=>'Paket Meeting'
         ]
     ];
 ?>
