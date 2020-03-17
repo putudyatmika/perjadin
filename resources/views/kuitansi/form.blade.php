@@ -18,12 +18,14 @@ if ($dataTransaksi[0]->Kuitansi->flag_kuitansi==0) {
     //kuitansi masih kosong
     //harian
     $harian_rupiah = $dataTransaksi[0]->Matrik->dana_harian;
-    $harian_lama = $dataTransaksi[0]->bnyk_hari;
+    $harian_lama = $dataTransaksi[0]->Matrik->lama_harian;
     $harian_total = $dataTransaksi[0]->Matrik->total_harian;
     //biaya penginapan
     $hotel_rupiah = $dataTransaksi[0]->Matrik->dana_hotel;
-    $hotel_lama = $dataTransaksi[0]->bnyk_hari-1;
+    $hotel_lama = $dataTransaksi[0]->Matrik->lama_hotel;
     $hotel_total = $dataTransaksi[0]->Matrik->total_hotel;
+    $flag_jenisperjadin = $dataTransaksi[0]->Matrik->jenis_perjadin;
+    $txt_jenisperjadin = '';
     if ($dataTransaksi[0]->Kuitansi->hotel_flag==0) {
         $hotel_flag = "";
     }
@@ -84,6 +86,8 @@ else {
     $hotel_rupiah = $dataTransaksi[0]->Kuitansi->hotel_rupiah;
     $hotel_lama = $dataTransaksi[0]->Kuitansi->hotel_lama;
     $hotel_total = $dataTransaksi[0]->Kuitansi->hotel_total;
+    $flag_jenisperjadin = $dataTransaksi[0]->Kuitansi->flag_jenisperjadin;
+    $txt_jenisperjadin = $dataTransaksi[0]->Kuitansi->txt_jenisperjadin;
     if ($dataTransaksi[0]->Kuitansi->hotel_flag==0) {
         $hotel_flag = "";
     }
@@ -267,18 +271,28 @@ else {
         <div class="input-group-addon"><i class="ti-user"></i></div>
         <input type="number" class="form-control" id="uangharian" name="uangharian" placeholder="Nilai Rp." value="{{$harian_rupiah}}" required="">
         <span class="input-group-addon bg-info b-0 text-white">x</span>
-        <input type="number" class="form-control" id="harian" name="harian" placeholder="Lama hari" value="{{$harian_lama}}" readonly="">
+        <input type="number" class="form-control" id="harian" name="harian" placeholder="Lama hari" value="{{$harian_lama}}" @if ($dataTransaksi[0]->Matrik->jenis_perjadin==1) readonly="" @endif required="">
         <span class="input-group-addon bg-info b-0 text-white">=</span>
         <input type="number" class="form-control" id="totalharian" name="totalharian" placeholder="" value="{{$harian_total}}" readonly="">
     </div>
 </div>
 <div class="form-group row">
-    <label for="nama" id="penginapan_nama" class="col-2 col-form-label">Biaya Penginapan</label>
+    <label for="nama" id="penginapan_nama" class="col-2 col-form-label">
+        @if ($flag_jenisperjadin==1)
+            Biaya Penginapan
+        @else 
+            Uang Harian
+        @endif
+    </label>
     <div class="input-group col-10">
         <div class="input-group-addon"><i class="ti-user"></i></div>
+        
+        <input type="text" class="form-control" id="txt_jenisperjadin" name="txt_jenisperjadin" placeholder="Uang Harian Apa" value="{{$txt_jenisperjadin}}" @if ($flag_jenisperjadin==1) style="display:none;"  @endif>
+        <span class="input-group-addon bg-info b-0 text-white" id="batas_txt_perjadin" @if ($flag_jenisperjadin==1) style="display:none;" @endif>:</span>
+       
         <input type="number" class="form-control" id="nilaihotel" name="nilaihotel" placeholder="Nilai Hotel Rp." value="{{$hotel_rupiah}}" required="">
         <span class="input-group-addon bg-info b-0 text-white">x</span>
-        <input type="number" class="form-control" id="hotelhari" name="hotelhari" placeholder="Lama hari" value="{{$hotel_lama}}" readonly="">
+        <input type="number" class="form-control" id="hotelhari" name="hotelhari" placeholder="Lama hari" value="{{$hotel_lama}}" @if ($flag_jenisperjadin==1) readonly="" @endif required="">
         <span class="input-group-addon bg-info b-0 text-white">=</span>
         <input type="number" class="form-control" id="totalhotel" name="totalhotel" placeholder="" value="{{$hotel_total}}" readonly="">
         <span class="input-group-addon bg-danger b-0 text-white">

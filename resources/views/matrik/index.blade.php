@@ -36,15 +36,15 @@
                             </form>
                     </div>
                     @endif
-                    <div class="col-lg-12">
+                    <div class="col-lg-12" style="margin-top:10px;">
                         @if (Session::has('message'))
-                        <div class="alert alert-{{ Session::get('message_type') }}" id="waktu2" style="margin-top:10px;">{{ Session::get('message') }}</div>
+                        <div class="alert alert-{{ Session::get('message_type') }}" id="waktu2">{{ Session::get('message') }}</div>
                         @endif
                     </div>
 
                     </div>
                     <!-- .row -->
-                    <div class="row" style="margin-top: 20px;">
+                    <div class="row" style="margin-top: 10px;">
                     <div class="col-lg-12">
                         <div class="white-box">
                             @include('matrik.filter')
@@ -79,11 +79,11 @@
                                                 <tr>
                                                     <td>{{$loop->iteration}}</td>
                                                     <td>
-                                                        {{$item->kode_trx}}
-                                                        <br />
-                                                        <small @if ($item->jenis_perjadin==1) class="label label-success" @else class="label label-danger" @endif>
+                                                        <p class="text-center">{{$item->kode_trx}} <br />
+                                                        <small @if ($item->jenis_perjadin==1) class="text-center label label-success" @else class="text-center label label-info" @endif>
                                                             {{$JenisPerjadin[$item->jenis_perjadin]}}
                                                         </small>
+                                                         </p>
                                                     </td>
                                                     <td>
                                                         {{$item->Tujuan->nama_kabkota}}

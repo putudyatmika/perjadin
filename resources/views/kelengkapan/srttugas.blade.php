@@ -86,7 +86,7 @@
             @if ($data->bnyk_hari==1)
             {{ Tanggal::Panjang($data->tgl_brkt) }}
             @else
-            {{ Tanggal::Panjang($data->tgl_brkt) }} s/d {{ Tanggal::Panjang($data->tgl_balik) }}
+            {{ Tanggal::Panjang($data->tgl_brkt) }} s.d. {{ Tanggal::Panjang($data->tgl_balik) }}
             @endif
         </td>
     </tr>

@@ -86,6 +86,7 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                                     <thead>
                                         <tr>
                                             <th>No</th>
+                                            <th>Kode</th>
                                             <th>Tujuan</th>
                                             <th>Kepala</th>
                                             <th>NIP Kepala</th>
@@ -99,6 +100,7 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
                                       @foreach ($DataTujuan as $item)
                                           <tr>
                                               <td>{{ $loop->iteration }}</td>
+                                              <td>{{ $item->kode_kabkota }}</td>
                                               <td>{{ $item->nama_kabkota }}</td>
                                               <td>{{ $item->kepala}}</td>
                                               <td>{{ $item->nip_kepala}}</td>
