@@ -38,6 +38,7 @@ class KuitansiController extends Controller
         $FlagSrt = config('globalvar.FlagSurat');
         $FlagTTD = config('globalvar.FlagTTD');
         $FlagKendaraan = config('globalvar.Kendaraan');
+        $JenisPerjadin = config('globalvar.JenisPerjadin');
         $DataPPK = Pegawai::where([['jabatan','=','2'],['flag','=','1']])->orderBy('unitkerja')->get();
         $DataBidang = Unitkerja::where('eselon', '<', '4')->orderBy('kode', 'asc')->get();
 
@@ -69,7 +70,7 @@ class KuitansiController extends Controller
                             ->get();
         }
         
-        return view('kuitansi.index',compact('DataKuitansi','FlagTrx','FlagKonfirmasi','FlagSrt','MatrikFlag','FlagTTD','DataPPK','FlagKendaraan','DataBidang'));
+        return view('kuitansi.index',compact('DataKuitansi','FlagTrx','FlagKonfirmasi','FlagSrt','MatrikFlag','FlagTTD','DataPPK','FlagKendaraan','DataBidang','JenisPerjadin'));
     }
 
     /**

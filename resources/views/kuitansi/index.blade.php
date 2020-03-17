@@ -87,7 +87,12 @@ $(function () {
                                             <tr>
                                                 <td>{{$loop->iteration}}</td>
                                                 <td>
-                                                    {{$item->Transaksi->kode_trx}}
+                                                    <p class="text-center">
+                                                        {{$item->Transaksi->kode_trx}} <br />
+                                                    <small @if ($item->flag_jenisperjadin==1) class="text-center label label-success" @else class="text-center label label-danger" @endif>
+                                                        {{$JenisPerjadin[$item->flag_jenisperjadin]}}
+                                                    </small>
+                                                    </p>
                                                 </td>
                                                 <td>
                                                     @if ($item->tgl_kuitansi)

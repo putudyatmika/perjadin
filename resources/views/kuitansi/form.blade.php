@@ -160,7 +160,8 @@ else {
 <label for="nama" class="col-2 col-form-label">Lamanya</label>
 <div class="input-group col-8">
     <div class="input-group-addon"><i class="ti-user"></i></div>
-    <input type="text" class="form-control" id="lamanya" name="lamanya"  value="{{$dataTransaksi[0]->bnyk_hari}} Hari" placeholder="Banyak hari" readonly="">
+    <input type="text" class="form-control" id="lamanya_text" name="lamanya_text"  value="{{$dataTransaksi[0]->bnyk_hari}} Hari" placeholder="Banyak hari" readonly="">
+    <input type="hidden" class="form-control" id="lamanya" name="lamanya"  value="{{$dataTransaksi[0]->bnyk_hari}}" />
 </div>
 </div>
 <div class="form-group row">
@@ -243,13 +244,13 @@ else {
             <div class="radio-list">
                 <label class="radio-inline p-0">
                     <div class="radio radio-success">
-                        <input type="radio" name="jenis_perjadin" id="jenis1" value="1" required @if ($dataTransaksi[0]->Matrik->jenis_perjadin==1) checked="checked" @endif>
+                        <input type="radio" name="jenis_perjadin" id="jenis1" value="1" required @if ($flag_jenisperjadin==1) checked="checked" @endif>
                         <label for="jenis1" class="text-success">Biasa</label>
                     </div>
                 </label>
                 <label class="radio-inline">
                     <div class="radio radio-danger">
-                        <input type="radio" name="jenis_perjadin" id="jenis2" value="2" @if ($dataTransaksi[0]->Matrik->jenis_perjadin==2) checked="checked" @endif>
+                        <input type="radio" name="jenis_perjadin" id="jenis2" value="2" @if ($flag_jenisperjadin==2) checked="checked" @endif>
                         <label for="jenis2" class="text-danger">Paket Meeting</label>
                     </div>
                 </label>
@@ -271,7 +272,7 @@ else {
         <div class="input-group-addon"><i class="ti-user"></i></div>
         <input type="number" class="form-control" id="uangharian" name="uangharian" placeholder="Nilai Rp." value="{{$harian_rupiah}}" required="">
         <span class="input-group-addon bg-info b-0 text-white">x</span>
-        <input type="number" class="form-control" id="harian" name="harian" placeholder="Lama hari" value="{{$harian_lama}}" @if ($dataTransaksi[0]->Matrik->jenis_perjadin==1) readonly="" @endif required="">
+        <input type="number" class="form-control" id="harian" name="harian" placeholder="Lama hari" value="{{$harian_lama}}" @if ($flag_jenisperjadin==1) readonly="" @endif required="">
         <span class="input-group-addon bg-info b-0 text-white">=</span>
         <input type="number" class="form-control" id="totalharian" name="totalharian" placeholder="" value="{{$harian_total}}" readonly="">
     </div>

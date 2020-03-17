@@ -192,11 +192,11 @@ $('#harian').on('change paste keyup',function(e){
     var nilaihotel =  $('#nilaihotel').val();
     var totalhotel = nilaihotel*(hari-harian);
     $('#totalhotel').val(totalhotel);
-//untuk total biaya
-/*
-var totalhotel=$('#totalhotel').val();
-var transport = $('#nilaiTransport').val();
-var rill =  $('#pengeluaranrill').val(); */
+    //untuk total biaya
+    /*
+    var totalhotel=$('#totalhotel').val();
+    var transport = $('#nilaiTransport').val();
+    var rill =  $('#pengeluaranrill').val(); */
     var totalbiaya = parseInt($('#nilaiTransport').val())+ parseInt(totalharian) + parseInt($('#totalhotel').val()) + parseInt($('#pengeluaranrill').val());
     $('#totalbiaya').val(totalbiaya);
 });

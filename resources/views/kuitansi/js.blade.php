@@ -368,7 +368,28 @@ $('#jenis1').on('click change', function(e) {
     $('#txt_jenisperjadin').hide();
     $('#batas_txt_perjadin').hide();
     $('#txt_jenisperjadin').prop('required', false);
+    var hari = $('#lamanya').val();
+    $('#harian').val(hari);
+    $('#hotelhari').val(hari-1);
+    var uangharian =  $('#uangharian').val();
+    var totalharian = uangharian*hari;
+    $('#totalharian').val(totalharian);
+
+    var nilaihotel =  $('#nilaihotel').val();
+    var totalhotel = nilaihotel*(hari-1);
+    $('#totalhotel').val(totalhotel);
     
+});
+$('#harian').on('change paste keyup',function(e){
+    var harian =  e.target.value;
+    var uangharian =  $('#uangharian').val();
+    var totalharian = uangharian*harian;
+    $('#totalharian').val(totalharian);
+    var hari = $('#lamanya').val();
+    $('#hotelhari').val(hari-harian);
+    var nilaihotel =  $('#nilaihotel').val();
+    var totalhotel = nilaihotel*(hari-harian);
+    $('#totalhotel').val(totalhotel);
 });
 </script>
 
