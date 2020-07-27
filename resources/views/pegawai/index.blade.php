@@ -27,7 +27,8 @@ $(function () {
         dom: 'Bfrtip',
         buttons: [
             'copy', 'excel', 'pdf', 'print'
-        ]
+        ],
+        "pageLength": 30
     });
 });
 </script>
@@ -83,7 +84,7 @@ $(function () {
                     <div class="col-lg-12">
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Data Pegawai BPS Provinsi NTB </h3> <!--@if (Auth::user()->pengelola>3)<a href="{{url('format_pegawai')}}" class="btn btn-sm btn-info  m-b-20 pull-right">Download Format Pegawai</a> @endif -->
-                            <p class="text-muted m-b-20">Keadaan <code>31 Desember 2018</code></p>
+                            <p class="text-muted m-b-20">Keadaan tahun <code>{{Session::get('tahun_anggaran')}}</code></p>
                             <div class="table-responsive">
                                 <table id="DTable" class="table striped">
                                     <thead>
@@ -103,7 +104,7 @@ $(function () {
                                     <tbody>
                                         @foreach ($DataPegawai as $Pegawai)
                                         <tr>
-                                                <td><a href="#" data-toggle="modal" data-target="#ViewModal" data-pegid="{{$Pegawai->id}}" data-nama="{{$Pegawai->nama}}" data-nip="{{$Pegawai->nip_baru}}" data-tgllahir="{{Tanggal::HariPanjang($Pegawai->tgl_lahir)}}" data-gol="{{ $Pegawai -> pangkat }} ({{ $Pegawai->nama_gol}})" data-unitkerja="{{$Pegawai -> unit_nama}}" data-jabatan="{{$JenisJabatanVar[$Pegawai -> jabatan]}}" data-jk="{{$jkVar[$Pegawai->jk]}}" data-bidang="{{ $Pegawai -> bidang_nama}}">{{ $Pegawai -> nip_baru }}</a></td>
+                                                <td><a href="#" data-toggle="modal" data-target="#ViewModal" data-pegid="{{$Pegawai->id}}" data-nama="{{$Pegawai->nama}}" data-nip="{{$Pegawai->nip_baru}}" data-tgllahir="{{Tanggal::HariPanjang($Pegawai->tgl_lahir)}}" data-gol="{{ $Pegawai -> pangkat }} ({{ $Pegawai->nama_gol}})" data-unitkerja="{{$Pegawai -> unit_nama}}" data-jabatan="{{$JenisJabatanVar[$Pegawai -> jabatan]}}" data-jk="{{$jkVar[$Pegawai->jk]}}" data-bidang="{{ $Pegawai -> bidang_nama}}" data-email="{{$Pegawai->email}}">{{ $Pegawai -> nip_baru }}</a></td>
                                                 <td>{{ $Pegawai -> nama}}</td>
                                                 <td>{{ $Pegawai -> email}}</td>
                                                 <td><strong>{{ $JenisJabatanVar[$Pegawai -> jabatan] }}</strong> {{ $Pegawai -> unit_nama}}</td>
@@ -122,7 +123,7 @@ $(function () {
                                                 </td>
                                                 @if (Auth::user()->pengelola>3)
                                                 <td>
-                                                    <button type="button" class="btn btn-sm btn-primary btn-rounded" data-toggle="modal" data-target="#EditModal" data-pegid="{{$Pegawai->id}}" data-nama="{{$Pegawai->nama}}" data-nip="{{$Pegawai->nip_baru}}" data-tgllahir="{{$Pegawai->tgl_lahir}}" data-gol="{{$Pegawai->gol}}" data-unitkerja="{{$Pegawai->unitkerja}}" data-jabatan="{{$Pegawai->jabatan}}" data-jk="{{$Pegawai->jk}}" data-pengelola="{{$Pegawai->flag_pengelola}}" data-flag="{{$Pegawai->flag}}">Edit</button>
+                                                    <button type="button" class="btn btn-sm btn-primary btn-rounded" data-toggle="modal" data-target="#EditModal" data-pegid="{{$Pegawai->id}}" data-nama="{{$Pegawai->nama}}" data-nip="{{$Pegawai->nip_baru}}" data-tgllahir="{{$Pegawai->tgl_lahir}}" data-gol="{{$Pegawai->gol}}" data-unitkerja="{{$Pegawai->unitkerja}}" data-jabatan="{{$Pegawai->jabatan}}" data-jk="{{$Pegawai->jk}}" data-pengelola="{{$Pegawai->flag_pengelola}}" data-flag="{{$Pegawai->flag}}" data-email="{{$Pegawai->email}}">Edit</button>
                                                     <button type="button" class="btn btn-sm btn-danger btn-rounded" data-toggle="modal" data-target="#DeleteModal" data-pegid="{{$Pegawai->id}}" data-nama="{{$Pegawai->nama}}" data-nip="{{$Pegawai->nip_baru}}" data-unitkerja="{{$Pegawai->unitkerja}}-{{ $Pegawai -> unit_nama}}">Delete</button>
                                                 </td>
                                                 @endif

@@ -30,6 +30,7 @@ $('#EditModal').on('show.bs.modal', function (event) {
     var jabatan = button.data('jabatan')
     var pengelola = button.data('pengelola')
     var flag = button.data('flag')
+    var email = button.data('email')
 
     var modal = $(this)
     modal.find('.modal-body #peg_id').val(peg_id)
@@ -42,6 +43,7 @@ $('#EditModal').on('show.bs.modal', function (event) {
     modal.find('.modal-body #jabatan').val(jabatan)
     modal.find('.modal-body #flag_pengelola').val(pengelola)
     modal.find('.modal-body #flag').val(flag)
+    modal.find('.modal-body #email').val(email)
 })
 $('#DeleteModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget) // Button that triggered the modal
@@ -67,6 +69,7 @@ $('#ViewModal').on('show.bs.modal', function (event) {
   var jabatan = button.data('jabatan')
   var jk = button.data('jk')
   var bidang = button.data('bidang')
+  var email = button.data('email')
 
   var modal = $(this)
   modal.find('.modal-body #pegid').text(pegid)
@@ -78,5 +81,6 @@ $('#ViewModal').on('show.bs.modal', function (event) {
   modal.find('.modal-body #jabatan').text(jabatan)
   modal.find('.modal-body #jk').text(jk)
   modal.find('.modal-body #bidang').text(bidang)
+  modal.find('.modal-body #email').text(email)
 })
 </script>

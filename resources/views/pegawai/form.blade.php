@@ -11,6 +11,12 @@
         <input type="text" class="form-control" id="nipbaru" name="nipbaru" placeholder="NIP" required=""> </div>
 </div>
 <div class="form-group">
+    <label for="email">E-Mail</label>
+    <div class="input-group">
+        <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
+        <input type="text" class="form-control" id="email" name="email" placeholder="email bps" required=""> </div>
+</div>
+<div class="form-group">
     <label for="tgllahir">Tanggal Lahir</label>
     <div class="input-group">
         <div class="input-group-addon"><i class="ti-lock"></i></div>

@@ -98,6 +98,7 @@ class PegawaiController extends Controller
         $datapeg -> gol = $request['gol'];
         $datapeg -> unitkerja = $request['unitkerja'];
         $datapeg -> jabatan = $request['jabatan'];
+        $datapeg -> email = $request['email'];
         $datapeg -> flag = 1;
         $datapeg -> flag_pengelola = $request->flag_pengelola;
         $datapeg -> save();
@@ -175,6 +176,7 @@ class PegawaiController extends Controller
         $datapeg -> jabatan = $request['jabatan'];
         $datapeg -> flag_pengelola = $request->flag_pengelola;
         $datapeg -> flag = $request->flag;
+        $datapeg -> email = $request['email'];
         $datapeg -> update();
 
         Session::flash('message', 'Data telah diupdate');

@@ -95,6 +95,8 @@
                     <dd class="col-sm-8"><span id="unitkerja"></span></dd>
                     <dt class="col-sm-4">Jabatan</dt>
                     <dd class="col-sm-8"><span id="jabatan"></span></dd>
+                    <dt class="col-sm-4">Email</dt>
+                    <dd class="col-sm-8"><span id="email"></span></dd>
                   </dl>
                   <input type="hidden" name="peg_id" id="peg_id">
 
