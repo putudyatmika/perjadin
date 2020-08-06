@@ -57,7 +57,13 @@ $(function () {
                     </div>
                     <div class="col-lg-12">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0">Detil Perjalanan Dinas An. {{$DataPegawai->nama}} - NIP. {{$DataPegawai->nip_baru}}</h3>
+                            <h3 class="box-title m-b-0">Detil Perjalanan Dinas An. {{$DataPegawai->nama}} - NIP. {{$DataPegawai->nip_baru}} - 
+                                @if ($DataPegawai->flag > 0)
+                                <span class="label label-rouded label-success">{{ $FlagUmum[$DataPegawai -> flag] }}</span>
+                                @else 
+                                <span class="label label-rouded label-danger">{{ $FlagUmum[$DataPegawai -> flag] }}</span>
+                                @endif
+                            </h3>
                             <p class="text-muted m-b-20">@if (Session::has('tahun_anggaran')) <code>Tahun Anggaran {{Session::get('tahun_anggaran')}}</code> @endif</p>
                             <div class="table-responsive">
                                 <table id="DataTableCustom" class="table table-striped">

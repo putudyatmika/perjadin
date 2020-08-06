@@ -177,7 +177,7 @@
                                                        </td>
                                                     <td>
                                                       @if ($r->flag_matrik>0)
-                                                        @if ($r->Transaksi->flag_trx != 3)
+                                                        @if ($r->flag_matrik <> 2)
                                                           @duit($r->total_biaya)
                                                         @endif
                                                       @else
@@ -216,11 +216,11 @@
                                                     </td>
                                                 </tr>
                                                 @if ($r->flag_matrik>0)
-                                                 @if ($r->Transaksi->flag_trx != 3)
+                                                 @if ($r->flag_matrik <> 2)
                                                     @php 
                                                         $total = $total + $r->total_biaya; 
                                                     @endphp
-                                                    @if ($r->Transaksi->flag_trx>4)
+                                                    @if ($r->Transaksi->flag_trx > 4)
                                                     @php
                                                     $total_real = $total_real + $r->Transaksi->Kuitansi->total_biaya;
                                                     @endphp

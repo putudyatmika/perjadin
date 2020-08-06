@@ -367,12 +367,14 @@ class AnggaranController extends Controller
             //bisa di buka
             $dataAnggaran = Anggaran::where('id', '=', $id)->where('flag_kunci','=',0)->with('Turunan', 'Unitkerja')->first();
             $dataTurunan = \App\TurunanAnggaran::where('a_id', '=', $id)->get();
-            $dataJalan = MatrikPerjalanan::where('mak_id','=',$id)->get();
+            $dataJalan = MatrikPerjalanan::with('Transaksi')->where('mak_id','=',$id)->orderBy('dana_tid','asc')->get();
             $MatrikFlag = config('globalvar.FlagMatrik');
             $FlagTrx = config('globalvar.FlagTransaksi');
             $DataUnitkerja = DB::table('unitkerja')
                 ->where('eselon', '<', '4')->get();
+            //dd($dataJalan);
             return view('anggaran.alokasi', compact('dataAnggaran', 'dataTurunan', 'DataUnitkerja','dataJalan','MatrikFlag','FlagTrx'));
+            
         }
         else{
             //pesan error

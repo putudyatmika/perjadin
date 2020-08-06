@@ -254,7 +254,7 @@ class TurunanController extends Controller
             ->leftJoin('kuitansi','transaksi.trx_id','=','kuitansi.trx_id')
             ->where([['flag_matrik','=','5'],['tahun_matrik','=',Session::get('tahun_anggaran')]])->groupBy('mak_id')->get(); 
         */
-       
+        /*
         $data_bid = DB::table('matrik')
                 ->select(DB::Raw('matrik.mak_id,matrik.dana_tid,COALESCE(sum(kuitansi.total_biaya)) as totalbiaya'))
                 ->leftJoin('transaksi','matrik.id','=','transaksi.matrik_id')
@@ -263,24 +263,33 @@ class TurunanController extends Controller
                     ['mak_id','=',$request->a_id],
                     ['flag_matrik','=','5']
                     ])->groupBy('dana_tid')->get();
+        */
+        $data_bid = DB::table('matrik')
+                    ->select(DB::Raw('matrik.mak_id,matrik.dana_tid,COALESCE(sum(matrik.total_biaya)) as biaya_rencana, COALESCE(sum(kuitansi.total_biaya)) as biaya_rill'))
+                    ->leftJoin('transaksi','matrik.id','=','transaksi.matrik_id')
+                    ->leftJoin('kuitansi','transaksi.trx_id','=','kuitansi.trx_id')
+                    ->where([
+                        ['mak_id','=',$request->a_id],
+                        ['dana_tid','=',$request->t_id],
+                        ['flag_matrik','<>','2']
+                        ])->groupBy('dana_tid')->first();
+        //dd($data_bid);
         $data_anggaran = DB::table('matrik')
             ->select(DB::Raw('matrik.mak_id,matrik.dana_tid,COALESCE(sum(kuitansi.total_biaya)) as totalbiaya'))
             ->leftJoin('transaksi','matrik.id','=','transaksi.matrik_id')
             ->leftJoin('kuitansi','transaksi.trx_id','=','kuitansi.trx_id')
             ->where([
                 ['mak_id','=',$request->a_id],
-                ['flag_matrik','=','5']
+                ['flag_matrik','<>','2']
                 ])->groupBy('mak_id')->first();   
-       
+        //dd($data_anggaran);
         //update pagu_realisasi turunan anggaran
         if ($data_bid)
         {
-            foreach ($data_bid as $item)
-            {
-                $data = TurunanAnggaran::where('t_id','=',$item->dana_tid)->first();
-                $data->pagu_realisasi = $item->totalbiaya;
-                $data->update();
-            }
+            $data = TurunanAnggaran::where('t_id','=',$request->t_id)->first();
+            $data->pagu_rencana = $data_bid->biaya_rencana;
+            $data->pagu_realisasi = $data_bid->biaya_rill;
+            $data->update();
         }
         
         //update pagu_realisasi di anggaran

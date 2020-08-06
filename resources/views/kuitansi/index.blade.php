@@ -127,6 +127,14 @@ $(function () {
                                             </tr>
                                         @endforeach
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            
+                                            <th colspan="5">Total Kuitansi</th>
+                                            <th colspan="3">@duit($DataKuitansi->sum('total_biaya'))</th>
+                                        
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>

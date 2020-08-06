@@ -65,6 +65,7 @@ $(function () {
                                             <th>#</th>
                                             <th>Nama Pegawai</th>
                                             <th>Bidang/Bagian</th>
+                                            <th>Flag Pegawai</th>
                                             <th class="text-right">Jumlah Perjalanan</th>
                                             <th class="text-right">Total Biaya</th>
                                         </tr>
@@ -83,11 +84,26 @@ $(function () {
                                                     <small>NIP. {{$item->nip_baru}}</small>
                                                 </td>
                                                 <td>{{$item->nama_unitkerja}}</td>
+                                                <td>
+                                                    @if ($item->flag > 0)
+                                                    <span class="label label-rouded label-success">{{ $FlagUmum[$item -> flag] }}</span>
+                                                    @else 
+                                                    <span class="label label-rouded label-danger">{{ $FlagUmum[$item -> flag] }}</span>
+                                                    @endif
+                                                </td>
                                                 <td class="text-right">{{$item->jumlah}}</td>
                                                 <td class="text-right">@duit($item->totalbiaya)</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
+                                    <thead>
+                                        <tr>
+                                            <th>&nbsp;</th>
+                                            <th colspan="3"><p class="text-center">TOTAL</p></th>
+                                            <th class="text-right">{{$RekapPegawai->sum('jumlah')}}</th>
+                                            <th class="text-right">@duit($RekapPegawai->sum('totalbiaya'))</th>
+                                        </tr>
+                                    </thead>
                                 </table>
                             </div>
                         </div>

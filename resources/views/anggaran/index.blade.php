@@ -189,6 +189,17 @@ $(function () {
                                             </tr>
                                         @endforeach
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th colspan="2" class="text-center">Total</th>
+                                            <th class="text-right">@duit($DataAnggaran->sum('pagu_utama'))</th>
+                                            <th class="text-right">@duit($DataAnggaran->sum('rencana_pagu'))</th>
+                                            <th class="text-right">@duit($DataAnggaran->sum('realisasi_pagu'))</th>
+                                            <th>&nbsp;</th>
+                                            <th class="text-right">Sisa</th>
+                                            <th colspan="2">@duit($DataAnggaran->sum('pagu_utama')-$DataAnggaran->sum('realisasi_pagu'))</th>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>

@@ -71,10 +71,7 @@ $(function () {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @php
-                                         $totalpagu=0;
-                                         $totalbiaya=0;
-                                        @endphp
+                                        
                                     @foreach ($dataAnggaran as $item)
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
@@ -91,21 +88,16 @@ $(function () {
                                             <td class="text-right">@duit($item->realisasi_pagu)</td>
                                             <td class="text-right">@duit($item->pagu_utama-$item->realisasi_pagu)</td>
                                         </tr>
-                                       @php
-                                            $totalpagu += $item->pagu_utama;
-                                            $totalbiaya += $item->realisasi_pagu;
-                                       @endphp
+                                      
                                     @endforeach
-                                        @php
-                                            $sisa = $totalpagu - $totalbiaya;
-                                        @endphp
+                                        
                                     </tbody>
                                     <tfoot>
                                         <tr>
                                             <th colspan="3" class="text-center">Total</th>
-                                            <th class="text-right">@duit($totalpagu)</th>
-                                            <th class="text-right">@duit($totalbiaya)</th>
-                                            <th>@duit($sisa)</th>
+                                            <th class="text-right">@duit($dataAnggaran->sum('pagu_utama'))</th>
+                                            <th class="text-right">@duit($dataAnggaran->sum('realisasi_pagu'))</th>
+                                            <th class="text-right">@duit($dataAnggaran->sum('pagu_utama')-$dataAnggaran->sum('realisasi_pagu'))</th>
                                         </tr>
                                     </tfoot>
                                 </table>

@@ -133,7 +133,7 @@ class LaporanController extends Controller
         else {
             //semua anggaran
             
-            $dataAnggaran = Anggaran::with('Turunan','Matrik','Unitkerja')->where('tahun_anggaran','=',Session::get('tahun_anggaran'))->get();
+            $dataAnggaran = Anggaran::where('tahun_anggaran','=',Session::get('tahun_anggaran'))->get();
             //dd($dataAnggaran);
             return view('laporan.rekap-anggaran',compact('dataAnggaran'));
         }
@@ -143,6 +143,7 @@ class LaporanController extends Controller
         /*
         select nip_baru, pegawai.nama as nama_pegawai, unitkerja.nama as nama_unitkerja, jumlah, totalbiaya from pegawai left join unitkerja on pegawai.unitkerja=unitkerja.kode LEFT join (SELECT peg_nip, COUNT(*) as jumlah, sum(kuitansi.total_biaya) as totalbiaya FROM transaksi LEFT join kuitansi on transaksi.trx_id=kuitansi.trx_id where flag_trx>3 GROUP by peg_nip order by jumlah desc) as trx on pegawai.nip_baru=trx.peg_nip order by jumlah desc
         */
+        $FlagUmum = config('globalvar.FlagUmum');
         if ($idpeg>0) {
             $count = \App\Pegawai::where('id','=',$idpeg)->count();
             if ($count>0) {
@@ -153,7 +154,7 @@ class LaporanController extends Controller
                     ['tahun_trx','=',Session::get('tahun_anggaran')]
                     ])->orderBy('tgl_brkt','asc')->get();
                 //dd($RekapPegawai);
-                return view('laporan.rekap-detil-pegawai',compact('DataPegawai','RekapPegawai'));
+                return view('laporan.rekap-detil-pegawai',compact('DataPegawai','RekapPegawai','FlagUmum'));
             }
             else {
                 //Session::flash('message', 'ID Pegawai tidak tersedia');
@@ -166,10 +167,10 @@ class LaporanController extends Controller
             $RekapPegawai = DB::table('pegawai')->
             leftJoin('unitkerja','pegawai.unitkerja','=','unitkerja.kode')->
             leftJoin(DB::Raw("(SELECT tahun_trx,peg_nip, COUNT(*) as jumlah, sum(kuitansi.total_biaya) as totalbiaya FROM transaksi LEFT join kuitansi on transaksi.trx_id=kuitansi.trx_id where flag_trx>5 and tahun_trx='".Session::get('tahun_anggaran')."' GROUP by peg_nip order by jumlah desc) as trx"),'trx.peg_nip','=','pegawai.nip_baru')->
-            select(DB::Raw('pegawai.id as peg_id,nip_baru, pegawai.nama as nama_pegawai, unitkerja.nama as nama_unitkerja, COALESCE(jumlah,0) as jumlah,COALESCE(totalbiaya,0) as totalbiaya'))->
-            where('jabatan','<','5')->where('flag','=','1')->orderBy('jumlah','desc')->get();
+            select(DB::Raw('pegawai.id as peg_id,nip_baru, pegawai.nama as nama_pegawai, unitkerja.nama as nama_unitkerja, COALESCE(jumlah,0) as jumlah,COALESCE(totalbiaya,0) as totalbiaya,flag'))->
+            where('jabatan','<','5')->where('flag','=','1')->orWhere([['flag','=',0],['jumlah','>',0]])->orderBy('jumlah','desc')->get();
             //dd($RekapPegawai);
-            return view('laporan.rekap-pegawai',compact('RekapPegawai'));
+            return view('laporan.rekap-pegawai',compact('RekapPegawai','FlagUmum'));
         }
         
         //dd($idpeg);
