@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('tema/plugins/images/favicon.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('img/perjadin.png')}}">
     <title>Sistem Perjalanan Dinas - BPS Provinsi NTB</title>
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('tema/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -35,7 +35,7 @@
         <div class="col-lg-12 col-md-12 col-xs-12">
         <div class="white-box">
             @if ($dataTransaksi != NULL)
-                <h3>Sistem Perjalanan Dinas - BPS Provinsi NTB</h3>
+                <h3><img src="{{ asset('img/perjadin3.png')}}" alt="home" /> Sistem Perjalanan Dinas - BPS Provinsi NTB</h3>
                 <table class="table table-hover table-striped">
                     <tr>
                         <td><b>Kode TRX</b></td>
@@ -104,6 +104,15 @@
                             <span class="label label-info">{{$FlagSrt[$dataTransaksi->SuratTugas->flag_surattugas]}}</span>
                             @else
                             <span class="label label-danger">{{$FlagSrt[$dataTransaksi->SuratTugas->flag_surattugas]}}</span>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            @if ($dataTransaksi->SuratTugas->nomor_surat!=NULL and $dataTransaksi->Spd->nomor_spd!=NULL and ($dataTransaksi->SuratTugas->flag_surattugas!=3 and $dataTransaksi->SuratTugas->flag_surattugas!=0) )
+                            <a href="{{route('print.srt',$dataTransaksi->kode_trx)}}" target="_blank" class="btn btn-primary btn-sm"><span data-toggle="tooltip" title="Cetak kelengkapan perjadin an. {{$dataTransaksi->peg_nama}}"><i class="fa fa-print"></i> Cetak</span></a>
+
+                            <a href="{{route('unduh.srt',$dataTransaksi->kode_trx)}}" target="_blank" class="btn btn-warning btn-sm"><span data-toggle="tooltip" title="Download kelengkapan perjadin an. {{$dataTransaksi->peg_nama}}"><i class="fa fa-download"></i> Unduh</span></a>
                             @endif
                         </td>
                     </tr>

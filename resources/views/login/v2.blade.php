@@ -37,7 +37,8 @@
                 <form class="form-horizontal form-material" id="loginform" method="post" action="{{ route('login') }}">
                     <a href="javascript:void(0)" class="text-center db"><img src="{{asset('img/logo-bps2.png')}}" alt="Home" /></a>
                     <h4 class="text-center"><b><i>BADAN PUSAT STATISTIK<br />PROVINSI NUSA TENGGARA BARAT</i></b></h4>
-                        <h2 class="text-center bg-info text-white" style="margin-top:50px">SISTEM PERJALANAN DINAS</h2>
+                    
+                    <h4 class="text-center" style="margin-top:20px;"><img src="{{ asset('img/perjadin3.png')}}" alt="home" /> SISTEM PERJALANAN DINAS</h4>
                     @csrf
                     <div class="form-group m-t-40 {{ $errors->has('username') ? ' has-error' : '' }}">
                         <div class="col-xs-12">
@@ -69,20 +70,16 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <div class="checkbox checkbox-primary pull-left p-t-0">
-                                <input id="checkbox-signup" type="checkbox">
-                                <label for="checkbox-signup"> Remember me </label>
-                            </div>
-                        </div>
-                    </div>
                     <div class="form-group text-center m-t-20">
                         <div class="col-xs-12">
-                            <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Log In</button>
+                            <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit"><i class="fa fa-sign-in"></i> MASUK</button>
                         </div>
                     </div>
-
+                    <!---<div class="form-group">
+                        <div class="col-md-12">
+                            <a href="{{route('cari.srt')}}" class="btn btn-primary btn-rounded">CARI SURAT TUGAS</a>
+                        </div>
+                    </div>---fitur ini masih dikembangkan--->
                 </form>
 
             </div>

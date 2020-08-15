@@ -16,7 +16,10 @@ Route::get('/', function () {
     return view('dashboard');
 })->middleware('auth');
 
-Route::get('view/{kodetrx}', 'ViewController@view');
+Route::get('view/{kodetrx}', 'ViewController@view')->name('view.trx');
+Route::get('cari', 'ViewController@cariSrt')->name('cari.srt');
+Route::get('print/{kodetrx}', 'KelengkapanController@print')->name('print.srt');
+Route::get('unduh/{kodetrx}', 'KelengkapanController@unduh')->name('unduh.srt');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('golongan', 'GolonganController');

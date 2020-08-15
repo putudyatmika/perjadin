@@ -279,4 +279,8 @@ class ViewController extends Controller
         //dd($arr);
         return Response()->json($arr);
     }
+    public function cariSrt()
+    {
+        return view('verify.cari');
+    }
 }
