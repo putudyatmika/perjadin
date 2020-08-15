@@ -36,9 +36,39 @@
         <div class="white-box">
             <h3 class="text-center"><img src="{{ asset('img/perjadin3.png')}}" alt="home" /> Sistem Perjalanan Dinas - BPS Provinsi NTB</h3>
             <form action="" method="get" class="text-center">
+               <div>Pencarian surat tugas</div>
                KodeTrx : <input type="text" name="kode_trx" value="{{request('kode_trx')}}">
                <button class="btn btn-info" type="submit"><i class="fa fa-lup"></i> CARI</button>
             </form>
+            @if (request('kode_trx'))
+                <div class="text-center" style="margin-top:30px;">
+                    @if ($dataTransaksi)
+                        Trx ID : {{request('kode_trx')}} <br /> an. <b>{{$dataTransaksi->peg_nama}}</b> <br /> 
+                        @if ($dataTransaksi->SuratTugas->flag_surattugas==0)
+                            <span class="label label-inverse">{{$FlagSrt[$dataTransaksi->SuratTugas->flag_surattugas]}}</span>
+                            @elseif($dataTransaksi->SuratTugas->flag_surattugas==1)
+                            <span class="label label-success">{{$FlagSrt[$dataTransaksi->SuratTugas->flag_surattugas]}}</span>
+                            @elseif($dataTransaksi->SuratTugas->flag_surattugas==2)
+                            <span class="label label-info">{{$FlagSrt[$dataTransaksi->SuratTugas->flag_surattugas]}}</span>
+                            @else
+                            <span class="label label-danger">{{$FlagSrt[$dataTransaksi->SuratTugas->flag_surattugas]}}</span>
+                            @endif
+                        <div style="margin-top:20px;">
+                        @if ($dataTransaksi->SuratTugas->flag_surattugas!=3)
+                            <a href="{{route('view.trx',$dataTransaksi->kode_trx)}}" target="_blank" class="btn btn-success btn-sm"><span data-toggle="tooltip" title="View perjadin an. {{$dataTransaksi->peg_nama}}"><i class="fa fa-link"></i> View</span></a>
+                        @endif
+                        @if ($dataTransaksi->SuratTugas->nomor_surat!=NULL and $dataTransaksi->Spd->nomor_spd!=NULL and ($dataTransaksi->SuratTugas->flag_surattugas!=3 and $dataTransaksi->SuratTugas->flag_surattugas!=0) )
+                        <a href="{{route('print.srt',$dataTransaksi->kode_trx)}}" target="_blank" class="btn btn-primary btn-sm"><span data-toggle="tooltip" title="Cetak kelengkapan perjadin an. {{$dataTransaksi->peg_nama}}"><i class="fa fa-print"></i> Cetak</span></a>
+
+                        <a href="{{route('unduh.srt',$dataTransaksi->kode_trx)}}" target="_blank" class="btn btn-warning btn-sm"><span data-toggle="tooltip" title="Download kelengkapan perjadin an. {{$dataTransaksi->peg_nama}}"><i class="fa fa-download"></i> Unduh</span></a>
+                        @endif
+                        </div>
+                    @else
+                        Data transaksi {{request('kode_trx')}} <b>tidak tersedia</b>
+                    @endif
+                </div>
+            @endif
+            
         </div>
         </div>
     </section>

@@ -1,0 +1,5 @@
+update transaksi 
+inner join pegawai on transaksi.peg_nip = pegawai.nip_baru 
+inner join unitkerja on pegawai.unitkerja = unitkerja.kode
+set transaksi.peg_nama = pegawai.nama, transaksi.peg_gol = pegawai.gol, transaksi.peg_jabatan=pegawai.jabatan, transaksi.peg_unitkerja=pegawai.unitkerja, transaksi.peg_unitkerja_nama = unitkerja.nama
+where transaksi.tahun_trx='2019'

@@ -75,11 +75,11 @@
                             <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit"><i class="fa fa-sign-in"></i> MASUK</button>
                         </div>
                     </div>
-                    <!---<div class="form-group">
+                    <div class="form-group">
                         <div class="col-md-12">
                             <a href="{{route('cari.srt')}}" class="btn btn-primary btn-rounded">CARI SURAT TUGAS</a>
                         </div>
-                    </div>---fitur ini masih dikembangkan--->
+                    </div>
                 </form>
 
             </div>

@@ -25,7 +25,7 @@
 </p>
 </div>
 <br/>
-<p><i>Silakan Masuk ke sistem (https://perjadin.bpsntb.id/) untuk cetak surat tugas.</i></p>
+<p><i>Cetak/Unduh surat tugas di <a href="{{route('view.trx',$objEmail->trx_id)}}" target="_blank">Link Ini</a></i></p>
 
 <br/>
 Terimakasih,

@@ -281,6 +281,19 @@ class ViewController extends Controller
     }
     public function cariSrt()
     {
-        return view('verify.cari');
+        $FlagTrx = config('globalvar.FlagTransaksi');
+        $FlagKonfirmasi = config('globalvar.FlagKonfirmasi');
+        $MatrikFlag = config('globalvar.FlagMatrik');
+        $FlagSrt = config('globalvar.FlagSurat');
+        $JenisJabatanVar = config('globalvar.JenisJabatan');
+        if (request('kode_trx'))
+        {
+            $dataTransaksi = Transaksi::where('kode_trx','=',request('kode_trx'))->first();
+        }
+        else 
+        {
+            $dataTransaksi='';
+        }
+        return view('verify.cari',compact('dataTransaksi','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagSrt','JenisJabatanVar'));
     }
 }
