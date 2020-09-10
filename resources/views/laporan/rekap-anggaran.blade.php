@@ -64,6 +64,8 @@ $(function () {
                                         <tr>
                                             <th>#</th>
                                             <th>MAK</th>
+                                            <th>Detil</th>
+                                            <th>Komponen</th>
                                             <th>Bidang/Bagian</th>
                                             <th class="text-right">Pagu Awal</th>
                                             <th class="text-right">Realisasi</th>
@@ -81,12 +83,14 @@ $(function () {
                                                 @else
                                                 {{$item->mak}}
                                                 @endif
-                                                <br />
-                                                <small>{{$item->uraian}}</small></td>
+                                                
+                                                </td>
+                                            <td><small>{{$item->uraian}}</small></td>
+                                            <td><small>[{{$item->komponen_kode}}] {{$item->komponen_nama}}</small></td>
                                             <td>[{{$item->unitkerja}}] {{$item->Unitkerja->nama}}</td>
-                                            <td class="text-right">@duit($item->pagu_utama)</td>
-                                            <td class="text-right">@duit($item->realisasi_pagu)</td>
-                                            <td class="text-right">@duit($item->pagu_utama-$item->realisasi_pagu)</td>
+                                            <td class="text-right">{{$item->pagu_utama}}</td>
+                                            <td class="text-right">{{$item->realisasi_pagu}}</td>
+                                            <td class="text-right">{{$item->pagu_utama-$item->realisasi_pagu}}</td>
                                         </tr>
                                       
                                     @endforeach
@@ -94,10 +98,10 @@ $(function () {
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <th colspan="3" class="text-center">Total</th>
-                                            <th class="text-right">@duit($dataAnggaran->sum('pagu_utama'))</th>
-                                            <th class="text-right">@duit($dataAnggaran->sum('realisasi_pagu'))</th>
-                                            <th class="text-right">@duit($dataAnggaran->sum('pagu_utama')-$dataAnggaran->sum('realisasi_pagu'))</th>
+                                            <th colspan="5" class="text-center">Total</th>
+                                            <th class="text-right">{{$dataAnggaran->sum('pagu_utama')}}</th>
+                                            <th class="text-right">{{$dataAnggaran->sum('realisasi_pagu')}}</th>
+                                            <th class="text-right">{{$dataAnggaran->sum('pagu_utama')-$dataAnggaran->sum('realisasi_pagu')}}</th>
                                         </tr>
                                     </tfoot>
                                 </table>
