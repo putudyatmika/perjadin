@@ -18,6 +18,10 @@ use App\Exports\AnggaranViewExport;
 use App\Exports\AnggaranNewExport;
 use App\Imports\AnggaranImport;
 use App\TurunanAnggaran;
+use App\Transaksi;
+use App\SuratTugas;
+use App\Spd;
+use App\Kuitansi;
 
 class AnggaranController extends Controller
 {
@@ -189,9 +193,16 @@ class AnggaranController extends Controller
     {
         //ini masih perlu diperbaiki
         //dd($request->all());
+        //syarat anggaran dihapus :
+        //1. Harus tidak ada Matrik Perjalanan yang menggunakan anggaran ini Flag Sudah Terlaksana
+        //2. Transaksi, Kelengkapan, dan Kuitansi harus dalam posisi kosong / flag batal semua
+        //3. Hapus Semua Transaksi, Kelengkapn, Matrik, Turunan yang menggunakan Anggaran ini
+        //4. Hapus Kuitansi berdasarkan trx_id, Hapus Spd sesuai trx_id, hapus Kuitanasi sesuai trx_id,
+        // hapus transaksi berdasarkan matrik_id, hapus matrik sesuai mak_id, hapus turunan_anggaran sesuai a_id, hapus anggaran sesuai id
         //cek dulu matrik yg menggunakan anggaran ini
         //kalo tidak ada hapus beserta turunannya
-        $cek_matrik = MatrikPerjalanan::where('mak_id','=',$request->anggaran_id)->count();
+        //
+        $cek_matrik = MatrikPerjalanan::where([['mak_id','=',$request->anggaran_id],['flag_matrik','>','2']])->count();
         //dd($cek_matrik);
         if ($cek_matrik > 0)
         {
@@ -202,7 +213,45 @@ class AnggaranController extends Controller
         }
         else
         {
-            
+            //cari matrik yang menggunakan anggaran ini
+            $cek_m_delete = MatrikPerjalanan::where([['mak_id','=',$request->anggaran_id],['flag_matrik','<','3']])->count();
+            if ($cek_m_delete > 0)
+            {
+                $d_matrik = MatrikPerjalanan::where([['mak_id','=',$request->anggaran_id],['flag_matrik','<','3']])->get();
+                foreach ($d_matrik as $item) {
+                    $cek_trx = Transaksi::where('matrik_id','=',$item->id)->count();
+                    if ($cek_trx > 0)
+                    {
+                        //ada transaksi pakai matrik_id
+                        $trx = Transaksi::where('matrik_id','=',$item->id)->first();
+                        
+                        //hapus semua transaksi di SuratTugas, Spd, Kuitansi
+                        $cek_srt = SuratTugas::where('trx_id','=',$trx->trx_id)->count();
+                        if ($cek_srt > 0)
+                        {
+                            //hapus surat tugas pakai trx_id ini
+                            SuratTugas::where('trx_id','=',$trx->trx_id)->delete();
+                        }
+                        $cek_spd = Spd::where('trx_id','=',$trx->trx_id)->count();
+                        if ($cek_spd)
+                        {
+                            //hapus SPD pakai trx_id ini
+                            Spd::where('trx_id','=',$trx->trx_id)->delete();
+                        }
+                        $cek_kuitansi = Kuitansi::where('trx_id','=',$trx->trx_id)->count();
+                        if ($cek_kuitansi > 0)
+                        {
+                            //hapus kuitansi pakai trx_id ini
+                            Kuitansi::where('trx_id','=',$trx->trx_id)->delete();
+                        }
+                        
+                        //hapus transaksi sesuai matrik_id
+                        Transaksi::where('matrik_id','=',$item->id)->delete();
+                    }
+                }
+                //hapus matrik perjalanan sesuai anggaran_id
+                MatrikPerjalanan::where([['mak_id','=',$request->anggaran_id],['flag_matrik','<','3']])->delete();
+            }
             $count = TurunanAnggaran::where('a_id','=',$request->anggaran_id)->count();
             if ($count>0) {
                 //delete
