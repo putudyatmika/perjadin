@@ -188,23 +188,35 @@ class AnggaranController extends Controller
     public function destroy(Request $request)
     {
         //ini masih perlu diperbaiki
-        dd($request->all());
-        $dataAnggaran = Anggaran::findOrFail($request->anggaran_id);
-        $dataAnggaran->delete();
-
-        //cek dulu
-
-        $count = TurunanAnggaran::where('a_id','=',$request->anggaran_id)->count();
-        if ($count>0) {
-            //delete
-            $dataTurunan = TurunanAnggaran::where('a_id','=',$request->anggaran_id)->get();
-            $dataTurunan->delete();
+        //dd($request->all());
+        //cek dulu matrik yg menggunakan anggaran ini
+        //kalo tidak ada hapus beserta turunannya
+        $cek_matrik = MatrikPerjalanan::where('mak_id','=',$request->anggaran_id)->count();
+        //dd($cek_matrik);
+        if ($cek_matrik > 0)
+        {
+            //masih ada matrik yg menggunakan anggaran ini
+            Session::flash('message', 'Masih ada Matrik Perjalanan menggunakan Anggaran ini. Pastikan tidak ada matrik perjalanan menggunakan anggaran ini');
+            Session::flash('message_type', 'warning');
+            return back();
         }
-
-
-        Session::flash('message', 'Data telah di delete');
-        Session::flash('message_type', 'danger');
-        return back();
+        else
+        {
+            
+            $count = TurunanAnggaran::where('a_id','=',$request->anggaran_id)->count();
+            if ($count>0) {
+                //delete
+                TurunanAnggaran::where('a_id','=',$request->anggaran_id)->delete();
+                
+            }
+            Anggaran::where('id','=',$request->anggaran_id)->delete();
+            
+            Session::flash('message', 'Data telah di delete');
+            Session::flash('message_type', 'danger');
+            return back();
+        }
+        
+        
     }
     public function format()
     {

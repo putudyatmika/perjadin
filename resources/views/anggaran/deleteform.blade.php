@@ -11,7 +11,12 @@
         <div class="input-group col-10">
             <div class="input-group-addon"><i class="ti-user"></i></div>
             <input type="text" class="form-control" id="mak" name="mak" readonly=""> </div>
-
+    </div>
+    <div class="form-group row">
+        <label for="mak" class="col-2 col-form-label">Komponen</label>
+        <div class="input-group col-10">
+            <div class="input-group-addon"><i class="ti-user"></i></div>
+            <input type="text" class="form-control" id="komponen" name="komponen" readonly=""> </div>
     </div>
     <div class="form-group row">
         <label for="uraian" class="col-2 col-form-label">Uraian</label>
