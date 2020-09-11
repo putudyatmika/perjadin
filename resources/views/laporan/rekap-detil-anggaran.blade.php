@@ -59,6 +59,7 @@
                         <div class="white-box">
                             <h3 class="box-title m-b-0">Detil Perjalanan Dinas yang telah dilaksanakan menggunakan Anggaran </h3>
                             <p class="text-muted m-b-0"><code>{{$dataAnggaran->mak}} - {{$dataAnggaran->uraian}}</code></p>
+                            <p class="text-muted m-b-0"><code>[{{$dataAnggaran->komponen_kode}}] - {{$dataAnggaran->komponen_nama}}</code></p>
                             <p class="text-muted m-b-20">@if (Session::has('tahun_anggaran')) <code>Tahun Anggaran {{Session::get('tahun_anggaran')}}</code> @endif</p>
                             <div class="table-responsive">
                                 <table class="table table-striped" id="DataTableCustom">

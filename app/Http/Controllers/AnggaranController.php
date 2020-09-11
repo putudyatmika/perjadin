@@ -260,7 +260,7 @@ class AnggaranController extends Controller
             }
             Anggaran::where('id','=',$request->anggaran_id)->delete();
             
-            Session::flash('message', 'Data telah di delete');
+            Session::flash('message', 'Data anggaran beserta turunan anggaran, matrik dll telah di hapus');
             Session::flash('message_type', 'danger');
             return back();
         }
