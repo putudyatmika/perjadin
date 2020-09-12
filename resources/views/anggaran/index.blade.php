@@ -130,6 +130,7 @@ $(function () {
                 <div class="row" style="margin-top: 20px;">
                     <div class="col-lg-12">
                         <div class="white-box">
+                            @include('anggaran.filter')
                             <h3 class="box-title m-b-0">Data Anggaran Perjalanan BPS Provinsi NTB </h3>  @if (Auth::user()->pengelola>3)<a href="{{url('format_anggaran')}}" class="btn btn-sm btn-info pull-right">Download Format Anggaran</a> @endif
                             <p class="text-muted m-b-20">@if (Session::has('tahun_anggaran')) Tahun Anggaran {{Session::get('tahun_anggaran')}} @endif</p>
 

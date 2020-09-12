@@ -46,6 +46,9 @@ class AnggaranController extends Controller
             ->select(DB::Raw('anggaran.*,unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
             ->orderBy('created_at', 'desc')
             ->where('anggaran.tahun_anggaran', '=', Session::get('tahun_anggaran'))
+            ->when(request('unitkerja'),function ($query){
+                return $query->where('unitkerja',request('unitkerja'));
+            })
             ->get();
         //dd(session()->all());
         return view('anggaran.index', compact('DataAnggaran', 'DataUnitkerja'));
@@ -428,7 +431,10 @@ class AnggaranController extends Controller
             //bisa di buka
             $dataAnggaran = Anggaran::where('id', '=', $id)->where('flag_kunci','=',0)->with('Turunan', 'Unitkerja')->first();
             $dataTurunan = \App\TurunanAnggaran::where('a_id', '=', $id)->get();
-            $dataJalan = MatrikPerjalanan::with('Transaksi')->where('mak_id','=',$id)->orderBy('dana_tid','asc')->get();
+            $dataJalan = MatrikPerjalanan::with('Transaksi')
+            ->join('transaksi','transaksi.matrik_id','=','matrik.id')
+            ->where('mak_id','=',$id)
+            ->orderBy('dana_tid','asc')->orderBy('transaksi.tgl_brkt','desc')->get();
             $MatrikFlag = config('globalvar.FlagMatrik');
             $FlagTrx = config('globalvar.FlagTransaksi');
             $DataUnitkerja = DB::table('unitkerja')
