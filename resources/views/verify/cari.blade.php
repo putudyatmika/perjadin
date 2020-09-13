@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('img/perjadin.png')}}">
-    <title>Sistem Perjalanan Dinas - BPS Provinsi NTB</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('img/aladin.png')}}">
+    <title>Aplikasi Perjalanan Dinas (Aladin) - BPS Provinsi NTB</title>
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('tema/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('tema/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css') }}" rel="stylesheet">
@@ -34,7 +34,7 @@
     <section id="wrapper">
         <div class="col-lg-12 col-md-12 col-xs-12">
         <div class="white-box">
-            <h3 class="text-center"><img src="{{ asset('img/perjadin3.png')}}" alt="home" /> Sistem Perjalanan Dinas - BPS Provinsi NTB</h3>
+            <h3 class="text-center"><img src="{{ asset('img/aladin-logo-teks.png')}}" alt="home" /> <br />Aplikasi Perjalanan Dinas - BPS Provinsi NTB</h3>
             <form action="" method="get" class="text-center">
                <div>Pencarian surat tugas</div>
                KodeTrx : <input type="text" name="kode_trx" value="{{request('kode_trx')}}">

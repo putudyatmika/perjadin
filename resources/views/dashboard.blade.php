@@ -3,7 +3,7 @@
     $(document).ready(function() {
         $.toast({
             heading: 'Selamat Datang {{ Auth::user()->name }}',
-            text: 'di Sistem Informasi Perjalan Dinas - BPS Provinsi NTB.',
+            text: 'di Aplikasi Perjalanan Dinas (Aladin) - BPS Provinsi NTB.',
             position: 'top-right',
             loaderBg: '#ff6849',
             icon: 'info',
@@ -21,7 +21,7 @@
 <div class="container-fluid">
                 <div class="row bg-title">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <h4 class="page-title">Dashboard Sistem Perjalanan Dinas - BPS Provinsi NTB @if (Session::has('tahun_anggaran')) Tahun Anggaran {{Session::get('tahun_anggaran')}} @endif </h4> </div>
+                        <h4 class="page-title">Dashboard Aplikasi PerjaLAnan DINas (Aladin) - BPS Provinsi NTB @if (Session::has('tahun_anggaran')) Tahun Anggaran {{Session::get('tahun_anggaran')}} @endif </h4> </div>
 
                     <!-- /.col-lg-12 -->
                 </div>

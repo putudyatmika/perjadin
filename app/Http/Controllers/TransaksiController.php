@@ -281,6 +281,60 @@ class TransaksiController extends Controller
             $dataUpdate->update();
             $jml_record++;
         }
-        return Response()->json($jml_record);
+        return Response()->json_encode($jml_record);
+    }
+    public function Kalendar()
+    {
+        /*
+        title: 'M Ikhsany Rusyda ke Sumbawa',
+                        start: '2020-09-09',
+                        end: '2020-09-11',
+                        className: 'bg-danger'
+        */
+        $dataTransaksi = Transaksi::with('Matrik')->where('tahun_trx', '=', Session::get('tahun_anggaran'))->where('flag_trx','>','3')
+        ->when(request('unitkerja'),function($query){
+            return $query->whereHas('matrik',function($q){
+                return $q->where('unit_pelaksana',request('unitkerja'));
+            });
+        })->orderBy('flag_trx', 'ASC')->orderBy('tgl_brkt', 'desc')->get();
+        $dataPerjalan=array();
+        $className='';
+        foreach ($dataTransaksi as $item)
+        {
+            if ($item->tgl_brkt != $item->tgl_balik)
+            {
+                $tgl_balik = Carbon::parse($item->tgl_balik)->addDays(1)->format('Y-m-d');
+            }
+            else 
+            {
+                $tgl_balik = $item->tgl_balik;
+            }
+            if ($className == 'bg-info')
+            {
+                $className = 'bg-success';
+            }
+            elseif ($className == 'bg-success')
+            {
+                $className = 'bg-danger';
+            }
+            elseif ($className == 'bg-danger')
+            {
+                $className = 'bg-warning';
+            }
+            else 
+            {
+                $className = 'bg-info';
+            }
+            $dataPerjalan[]=array(
+                'title'=>$item->peg_nama,
+                'description' => 'Tujuan: '.$item->Matrik->Tujuan->nama_kabkota .' | Tugas: '.$item->tugas .' | Trx: '.$item->kode_trx,
+                'start'=>$item->tgl_brkt,
+                'end'=>$tgl_balik,
+                'className'=> $className
+            );
+        }
+        //dd(json_encode($dataPerjalan));
+        $DataBidang = Unitkerja::where('eselon', '<', '4')->orderBy('kode', 'asc')->get();
+        return view('kalendar.index',['DataBidang'=>$DataBidang,'DataOrgJalan'=>json_encode($dataPerjalan)]);
     }
 }

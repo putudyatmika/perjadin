@@ -166,8 +166,8 @@ return [
         App\Providers\TerbilangProvider::class,
         App\Providers\TanggalProvider::class,
         App\Providers\UmumProvider::class,
-        MaddHatter\LaravelFullcalendar\ServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        LaravelFullCalendar\FullCalendarServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -235,8 +235,8 @@ return [
         'Tanggal' => App\Helpers\Tanggal::class,
         'Jumlah' => App\Helpers\Jumlah::class,
         'Generate' => App\Helpers\Generate::class,
-        'Calendar' => MaddHatter\LaravelFullcalendar\Facades\Calendar::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        'Calendar' => LaravelFullCalendar\Facades\Calendar::class,
     ],
 
 ];

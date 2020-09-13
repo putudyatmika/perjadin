@@ -20,7 +20,7 @@
 <div class="container-fluid">
                 <div class="row bg-title">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <h4 class="page-title">Dashboard Sistem Perjalanan Dinas - BPS Provinsi NTB</h4> </div>
+                        <h4 class="page-title">Dashboard Aplikasi Perjalanan Dinas - BPS Provinsi NTB</h4> </div>
 
                     <!-- /.col-lg-12 -->
                 </div>

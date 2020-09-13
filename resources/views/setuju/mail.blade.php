@@ -1,4 +1,4 @@
-<h3>Sistem Perjalanan Dinas - BPS Provinsi NTB</h3>
+<h3>Aplikasi Perjalanan Dinas - BPS Provinsi NTB</h3>
 <p>Menunggu persetujuan <b>{{ $objEmail->setuju}}</b> pengajuan perjalanan dinas dari <br/>
 <strong>{{$objEmail->bidang}}</strong>
 </p>
@@ -27,6 +27,6 @@
 </div>
 <br/>
 <p><i>Silakan Masuk ke sistem (https://perjadin.bpsntb.id/setuju) menyetujui pengajuan ini.</i></p>
-
+<p><img src="{{ asset('img/aladin-logo-teks.png')}}" /></p>
 <br/>
 Terimakasih,

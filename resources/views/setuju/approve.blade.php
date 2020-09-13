@@ -1,4 +1,4 @@
-<h3>Sistem Perjalanan Dinas - BPS Provinsi NTB</h3>
+<h3>Aplikasi Perjalanan Dinas - BPS Provinsi NTB</h3>
 <p>Pengajuan perjalanan dinas dari <strong>{{$objEmail->bidang}}</strong> telah disetujui
 </p>
  
@@ -26,6 +26,6 @@
 </div>
 <br/>
 <p><i>Cetak/Unduh surat tugas di <a href="{{route('view.trx',$objEmail->trx_id)}}" target="_blank">Link Ini</a></i></p>
-
+<p><img src="{{ asset('img/aladin-logo-teks.png')}}" /></p>
 <br/>
 Terimakasih,

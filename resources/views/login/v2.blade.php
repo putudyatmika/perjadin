@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('img/perjadin.ico') }}">
-    <title>Sistem Perjalanan Dinas - BPS Provinsi NTB</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('img/aladin.png') }}">
+    <title>Login - Aplikasi Perjalanan Dinas (Aladin)</title>
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('tema/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('tema/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css') }}" rel="stylesheet">
@@ -38,7 +38,7 @@
                     <a href="javascript:void(0)" class="text-center db"><img src="{{asset('img/logo-bps2.png')}}" alt="Home" /></a>
                     <h4 class="text-center"><b><i>BADAN PUSAT STATISTIK<br />PROVINSI NUSA TENGGARA BARAT</i></b></h4>
                     
-                    <h4 class="text-center" style="margin-top:20px;"><img src="{{ asset('img/perjadin3.png')}}" alt="home" /> SISTEM PERJALANAN DINAS</h4>
+                    <h4 class="text-center" style="margin-top:20px;"><img src="{{ asset('img/aladin-logo-teks.png')}}" alt="home" /> <br />APLIKASI PERJALANAN DINAS</h4>
                     @csrf
                     <div class="form-group m-t-40 {{ $errors->has('username') ? ' has-error' : '' }}">
                         <div class="col-xs-12">

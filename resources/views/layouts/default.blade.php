@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('img/perjadin.png')}}">
-    <title>Sistem Informasi Perjalanan Dinas - BPS Provinsi NTB</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('img/aladin.png')}}">
+    <title>Aplikasi Perjalanan Dinas (Aladin) - BPS Provinsi NTB</title>
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('tema/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{ asset('tema/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}" rel="stylesheet">

@@ -34,6 +34,9 @@
 
                     <li class="nav-small-cap m-t-10">--- Operator Menu</li>
                     <li> 
+                        <a href="{{route('transaksi.kalendar')}}" class="waves-effect"><i data-icon="A" class="linea-icon linea-elaborate fa-fw"></i> <span class="hide-menu">Kalendar</span></a>
+                    </li>
+                    <li> 
                         <a href="{{url('transaksi')}}" class="waves-effect text-primary"><i class="icon-screen-desktop fa-fw"></i><span class="hide-menu" >Transaksi</span></a> 
                     </li>
                     <li> 
