@@ -21,6 +21,8 @@ class CreateAnggaranTable extends Migration
             $table->string('komponen_nama',250)->nullable();
             $table->string('uraian',254);
             $table->string('pagu_utama',15);
+            $table->string('rencana_pagu',15);
+            $table->string('realisasi_pagu',15);
             $table->string('unitkerja',5);
             $table->boolean('status')->default(1);
             $table->boolean('flag_kunci')->default(0);

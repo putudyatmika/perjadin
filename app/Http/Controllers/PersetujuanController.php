@@ -188,16 +188,17 @@ class PersetujuanController extends Controller
                 $objEmail->totalbiaya = 'Rp. '.number_format($dataMatrik->total_biaya,0,',','.');
 
                 $dataPPK = Pegawai::where('flag_pengelola','=','2')->where('flag','=','1')->first();
-
-                Mail::to($dataPPK->email)->send(new MailPersetujuan($objEmail));
+                if ($request->kirim_notifikasi == 1)
+                {
+                    Mail::to($dataPPK->email)->send(new MailPersetujuan($objEmail));
+                }
+               
             }
             else 
             {
                 //kirim mail ke pegawai yang bersangkutan bahwa di tolak
                 //nanti dibuatkan
             }
-                
-
             Session::flash('message', 'Data Perjalanan ke '.$request->tujuan.' tanggal '. $request->tglberangkat .' sudah di setujui Kabid SM');
             Session::flash('message_type', 'warning');
             return redirect()->route('setuju.index');
@@ -271,7 +272,10 @@ class PersetujuanController extends Controller
                 $objEmail->totalbiaya = 'Rp. '.number_format($dataMatrik->total_biaya,0,',','.');
 
                 $dataKPA = Pegawai::where('flag_pengelola','=','1')->where('flag','=','1')->first();
-                Mail::to($dataKPA->email)->send(new MailPersetujuan($objEmail));
+                if ($request->kirim_notifikasi == 1)
+                {
+                    Mail::to($dataKPA->email)->send(new MailPersetujuan($objEmail));
+                }
              }
              else 
              {
@@ -380,13 +384,15 @@ class PersetujuanController extends Controller
                 $objEmail->totalbiaya = 'Rp. '.number_format($dataMatrik->total_biaya,0,',','.');
 
                 $dataPegawai = Pegawai::where('nip_baru','=',$datatrx->peg_nip)->where('flag','=','1')->first();
-
-                Mail::to($dataPegawai->email)->send(new MailPerjalanan($objEmail));
-                //kirim mail ke subbag keuangan
-                $Keuangan = User::where('pengelola','=','4')->get();
-                foreach ($Keuangan as $k)
+                if ($request->kirim_notifikasi == 1)
                 {
-                    Mail::to($k->email)->send(new MailPerjalanan($objEmail));
+                    Mail::to($dataPegawai->email)->send(new MailPerjalanan($objEmail));
+                    //kirim mail ke subbag keuangan
+                    $Keuangan = User::where('pengelola','=','4')->get();
+                    foreach ($Keuangan as $k)
+                    {
+                        Mail::to($k->email)->send(new MailPerjalanan($objEmail));
+                    }
                 }
             }
             else 

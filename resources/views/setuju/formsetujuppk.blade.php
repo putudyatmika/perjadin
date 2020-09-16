@@ -22,7 +22,6 @@
         <dd class="col-sm-8"><span id="sumberdana"></span></dd>
         <dt class="col-sm-4 text-truncate">Total Biaya</dt>
         <dd class="col-sm-8"><span id="totalbiaya"></span></dd>
-
 </dl>
 <div class="form-group">
     <label class="control-label">Persetujuan PPK</label>
@@ -41,6 +40,27 @@
         </label>
     </div>
 </div>
+@if (Auth::user()->user_level>4)
+<div class="form-group">
+    <label class="control-label">Kirim Notifikasi</label>
+    <div class="radio-list">
+        <label class="radio-inline p-0">
+            <div class="radio radio-success">
+                <input type="radio" name="kirim_notifikasi" id="kirim_notifikasippk1" value="0" checked>
+                <label for="kirim_notifikasippk1" class="text-success">Tidak</label>
+            </div>
+        </label>
+        <label class="radio-inline">
+            <div class="radio radio-danger">
+                <input type="radio" name="kirim_notifikasi" id="kirim_notifikasippk2" value="1">
+                <label for="kirim_notifikasippk2" class="text-danger">Kirimkan</label>
+            </div>
+        </label>
+    </div>    
+</div>
+@else 
+<input type="hidden" name="kirim_notifikasi" value="1" />
+@endif
 <div class="form-group">
         <label for="biaya">Keterangan</label>
         <div class="input-group">

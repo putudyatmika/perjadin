@@ -128,5 +128,4 @@ $(function () {
             </div>
             <!-- /.container-fluid -->
             @include('transaksi.modal')
-            @include('transaksi.modalSetuju')
 @endsection

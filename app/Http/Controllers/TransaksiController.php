@@ -133,8 +133,26 @@ class TransaksiController extends Controller
         $datapeg -> update();
 
         */
+        //dd($request->all());
         if ($request->aksi == "alokasipegawai") {
             //search pegawai
+            //cek dulu nip pegawai ini tanggal sama ada perjalanan tidak
+            $cek_jalan_pegawai = Transaksi::where([['peg_nip','=',$request->peg_nip],['tgl_brkt','=',$request->tglberangkat]])->orWhere([['peg_nip','=',$request->peg_nip],['tgl_balik','=',$request->tglberangkat]])->count();
+            //dd($cek_jalan_pegawai);
+            if ($cek_jalan_pegawai > 0)
+            {
+                //ada pegawai dan tanggal brkt dihari yang sama
+                //$dt_pegawai = Pegawai::where('nip_baru','=',$request->peg_nip)->first();
+                $data = Transaksi::where([['peg_nip','=',$request->peg_nip],['tgl_brkt','=',$request->tglberangkat]])->orWhere([['peg_nip','=',$request->peg_nip],['tgl_balik','=',$request->tglberangkat]])->first();
+                
+                Session::flash('message', '(ERROR) Sudah ada Data Perjalanan tanggal ' . Carbon::parse($request->tglberangkat)->format('j F Y') . ' an. '.$data->peg_nama.' ke '.$data->Matrik->Tujuan->nama_kabkota.' Tugas '.$data->tugas.', Pilih tanggal yang lain. Data perjalanan belum diajukan');
+                Session::flash('message_type', 'danger');
+                return redirect()->route('transaksi.index');
+            }
+            else 
+            {
+                ///nip pegawai di tglbrkt dgn data yg ada di transaksi belum ada
+                //input transaksi
             $dt_pegawai = Pegawai::where('nip_baru','=',$request->peg_nip)->first();
 
             $bnyk_hari = $request->lamanya - 1;
@@ -207,16 +225,18 @@ class TransaksiController extends Controller
                 $objEmail->totalbiaya = 'Rp. '.number_format($dataMatrik->total_biaya,0,',','.');
 
                 $dataKabid = Pegawai::where('unitkerja','=',$dataMatrik->unit_pelaksana)->where('jabatan','<','3')->where('flag','=','1')->first();
-
-                Mail::to($dataKabid->email)->send(new MailPersetujuan($objEmail));
-
+                if ($request->kirim_notifikasi == 1)
+                {
+                    Mail::to($dataKabid->email)->send(new MailPersetujuan($objEmail));
+                }
                 Session::flash('message', 'Data Perjalanan ke ' . $request->tujuan . ' tanggal ' . $request->tglberangkat . ' sudah di ajukan');
-                Session::flash('message_type', 'warning');
+                Session::flash('message_type', 'success');
                 return redirect()->route('transaksi.index');
             }
             Session::flash('message', 'Data Perjalanan ke ' . $request->tujuan . ' tanggal ' . $request->tglberangkat . ' sudah di update');
             Session::flash('message_type', 'warning');
             return redirect()->route('transaksi.index');
+            }
         } 
         
         elseif ($request->aksi == "editalokasi") {
@@ -309,21 +329,30 @@ class TransaksiController extends Controller
             {
                 $tgl_balik = $item->tgl_balik;
             }
-            if ($className == 'bg-info')
+
+            if ($item->Matrik->kodekab_tujuan == '5201' or $item->Matrik->kodekab_tujuan == '5204')
             {
                 $className = 'bg-success';
             }
-            elseif ($className == 'bg-success')
+            elseif ($item->Matrik->kodekab_tujuan == '5202' or $item->Matrik->kodekab_tujuan == '5205')
             {
                 $className = 'bg-danger';
             }
-            elseif ($className == 'bg-danger')
+            elseif ($item->Matrik->kodekab_tujuan == '5203' or $item->Matrik->kodekab_tujuan == '5206')
             {
                 $className = 'bg-warning';
             }
-            else 
+            elseif ($item->Matrik->kodekab_tujuan == '5271' or $item->Matrik->kodekab_tujuan == '5272')
+            {
+                $className = 'bg-primary';
+            }
+            elseif ($item->Matrik->kodekab_tujuan == '5208' or $item->Matrik->kodekab_tujuan == '5207')
             {
                 $className = 'bg-info';
+            }
+            else 
+            {
+                $className = 'bg-default';
             }
             $dataPerjalan[]=array(
                 'title'=>$item->peg_nama,

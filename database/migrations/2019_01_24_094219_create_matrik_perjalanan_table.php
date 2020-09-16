@@ -15,10 +15,13 @@ class CreateMatrikPerjalananTable extends Migration
     {
         Schema::create('matrik', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('kode_trx', 6)->nullable();
             $table->year('tahun_matrik');
             $table->date('tgl_awal');
             $table->date('tgl_akhir');
             $table->string('kodekab_tujuan', 4);
+            $table->string('namakabkota_tujuan', 254)->nullable();
+            $table->string('kepala_tujuan', 200)->nullable();
             $table->tinyInteger('lamanya');
             $table->integer('mak_id')->unsigned()->nullable();
             $table->integer('dana_tid')->unsigned()->nullable();
@@ -36,6 +39,7 @@ class CreateMatrikPerjalananTable extends Migration
             $table->string('total_biaya', 20)->nullable();
             $table->string('unit_pelaksana', 4)->nullable();
             $table->tinyInteger('flag_matrik')->nullable()->default(0);
+            $table->tinyInteger('jenis_perjadin')->nullable()->default(1);
             $table->timestamps();
         });
     }

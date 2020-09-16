@@ -22,8 +22,10 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->boolean('user_level')->nullable()->default(1);
             $table->boolean('pengelola')->nullable()->default(0);
+            $table->string('user_unitkerja', 5)->nullable();
             $table->dateTime('lastlogin')->nullable();
             $table->string('lastip', 20)->nullable();
+            $table->string('file_profile',254)->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

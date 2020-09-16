@@ -115,12 +115,11 @@ class KelengkapanController extends Controller
             $dataSpd -> update();
 
             //input tabel kuitansi dan set flag transaksi menunggu pembayaran
-            $count = \App\Kuitansi::where('trx_id','=',$request->trx_id)->count();
-            if ($count>0) {
-                //sudah ada datanya
-                //tidak di update
-            }
-            else {
+            $count_kuitansi = \App\Kuitansi::where('trx_id','=',$request->trx_id)->count();
+            if ($count_kuitansi == 0) {
+                //kuitansi belum ada
+                //kuitansi di tambahkan baru
+                //bila sudah ada tidak diupdate lagi
                 $dataKuitansi = new \App\Kuitansi();
                 $dataKuitansi -> trx_id = $request->trx_id;
                 $dataKuitansi -> tahun_kuitansi = Session::get('tahun_anggaran');
