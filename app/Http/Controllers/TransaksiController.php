@@ -137,13 +137,13 @@ class TransaksiController extends Controller
         if ($request->aksi == "alokasipegawai") {
             //search pegawai
             //cek dulu nip pegawai ini tanggal sama ada perjalanan tidak
-            $cek_jalan_pegawai = Transaksi::where([['peg_nip','=',$request->peg_nip],['tgl_brkt','=',$request->tglberangkat]])->orWhere([['peg_nip','=',$request->peg_nip],['tgl_balik','=',$request->tglberangkat]])->count();
+            $cek_jalan_pegawai = Transaksi::where([['peg_nip','=',$request->peg_nip],['tgl_brkt','=',$request->tglberangkat],['flag_trx','<>','3']])->orWhere([['peg_nip','=',$request->peg_nip],['tgl_balik','=',$request->tglberangkat],['flag_trx','<>','3']])->count();
             //dd($cek_jalan_pegawai);
             if ($cek_jalan_pegawai > 0)
             {
                 //ada pegawai dan tanggal brkt dihari yang sama
                 //$dt_pegawai = Pegawai::where('nip_baru','=',$request->peg_nip)->first();
-                $data = Transaksi::where([['peg_nip','=',$request->peg_nip],['tgl_brkt','=',$request->tglberangkat]])->orWhere([['peg_nip','=',$request->peg_nip],['tgl_balik','=',$request->tglberangkat]])->first();
+                $data = Transaksi::where([['peg_nip','=',$request->peg_nip],['tgl_brkt','=',$request->tglberangkat],['flag_trx','<>','3']])->orWhere([['peg_nip','=',$request->peg_nip],['tgl_balik','=',$request->tglberangkat],['flag_trx','<>','3']])->first();
                 
                 Session::flash('message', '(ERROR) Sudah ada Data Perjalanan tanggal ' . Carbon::parse($request->tglberangkat)->format('j F Y') . ' an. '.$data->peg_nama.' ke '.$data->Matrik->Tujuan->nama_kabkota.' Tugas '.$data->tugas.', Pilih tanggal yang lain. Data perjalanan belum diajukan');
                 Session::flash('message_type', 'danger');
