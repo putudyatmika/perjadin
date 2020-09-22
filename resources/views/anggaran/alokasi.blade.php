@@ -74,7 +74,8 @@
                                             <th>Pagu Alokasi</th>
                                             <th>Pagu Rencana</th>
                                             <th>Pagu Realisasi</th>
-                                            <th>Sisa</th>
+                                            <th>Sisa Rencana</th>
+                                            <th>Sisa Realisasi</th>
                                             @if (Auth::user()->pengelola>3)
                                             <th>aksi</th>
                                             @endif
@@ -98,6 +99,7 @@
                                                         <td>@duit($item->pagu_awal)</td>
                                                         <td>@duit($item->pagu_rencana)</td>
                                                         <td>@duit($item->pagu_realisasi)</td>
+                                                        <td>@duit($item->pagu_awal - $item->pagu_rencana)</td>
                                                         <td>@duit($item->pagu_awal - $item->pagu_realisasi)</td>
                                                         @if (Auth::user()->pengelola>3)
                                                         <td>
@@ -119,6 +121,7 @@
                                                 <td>@duit($dataTurunan->sum('pagu_awal'))</td>
                                                 <td>@duit($dataTurunan->sum('pagu_rencana'))</td>
                                                 <td>@duit($dataTurunan->sum('pagu_realisasi'))</td>
+                                                <td>@duit($dataTurunan->sum('pagu_awal')-$dataTurunan->sum('pagu_rencana'))</td>
                                                 <td>@duit($dataTurunan->sum('pagu_awal')-$dataTurunan->sum('pagu_realisasi'))</td>
                                                 @if (Auth::user()->pengelola>3)
                                                 <td></td>

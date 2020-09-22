@@ -65,7 +65,9 @@
                             <select name="tahun_anggaran" class="form-control" required="">
                                 <option value="">Tahun Anggaran</option>
                                 @foreach ($dataTahunDasar as $item)
-                                    <option value="{{$item->tahun}}">{{$item->tahun}}</option>
+                                    <option value="{{$item->tahun}}" @if ($item->tahun==date('Y'))
+                                        selected
+                                    @endif>{{$item->tahun}}</option>
                                 @endforeach
                             </select>
                         </div>
