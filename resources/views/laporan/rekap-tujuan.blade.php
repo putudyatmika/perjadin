@@ -84,7 +84,7 @@
                                                         @endif
                                                 </td>
                                                 <td class="text-right">{{$item->jumlah}}</td>
-                                                <td class="text-right">@duit($item->total_biaya)</td>
+                                                <td class="text-right">{{$item->total_biaya}}</td>
                                             </tr>
                                             @php
                                                 $total_jumlah += $item->jumlah;
@@ -96,7 +96,7 @@
                                         <tr>
                                             <th colspan="2" class="text-center">Total</th>
                                             <th class="text-right">{{$total_jumlah}}</th>
-                                            <th class="text-right">@duit($total_biaya)</th>
+                                            <th class="text-right">{{$total_biaya}}</th>
                                         </tr>
                                     </tfoot>
                                 </table>

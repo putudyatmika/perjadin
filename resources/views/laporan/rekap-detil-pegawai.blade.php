@@ -90,7 +90,7 @@ $(function () {
                                                 <td>{{$item->tugas}}</td>
                                                 <td class="text-right">{{Tanggal::Panjang($item->tgl_brkt)}}</td>
                                                 <td class="text-right">{{Tanggal::Panjang($item->tgl_balik)}}</td>
-                                                <td class="text-right">@duit($item->Kuitansi->total_biaya)</td>
+                                                <td class="text-right">{{$item->Kuitansi->total_biaya}}</td>
                                             </tr>
                                             @php
                                                 $totalbiaya += $item->Kuitansi->total_biaya;
@@ -100,7 +100,7 @@ $(function () {
                                     <tfoot>
                                         <tr>
                                             <th colspan="6" class="text-center">Total</th>
-                                            <th class="text-right">@duit($totalbiaya)</th>
+                                            <th class="text-right">{{$totalbiaya}}</th>
                                         </tr>
                                     </tfoot>
                                 </table>

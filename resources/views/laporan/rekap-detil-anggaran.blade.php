@@ -94,7 +94,7 @@
                                                <td>{{$item->tugas}}</td>
                                                <td class="text-right">{{Tanggal::Panjang($item->tgl_brkt)}}</td>
                                                <td class="text-right">{{$item->bnyk_hari}}</td>
-                                               <td class="text-right">@duit($item->totalbiaya)</td>
+                                               <td class="text-right">{{$item->totalbiaya}}</td>
                                            </tr>
                                           
                                        @endforeach
@@ -102,11 +102,11 @@
                                     <tfoot>
                                         <tr>
                                             <th colspan="2" class="text-center">Pagu</th>
-                                            <th>@duit($dataAnggaran->pagu_utama)</th>
+                                            <th>{{$dataAnggaran->pagu_utama}}</th>
                                             <th colspan="2" class="text-right">Sisa (Pagu - Total)</th>
-                                            <th colspan="3">@duit($dataAnggaran->pagu_utama-$rekapAnggaran->sum('totalbiaya'))</th>
+                                            <th colspan="3">{{$dataAnggaran->pagu_utama-$rekapAnggaran->sum('totalbiaya')}}</th>
                                             <th class="text-right">Total</th>
-                                            <th class="text-right">@duit($rekapAnggaran->sum('totalbiaya'))</th>
+                                            <th class="text-right">{{$rekapAnggaran->sum('totalbiaya')}}</th>
                                         </tr>
                                     </tfoot>
                                 </table>

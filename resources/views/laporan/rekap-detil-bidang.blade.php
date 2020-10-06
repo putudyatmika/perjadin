@@ -89,7 +89,7 @@
                                                 <td>{{$item->tugas}}</td>
                                                 <td class="text-right">{{Tanggal::Panjang($item->tgl_brkt)}}</td>
                                                 <td class="text-right">{{$item->bnyk_hari}}</td>
-                                                <td class="text-right">@duit($item->totalbiaya)</td>
+                                                <td class="text-right">{{$item->totalbiaya}}</td>
                                             </tr>
                                             @php
                                                 $total_biaya += $item->totalbiaya;
@@ -99,7 +99,7 @@
                                     <tfoot>
                                         <tr>
                                             <th colspan="7" class="text-center">Total</th>
-                                            <th class="text-right">@duit($total_biaya)</th>
+                                            <th class="text-right">{{$total_biaya}}</th>
                                         </tr>
                                     </tfoot>
                                 </table>

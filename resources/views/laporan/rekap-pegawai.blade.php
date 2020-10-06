@@ -92,7 +92,7 @@ $(function () {
                                                     @endif
                                                 </td>
                                                 <td class="text-right">{{$item->jumlah}}</td>
-                                                <td class="text-right">@duit($item->totalbiaya)</td>
+                                                <td class="text-right">{{$item->totalbiaya}}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -101,7 +101,7 @@ $(function () {
                                             <th>&nbsp;</th>
                                             <th colspan="3"><p class="text-center">TOTAL</p></th>
                                             <th class="text-right">{{$RekapPegawai->sum('jumlah')}}</th>
-                                            <th class="text-right">@duit($RekapPegawai->sum('totalbiaya'))</th>
+                                            <th class="text-right">{{$RekapPegawai->sum('totalbiaya')}}</th>
                                         </tr>
                                     </thead>
                                 </table>
