@@ -76,9 +76,7 @@
                                             <th>Pagu Realisasi</th>
                                             <th>Sisa Rencana</th>
                                             <th>Sisa Realisasi</th>
-                                            @if (Auth::user()->pengelola>3)
                                             <th>aksi</th>
-                                            @endif
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -101,15 +99,16 @@
                                                         <td>@duit($item->pagu_realisasi)</td>
                                                         <td>@duit($item->pagu_awal - $item->pagu_rencana)</td>
                                                         <td>@duit($item->pagu_awal - $item->pagu_realisasi)</td>
-                                                        @if (Auth::user()->pengelola>3)
+                                                        
                                                         <td>
+                                                            @if (Auth::user()->pengelola>3)
                                                             <button type="button" class="btn btn-sm btn-primary btn-circle" data-toggle="modal" data-target="#EditAlokasiModal" data-tid="{{$item->t_id}}" data-paguawal="{{$item->pagu_awal}}"  data-pagurencana="{{$item->pagu_rencana}}" data-pagurealisasi="{{$item->pagu_realisasi}}" data-unitkode="{{$item->unit_pelaksana}}"><i class="fa fa-pencil"></i></button>
                                                             
                                                             <button type="button" class="btn btn-sm btn-danger btn-circle" data-toggle="modal" data-target="#DeleteAlokasiModal" data-tid="{{$item->t_id}}" data-paguawal="{{$item->pagu_awal}}" data-unitkode="{{$item->Unitkerja->nama}}"><i class="fa fa-trash-o"></i></button>
-
+                                                            @endif
                                                             <button type="button" class="btn btn-sm btn-info btn-circle" data-toggle="modal" data-target="#SyncAlokasiModal" data-tid="{{$item->t_id}}" data-paguawal="{{$item->pagu_awal}}" data-unitkode="[{{$item->unit_pelaksana}}] {{$item->Unitkerja->nama}}"><i class="fa fa-refresh"></i></button>
                                                         </td>
-                                                        @endif
+                                                        
                                                     </tr>
                                                 @endforeach
                                             @endif
@@ -123,9 +122,7 @@
                                                 <td>@duit($dataTurunan->sum('pagu_realisasi'))</td>
                                                 <td>@duit($dataTurunan->sum('pagu_awal')-$dataTurunan->sum('pagu_rencana'))</td>
                                                 <td>@duit($dataTurunan->sum('pagu_awal')-$dataTurunan->sum('pagu_realisasi'))</td>
-                                                @if (Auth::user()->pengelola>3)
                                                 <td></td>
-                                                @endif
                                             </tr>
                                         </tfoot>
                                 </table>
@@ -174,13 +171,18 @@
                                                     <td>{{$r->Tujuan->nama_kabkota}}</td>
                                                     <td>
                                                       @if ($r->flag_matrik>0)
-                                                      {{Tanggal::Pendek($r->Transaksi->tgl_brkt)}}
+                                                        @if ($r->Transaksi->tgl_brkt)
+                                                        {{Tanggal::Pendek($r->Transaksi->tgl_brkt)}}
+                                                        @endif
                                                       @endif
                                                     </td>
-                                                    <td>@if ($r->flag_matrik>0)
-                                                         {{$r->Transaksi->bnyk_hari}} hari
-                                                         @endif
-                                                       </td>
+                                                    <td>
+                                                        @if ($r->flag_matrik>0)
+                                                            @if ($r->Transaksi->bnyk_hari)
+                                                            {{$r->Transaksi->bnyk_hari}} hari   
+                                                            @endif
+                                                        @endif
+                                                    </td>
                                                     <td>
                                                       @if ($r->flag_matrik>0)
                                                         @if ($r->flag_matrik <> 2)

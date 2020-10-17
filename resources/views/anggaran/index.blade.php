@@ -183,10 +183,12 @@ $(function () {
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    @if (Auth::user()->pengelola>3 and $item->flag_kunci==0)
+                                                    @if ($item->flag_kunci==0)
                                                     <a href="{{route('anggaran.alokasi',$item->id)}}" class="btn btn-sm btn-success btn-circle"><span data-toggle="tooltip" title="Alokasi anggaran {{ $item->uraian}}"><i class="fa fa-bookmark"></i></span></a>
+                                                    @if (Auth::user()->pengelola>3)
                                                     <button type="button" class="btn btn-sm btn-primary btn-circle" data-toggle="modal" data-target="#EditModal" data-tahun="{{ $item->tahun_anggaran}}" data-mak="{{ $item->mak}}" data-komponenkode="{{ $item->komponen_kode}}" data-pagu="{{ $item->pagu_utama}}" data-komponennama="{{ $item->komponen_nama}}" data-pagurencana="{{ $item->rencana_pagu}}" data-uraian="{{$item->uraian}}" data-unitkode="{{$item->unitkerja}}" data-anggaranid="{{$item->id}}"><span data-toggle="tooltip" title="Edit anggaran {{ $item->uraian}}"><i class="fa fa-pencil"></i></span></button>
                                                     <button type="button" class="btn btn-sm btn-danger btn-circle" data-toggle="modal" data-target="#DeleteModal" data-tahun="{{ $item->tahun_anggaran}}" data-mak="{{ $item->mak}}" data-pagu="{{ $item->pagu_utama}}" data-uraian="{{$item->uraian}}" data-unitkode="{{$item->unit_nama}}" data-anggaranid="{{$item->id}}" data-komponen="[{{ $item->komponen_kode}}] {{$item->komponen_nama}}"><span data-toggle="tooltip" title="Hapus anggaran {{ $item->uraian}}"><i class="fa fa-trash-o"></i></span></button>
+                                                    @endif
                                                     @endif
                                                 </td>
                                             </tr>

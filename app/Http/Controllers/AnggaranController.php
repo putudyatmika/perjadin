@@ -432,7 +432,7 @@ class AnggaranController extends Controller
             $dataAnggaran = Anggaran::where('id', '=', $id)->where('flag_kunci','=',0)->with('Turunan', 'Unitkerja')->first();
             $dataTurunan = \App\TurunanAnggaran::where('a_id', '=', $id)->get();
             $dataJalan = MatrikPerjalanan::with('Transaksi')
-            ->join('transaksi','transaksi.matrik_id','=','matrik.id')
+            ->LeftJoin('transaksi','transaksi.matrik_id','=','matrik.id')
             ->where('mak_id','=',$id)
             ->orderBy('dana_tid','asc')->orderBy('transaksi.tgl_brkt','desc')->get();
             $MatrikFlag = config('globalvar.FlagMatrik');
@@ -443,7 +443,8 @@ class AnggaranController extends Controller
             return view('anggaran.alokasi', compact('dataAnggaran', 'dataTurunan', 'DataUnitkerja','dataJalan','MatrikFlag','FlagTrx'));
             
         }
-        else{
+        else
+        {
             //pesan error
             $pesan_error = 'Data anggaran terkunci, belum bisa di alokasi';
             $warna_error = 'danger';
