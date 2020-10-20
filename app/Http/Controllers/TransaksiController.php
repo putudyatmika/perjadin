@@ -144,7 +144,6 @@ class TransaksiController extends Controller
                 //ada pegawai dan tanggal brkt dihari yang sama
                 //$dt_pegawai = Pegawai::where('nip_baru','=',$request->peg_nip)->first();
                 $data = Transaksi::where([['peg_nip','=',$request->peg_nip],['tgl_brkt','=',$request->tglberangkat],['flag_trx','<>','3']])->orWhere([['peg_nip','=',$request->peg_nip],['tgl_balik','=',$request->tglberangkat],['flag_trx','<>','3']])->first();
-                
                 Session::flash('message', '(ERROR) Sudah ada Data Perjalanan tanggal ' . Carbon::parse($request->tglberangkat)->format('j F Y') . ' an. '.$data->peg_nama.' ke '.$data->Matrik->Tujuan->nama_kabkota.' Tugas '.$data->tugas.', Pilih tanggal yang lain. Data perjalanan belum diajukan');
                 Session::flash('message_type', 'danger');
                 return redirect()->route('transaksi.index');
@@ -223,8 +222,8 @@ class TransaksiController extends Controller
                 $objEmail->komponen = '['.$dataMatrik->DanaAnggaran->komponen_kode.'] '.$dataMatrik->DanaAnggaran->komponen_nama;
                 $objEmail->detil = $dataMatrik->DanaAnggaran->uraian;
                 $objEmail->totalbiaya = 'Rp. '.number_format($dataMatrik->total_biaya,0,',','.');
-
-                $dataKabid = Pegawai::where('unitkerja','=',$dataMatrik->unit_pelaksana)->where('jabatan','<','3')->where('flag','=','1')->first();
+                
+                $dataKabid = Pegawai::where('unitkerja','=',$dataMatrik->dana_unitkerja)->where('jabatan','<','3')->where('flag','=','1')->first();
                 if ($request->kirim_notifikasi == 1)
                 {
                     Mail::to($dataKabid->email)->send(new MailPersetujuan($objEmail));
@@ -317,6 +316,7 @@ class TransaksiController extends Controller
                 return $q->where('unit_pelaksana',request('unitkerja'));
             });
         })->orderBy('flag_trx', 'ASC')->orderBy('tgl_brkt', 'desc')->get();
+        
         $dataPerjalan=array();
         $className='';
         foreach ($dataTransaksi as $item)
@@ -356,7 +356,7 @@ class TransaksiController extends Controller
             }
             $dataPerjalan[]=array(
                 'title'=>$item->peg_nama,
-                'description' => 'Tujuan: '.$item->Matrik->Tujuan->nama_kabkota .' | Tugas: '.$item->tugas .' | Trx: '.$item->kode_trx,
+                'description' => 'Tujuan: '.$item->Matrik->Tujuan->nama_kabkota .' | Tugas: '.$item->tugas .' | MAK: '.$item->Matrik->DanaAnggaran->mak.' ('.$item->Matrik->DanaAnggaran->uraian.') | Komponen: ['.$item->Matrik->DanaAnggaran->komponen_kode.'] '.$item->Matrik->DanaAnggaran->komponen_nama.' | Trx: '.$item->kode_trx,
                 'start'=>$item->tgl_brkt,
                 'end'=>$tgl_balik,
                 'className'=> $className
