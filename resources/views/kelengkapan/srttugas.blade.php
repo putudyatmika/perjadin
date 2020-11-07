@@ -122,7 +122,14 @@
                 </div>
             </td>
         </tr>
-
+        <tr>
+            <td colspan="2">
+                <div class="text-center" style="margin-top:45px;margin-right:50px;margin-left:50px; padding:5px; border: 1px solid black;">
+                    <b>PNS/ASN BPS dilarang menerima gratifikasi dalam bentuk apapun selama menjalankan tugas</b>
+                </div>
+            </td>
+           
+        </tr>
     </table>
 </div>
 <div class="kaki">
