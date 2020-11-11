@@ -154,8 +154,17 @@ footer {
     right: 0px;
     height: 80px; 
     font-size:9pt !important;
-    text-align: center;
-    
+    text-align: center; 
+}
+.gratifikasi {
+    position: fixed; 
+    bottom:55px;
+    margin-left: 30px;
+    margin-right: 30px; 
+    font-size:10pt !important;
+    text-align: center; 
+    padding:5px;
+    border: 1px solid black;
 }
 .qrcode {
     position: relative;

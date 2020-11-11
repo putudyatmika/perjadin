@@ -122,15 +122,10 @@
                 </div>
             </td>
         </tr>
-        <tr>
-            <td colspan="2">
-                <div class="text-center" style="margin-top:45px;margin-right:50px;margin-left:50px; padding:5px; border: 1px solid black;">
-                    <b>PNS/ASN BPS dilarang menerima gratifikasi dalam bentuk apapun selama menjalankan tugas</b>
-                </div>
-            </td>
-           
-        </tr>
     </table>
+</div>
+<div class="gratifikasi">
+    <b>PNS/ASN BPS dilarang menerima gratifikasi dalam bentuk apapun selama menjalankan tugas</b>
 </div>
 <div class="kaki">
     Jl. Gunung Rinjani No. 2 Mataram 83125  Telp. (0370) 621385, 638321  Fax (0370) 623801 <br />
