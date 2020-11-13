@@ -336,7 +336,7 @@ class KuitansiController extends Controller
                         $dataKuitansi->rill3_flag = $rill3_flag;
                         $dataKuitansi->rill_total = $rill_total;
                         */
-                        if ($flagHotel==0)
+                        if ($flagHotel==0 and $request->hotelhari > 0)
                         {
                             //$totalhotel = ($request->nilaihotel * $request->hotelhari) * 0.3;
                             $matrik_hotel_rupiah = $totalhotel / $request->hotelhari;
