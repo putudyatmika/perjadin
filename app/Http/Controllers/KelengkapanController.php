@@ -7,7 +7,8 @@ use App\SuratTugas;
 use Carbon\Carbon;
 use Session;
 use Illuminate\Support\Facades\Redirect;
-use DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Pegawai;
 use PDF;
 use App\Spd;
@@ -30,6 +31,26 @@ class KelengkapanController extends Controller
         else {
             $flag_kelengkapan = request('flag_kelengkapan');
         }
+        if (Auth::user()->user_level == 2)
+        {
+            if (request('unitkerja') == NULL)
+            {
+                $flag_unitkerja = Auth::user()->user_unitkerja;
+            }
+            else {
+                $flag_unitkerja = request('unitkerja');
+            }
+        }
+        else 
+        {
+            if (request('unitkerja') == NULL)
+            {
+                $flag_unitkerja = '';
+            }
+            else {
+                $flag_unitkerja = request('unitkerja');
+            }
+        }
         $FlagTrx = config('globalvar.FlagTransaksi');
         $FlagKonfirmasi = config('globalvar.FlagKonfirmasi');
         $MatrikFlag = config('globalvar.FlagMatrik');
@@ -50,8 +71,8 @@ class KelengkapanController extends Controller
                 ->leftJoin('transaksi','transaksi.trx_id','=','surattugas.trx_id')
                 ->leftJoin(DB::raw("(select id, unit_pelaksana from matrik) as matrik"),'transaksi.matrik_id','=','matrik.id')
                 ->where('tahun_srt','=',Session::get('tahun_anggaran'))
-                ->when(request('unitkerja'),function($query){
-                        return $query->where('unit_pelaksana',request('unitkerja'));
+                ->when($flag_unitkerja,function($query) use ($flag_unitkerja) {
+                        return $query->where('unit_pelaksana',$flag_unitkerja);
                 })
                 ->orderBy('flag_surattugas','ASC')
                 ->orderBy('transaksi.tgl_brkt','desc')->get();
@@ -63,8 +84,8 @@ class KelengkapanController extends Controller
             ->leftJoin('transaksi','transaksi.trx_id','=','surattugas.trx_id')
             ->leftJoin(DB::raw("(select id, unit_pelaksana from matrik) as matrik"),'transaksi.matrik_id','=','matrik.id')
             ->where('tahun_srt','=',Session::get('tahun_anggaran'))
-            ->when(request('unitkerja'),function($query){
-                    return $query->where('unit_pelaksana',request('unitkerja'));
+            ->when($flag_unitkerja,function($query) use ($flag_unitkerja) {
+                return $query->where('unit_pelaksana',$flag_unitkerja);
             })
             ->where('flag_surattugas',$flag_kelengkapan)
             ->orderBy('flag_surattugas','ASC')
@@ -81,7 +102,8 @@ class KelengkapanController extends Controller
             'FlagKendaraan'=>$FlagKendaraan,
             'DataPPK'=>$DataPPK,
             'DataPegawai'=>$DataPegawai,
-            'DataBidang'=>$DataBidang
+            'DataBidang'=>$DataBidang,
+            'flag_unitkerja'=>$flag_unitkerja
         ]);
     }
     public function simpan(Request $request)
@@ -116,7 +138,7 @@ class KelengkapanController extends Controller
 
             //input tabel kuitansi dan set flag transaksi menunggu pembayaran
             $count_kuitansi = \App\Kuitansi::where('trx_id','=',$request->trx_id)->count();
-            if ($count_kuitansi == 0) {
+            if ($count_kuitansi < 1) {
                 //kuitansi belum ada
                 //kuitansi di tambahkan baru
                 //bila sudah ada tidak diupdate lagi

@@ -13,9 +13,9 @@
         </div>
         <div class="col-md-3">
             <select name="unitkerja" id="unitkerja" class="form-control">
-             <option value="">Pilih Bidang/Bagian</option>
+             <option value="0">Pilih Bidang/Bagian</option>
              @foreach ($DataUnitkerja as $unit)
-             <option value="{{$unit->kode}}" @if (request('unitkerja')==$unit->kode) selected @endif>{{$unit->nama}}</option>
+             <option value="{{$unit->kode}}" @if (request('unitkerja')==$unit->kode or $unitkerja==$unit->kode) selected @endif>{{$unit->nama}}</option>
              @endforeach
             </select>
          </div>

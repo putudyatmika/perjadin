@@ -37,6 +37,9 @@
                         <a href="{{route('transaksi.kalendar')}}" class="waves-effect"><i data-icon="A" class="linea-icon linea-elaborate fa-fw"></i> <span class="hide-menu">Kalendar</span></a>
                     </li>
                     <li> 
+                        <a href="{{url('matrik')}}" class="waves-effect"><i class="icon-briefcase fa-fw"></i><span class="hide-menu" >Matrik</span></a> 
+                    </li>
+                    <li> 
                         <a href="{{url('transaksi')}}" class="waves-effect text-primary"><i class="icon-screen-desktop fa-fw"></i><span class="hide-menu" >Transaksi</span></a> 
                     </li>
                     <li> 
@@ -72,7 +75,6 @@
                     </li>
                     <li class="nav-small-cap">--- Master Data</li>
                     <li> <a href="{{url('anggaran')}}" class="waves-effect"><i class="icon-support fa-fw"></i><span class="hide-menu" >Anggaran</span></a> </li>
-                    <li> <a href="{{url('matrik')}}" class="waves-effect"><i class="icon-briefcase fa-fw"></i><span class="hide-menu" >Matrik Perjalanan</span></a> </li>
                     <li> <a href="{{url('pegawai')}}" class="waves-effect"><i class="icon-user fa-fw"></i><span class="hide-menu" >Pegawai</span></a> </li>
                     <li><a href="{{url('tujuan')}}" class="waves-effect"><i class="icon-cursor fa-fw"></i><span class="hide-menu" >Tujuan</span></a> </li>
                     <li> <a href="#" class="waves-effect"><i data-icon="&#xe00b;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Data Dasar<span class="fa arrow"></span></span></a>

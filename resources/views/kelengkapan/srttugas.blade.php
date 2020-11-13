@@ -84,9 +84,11 @@
         <td valign="top">:</td>
         <td valign="top">{{$data->bnyk_hari}} ({{strtolower($Bilangan[$data->bnyk_hari])}}) hari,
             @if ($data->bnyk_hari==1)
-            {{ Tanggal::Panjang($data->tgl_brkt) }}
-            @else
-            {{ Tanggal::Panjang($data->tgl_brkt) }} s.d. {{ Tanggal::Panjang($data->tgl_balik) }}
+                {{ Tanggal::Panjang($data->tgl_brkt) }}
+            @elseif (\Carbon\Carbon::parse($data->tgl_brkt)->format('m') == \Carbon\Carbon::parse($data->tgl_balik)->format('m'))
+                {{ \Carbon\Carbon::parse($data->tgl_brkt)->format('j') }} - {{ Tanggal::Panjang($data->tgl_balik) }}
+            @else 
+                {{ Tanggal::Panjang($data->tgl_brkt) }} s.d. {{ Tanggal::Panjang($data->tgl_balik) }}
             @endif
         </td>
     </tr>
@@ -125,7 +127,7 @@
     </table>
 </div>
 <div class="gratifikasi">
-    <b>PNS/ASN BPS dilarang menerima gratifikasi dalam bentuk apapun selama menjalankan tugas</b>
+    PNS/ASN dilarang menerima gratifikasi dalam bentuk apapun selama menjalankan tugas
 </div>
 <div class="kaki">
     Jl. Gunung Rinjani No. 2 Mataram 83125  Telp. (0370) 621385, 638321  Fax (0370) 623801 <br />

@@ -38,6 +38,26 @@ class MatrikController extends Controller
         else {
             $flag_matrik = request('flag_matrik');
         }
+        if (Auth::user()->user_level == 2)
+        {
+            if (request('unitkerja') == NULL)
+            {
+                $flag_unitkerja = Auth::user()->user_unitkerja;
+            }
+            else {
+                $flag_unitkerja = request('unitkerja');
+            }
+        }
+        else 
+        {
+            if (request('unitkerja') == NULL)
+            {
+                $flag_unitkerja = '';
+            }
+            else {
+                $flag_unitkerja = request('unitkerja');
+            }
+        }
         $DataUnitkerja = DB::table('unitkerja')
             ->where('eselon', '<', '4')->where('flag_edit', '=', '0')->get();
         $MatrikFlag = config('globalvar.FlagMatrik');
@@ -48,8 +68,8 @@ class MatrikController extends Controller
                       ->leftJoin(DB::raw("(select trx_id,kode_trx,matrik_id,tahun_trx from transaksi) as transaksi"),'matrik.id','=','transaksi.matrik_id')
                       ->leftJoin(DB::raw("(select srt_id,trx_id,tahun_srt,nomor_surat,tgl_surat from surattugas) as surattugas"),'transaksi.trx_id','=','surattugas.trx_id')
                       ->where('tahun_matrik', Session::get('tahun_anggaran'))
-                      ->when(request('unitkerja'),function ($query){
-                          return $query->where('dana_unitkerja',request('unitkerja'));
+                      ->when($flag_unitkerja,function ($query) use ($flag_unitkerja) {
+                          return $query->where('dana_unitkerja',$flag_unitkerja);
                       })
                       ->orderBy('created_at', 'desc')->get();
         }
@@ -59,14 +79,14 @@ class MatrikController extends Controller
             ->leftJoin(DB::raw("(select trx_id,kode_trx,matrik_id,tahun_trx from transaksi) as transaksi"),'matrik.id','=','transaksi.matrik_id')
             ->leftJoin(DB::raw("(select srt_id,trx_id,tahun_srt,nomor_surat,tgl_surat from surattugas) as surattugas"),'transaksi.trx_id','=','surattugas.trx_id')
             ->where('flag_matrik','=',request('flag_matrik'))->where('tahun_matrik', Session::get('tahun_anggaran'))
-            ->when(request('unitkerja'),function ($query){
-                return $query->where('dana_unitkerja',request('unitkerja'));
+            ->when($flag_unitkerja,function ($query) use ($flag_unitkerja) {
+                return $query->where('dana_unitkerja',$flag_unitkerja);
             })
             ->orderBy('created_at', 'desc')->get();
         }
         
         //dd($DataMatrik);
-        return view('matrik.index', compact('DataMatrik', 'MatrikFlag', 'DataUnitkerja','JenisPerjadin'));
+        return view('matrik.index', ['DataMatrik'=>$DataMatrik, 'MatrikFlag'=>$MatrikFlag, 'DataUnitkerja'=>$DataUnitkerja,'JenisPerjadin'=>$JenisPerjadin,'unitkerja'=>$flag_unitkerja]);
     }
     public function baru()
     {

@@ -57,13 +57,13 @@ Yang bertanda tangan di bawah ini :
                             <td class="garis-l garis-r text-right" style="padding-right: 5pt !important;">@duit($data->Kuitansi->transport_rupiah)</td>
                     </tr>
                     @endif
-                    @if ($data->Kuitansi->hotel_flag==0 and $data->Kuitansi->hotel_lama>0)
+                    @if ($data->Kuitansi->hotel_flag==0 and $data->Kuitansi->hotel_lama>0 and $data->Kuitansi->hotel_total>0)
                     @php
                         $no = $no + 1;
                     @endphp
                     <tr>
                             <td class="garis-l text-center" height="30px">{{$no}}.</td>
-                            <td class="garis-l" style="padding-left: 5pt !important;">Penginapan selama {{$data->Kuitansi->hotel_lama}} ({{strtolower($Bilangan[$data->Kuitansi->hotel_lama])}}) malam</td>
+                            <td class="garis-l" style="padding-left: 5pt !important;">Penginapan selama {{$data->Kuitansi->hotel_lama}} ({{strtolower($Bilangan[$data->Kuitansi->hotel_lama])}}) malam @ @rupiah($data->Kuitansi->hotel_rupiah*0.3) (30% x @duit($data->Kuitansi->hotel_rupiah))</td>
                             <td class="garis-l garis-r text-right" style="padding-right: 5pt !important;">@duit($data->Kuitansi->hotel_total)</td>
                     </tr>
                     @endif

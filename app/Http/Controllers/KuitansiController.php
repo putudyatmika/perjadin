@@ -8,12 +8,14 @@ use App\SuratTugas;
 use Carbon\Carbon;
 use Session;
 use Illuminate\Support\Facades\Redirect;
-use DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Pegawai;
 use App\Spd;
 use App\Transaksi;
 use PDF;
 use App\Unitkerja;
+use App\MatrikPerjalanan;
 
 class KuitansiController extends Controller
 {
@@ -32,6 +34,26 @@ class KuitansiController extends Controller
         else {
             $flag_kuitansi = request('flag_kuitansi');
         }
+        if (Auth::user()->user_level == 2)
+        {
+            if (request('unitkerja') == NULL)
+            {
+                $flag_unitkerja = Auth::user()->user_unitkerja;
+            }
+            else {
+                $flag_unitkerja = request('unitkerja');
+            }
+        }
+        else 
+        {
+            if (request('unitkerja') == NULL)
+            {
+                $flag_unitkerja = '';
+            }
+            else {
+                $flag_unitkerja = request('unitkerja');
+            }
+        }
         $FlagTrx = config('globalvar.FlagTransaksi');
         $FlagKonfirmasi = config('globalvar.FlagKonfirmasi');
         $MatrikFlag = config('globalvar.FlagMatrik');
@@ -48,8 +70,8 @@ class KuitansiController extends Controller
                         ->leftJoin('transaksi','transaksi.trx_id','=','kuitansi.trx_id')
                         ->leftJoin(DB::raw("(select id, unit_pelaksana from matrik) as matrik"),'transaksi.matrik_id','=','matrik.id')
                         ->where('tahun_kuitansi','=',Session::get('tahun_anggaran'))
-                        ->when(request('unitkerja'),function($query){
-                            return $query->where('unit_pelaksana',request('unitkerja'));
+                        ->when($flag_unitkerja,function($query) use ($flag_unitkerja) {
+                            return $query->where('unit_pelaksana',$flag_unitkerja);
                         })
                         ->orderBy('flag_kuitansi','asc')
                         ->orderBy('tgl_brkt','desc')
@@ -61,8 +83,8 @@ class KuitansiController extends Controller
                             ->leftJoin('transaksi','transaksi.trx_id','=','kuitansi.trx_id')
                             ->leftJoin(DB::raw("(select id, unit_pelaksana from matrik) as matrik"),'transaksi.matrik_id','=','matrik.id')
                             ->where('tahun_kuitansi','=',Session::get('tahun_anggaran'))
-                            ->when(request('unitkerja'),function($query){
-                                return $query->where('unit_pelaksana',request('unitkerja'));
+                            ->when($flag_unitkerja,function($query) use ($flag_unitkerja) {
+                                return $query->where('unit_pelaksana',$flag_unitkerja);
                             })
                             ->where('flag_kuitansi',request('flag_kuitansi'))
                             ->orderBy('flag_kuitansi','asc')
@@ -70,7 +92,7 @@ class KuitansiController extends Controller
                             ->get();
         }
         
-        return view('kuitansi.index',compact('DataKuitansi','FlagTrx','FlagKonfirmasi','FlagSrt','MatrikFlag','FlagTTD','DataPPK','FlagKendaraan','DataBidang','JenisPerjadin'));
+        return view('kuitansi.index',compact('DataKuitansi','FlagTrx','FlagKonfirmasi','FlagSrt','MatrikFlag','FlagTTD','DataPPK','FlagKendaraan','DataBidang','JenisPerjadin','flag_unitkerja'));
     }
 
     /**
@@ -235,37 +257,36 @@ class KuitansiController extends Controller
                 
                 if ($pagu_sisa >= $request->totalbiaya)
                 {
-                    
                     //boleh di update kuitansinya
                     $dataKuitansi = Kuitansi::where('kuitansi_id','=',$request->kuitansi_id)->first();
-                    $dataKuitansi -> tgl_kuitansi = $request->tgl_kuitansi;
-                    $dataKuitansi -> harian_rupiah = $request->uangharian;
-                    $dataKuitansi -> harian_lama = $request->harian;
-                    $dataKuitansi -> harian_total = $request->totalharian;
-                    $dataKuitansi -> hotel_rupiah = $request->nilaihotel;
-                    $dataKuitansi -> hotel_lama = $request->hotelhari;
-                    $dataKuitansi -> hotel_total = $totalhotel;
-                    $dataKuitansi -> hotel_flag = $flagHotel;
-                    $dataKuitansi -> transport_rupiah = $request->nilaiTransport;
-                    $dataKuitansi -> transport_ket = $request->transport_ket;
-                    $dataKuitansi -> transport_flag = $flagTransport;
-                    $dataKuitansi -> bendahara_nip = $request->bendahara_nip;
-                    $dataKuitansi -> bendahara_nama = $NamaBendahara;
-                    $dataKuitansi -> flag_kuitansi = 1;
-                    $dataKuitansi -> total_biaya = $request->totalbiaya;
-                    $dataKuitansi -> rill1_ket = $rill1_ket;
-                    $dataKuitansi -> rill1_rupiah = $rill1_rupiah;
-                    $dataKuitansi -> rill1_flag = $rill1_flag;
-                    $dataKuitansi -> rill2_ket = $rill2_ket;
-                    $dataKuitansi -> rill2_rupiah = $rill2_rupiah;
-                    $dataKuitansi -> rill2_flag = $rill2_flag;
-                    $dataKuitansi -> rill3_ket = $rill3_ket;
-                    $dataKuitansi -> rill3_rupiah = $rill3_rupiah;
-                    $dataKuitansi -> rill3_flag = $rill3_flag;
-                    $dataKuitansi -> rill_total = $rill_total;
-                    $dataKuitansi -> flag_jenisperjadin = $request->jenis_perjadin;
-                    $dataKuitansi -> txt_jenisperjadin = $txt_jenisperjadin;
-                    $dataKuitansi -> update();
+                    $dataKuitansi->tgl_kuitansi = $request->tgl_kuitansi;
+                    $dataKuitansi->harian_rupiah = $request->uangharian;
+                    $dataKuitansi->harian_lama = $request->harian;
+                    $dataKuitansi->harian_total = $request->totalharian;
+                    $dataKuitansi->hotel_rupiah = $request->nilaihotel;
+                    $dataKuitansi->hotel_lama = $request->hotelhari;
+                    $dataKuitansi->hotel_total = $totalhotel;
+                    $dataKuitansi->hotel_flag = $flagHotel;
+                    $dataKuitansi->transport_rupiah = $request->nilaiTransport;
+                    $dataKuitansi->transport_ket = $request->transport_ket;
+                    $dataKuitansi->transport_flag = $flagTransport;
+                    $dataKuitansi->bendahara_nip = $request->bendahara_nip;
+                    $dataKuitansi->bendahara_nama = $NamaBendahara;
+                    $dataKuitansi->flag_kuitansi = 1;
+                    $dataKuitansi->total_biaya = $request->totalbiaya;
+                    $dataKuitansi->rill1_ket = $rill1_ket;
+                    $dataKuitansi->rill1_rupiah = $rill1_rupiah;
+                    $dataKuitansi->rill1_flag = $rill1_flag;
+                    $dataKuitansi->rill2_ket = $rill2_ket;
+                    $dataKuitansi->rill2_rupiah = $rill2_rupiah;
+                    $dataKuitansi->rill2_flag = $rill2_flag;
+                    $dataKuitansi->rill3_ket = $rill3_ket;
+                    $dataKuitansi->rill3_rupiah = $rill3_rupiah;
+                    $dataKuitansi->rill3_flag = $rill3_flag;
+                    $dataKuitansi->rill_total = $rill_total;
+                    $dataKuitansi->flag_jenisperjadin = $request->jenis_perjadin;
+                    $dataKuitansi->txt_jenisperjadin = $txt_jenisperjadin;
+                    $dataKuitansi->update();
 
                     //transaksi update
                     $dataTrx = \App\Transaksi::where('trx_id','=',$request->trx_id)->first();
@@ -281,6 +302,53 @@ class KuitansiController extends Controller
                     $dataSpd -> flag_spd = 2;
                     $dataSpd -> update();
 
+                    //push realisasi ke matrik rencana
+                    $matrik_id = $dataTrx->matrik_id;
+                    $count_matrik = MatrikPerjalanan::where('id','=',$matrik_id)->count();
+                    if ($count_matrik > 0)
+                    {
+                        /*
+                        $dataKuitansi->tgl_kuitansi = $request->tgl_kuitansi;
+                        $dataKuitansi->harian_rupiah = $request->uangharian;
+                        $dataKuitansi->harian_lama = $request->harian;
+                        $dataKuitansi->harian_total = $request->totalharian;
+                        $dataKuitansi->hotel_rupiah = $request->nilaihotel;
+                        $dataKuitansi->hotel_lama = $request->hotelhari;
+                        $dataKuitansi->hotel_total = $totalhotel;
+                        $dataKuitansi->hotel_flag = $flagHotel;
+                        $dataKuitansi->transport_rupiah = $request->nilaiTransport;
+                        $dataKuitansi->transport_ket = $request->transport_ket;
+                        $dataKuitansi->transport_flag = $flagTransport;
+                        $dataKuitansi->bendahara_nip = $request->bendahara_nip;
+                        $dataKuitansi->bendahara_nama = $NamaBendahara;
+                        $dataKuitansi->flag_kuitansi = 1;
+                        $dataKuitansi->total_biaya = $request->totalbiaya;
+                        $dataKuitansi->rill1_ket = $rill1_ket;
+                        $dataKuitansi->rill1_rupiah = $rill1_rupiah;
+                        $dataKuitansi->rill1_flag = $rill1_flag;
+                        $dataKuitansi->rill2_ket = $rill2_ket;
+                        $dataKuitansi->rill2_rupiah = $rill2_rupiah;
+                        $dataKuitansi->rill2_flag = $rill2_flag;
+                        $dataKuitansi->rill3_ket = $rill3_ket;
+                        $dataKuitansi->rill3_rupiah = $rill3_rupiah;
+                        $dataKuitansi->rill3_flag = $rill3_flag;
+                        $dataKuitansi->rill_total = $rill_total;
+                        */
+                        $dataMatrik = MatrikPerjalanan::where('id','=',$matrik_id)->first();
+                        $dataMatrik->lama_harian = $request->harian;
+                        $dataMatrik->dana_harian = $request->uangharian;
+                        $dataMatrik->total_harian = $request->totalharian;
+                        $dataMatrik->dana_transport = $request->nilaiTransport;
+                        $dataMatrik->lama_hotel = $request->hotelhari;
+                        $dataMatrik->dana_hotel = $request->nilaihotel;
+                        $dataMatrik->total_hotel = $totalhotel;
+                        $dataMatrik->pengeluaran_rill = $rill_total;
+                        $dataMatrik->total_biaya = $request->totalbiaya;
+                        $dataMatrik->update();
+
+                    }
+                    //batas push realisasi ke matrik rencana
+                    
                     //update turunan anggaran
                     //update data turunan anggaran dan anggaran
                     if ($request->flag_kuitansi > 0)

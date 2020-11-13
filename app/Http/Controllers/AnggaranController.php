@@ -11,7 +11,8 @@ use Validator;
 use Carbon\Carbon;
 use Session;
 use Illuminate\Support\Facades\Redirect;
-use DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Anggaran;
 use Excel;
 use App\Exports\AnggaranViewExport;
@@ -33,7 +34,26 @@ class AnggaranController extends Controller
     public function index()
     {
         //
-
+        if (Auth::user()->user_level == 2)
+        {
+            if (request('unitkerja') == NULL)
+            {
+                $flag_unitkerja = Auth::user()->user_unitkerja;
+            }
+            else {
+                $flag_unitkerja = request('unitkerja');
+            }
+        }
+        else 
+        {
+            if (request('unitkerja') == NULL)
+            {
+                $flag_unitkerja = '';
+            }
+            else {
+                $flag_unitkerja = request('unitkerja');
+            }
+        }
         $DataUnitkerja = DB::table('unitkerja')->where(function ($query)
         {
             $query->where('flag_edit', '=', '0')->where('eselon', '<', '4');
@@ -46,12 +66,12 @@ class AnggaranController extends Controller
             ->select(DB::Raw('anggaran.*,unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
             ->orderBy('created_at', 'desc')
             ->where('anggaran.tahun_anggaran', '=', Session::get('tahun_anggaran'))
-            ->when(request('unitkerja'),function ($query){
-                return $query->where('unitkerja',request('unitkerja'));
+            ->when($flag_unitkerja,function ($query) use ($flag_unitkerja) {
+                return $query->where('unitkerja',$flag_unitkerja);
             })
             ->get();
         //dd(session()->all());
-        return view('anggaran.index', compact('DataAnggaran', 'DataUnitkerja'));
+        return view('anggaran.index', compact('DataAnggaran', 'DataUnitkerja','flag_unitkerja'));
     }
 
     /**

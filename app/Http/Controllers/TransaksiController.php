@@ -9,7 +9,8 @@ use App\Pegawai;
 use Carbon\Carbon;
 use Session;
 use Illuminate\Support\Facades\Redirect;
-use DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\SuratTugas;
 use App\Spd;
 use App\Unitkerja;
@@ -34,6 +35,27 @@ class TransaksiController extends Controller
         else {
             $flag_trx = request('flag_trx');
         }
+        if (Auth::user()->user_level == 2)
+        {
+            if (request('unitkerja') == NULL)
+            {
+                $flag_unitkerja = Auth::user()->user_unitkerja;
+            }
+            else {
+                $flag_unitkerja = request('unitkerja');
+            }
+        }
+        else 
+        {
+            if (request('unitkerja') == NULL)
+            {
+                $flag_unitkerja = '';
+            }
+            else {
+                $flag_unitkerja = request('unitkerja');
+            }
+        }
+
         $FlagTrx = config('globalvar.FlagTransaksi');
         $FlagKonfirmasi = config('globalvar.FlagKonfirmasi');
         $MatrikFlag = config('globalvar.FlagMatrik');
@@ -47,23 +69,24 @@ class TransaksiController extends Controller
         if ($flag_trx=='')
         {
             $dataTransaksi = Transaksi::with('Matrik')->where('tahun_trx', '=', Session::get('tahun_anggaran'))
-            ->when(request('unitkerja'),function($query){
-                return $query->whereHas('matrik',function($q){
-                    return $q->where('unit_pelaksana',request('unitkerja'));
+            ->when($flag_unitkerja,function($query) use ($flag_unitkerja){
+                return $query->whereHas('matrik',function($q) use ($flag_unitkerja) {
+                    return $q->where('unit_pelaksana',$flag_unitkerja);
                 });
             })->orderBy('flag_trx', 'ASC')->orderBy('tgl_brkt', 'desc')->get();
         }
         else
         {
             $dataTransaksi = Transaksi::with('Matrik')->where('tahun_trx', '=', Session::get('tahun_anggaran'))
-            ->when(request('unitkerja'),function($query){
-                return $query->whereHas('Matrik',function($q){
-                    return $q->where('unit_pelaksana',request('unitkerja'));
+            ->when($flag_unitkerja,function($query) use ($flag_unitkerja){
+                return $query->whereHas('matrik',function($q) use ($flag_unitkerja) {
+                    return $q->where('unit_pelaksana',$flag_unitkerja);
                 });
-            })->where('flag_trx',request('flag_trx'))->orderBy('flag_trx', 'ASC')->orderBy('tgl_brkt', 'desc')->get();
+            })
+            ->where('flag_trx',request('flag_trx'))->orderBy('flag_trx', 'ASC')->orderBy('tgl_brkt', 'desc')->get();
         }
         
-        return view('transaksi.matrik', compact('dataTransaksi', 'FlagTrx', 'FlagKonfirmasi', 'DataPegawai', 'MatrikFlag', 'DataBidang'));
+        return view('transaksi.matrik', compact('dataTransaksi', 'FlagTrx', 'FlagKonfirmasi', 'DataPegawai', 'MatrikFlag', 'DataBidang','flag_unitkerja'));
         //dd($dataTransaksi);
     }
 

@@ -11,7 +11,8 @@ use App\Kuitansi;
 use Carbon\Carbon;
 use Session;
 use Illuminate\Support\Facades\Redirect;
-use DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Unitkerja;
 use App\Tujuan;
 
@@ -143,6 +144,30 @@ class LaporanController extends Controller
         /*
         select nip_baru, pegawai.nama as nama_pegawai, unitkerja.nama as nama_unitkerja, jumlah, totalbiaya from pegawai left join unitkerja on pegawai.unitkerja=unitkerja.kode LEFT join (SELECT peg_nip, COUNT(*) as jumlah, sum(kuitansi.total_biaya) as totalbiaya FROM transaksi LEFT join kuitansi on transaksi.trx_id=kuitansi.trx_id where flag_trx>3 GROUP by peg_nip order by jumlah desc) as trx on pegawai.nip_baru=trx.peg_nip order by jumlah desc
         */
+        if (Auth::user()->user_level == 2)
+        {
+            if (request('unitkerja') == NULL)
+            {
+                $flag_unitkerja = Auth::user()->user_unitkerja;
+            }
+            else {
+                $flag_unitkerja = request('unitkerja');
+            }
+        }
+        else 
+        {
+            if (request('unitkerja') == NULL)
+            {
+                $flag_unitkerja = '';
+            }
+            else {
+                $flag_unitkerja = request('unitkerja');
+
+            }
+        }
+        //$flag_unitkerja = (int) $flag_unitkerja;
+        //dd($flag_unitkerja);
+        $DataBidang = Unitkerja::where('eselon', '<', '4')->orderBy('kode', 'asc')->get();
         $FlagUmum = config('globalvar.FlagUmum');
         if ($idpeg>0) {
             $count = \App\Pegawai::where('id','=',$idpeg)->count();
@@ -164,13 +189,21 @@ class LaporanController extends Controller
             }
         }
         else {
-            $RekapPegawai = DB::table('pegawai')->
-            leftJoin('unitkerja','pegawai.unitkerja','=','unitkerja.kode')->
-            leftJoin(DB::Raw("(SELECT tahun_trx,peg_nip, COUNT(*) as jumlah, sum(kuitansi.total_biaya) as totalbiaya FROM transaksi LEFT join kuitansi on transaksi.trx_id=kuitansi.trx_id where flag_trx>5 and tahun_trx='".Session::get('tahun_anggaran')."' GROUP by peg_nip order by jumlah desc) as trx"),'trx.peg_nip','=','pegawai.nip_baru')->
-            select(DB::Raw('pegawai.id as peg_id,nip_baru, pegawai.nama as nama_pegawai, unitkerja.nama as nama_unitkerja, COALESCE(jumlah,0) as jumlah,COALESCE(totalbiaya,0) as totalbiaya,flag'))->
-            where('jabatan','<','5')->where('flag','=','1')->orWhere([['flag','=',0],['jumlah','>',0]])->orderBy('jumlah','desc')->get();
+            $RekapPegawai = DB::table('pegawai')
+            ->leftJoin('unitkerja','pegawai.unitkerja','=','unitkerja.kode')
+            ->leftJoin(DB::Raw("(SELECT tahun_trx,peg_nip,peg_unitkerja, COUNT(*) as jumlah, sum(kuitansi.total_biaya) as totalbiaya FROM transaksi LEFT join kuitansi on transaksi.trx_id=kuitansi.trx_id where flag_trx>5 and tahun_trx='".Session::get('tahun_anggaran')."' GROUP by peg_nip order by jumlah desc) as trx"),'trx.peg_nip','=','pegawai.nip_baru')
+            ->select(DB::Raw('pegawai.id as peg_id, nip_baru, pegawai.nama as nama_pegawai, bidang, unitkerja.kode as kode_unitkerja, unitkerja.nama as nama_unitkerja, COALESCE(jumlah,0) as jumlah,COALESCE(totalbiaya,0) as totalbiaya, flag'))
+            ->when($flag_unitkerja,function ($query,$flag_unitkerja) {
+                return $query->where('bidang','=',$flag_unitkerja);
+            })
+            ->where('jabatan','<','5')
+            ->where(function ($query) {
+                $query->where('jumlah', '>', 0)->orWhere('flag','=', 1);
+            })
+            ->orderBy('totalbiaya','desc')->orderBy('jumlah','desc')
+            ->get();
             //dd($RekapPegawai);
-            return view('laporan.rekap-pegawai',compact('RekapPegawai','FlagUmum'));
+            return view('laporan.rekap-pegawai',compact('RekapPegawai','FlagUmum','DataBidang','flag_unitkerja'));
         }
         
         //dd($idpeg);
