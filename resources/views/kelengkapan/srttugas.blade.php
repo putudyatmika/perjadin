@@ -130,6 +130,6 @@
     PNS/ASN dilarang menerima gratifikasi dalam bentuk apapun selama menjalankan tugas
 </div>
 <div class="kaki">
-    Jl. Gunung Rinjani No. 2 Mataram 83125  Telp. (0370) 621385, 638321  Fax (0370) 623801 <br />
-    Email: bps5200@bps.go.id   Website: http://ntb.bps.go.id
+    Jl. Gunung Rinjani No. 2 Mataram 83125 Telp. (0370) 621385, 638321  Fax (0370) 623801 <br />
+    <i>E-mail</i>: bps5200@bps.go.id, <i>Website</i>: https://ntb.bps.go.id
 </div>

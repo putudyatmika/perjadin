@@ -58,16 +58,16 @@ class UnitkerjaController extends Controller
         }
         else {
             $dt_unit = new Unitkerja();
-            $dt_unit -> kode = $request->kode;
-            $dt_unit -> nama = $request->nama;
-            $dt_unit -> eselon = $request->eselon;
-            $dt_unit -> parent = '52000';
-            $dt_unit -> bidang = $request->kode;
-            $dt_unit -> jenis = 1;
-            $dt_unit -> flag_edit = 1;
-            $dt_unit -> tahun = Session::get('tahun_anggaran');
-            $dt_unit -> save();
-            $pesan_error ='Data sudah disimpan';
+            $dt_unit->kode = $request->kode;
+            $dt_unit->nama = $request->nama;
+            $dt_unit->eselon = $request->eselon;
+            $dt_unit->parent = '52510';
+            $dt_unit->bidang = '52510';
+            $dt_unit->jenis = 1;
+            $dt_unit->flag_edit = 1;
+            $dt_unit->tahun = Session::get('tahun_anggaran');
+            $dt_unit->save();
+            $pesan_error ='Data unitkerja dibawah Bagian Tata Usaha sudah disimpan';
             $pesan_warna ='success';
         }
         
@@ -118,11 +118,12 @@ class UnitkerjaController extends Controller
         if ($count>0) {
             //sudah ada kodenya
             $dt_unit = Unitkerja::where('id','=',$request->unit_id)->first();
-            $dt_unit -> kode = $request->kode;
-            $dt_unit -> nama = $request->nama;
-            $dt_unit -> eselon = $request->eselon;
-            $dt_unit -> bidang = $request->kode;
-            $dt_unit -> update();
+            $dt_unit->kode = $request->kode;
+            $dt_unit->nama = $request->nama;
+            $dt_unit->eselon = $request->eselon;
+            $dt_unit->parent = '52510';
+            $dt_unit->bidang = '52510';
+            $dt_unit->update();
             $pesan_error ='Data sudah diupdate';
             $pesan_warna ='success';
             

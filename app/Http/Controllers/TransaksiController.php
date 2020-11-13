@@ -59,13 +59,9 @@ class TransaksiController extends Controller
         $FlagTrx = config('globalvar.FlagTransaksi');
         $FlagKonfirmasi = config('globalvar.FlagKonfirmasi');
         $MatrikFlag = config('globalvar.FlagMatrik');
-        $DataPegawai = Pegawai::where([['flag', '=', '1'], ['jabatan', '<', '5']])->get();
+        $DataPegawai = Pegawai::where('flag', '=', '1')->where('jabatan', '<', '5')->get();
+        //dd($DataPegawai);
         $DataBidang = Unitkerja::where('eselon', '<', '4')->orderBy('kode', 'asc')->get();
-        /*
-        $users = App\User::with(['posts' => function ($query) {
-    $query->where('title', 'like', '%first%');
-}])->get();
-*/
         if ($flag_trx=='')
         {
             $dataTransaksi = Transaksi::with('Matrik')->where('tahun_trx', '=', Session::get('tahun_anggaran'))

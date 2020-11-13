@@ -16,6 +16,8 @@ use App\Transaksi;
 use PDF;
 use App\Unitkerja;
 use App\MatrikPerjalanan;
+use App\Anggaran;
+use App\TurunanAnggaran;
 
 class KuitansiController extends Controller
 {
@@ -334,15 +336,26 @@ class KuitansiController extends Controller
                         $dataKuitansi->rill3_flag = $rill3_flag;
                         $dataKuitansi->rill_total = $rill_total;
                         */
+                        if ($flagHotel==0)
+                        {
+                            //$totalhotel = ($request->nilaihotel * $request->hotelhari) * 0.3;
+                            $matrik_hotel_rupiah = $totalhotel / $request->hotelhari;
+                            $matrik_rill = $rill_total - $totalhotel;
+                        }
+                        else 
+                        {
+                            $matrik_hotel_rupiah = $request->nilaihotel;
+                            $matrik_rill = $rill_total;
+                        }
                         $dataMatrik = MatrikPerjalanan::where('id','=',$matrik_id)->first();
                         $dataMatrik->lama_harian = $request->harian;
                         $dataMatrik->dana_harian = $request->uangharian;
                         $dataMatrik->total_harian = $request->totalharian;
                         $dataMatrik->dana_transport = $request->nilaiTransport;
                         $dataMatrik->lama_hotel = $request->hotelhari;
-                        $dataMatrik->dana_hotel = $request->nilaihotel;
+                        $dataMatrik->dana_hotel = $matrik_hotel_rupiah;
                         $dataMatrik->total_hotel = $totalhotel;
-                        $dataMatrik->pengeluaran_rill = $rill_total;
+                        $dataMatrik->pengeluaran_rill = $matrik_rill;
                         $dataMatrik->total_biaya = $request->totalbiaya;
                         $dataMatrik->update();
 
@@ -375,7 +388,43 @@ class KuitansiController extends Controller
                         $dataAnggaran->realisasi_pagu = $dataAnggaran->realisasi_pagu + $request->totalbiaya;
                         $dataAnggaran->update();
                     }
-    
+                    //sinkronisasi turunan anggaran setelah matrik di push
+                    $data_bid = DB::table('matrik')
+                    ->select(DB::Raw('matrik.mak_id,matrik.dana_tid,COALESCE(sum(matrik.total_biaya)) as biaya_rencana, COALESCE(sum(kuitansi.total_biaya)) as biaya_rill'))
+                    ->leftJoin('transaksi','matrik.id','=','transaksi.matrik_id')
+                    ->leftJoin('kuitansi','transaksi.trx_id','=','kuitansi.trx_id')
+                    ->where([
+                        ['mak_id','=',$request->mak_id],
+                        ['dana_tid','=',$request->dana_tid],
+                        ['flag_matrik','<>','2']
+                        ])->groupBy('dana_tid')->first();
+                    //dd($data_bid);
+                    $data_anggaran = DB::table('matrik')
+                        ->select(DB::Raw('matrik.mak_id,matrik.dana_tid,COALESCE(sum(kuitansi.total_biaya)) as totalbiaya'))
+                        ->leftJoin('transaksi','matrik.id','=','transaksi.matrik_id')
+                        ->leftJoin('kuitansi','transaksi.trx_id','=','kuitansi.trx_id')
+                        ->where([
+                            ['mak_id','=',$request->mak_id],
+                            ['flag_matrik','<>','2']
+                            ])->groupBy('mak_id')->first();   
+                    //dd($data_anggaran);
+                    //update pagu_realisasi turunan anggaran
+                    if ($data_bid)
+                    {
+                        $data = TurunanAnggaran::where('t_id','=',$request->dana_tid)->first();
+                        $data->pagu_rencana = $data_bid->biaya_rencana;
+                        $data->pagu_realisasi = $data_bid->biaya_rill;
+                        $data->update();
+                    }
+                    
+                    //update pagu_realisasi di anggaran
+                    if ($data_anggaran)
+                    {
+                        $dataAnggaran = Anggaran::where('id','=', $request->mak_id)->first();
+                        $dataAnggaran->realisasi_pagu = $data_anggaran->totalbiaya;
+                        $dataAnggaran->update();
+                    }
+                    //batas sinkronisasi
                     Session::flash('message', '('.$request->kode_trx.') Kuitansi an. '.$request->nama.' tujuan ke '. $request->nama_tujuan .' sudah diupdate');
                     Session::flash('message_type', 'success');
                     Session::flash('flash_kodetrx', $request->kode_trx);

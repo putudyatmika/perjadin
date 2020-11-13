@@ -100,7 +100,7 @@
     <tr>
             <td class="garis-t garis-l"><span class="pull-left">7.</span></td>
             <td class="garis-t garis-r"><span class="pull-left">a. Lama perjalanan dinas</span></td>
-            <td class="garis-t garis-r">a. {{$data->bnyk_hari}} ({{$Bilangan[$data->bnyk_hari]}}) Hari</td>
+            <td class="garis-t garis-r">a. {{$data->bnyk_hari}} ({{strtolower($Bilangan[$data->bnyk_hari])}}) Hari</td>
     </tr>
     <tr>
             <td class="garis-l"></td>

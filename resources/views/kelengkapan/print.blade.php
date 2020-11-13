@@ -149,23 +149,23 @@ footer {
 }
 .kaki {
     position: fixed; 
-    bottom: -60px; 
+    bottom: -35px; 
     left: 0px; 
     right: 0px;
-    height: 70px; 
-    font-size: 8pt !important;
+    height: 50px; 
+    font-size: 9pt !important;
     text-align: center; 
 }
 .gratifikasi {
     position: fixed; 
-    bottom:40px;
-    margin-left: 130px;
-    margin-right: 130px; 
+    bottom:45px;
+    margin-left: 120px;
+    margin-right: 120px; 
     text-align: center; 
     padding:5px;
     font-size: 8pt !important;
     color: gray;
-    border: 1px dashed gray;
+    border: 1px solid gray;
 }
 .qrcode {
     position: relative;
