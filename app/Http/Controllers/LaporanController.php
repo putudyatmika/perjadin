@@ -95,6 +95,28 @@ class LaporanController extends Controller
     }
     public function tujuan($tujuanID)
     {
+        if (Auth::user()->user_level == 2)
+        {
+            if (request('unitkerja') == NULL)
+            {
+                $flag_unitkerja = Auth::user()->user_unitkerja;
+            }
+            else {
+                $flag_unitkerja = request('unitkerja');
+            }
+        }
+        else 
+        {
+            if (request('unitkerja') == NULL)
+            {
+                $flag_unitkerja = '';
+            }
+            else {
+                $flag_unitkerja = request('unitkerja');
+
+            }
+        }
+        $DataBidang = Unitkerja::where('eselon', '<', '4')->orderBy('kode', 'asc')->get();
         if ($tujuanID>0)
         {
             //semua pegawai di tujuan yang sama
@@ -111,16 +133,52 @@ class LaporanController extends Controller
         else {
             /*
             SELECT transaksi.tahun_trx, matrik.kodekab_tujuan, COUNT(*) as jumlah, sum(kuitansi.total_biaya) as totalbiaya FROM matrik left join transaksi on transaksi.matrik_id=matrik.id left join kuitansi on kuitansi.trx_id=transaksi.trx_id where transaksi.flag_trx > 3 and transaksi.tahun_trx = '2019' GROUP by matrik.kodekab_tujuan order by matrik.kodekab_tujuan asc
-            */
+            
             $rekapTujuan = DB::table('tujuan')->
-                           leftJoin(DB::Raw("(SELECT transaksi.tahun_trx, matrik.kodekab_tujuan, COUNT(*) as jumlah, sum(kuitansi.total_biaya) as totalbiaya FROM matrik left join transaksi on transaksi.matrik_id=matrik.id left join kuitansi on kuitansi.trx_id=transaksi.trx_id where transaksi.flag_trx > 3 and transaksi.tahun_trx = '".Session::get('tahun_anggaran')."' GROUP by matrik.kodekab_tujuan order by matrik.kodekab_tujuan asc) as trx"),'trx.kodekab_tujuan','=','tujuan.kode_kabkota')->
-                           select(DB::Raw('nama_kabkota as nama, kode_kabkota,COALESCE(jumlah,0) as jumlah, COALESCE(totalbiaya,0) as total_biaya'))->where('tahun_trx','>','0')->orderBy('jumlah','desc')->get();
+                           leftJoin(DB::Raw("(SELECT transaksi.tahun_trx, matrik.kodekab_tujuan, COUNT(*) as jumlah, sum(kuitansi.total_biaya) as totalbiaya FROM matrik left join transaksi on transaksi.matrik_id=matrik.id left join kuitansi on kuitansi.trx_id=transaksi.trx_id where transaksi.flag_trx > 3 and transaksi.tahun_trx = '".Session::get('tahun_anggaran')."' GROUP by matrik.kodekab_tujuan order by matrik.kodekab_tujuan asc) as trx"),'trx.kodekab_tujuan','=','tujuan.kode_kabkota')
+                           ->select(DB::Raw('nama_kabkota as nama, kode_kabkota,COALESCE(jumlah,0) as jumlah, COALESCE(totalbiaya,0) as total_biaya'))
+                           ->where('tahun_trx','>','0')->orderBy('jumlah','desc')->get();
+            */
+            $rekapTujuan = MatrikPerjalanan::leftJoin('transaksi','transaksi.matrik_id','=','matrik.id')
+                           ->where('transaksi.tahun_trx','=',Session::get('tahun_anggaran'))
+                           ->where('transaksi.flag_trx','>','3')
+                           ->groupBy('kodekab_tujuan')
+                           ->leftJoin('tujuan','tujuan.kode_kabkota','=','matrik.kodekab_tujuan')
+                           ->leftJoin('kuitansi','transaksi.trx_id','=','kuitansi.trx_id')
+                           ->select(DB::Raw('tujuan.nama_kabkota as nama, kode_kabkota, COALESCE(COUNT(*),0) as jumlah, COALESCE(sum(kuitansi.total_biaya),0) as total_biaya'))
+                           ->when($flag_unitkerja,function ($query,$flag_unitkerja) {
+                            return $query->where('unit_pelaksana','=',$flag_unitkerja);
+                            })
+                           ->orderBy('jumlah','desc')
+                           ->get();
             //dd($rekapTujuan);
-                           return view('laporan.rekap-tujuan',compact('rekapTujuan'));
+            return view('laporan.rekap-tujuan',compact('rekapTujuan','flag_unitkerja','DataBidang'));
         }
     }
     public function anggaran($aid)
     {
+        if (Auth::user()->user_level == 2)
+        {
+            if (request('unitkerja') == NULL)
+            {
+                $flag_unitkerja = Auth::user()->user_unitkerja;
+            }
+            else {
+                $flag_unitkerja = request('unitkerja');
+            }
+        }
+        else 
+        {
+            if (request('unitkerja') == NULL)
+            {
+                $flag_unitkerja = '';
+            }
+            else {
+                $flag_unitkerja = request('unitkerja');
+
+            }
+        }
+        $DataBidang = Unitkerja::where('eselon', '<', '4')->orderBy('kode', 'asc')->get();
         if ($aid>0) {
                 $dataAnggaran = Anggaran::where('id','=',$aid)->first();
                 /*
@@ -133,10 +191,13 @@ class LaporanController extends Controller
         }
         else {
             //semua anggaran
-            
-            $dataAnggaran = Anggaran::where('tahun_anggaran','=',Session::get('tahun_anggaran'))->get();
+            $dataAnggaran = Anggaran::where('tahun_anggaran','=',Session::get('tahun_anggaran'))
+            ->when($flag_unitkerja,function ($query,$flag_unitkerja) {
+                return $query->where('unitkerja','=',$flag_unitkerja);
+            })
+            ->get();
             //dd($dataAnggaran);
-            return view('laporan.rekap-anggaran',compact('dataAnggaran'));
+            return view('laporan.rekap-anggaran',compact('dataAnggaran','flag_unitkerja','DataBidang'));
         }
     }
     public function pegawai($idpeg)

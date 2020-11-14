@@ -56,6 +56,7 @@
                                 </div>
                     <div class="col-lg-12">
                         <div class="white-box">
+                            @include('laporan.filter-bidang-tujuan')
                             <h3 class="box-title m-b-0">Rekap Anggaran Perjalanan Dinas yang telah dilaksanakan</h3>
                             <p class="text-muted m-b-20">@if (Session::has('tahun_anggaran')) <code>Tahun Anggaran {{Session::get('tahun_anggaran')}}</code> @endif</p>
                             <div class="table-responsive">
