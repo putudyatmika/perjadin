@@ -51,6 +51,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/import_anggaran', 'AnggaranController@import');
     Route::get('turunan/kuitansi/{tid}', 'TurunanController@TotalKuitansi')->name('turunan.kuitansi');
     Route::post('turunan/sinkron/', 'TurunanController@SinkronRealiasi')->name('turunan.sinkron');
+    Route::post('turunan/sinkronkan/', 'TurunanController@SyncRealisasiDgnRencana')->name('turunan.sinkronkan');
     Route::resource('turunan', 'TurunanController');
     Route::resource('tujuan', 'TujuanController');
     Route::resource('user', 'UserController');

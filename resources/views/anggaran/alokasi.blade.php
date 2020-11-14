@@ -60,6 +60,7 @@
                             </dl>
                             @if (Auth::user()->pengelola>3)
                             <div class="text-right" style="margin-bottom:10px;">
+                                <button type="button" class="btn btn-sm btn-info btn-rounded" data-toggle="modal" data-target="#SyncRealisasiModal" data-aid="{{$dataAnggaran->id}}"><i class="fa fa-refresh"></i> Sinkron Realisasi dengan Rencana</button>
                                 <button type="button" class="btn btn-sm btn-success btn-rounded" data-toggle="modal" data-target="#TambahAlokasiModal" data-tahun="{{$dataAnggaran->tahun_anggaran}}"><i class="fa fa-plus"></i> Tambah Alokasi</button>
                             </div>
                             @endif

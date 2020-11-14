@@ -11,6 +11,8 @@ use App\Anggaran;
 use App\MatrikPerjalanan;
 use App\Unitkerja;
 use App\TurunanAnggaran;
+use App\Kuitansi;
+use App\Transaksi;
 
 class TurunanController extends Controller
 {
@@ -304,6 +306,104 @@ class TurunanController extends Controller
         //dd($data_semua_tahun);
         Session::flash('message', 'Data Pagu Realisasi sudah disinkronisasi');
         Session::flash('message_type', 'danger');
+        return back();
+    }
+    public function SyncRealisasiDgnRencana(Request $request)
+    {
+        $datatrx = DB::table('matrik')
+                    ->select(DB::Raw('matrik.id, matrik.kode_trx, matrik.mak_id,matrik.dana_tid, transaksi.trx_id, matrik.total_biaya'))
+                    ->leftJoin('transaksi','matrik.id','=','transaksi.matrik_id')
+                    ->where([
+                        ['mak_id','=',$request->a_id],
+                        ['flag_matrik','<>','2']
+                        ])->get();
+        //dd($datatrx);
+        //search kuitansi dgn trx_id cek apakah flag kuitansi > 0 (belum aktif) dan <3 (batal)
+        //cek totalbiaya di kuitansi dgan total biaya di matrik bila berbeda sinkronkan
+        foreach ($datatrx as $item) {
+            //push realisasi ke matrik rencana
+            $matrik_id = $item->id;
+            $trx_id = $item->trx_id;
+            $count_kuitansi = Kuitansi::where('trx_id','=',$trx_id)->whereIn('flag_kuitansi',['1','2'])->count();
+            if ($count_kuitansi > 0)
+            {
+                $data = Kuitansi::where('trx_id','=',$trx_id)->whereIn('flag_kuitansi',['1','2'])->first();
+                if ($data->total_biaya != $item->total_biaya)
+                {
+                    //kalo beda totalnya proses sinkron
+                    if ($data->hotel_flag ==0 and $data->hotel_lama > 0)
+                    {
+                        //$totalhotel = ($request->nilaihotel * $request->hotelhari) * 0.3;
+                        $matrik_hotel_rupiah = $data->hotel_total / $data->hotel_lama;
+                        $matrik_rill = $data->rill_total - $data->hotel_total;
+                    }
+                    else 
+                    {
+                        $matrik_hotel_rupiah = $data->hotel_rupiah;
+                        $matrik_rill = $data->rill_total;
+                    }
+                    $dataMatrik = MatrikPerjalanan::where('id','=',$matrik_id)->first();
+                    $dataMatrik->lama_harian = $data->harian_lama;
+                    $dataMatrik->dana_harian = $data->harian_rupiah;
+                    $dataMatrik->total_harian = $data->harian_total;
+                    $dataMatrik->dana_transport = $data->transport_rupiah;
+                    $dataMatrik->lama_hotel = $data->hotel_lama;
+                    $dataMatrik->dana_hotel = $matrik_hotel_rupiah;
+                    $dataMatrik->total_hotel = $data->hotel_total;
+                    $dataMatrik->pengeluaran_rill = $matrik_rill;
+                    $dataMatrik->total_biaya = $data->total_biaya;
+                    $dataMatrik->update();
+                }
+
+            }
+            //batas push realisasi ke matrik rencana
+        }
+       
+        //sinkron turunan anggaran setelah di push
+        //sinkronisasi turunan anggaran setelah matrik di push
+        $data_tid = DB::table('matrik')
+                    ->select(DB::Raw('matrik.id, matrik.mak_id,matrik.dana_tid'))
+                    ->where('mak_id','=',$request->a_id)->groupBy('dana_tid')->get();
+        foreach ($data_tid as $item) {
+            $data_bid = DB::table('matrik')
+            ->select(DB::Raw('matrik.mak_id,matrik.dana_tid,COALESCE(sum(matrik.total_biaya)) as biaya_rencana, COALESCE(sum(kuitansi.total_biaya)) as biaya_rill'))
+            ->leftJoin('transaksi','matrik.id','=','transaksi.matrik_id')
+            ->leftJoin('kuitansi','transaksi.trx_id','=','kuitansi.trx_id')
+            ->where([
+                ['mak_id','=',$item->mak_id],
+                ['dana_tid','=',$item->dana_tid],
+                ['flag_matrik','<>','2']
+                ])->groupBy('dana_tid')->first();
+            //dd($data_bid);
+            $data_anggaran = DB::table('matrik')
+                ->select(DB::Raw('matrik.mak_id,matrik.dana_tid,COALESCE(sum(kuitansi.total_biaya)) as totalbiaya'))
+                ->leftJoin('transaksi','matrik.id','=','transaksi.matrik_id')
+                ->leftJoin('kuitansi','transaksi.trx_id','=','kuitansi.trx_id')
+                ->where([
+                    ['mak_id','=',$item->mak_id],
+                    ['flag_matrik','<>','2']
+                    ])->groupBy('mak_id')->first();   
+            //dd($data_anggaran);
+            //update pagu_realisasi turunan anggaran
+            if ($data_bid)
+            {
+                $data = TurunanAnggaran::where('t_id','=',$item->dana_tid)->first();
+                $data->pagu_rencana = $data_bid->biaya_rencana;
+                $data->pagu_realisasi = $data_bid->biaya_rill;
+                $data->update();
+            }
+            
+            //update pagu_realisasi di anggaran
+            if ($data_anggaran)
+            {
+                $dataAnggaran = Anggaran::where('id','=', $item->mak_id)->first();
+                $dataAnggaran->realisasi_pagu = $data_anggaran->totalbiaya;
+                $dataAnggaran->update();
+            }
+            //batas sinkronisasi
+        }
+        Session::flash('message', 'Data Perjadin Realisasi sudah disinkronisasi dengan rencana');
+        Session::flash('message_type', 'success');
         return back();
     }
 }
