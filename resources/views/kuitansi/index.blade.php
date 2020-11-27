@@ -52,11 +52,12 @@ $(function () {
                 <div class="row">
                     <div class="col-lg-12">
                                 @if (Session::has('message'))
-                                <div class="alert alert-{{ Session::get('message_type') }}" id="waktu2" style="margin-top:10px;">{{ Session::get('message') }} 
+                                <div class="alert alert-{{ Session::get('message_type') }}" id="waktu2" style="margin-top:10px;">
+                                    {!! Session::get('message') !!}
                                     @if (Session::has('flash_kodetrx'))
                                         @if (Session::get('flash_kodetrx')!= NULL )
                                         <a href="{{route('kuitansi.print',Session::get('flash_kodetrx'))}}" target="_blank" class="btn btn-circle btn-primary btn-sm"><span data-toggle="tooltip" title="Cetak Kuitansi perjadin an. {{Session::get('flash_nama')}}"><i class="fa fa-print"></i></span></a>
-                                        
+
                                         <a href="{{route('kuitansi.unduh',Session::get('flash_kodetrx'))}}" target="_blank" class="btn btn-circle btn-warning btn-sm"><span data-toggle="tooltip" title="Download Kuitansi perjadin an. {{Session::get('flash_nama')}}"><i class="fa fa-download"></i></span></a>
                                         @endif
                                     @endif
@@ -108,7 +109,7 @@ $(function () {
                                                 </td>
                                                 <td>
                                                     {{$item->Transaksi->tugas}} <br />
-                                                    
+
                                                     <small class="text-danger">
                                                         ({{$item->Transaksi->Matrik->Tujuan->nama_kabkota}} ) <br />
                                                     </small>
@@ -129,10 +130,10 @@ $(function () {
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            
+
                                             <th colspan="5">Total Kuitansi</th>
                                             <th colspan="3">@duit($DataKuitansi->sum('total_biaya'))</th>
-                                        
+
                                         </tr>
                                     </tfoot>
                                 </table>

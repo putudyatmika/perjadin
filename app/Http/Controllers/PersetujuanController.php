@@ -143,7 +143,7 @@ class PersetujuanController extends Controller
                 <p>Menunggu persetujuan <b>{{ $objEmail->setuju}}</b> pengajuan perjalanan dinas dari <br/>
                 <strong>{{$objEmail->bidang}}</strong>
                 </p>
-                
+
                 <div>
                 <p>Detil perjalanan dinas :<br/>
                 <b>Trx ID :</b>&nbsp;{{ $objEmail->trx_id}}<br/>
@@ -166,7 +166,7 @@ class PersetujuanController extends Controller
                     <b>Total biaya :</b>&nbsp;{{ $objEmail->totalbiaya }}<br/>
                 </p>
             */
-            if ($kirim_mail == 1) 
+            if ($kirim_mail == 1)
             {
                 //disetujui Kabid SM dan kirim mail ke PPK
                 $objEmail = new \stdClass();
@@ -192,15 +192,17 @@ class PersetujuanController extends Controller
                 {
                     Mail::to($dataPPK->email)->send(new MailPersetujuan($objEmail));
                 }
-               
+                //disetujui
+                Session::flash('message', '['.$datatrx->kode_trx.'] Data Perjalanan ke <strong>'.$dataMatrik->Tujuan->nama_kabkota.'</strong> an. <strong>'.$datatrx->peg_nama.'</strong> tanggal <strong><i>'.Tanggal::Panjang($datatrx->tgl_brkt).'</i></strong> sudah di setujui Kabid SM');
+                Session::flash('message_type', 'success');
             }
-            else 
+            else
             {
                 //kirim mail ke pegawai yang bersangkutan bahwa di tolak
                 //nanti dibuatkan
+                Session::flash('message', '['.$datatrx->kode_trx.'] Data Perjalanan ke <strong>'.$dataMatrik->Tujuan->nama_kabkota.'</strong> an. <strong>'.$datatrx->peg_nama.'</strong> tanggal <strong><i>'.Tanggal::Panjang($datatrx->tgl_brkt).'</i></strong> ditolak oleh <strong>Kabid SM</strong>');
+                Session::flash('message_type', 'danger');
             }
-            Session::flash('message', 'Data Perjalanan ke '.$request->tujuan.' tanggal '. $request->tglberangkat .' sudah di setujui Kabid SM');
-            Session::flash('message_type', 'warning');
             return redirect()->route('setuju.index');
         }
         elseif ($request->aksi == "SetujuPPK") {
@@ -276,15 +278,20 @@ class PersetujuanController extends Controller
                 {
                     Mail::to($dataKPA->email)->send(new MailPersetujuan($objEmail));
                 }
+                //disetujui
+                Session::flash('message', '['.$datatrx->kode_trx.'] Data Perjalanan ke <strong>'.$dataMatrik->Tujuan->nama_kabkota.'</strong> an. <strong>'.$datatrx->peg_nama.'</strong> tanggal <strong><i>'.Tanggal::Panjang($datatrx->tgl_brkt).'</i></strong> sudah di setujui PPK');
+                Session::flash('message_type', 'success');
              }
-             else 
+             else
              {
                 //kirim mail ke pegawai yang bersangkutan bahwa perjadinnya di tolak
                 //dibuatkan
+                Session::flash('message', '['.$datatrx->kode_trx.'] Data Perjalanan ke <strong>'.$dataMatrik->Tujuan->nama_kabkota.'</strong> an. <strong>'.$datatrx->peg_nama.'</strong> tanggal <strong><i>'.Tanggal::Panjang($datatrx->tgl_brkt).'</i></strong> ditolak oleh PPK dengan alasan <i>('.$request->ket_ppk.')</i>');
+                Session::flash('message_type', 'danger');
              }
-             
-            Session::flash('message', 'Data Perjalanan ke '.$request->tujuan.' tanggal '. $request->tglberangkat .' sudah di setujui PPK');
-            Session::flash('message_type', 'info');
+
+            //Session::flash('message', 'Data Perjalanan ke '.$request->tujuan.' tanggal '. $request->tglberangkat .' sudah di setujui PPK');
+
             return redirect()->route('setuju.index');
         }
         elseif ($request->aksi == "SetujuKPA") {
@@ -394,14 +401,19 @@ class PersetujuanController extends Controller
                         Mail::to($k->email)->send(new MailPerjalanan($objEmail));
                     }
                 }
+                //disetujui
+                Session::flash('message', '['.$datatrx->kode_trx.'] Data Perjalanan ke <strong>'.$dataMatrik->Tujuan->nama_kabkota.'</strong> an. <strong>'.$datatrx->peg_nama.'</strong> tanggal <strong><i>'.Tanggal::Panjang($datatrx->tgl_brkt).'</i></strong> sudah di setujui KPA');
+                Session::flash('message_type', 'success');
             }
-            else 
+            else
             {
                 //kirim email berisi penolakan
+                //ditolak
+                Session::flash('message', '['.$datatrx->kode_trx.'] Data Perjalanan ke <strong>'.$dataMatrik->Tujuan->nama_kabkota.'</strong> an. <strong>'.$datatrx->peg_nama.'</strong> tanggal <strong><i>'.Tanggal::Panjang($datatrx->tgl_brkt).'</i></strong> dibatalkan oleh KPA dengan alasan <i>('.$request->ket_kpa.')</i>');
+                Session::flash('message_type', 'danger');
             }
-            
-            Session::flash('message', 'Data Perjalanan ke '.$request->tujuan.' tanggal '. $request->tglberangkat .' sudah di konfirmasi KPA');
-            Session::flash('message_type', 'info');
+
+
             return redirect()->route('setuju.index');
         }
     }

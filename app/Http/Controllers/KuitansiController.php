@@ -18,6 +18,7 @@ use App\Unitkerja;
 use App\MatrikPerjalanan;
 use App\Anggaran;
 use App\TurunanAnggaran;
+use App\Helpers\Tanggal;
 
 class KuitansiController extends Controller
 {
@@ -46,7 +47,7 @@ class KuitansiController extends Controller
                 $flag_unitkerja = request('unitkerja');
             }
         }
-        else 
+        else
         {
             if (request('unitkerja') == NULL)
             {
@@ -93,7 +94,7 @@ class KuitansiController extends Controller
                             ->orderBy('tgl_brkt','desc')
                             ->get();
         }
-        
+
         return view('kuitansi.index',compact('DataKuitansi','FlagTrx','FlagKonfirmasi','FlagSrt','MatrikFlag','FlagTTD','DataPPK','FlagKendaraan','DataBidang','JenisPerjadin','flag_unitkerja'));
     }
 
@@ -170,10 +171,10 @@ class KuitansiController extends Controller
             $count = Kuitansi::where('kuitansi_id','=',$request->kuitansi_id)->count();
             if ($count > 0) {
                 $rill_total = 0;
-                
+
                 //kuitansi ada
                 //cek dulu flag_jenisperjadin
-                
+
                 //ambil data bendahara
                 $Bendahara = Pegawai::where([['flag','=','1'],['nip_baru','=',$request->bendahara_nip]])->first();
                 $NamaBendahara = $Bendahara->nama;
@@ -185,7 +186,7 @@ class KuitansiController extends Controller
                     $flagHotel = 1;
                     $txt_jenisperjadin = ucwords(strtolower($request->txt_jenisperjadin));
                 }
-                else 
+                else
                 {
                     //jenis perjadin biasa
                     if (!$request->hotel_cek) {
@@ -200,8 +201,8 @@ class KuitansiController extends Controller
                     }
                     $txt_jenisperjadin=NULL;
                 }
-                
-               
+
+
 
                 $flagTransport = $request->transport_cek ? '1' : '0';
 
@@ -247,16 +248,16 @@ class KuitansiController extends Controller
                 }
                 //cek dulu sisa pagu turunan anggaran
                 //kalo tidak ada sisa pagu tidak bisa di update tampilkan error
-                //kalo flag_kuitansi = 0 (belum diinput di pagu_realiasi) 
+                //kalo flag_kuitansi = 0 (belum diinput di pagu_realiasi)
                 //selain itu kurangi dulu pagu_realisasi dan tambah dgn realisasi baru
                //hitung manual lagi yg telah di input
-                
+
                 //cek dulu dengan pagu turunan anggaran
                 $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id','=',$request->dana_tid)->first();
                 $real_baru = $dataTurunanAnggaran->pagu_realisasi - $request->totalbiaya_sblm;
                 //dd($real_baru);
                 $pagu_sisa = $dataTurunanAnggaran->pagu_awal - $real_baru;
-                
+
                 if ($pagu_sisa >= $request->totalbiaya)
                 {
                     //boleh di update kuitansinya
@@ -342,7 +343,7 @@ class KuitansiController extends Controller
                             $matrik_hotel_rupiah = $totalhotel / $request->hotelhari;
                             $matrik_rill = $rill_total - $totalhotel;
                         }
-                        else 
+                        else
                         {
                             $matrik_hotel_rupiah = $request->nilaihotel;
                             $matrik_rill = $rill_total;
@@ -361,7 +362,7 @@ class KuitansiController extends Controller
 
                     }
                     //batas push realisasi ke matrik rencana
-                    
+
                     //update turunan anggaran
                     //update data turunan anggaran dan anggaran
                     if ($request->flag_kuitansi > 0)
@@ -377,7 +378,7 @@ class KuitansiController extends Controller
                         $dataAnggaran->realisasi_pagu = $real_anggaran_baru + $request->totalbiaya;
                         $dataAnggaran->update();
                     }
-                    else 
+                    else
                     {
                         //baru pertama di edit
                         $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id','=',$request->dana_tid)->first();
@@ -406,7 +407,7 @@ class KuitansiController extends Controller
                         ->where([
                             ['mak_id','=',$request->mak_id],
                             ['flag_matrik','<>','2']
-                            ])->groupBy('mak_id')->first();   
+                            ])->groupBy('mak_id')->first();
                     //dd($data_anggaran);
                     //update pagu_realisasi turunan anggaran
                     if ($data_bid)
@@ -416,7 +417,7 @@ class KuitansiController extends Controller
                         $data->pagu_realisasi = $data_bid->biaya_rill;
                         $data->update();
                     }
-                    
+
                     //update pagu_realisasi di anggaran
                     if ($data_anggaran)
                     {
@@ -425,20 +426,21 @@ class KuitansiController extends Controller
                         $dataAnggaran->update();
                     }
                     //batas sinkronisasi
-                    Session::flash('message', '('.$request->kode_trx.') Kuitansi an. '.$request->nama.' tujuan ke '. $request->nama_tujuan .' sudah diupdate');
+                    Session::flash('message', '['.$request->kode_trx.'] Kuitansi an. <strong>'.$request->nama.'</strong> tujuan ke <strong>'.$dataMatrik->Tujuan->nama_kabkota.'</strong> tanggal berangkat <strong><i>'.Tanggal::Panjang($dataTrx->tgl_brkt).'</i></strong> sudah diupdate');
                     Session::flash('message_type', 'success');
                     Session::flash('flash_kodetrx', $request->kode_trx);
                     Session::flash('flash_nama', $request->nama);
                     return redirect()->to('kuitansi');
                 }
-                else 
+                else
                 {
                     //sisa dana pagu tidak cukup
-                    Session::flash('message', '('.$request->kode_trx.') Kuitansi an. '.$request->nama.' tujuan ke '. $request->nama_tujuan .' sisa pagu tidak mencukupi');
+                    //Session::flash('message', '['.$request->kode_trx.'] Kuitansi an. '.$request->nama.' tujuan ke '. $request->nama_tujuan .' sisa pagu tidak mencukupi');
+                    Session::flash('message', '['.$request->kode_trx.'] Kuitansi an. <strong>'.$request->nama.'</strong> tujuan ke <strong>'.$dataMatrik->Tujuan->nama_kabkota.'</strong> tanggal berangkat <strong><i>'.Tanggal::Panjang($dataTrx->tgl_brkt).'</i></strong> sisa pagu tidak mencukupi');
                     Session::flash('message_type', 'danger');
                     return back();
                 }
-                
+
             }
             else {
                 //kuitansi tidak ada
@@ -537,7 +539,7 @@ class KuitansiController extends Controller
         $Bilangan = config('globalvar.Bilangan');
         $FlagKendaraan = config('globalvar.Kendaraan');
         $count = Transaksi::where('kode_trx','=',$kodetrx)->where('flag_trx','>','3')->count();
-        if ($count > 0) 
+        if ($count > 0)
         {
             $data = Transaksi::where('kode_trx','=',$kodetrx)->where('flag_trx','>','3')->first();
             //dd($data);
@@ -558,7 +560,7 @@ class KuitansiController extends Controller
         $Bilangan = config('globalvar.Bilangan');
         $FlagKendaraan = config('globalvar.Kendaraan');
         $count = Transaksi::where('kode_trx','=',$kodetrx)->where('flag_trx','>','3')->count();
-        if ($count > 0) 
+        if ($count > 0)
         {
             $data = Transaksi::where('kode_trx','=',$kodetrx)->where('flag_trx','>','3')->first();
             //dd($data);

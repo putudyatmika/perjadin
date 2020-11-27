@@ -44,7 +44,7 @@ class AnggaranController extends Controller
                 $flag_unitkerja = request('unitkerja');
             }
         }
-        else 
+        else
         {
             if (request('unitkerja') == NULL)
             {
@@ -54,6 +54,7 @@ class AnggaranController extends Controller
                 $flag_unitkerja = request('unitkerja');
             }
         }
+        /*
         $DataUnitkerja = DB::table('unitkerja')->where(function ($query)
         {
             $query->where('flag_edit', '=', '0')->where('eselon', '<', '4');
@@ -61,6 +62,8 @@ class AnggaranController extends Controller
             $query->where('flag_edit','=','1')
             ->where('tahun','=',Session::get('tahun_anggaran'));
         })->get();
+        */
+        $DataUnitkerja = Unitkerja::where('eselon', '<', '4')->orderBy('kode', 'asc')->get();
         $DataAnggaran = DB::table('anggaran')
             ->leftJoin('unitkerja', 'anggaran.unitkerja', '=', 'unitkerja.kode')
             ->select(DB::Raw('anggaran.*,unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
@@ -113,14 +116,14 @@ class AnggaranController extends Controller
         //return redirect()->route('anggaran.index');
         */
         $data = new Anggaran();
-        $data -> tahun_anggaran = $request->tahun_anggaran;
-        $data -> mak = $request->mak;
-        $data -> komponen_kode = $request->komponen_kode;
-        $data -> komponen_nama = $request->komponen_nama;
-        $data -> uraian = $request->uraian;
-        $data -> pagu_utama = $request->pagu_utama;
-        $data -> unitkerja = $request->unitkerja;
-        $data -> save();
+        $data->tahun_anggaran = $request->tahun_anggaran;
+        $data->mak = $request->mak;
+        $data->komponen_kode = $request->komponen_kode;
+        $data->komponen_nama = $request->komponen_nama;
+        $data->uraian = $request->uraian;
+        $data->pagu_utama = $request->pagu_utama;
+        $data->unitkerja = $request->unitkerja;
+        $data->save();
         Session::flash('message', 'Data telah ditambahkan');
         Session::flash('message_type', 'success');
         return back();
@@ -247,7 +250,7 @@ class AnggaranController extends Controller
                     {
                         //ada transaksi pakai matrik_id
                         $trx = Transaksi::where('matrik_id','=',$item->id)->first();
-                        
+
                         //hapus semua transaksi di SuratTugas, Spd, Kuitansi
                         $cek_srt = SuratTugas::where('trx_id','=',$trx->trx_id)->count();
                         if ($cek_srt > 0)
@@ -267,7 +270,7 @@ class AnggaranController extends Controller
                             //hapus kuitansi pakai trx_id ini
                             Kuitansi::where('trx_id','=',$trx->trx_id)->delete();
                         }
-                        
+
                         //hapus transaksi sesuai matrik_id
                         Transaksi::where('matrik_id','=',$item->id)->delete();
                     }
@@ -279,16 +282,16 @@ class AnggaranController extends Controller
             if ($count>0) {
                 //delete
                 TurunanAnggaran::where('a_id','=',$request->anggaran_id)->delete();
-                
+
             }
             Anggaran::where('id','=',$request->anggaran_id)->delete();
-            
+
             Session::flash('message', 'Data anggaran beserta turunan anggaran, matrik dll telah di hapus');
             Session::flash('message_type', 'danger');
             return back();
         }
-        
-        
+
+
     }
     public function format()
     {
@@ -461,7 +464,7 @@ class AnggaranController extends Controller
                 ->where('eselon', '<', '4')->get();
             //dd($dataJalan);
             return view('anggaran.alokasi', compact('dataAnggaran', 'dataTurunan', 'DataUnitkerja','dataJalan','MatrikFlag','FlagTrx'));
-            
+
         }
         else
         {

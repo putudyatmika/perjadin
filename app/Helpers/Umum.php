@@ -60,7 +60,7 @@ Class Generate {
         $code_gen = '';
         for ($i = 0; $i < $length; $i++) {
             $pos = rand(0, strlen($kata)-1);
-            $code_gen .= $kata{$pos};
+            $code_gen .= $kata[$pos];
             }
         return $code_gen;
     }

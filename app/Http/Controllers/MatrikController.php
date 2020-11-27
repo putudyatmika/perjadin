@@ -48,7 +48,7 @@ class MatrikController extends Controller
                 $flag_unitkerja = request('unitkerja');
             }
         }
-        else 
+        else
         {
             if (request('unitkerja') == NULL)
             {
@@ -73,7 +73,7 @@ class MatrikController extends Controller
                       })
                       ->orderBy('created_at', 'desc')->get();
         }
-        else 
+        else
         {
             $DataMatrik = MatrikPerjalanan::with(['DanaUnitkerja','UnitPelaksana'])
             ->leftJoin(DB::raw("(select trx_id,kode_trx,matrik_id,tahun_trx from transaksi) as transaksi"),'matrik.id','=','transaksi.matrik_id')
@@ -84,14 +84,14 @@ class MatrikController extends Controller
             })
             ->orderBy('created_at', 'desc')->get();
         }
-        
+
         //dd($DataMatrik);
         return view('matrik.index', ['DataMatrik'=>$DataMatrik, 'MatrikFlag'=>$MatrikFlag, 'DataUnitkerja'=>$DataUnitkerja,'JenisPerjadin'=>$JenisPerjadin,'unitkerja'=>$flag_unitkerja]);
     }
     public function baru()
     {
         //$DataUnitkerja = Unitkerja::where('eselon', '=', '3')->get();
-       
+
         if (Auth::User()->pengelola > 3) {
             //operator keuangan atau admin
             $DataAnggaran = DB::table('turunan_anggaran')
@@ -123,12 +123,12 @@ class MatrikController extends Controller
         $totalharian = $request->uangharian * $request->harian;
         $totalhotel = $request->nilaihotel * $request->hotelhari;
         $totalbiaya = $totalharian + $totalhotel + $request->nilaiTransport + $request->pengeluaranrill;
-        
+
         if ($request->dana_tid and $request->dana_makid)
         {
             //langsung bisa input matrik
              //hitung ulang totalharian, totalhotel, totalbiaya
-            
+
             // cek dulu sisa anggaran di turunan_anggaran
             $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id', '=', $request->dana_tid)->first();
             $sisa_rencana = $dataTurunanAnggaran->pagu_awal - $dataTurunanAnggaran->pagu_rencana;
@@ -163,15 +163,18 @@ class MatrikController extends Controller
                 $dataTurunanAnggaran->pagu_rencana = $dataTurunanAnggaran->pagu_rencana + $totalbiaya;
                 $dataTurunanAnggaran->update();
 
-                $pesan_error = 'Matrik perjalanan berhasil di tambahkan';
+                $pesan_error = 'Matrik perjalanan ke <strong>'.$datamatrik->Tujuan->nama_kabkota.'</strong> sudah di tambahkan';
                 $warna_error = 'success';
+
             } else {
                 //totalbiaya lebih besar dari sisa
+                Session::flash('message_header', "Ada Kesalahan");
+                Session::flash('message_status', "error");
                 $pesan_error = 'Sisa anggaran tidak mencukupi';
                 $warna_error = 'danger';
             }
         }
-        else 
+        else
         {
             //input matriknya saja dan belum bisa di alokasi
             $kode_trx = Generate::Kode(6);
@@ -206,7 +209,7 @@ class MatrikController extends Controller
     }
     public function editMatrik($mid)
     {
-        if (Auth::user()->user_level>3) 
+        if (Auth::user()->user_level>3)
         {
             //hanya adamin/superadmin bisa
             //$DataMatrik = MatrikPerjalanan::where('id','=',$mid)->first();
@@ -220,7 +223,7 @@ class MatrikController extends Controller
             ->where('id','=',$mid)
             ->first();
         }
-        else 
+        else
         {
             //selain admin
             /*
@@ -243,7 +246,7 @@ class MatrikController extends Controller
                 ['dana_unitkerja','=',Auth::user()->user_unitkerja]
                 ])
             ->first();
-            
+
         }
         //dd($DataMatrik);
         $MatrikFlag = config('globalvar.FlagMatrik');
@@ -312,7 +315,7 @@ class MatrikController extends Controller
                     $dataTurunanAnggaran = TurunanAnggaran::where('t_id', '=', $request->dana_tid)->first();
                     $rencana_berjalan = $dataTurunanAnggaran->pagu_rencana - $request->totalbiaya_sblm;
                     $sisa_rencana = $dataTurunanAnggaran->pagu_awal- $rencana_berjalan;
-                    
+
                 }
                 elseif ($request->tid_sblm != $request->dana_tid)
                 {
@@ -326,7 +329,7 @@ class MatrikController extends Controller
                 if ($sisa_rencana>=$totalbiaya)
                     {
                         //baru bisa update matrik dan turunan anggaran
-                       
+
                         $dataTurunanAnggaran->pagu_rencana = $rencana_berjalan + $totalbiaya;
                         $dataTurunanAnggaran->update();
 
@@ -360,7 +363,7 @@ class MatrikController extends Controller
                         $data->dana_unitkerja = $request->dana_kodeunit;
                         $data->jenis_perjadin = $request->jenis_perjadin;
                         $data->update();
-
+                        Session::flash('message_header', "Berhasil");
                         $pesan_error = '['.$data->kode_trx.'] Matrik perjalanan berhasil di update dan sudah bisa dialokasikan';
                         $warna_error = 'success';
                     }
@@ -415,7 +418,7 @@ class MatrikController extends Controller
                         $pesan_error = '['.$data->kode_trx.'] Anggaran Keterpaduan yang tersisa tidak mencukupi matrik yang direncanakan';
                         $warna_error = 'danger';
                     }
-                    
+
                 }
                 else {
                     //data turunan anggaran masih kosong
@@ -468,10 +471,10 @@ class MatrikController extends Controller
             {
                 //matrik sudah ada update aja
 
-                $pesan_error = 'Matrik perjalanan sudah dialokasikan';
+                $pesan_error = '['.$data->kode_trx.'] Matrik perjalanan ke <strong>'.$data->Tujuan->nama_kabkota.'</strong> sudah dialokasikan';
                 $warna_error = 'warning';
             }
-            else 
+            else
             {
                 //tambah transaksi
                 $dataTrx = new Transaksi();
@@ -480,7 +483,7 @@ class MatrikController extends Controller
                 $dataTrx->tahun_trx = $data->tahun_matrik;
                 $dataTrx->save();
                 //matrik tidak ditemukan
-                $pesan_error = 'Alokasi matrik perjalanan sudah di update';
+                $pesan_error = '['.$data->kode_trx.'] Matrik perjalanan ke <strong>'.$data->Tujuan->nama_kabkota.'</strong> sudah dialokasikan';
                 $warna_error = 'success';
             }
             //update flag matrik
@@ -488,7 +491,7 @@ class MatrikController extends Controller
             $data->flag_matrik = 1;
             $data->update();
         }
-        else 
+        else
         {
             //matrik tidak ditemukan
             $pesan_error = 'Matrik perjalanan tidak ditemukan';
@@ -507,14 +510,15 @@ class MatrikController extends Controller
         {
             //matrik ada
             $data = MatrikPerjalanan::where('id','=',$request->mid)->first();
-            
+
             //update flag matrik
             $data->flag_matrik = $request->flag_baru;
             $data->update();
-            $pesan_error = 'flag matrik perjalanan sudah di update';
+
+            $pesan_error = '['.$data->kode_trx.'] flag matrik perjalanan ke <strong>'.$data->Tujuan->nama_kabkota.'</strong> sudah di update';
             $warna_error = 'success';
         }
-        else 
+        else
         {
             //matrik tidak ditemukan
             $pesan_error = 'Matrik perjalanan tidak ditemukan';
@@ -554,12 +558,12 @@ class MatrikController extends Controller
                     $data->delete();
                     //transaksi
                     $count = Transaksi::where('matrik_id', '=', $request->mid)->count();
-                   
+
                     if ($count > 0) {
                         $dataTrx = Transaksi::where('matrik_id', '=', $request->mid)->first();
                         $trx_id = $dataTrx->trx_id;
                         $dataTrx->delete();
-                        
+
                         //surattugas
                         $count = SuratTugas::where('trx_id','=',$trx_id)->count();
                         if ($count > 0)
@@ -579,9 +583,9 @@ class MatrikController extends Controller
                             $dataSrt = \App\Kuitansi::where('trx_id','=',$trx_id)->delete();
                         }
                     }
-                    
+
                 }
-                else 
+                else
                 {
                     //langsung delete
                     $data->delete();
@@ -589,13 +593,13 @@ class MatrikController extends Controller
                 $pesan_error = '['.$kode_trx.'] matrik perjalanan sudah di hapus';
                 $warna_error = 'success';
             }
-            else 
+            else
             {
                 $pesan_error = '['.$kode_trx.'] matrik perjalanan tidak bisa di hapus karena sudah terlaksana';
                 $warna_error = 'danger';
             }
         }
-        else 
+        else
         {
             //matrik tidak ditemukan
             $pesan_error = 'Matrik perjalanan tidak ditemukan';

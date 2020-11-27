@@ -41,7 +41,7 @@ class KelengkapanController extends Controller
                 $flag_unitkerja = request('unitkerja');
             }
         }
-        else 
+        else
         {
             if (request('unitkerja') == NULL)
             {
@@ -61,11 +61,11 @@ class KelengkapanController extends Controller
         $DataPPK = Pegawai::where([['flag_pengelola','=','2'],['flag','=','1']])->orderBy('unitkerja')->first();
         $DataPegawai = Pegawai::where([['jabatan','<','3'],['flag','=','1']])->orderBy('unitkerja')->get();
         $DataBidang = Unitkerja::where('eselon', '<', '4')->orderBy('kode', 'asc')->get();
-        
+
         //dd($data);
         if ($flag_kelengkapan=='')
         {
-            //semua flag dan unitkerja 
+            //semua flag dan unitkerja
             $data = SuratTugas::with('Transaksi')
                 ->leftJoin('spd','surattugas.trx_id','=','spd.trx_id')
                 ->leftJoin('transaksi','transaksi.trx_id','=','surattugas.trx_id')
@@ -116,25 +116,25 @@ class KelengkapanController extends Controller
             //ada surat tugas input
             //update surat tugas
             $DataSrt = SuratTugas::where('srt_id','=',$request->srt_id)->first();
-            $DataSrt -> nomor_surat = $request->nomor_surat;
-            $DataSrt -> tgl_surat = Carbon::parse($request->tglsurat)->format('Y-m-d');
-            $DataSrt -> ttd_nip = $request->ttd_nip;
-            $DataSrt -> ttd_jabatan = $request->ttd_jabatan;
-            $DataSrt -> ttd_nama = $request->ttd_nama;
-            $DataSrt -> flag_ttd = $request->ttd;
-            $DataSrt -> flag_surattugas = 1;
-            $DataSrt -> update();
+            $DataSrt->nomor_surat = $request->nomor_surat;
+            $DataSrt->tgl_surat = Carbon::parse($request->tglsurat)->format('Y-m-d');
+            $DataSrt->ttd_nip = $request->ttd_nip;
+            $DataSrt->ttd_jabatan = $request->ttd_jabatan;
+            $DataSrt->ttd_nama = $request->ttd_nama;
+            $DataSrt->flag_ttd = $request->ttd;
+            $DataSrt->flag_surattugas = 1;
+            $DataSrt->update();
 
             //update SPD
             $dataSpd = Spd::where('spd_id','=',$request->spd_id)->first();
-            $dataSpd -> nomor_spd = $request->nomor_spd;
-            $dataSpd -> ppk_nip = $request->ppk_nip;
-            $dataSpd -> ppk_nama = $request->ppk_nama;
-            $dataSpd -> flag_spd = 1;
-            $dataSpd -> flag_cetak_tujuan = $request->cetaktujuan;
-            $dataSpd -> kendaraan = $request->kendaraan;
-            $dataSpd -> tahun_spd = Session::get('tahun_anggaran');
-            $dataSpd -> update();
+            $dataSpd->nomor_spd = $request->nomor_spd;
+            $dataSpd->ppk_nip = $request->ppk_nip;
+            $dataSpd->ppk_nama = $request->ppk_nama;
+            $dataSpd->flag_spd = 1;
+            $dataSpd->flag_cetak_tujuan = $request->cetaktujuan;
+            $dataSpd->kendaraan = $request->kendaraan;
+            $dataSpd->tahun_spd = Session::get('tahun_anggaran');
+            $dataSpd->update();
 
             //input tabel kuitansi dan set flag transaksi menunggu pembayaran
             $count_kuitansi = \App\Kuitansi::where('trx_id','=',$request->trx_id)->count();
@@ -143,29 +143,29 @@ class KelengkapanController extends Controller
                 //kuitansi di tambahkan baru
                 //bila sudah ada tidak diupdate lagi
                 $dataKuitansi = new \App\Kuitansi();
-                $dataKuitansi -> trx_id = $request->trx_id;
-                $dataKuitansi -> tahun_kuitansi = Session::get('tahun_anggaran');
-                $dataKuitansi -> save();
+                $dataKuitansi->trx_id = $request->trx_id;
+                $dataKuitansi->tahun_kuitansi = Session::get('tahun_anggaran');
+                $dataKuitansi->save();
             }
-            
+
             //update transaksi
             $dataTrx = \App\Transaksi::where('trx_id',$request->trx_id)->first();
             $matrik_id = $dataTrx->matrik_id;
-            $dataTrx -> flag_trx = 6;
-            $dataTrx -> update();
+            $dataTrx->flag_trx = 6;
+            $dataTrx->update();
 
             //update matrik perjalanan juga
             $dataMatrik = \App\MatrikPerjalanan::where('id',$matrik_id)->first();
-            $dataMatrik -> flag_matrik = 5;
-            $dataMatrik -> update();
-            
+            $dataMatrik->flag_matrik = 5;
+            $dataMatrik->update();
 
-            $pesan_error = '('.$request->kodetrx.') Data kelengkapan perjadin an. '.$dataTrx->peg_nama.' ke '.$dataMatrik->Tujuan->nama_kabkota.' sudah di update';
+
+            $pesan_error = '['.$request->kodetrx.'] Kelengkapan Perjadin an. <strong>'.$dataTrx->peg_nama.'</strong> ke <strong>'.$dataMatrik->Tujuan->nama_kabkota.'</strong> tanggal berangkat <strong><i>'.Tanggal::Panjang($dataTrx->tgl_brkt).'</i></strong> sudah di update';
             $warna_error = 'success';
             $kodetrx_error = $request->kodetrx;
             $nama_error = $dataTrx->peg_nama;
         }
-        else 
+        else
         {
             //surat tugas tidak ada
             $pesan_error = 'Data surat tugas tidak tersedia';
@@ -174,7 +174,7 @@ class KelengkapanController extends Controller
             $nama_error='';
 
         }
-        
+
         Session::flash('message', $pesan_error);
         Session::flash('message_type', $warna_error);
         Session::flash('flash_kodetrx', $kodetrx_error);
@@ -191,7 +191,7 @@ class KelengkapanController extends Controller
         $Bilangan = config('globalvar.Bilangan');
         $FlagKendaraan = config('globalvar.Kendaraan');
         $count = Transaksi::where('kode_trx','=',$kodetrx)->where('flag_trx','>','3')->count();
-        if ($count > 0) 
+        if ($count > 0)
         {
             $data = Transaksi::where('kode_trx','=',$kodetrx)->where('flag_trx','>','3')->first();
             //dd($data);
@@ -201,7 +201,7 @@ class KelengkapanController extends Controller
             return $pdf->stream('PERJADIN_'.$nama.'_TRX_ID_'.$kodetrx.'.pdf');
             //return view('kelengkapan.print',compact('data','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','FlagKendaraan'));
         }
-        
+
     }
 
     public function unduh($kodetrx)
@@ -214,7 +214,7 @@ class KelengkapanController extends Controller
         $Bilangan = config('globalvar.Bilangan');
         $FlagKendaraan = config('globalvar.Kendaraan');
         $count = Transaksi::where('kode_trx','=',$kodetrx)->where('flag_trx','>','3')->count();
-        if ($count > 0) 
+        if ($count > 0)
         {
             $data = Transaksi::where('kode_trx','=',$kodetrx)->where('flag_trx','>','3')->first();
             //dd($data);
@@ -225,7 +225,7 @@ class KelengkapanController extends Controller
             $nama=strtoupper($data->peg_nama);
             return $pdf->download('PERJADIN_'.$nama.'_TRX_ID_'.$kodetrx.'.pdf');
         }
-        
+
     }
     public function batal(Request $request)
     {

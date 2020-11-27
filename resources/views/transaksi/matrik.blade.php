@@ -58,7 +58,9 @@ $(function () {
                 <div class="row">
                         <div class="col-lg-12">
                                 @if (Session::has('message'))
-                                <div class="alert alert-{{ Session::get('message_type') }}" id="waktu2" style="margin-top:10px;">{{ Session::get('message') }}</div>
+                                <div class="alert alert-{{ Session::get('message_type') }}" id="waktu2" style="margin-top:10px;">
+                                    {!! Session::get('message') !!}
+                                </div>
                                 @endif
                         </div>
                     <div class="col-lg-12">

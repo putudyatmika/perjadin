@@ -60,19 +60,19 @@
                         <div class="col-lg-12">
                                 @if (Session::has('message'))
                                 <div class="alert alert-{{ Session::get('message_type') }}" id="waktu2" style="margin-top:10px;">
-                                    {{ Session::get('message') }} 
+                                    {!! Session::get('message') !!}
                                     @if (Session::has('flash_kodetrx'))
                                         @if (Session::get('flash_kodetrx')!= NULL )
                                         <a href="{{route('kelengkapan.print',Session::get('flash_kodetrx'))}}" target="_blank" class="btn btn-circle btn-primary btn-sm"><span data-toggle="tooltip" title="Cetak kelengkapan perjadin an. {{Session::get('flash_nama')}}"><i class="fa fa-print"></i></span></a>
-                                        
+
                                         <a href="{{route('kelengkapan.unduh',Session::get('flash_kodetrx'))}}" target="_blank" class="btn btn-circle btn-warning btn-sm"><span data-toggle="tooltip" title="Download kelengkapan perjadin an. {{Session::get('flash_nama')}}"><i class="fa fa-download"></i></span></a>
                                         @endif
                                     @endif
                                 </div>
                                 @endif
-                                
+
                         </div>
-                        
+
                     <div class="col-lg-12">
                         <div class="white-box">
                             @include('kelengkapan.filter')
@@ -89,7 +89,7 @@
                                             <th>Tanggal Surat</th>
                                             <th>Tanggal Perjadin</th>
                                             <th>Status</th>
-                                            
+
                                             <th width="13%">Aksi</th>
                                         </tr>
                                     </thead>
@@ -103,7 +103,7 @@
                                                    <small>NIP : {{$item->Transaksi->peg_nip}}</small><br />
                                                     <div class="text-primary">
                                                         <small class="text-success">ST : <b>{{$item->nomor_surat}}</b></small><br />
-                                                        <small>SPD : <b>{{$item->nomor_spd}}</b></small> 
+                                                        <small>SPD : <b>{{$item->nomor_spd}}</b></small>
                                                     </div>
                                               </td>
                                                <td>

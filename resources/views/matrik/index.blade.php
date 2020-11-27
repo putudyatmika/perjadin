@@ -38,7 +38,9 @@
                     @endif
                     <div class="col-lg-12" style="margin-top:10px;">
                         @if (Session::has('message'))
-                        <div class="alert alert-{{ Session::get('message_type') }}" id="waktu2">{{ Session::get('message') }}</div>
+                        <div class="alert alert-rounded alert-{{ Session::get('message_type') }}" id="waktu2">
+                            {!! Session::get('message') !!}
+                        </div>
                         @endif
                     </div>
 
@@ -48,9 +50,9 @@
                     <div class="col-lg-12">
                         <div class="white-box">
                             @include('matrik.filter')
-                            <h3 class="box-title m-b-0">Matrik Perjalanan Pegawai BPS Provinsi NTB</h3>  
+                            <h3 class="box-title m-b-0">Matrik Perjalanan Pegawai BPS Provinsi NTB</h3>
                             @if (Auth::user()->pengelola>3 || Auth::user()->pengelola==0)
-                            <a href="{{url('format_matrik')}}" class="btn btn-sm btn-info  m-b-20 pull-right">Download Format Matrik</a> 
+                            <a href="{{url('format_matrik')}}" class="btn btn-sm btn-info  m-b-20 pull-right">Download Format Matrik</a>
                             @endif
                             <p class="text-muted m-b-20">@if (Session::has('tahun_anggaran')) <code>Tahun Anggaran {{Session::get('tahun_anggaran')}}</code> @endif</p>
                             <div class="table-responsive">
@@ -74,7 +76,7 @@
                                         <tr>
                                             <td colspan="10">Data matrik masih kosong</td>
                                         </tr>
-                                       @else 
+                                       @else
                                             @foreach ($DataMatrik as $item)
                                                 <tr>
                                                     <td>{{$loop->iteration}}</td>
@@ -124,7 +126,7 @@
                                                         <button class="btn btn-circle btn-success btn-sm" data-toggle="modal" data-target="#AlokasiModal" data-mid="{{$item->id}}">
                                                             <span data-toggle="tooltip" title="Alokasi matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-bookmark"></i></span>
                                                         </button>
-                                                            @endif                                                       
+                                                            @endif
                                                         <a href="{{route('matrik.edit',$item->id)}}" class="btn btn-circle btn-custom btn-sm">
                                                             <span data-toggle="tooltip" title="Edit matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-pencil"></i></span>
                                                         </a>
@@ -146,7 +148,7 @@
                                                             @endif
                                                         @endif
                                                     </td>
-                                                </tr>   
+                                                </tr>
                                             @endforeach
                                        @endif
                                     </tbody>

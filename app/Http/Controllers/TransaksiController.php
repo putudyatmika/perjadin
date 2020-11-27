@@ -45,7 +45,7 @@ class TransaksiController extends Controller
                 $flag_unitkerja = request('unitkerja');
             }
         }
-        else 
+        else
         {
             if (request('unitkerja') == NULL)
             {
@@ -81,7 +81,7 @@ class TransaksiController extends Controller
             })
             ->where('flag_trx',request('flag_trx'))->orderBy('flag_trx', 'ASC')->orderBy('tgl_brkt', 'desc')->get();
         }
-        
+
         return view('transaksi.matrik', compact('dataTransaksi', 'FlagTrx', 'FlagKonfirmasi', 'DataPegawai', 'MatrikFlag', 'DataBidang','flag_unitkerja'));
         //dd($dataTransaksi);
     }
@@ -163,11 +163,11 @@ class TransaksiController extends Controller
                 //ada pegawai dan tanggal brkt dihari yang sama
                 //$dt_pegawai = Pegawai::where('nip_baru','=',$request->peg_nip)->first();
                 $data = Transaksi::where([['peg_nip','=',$request->peg_nip],['tgl_brkt','=',$request->tglberangkat],['flag_trx','<>','3']])->orWhere([['peg_nip','=',$request->peg_nip],['tgl_balik','=',$request->tglberangkat],['flag_trx','<>','3']])->first();
-                Session::flash('message', '(ERROR) Sudah ada Data Perjalanan tanggal ' . Carbon::parse($request->tglberangkat)->format('j F Y') . ' an. '.$data->peg_nama.' ke '.$data->Matrik->Tujuan->nama_kabkota.' Tugas '.$data->tugas.', Pilih tanggal yang lain. Data perjalanan belum diajukan');
+                Session::flash('message', '<strong>(ERROR)</strong> Sudah ada Data Perjalanan tanggal <i>' . Carbon::parse($request->tglberangkat)->format('j F Y') . '</i> an. <strong>'.$data->peg_nama.'</strong> ke '.$data->Matrik->Tujuan->nama_kabkota.' Tugas '.$data->tugas.', Pilih tanggal yang lain. Data perjalanan belum diajukan');
                 Session::flash('message_type', 'danger');
                 return redirect()->route('transaksi.index');
             }
-            else 
+            else
             {
                 ///nip pegawai di tglbrkt dgn data yg ada di transaksi belum ada
                 //input transaksi
@@ -241,27 +241,27 @@ class TransaksiController extends Controller
                 $objEmail->komponen = '['.$dataMatrik->DanaAnggaran->komponen_kode.'] '.$dataMatrik->DanaAnggaran->komponen_nama;
                 $objEmail->detil = $dataMatrik->DanaAnggaran->uraian;
                 $objEmail->totalbiaya = 'Rp. '.number_format($dataMatrik->total_biaya,0,',','.');
-                
+
                 $dataKabid = Pegawai::where('unitkerja','=',$dataMatrik->dana_unitkerja)->where('jabatan','<','3')->where('flag','=','1')->first();
                 if ($request->kirim_notifikasi == 1)
                 {
                     Mail::to($dataKabid->email)->send(new MailPersetujuan($objEmail));
                 }
-                Session::flash('message', 'Data Perjalanan ke ' . $request->tujuan . ' tanggal ' . $request->tglberangkat . ' sudah di ajukan');
+                Session::flash('message', '['.$datatrx->kode_trx.'] Data Perjalanan ke <strong>'. $dataMatrik->Tujuan->nama_kabkota .'</strong> an. <strong>'.$datatrx->peg_nama.'</strong> tanggal berangkat <strong><i>'. Tanggal::Panjang($datatrx->tgl_brkt) .'</i></strong> sudah di ajukan');
                 Session::flash('message_type', 'success');
                 return redirect()->route('transaksi.index');
             }
-            Session::flash('message', 'Data Perjalanan ke ' . $request->tujuan . ' tanggal ' . $request->tglberangkat . ' sudah di update');
+            Session::flash('message', '['.$datatrx->kode_trx.'] Data Perjalanan ke <strong>'. $dataMatrik->Tujuan->nama_kabkota .'</strong> an. <strong>'.$datatrx->peg_nama.'</strong> tanggal berangkat <strong><i>'. Tanggal::Panjang($datatrx->tgl_brkt) .'</i></strong> sudah di update');
             Session::flash('message_type', 'warning');
             return redirect()->route('transaksi.index');
             }
-        } 
-        
+        }
+
         elseif ($request->aksi == "editalokasi") {
             //search pegawai
             //dd($request->all());
             $dt_pegawai = Pegawai::where('nip_baru','=',$request->peg_nip)->first();
-            //menu ini hanya superadmin            
+            //menu ini hanya superadmin
             $bnyk_hari = $request->lamanya - 1;
             $datatrx = Transaksi::where('trx_id', '=', $request->trxid)->first();
             $datatrx->bnyk_hari = $request->lamanya;
@@ -280,7 +280,7 @@ class TransaksiController extends Controller
             $datatrx->kpa_konfirmasi = $request->kpa_setuju;
             $datatrx->update();
 
-            Session::flash('message', 'Data Perjalanan ke ' . $request->tujuan . ' tanggal ' . $request->edittglberangkat . ' sudah diupdate');
+            Session::flash('message', '['.$datatrx->kode_trx.'] Data Perjalanan ke <strong>'. $datatrx->Matrik->Tujuan->nama_kabkota .'</strong> an. <strong>'.$datatrx->peg_nama.'</strong> tanggal berangkat <strong><i>'. Tanggal::Panjang($datatrx->tgl_brkt) .'</i></strong> sudah di update');
             Session::flash('message_type', 'info');
             return redirect()->route('transaksi.index');
         } else {
@@ -335,7 +335,7 @@ class TransaksiController extends Controller
                 return $q->where('unit_pelaksana',request('unitkerja'));
             });
         })->orderBy('flag_trx', 'ASC')->orderBy('tgl_brkt', 'desc')->get();
-        
+
         $dataPerjalan=array();
         $className='';
         foreach ($dataTransaksi as $item)
@@ -344,7 +344,7 @@ class TransaksiController extends Controller
             {
                 $tgl_balik = Carbon::parse($item->tgl_balik)->addDays(1)->format('Y-m-d');
             }
-            else 
+            else
             {
                 $tgl_balik = $item->tgl_balik;
             }
@@ -369,7 +369,7 @@ class TransaksiController extends Controller
             {
                 $className = 'bg-info';
             }
-            else 
+            else
             {
                 $className = 'bg-default';
             }

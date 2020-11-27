@@ -17,7 +17,7 @@ class CreateTabelPegawai extends Migration
             $table->increments('id');
             $table->string('nip_baru',25)->unique();
             $table->string('nama',254);
-            $table->string('nama',200)->nullable();
+            $table->string('email',200)->nullable();
             $table->date('tgl_lahir');
             $table->boolean('jk')->unsigned();
             $table->string('gol',3);
