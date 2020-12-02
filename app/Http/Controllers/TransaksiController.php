@@ -163,12 +163,15 @@ class TransaksiController extends Controller
                 //ada pegawai dan tanggal brkt dihari yang sama
                 //$dt_pegawai = Pegawai::where('nip_baru','=',$request->peg_nip)->first();
                 $data = Transaksi::where([['peg_nip','=',$request->peg_nip],['tgl_brkt','=',$request->tglberangkat],['flag_trx','<>','3']])->orWhere([['peg_nip','=',$request->peg_nip],['tgl_balik','=',$request->tglberangkat],['flag_trx','<>','3']])->first();
-                Session::flash('message', '<strong>(ERROR)</strong> Sudah ada Data Perjalanan tanggal <i>' . Carbon::parse($request->tglberangkat)->format('j F Y') . '</i> an. <strong>'.$data->peg_nama.'</strong> ke '.$data->Matrik->Tujuan->nama_kabkota.' Tugas '.$data->tugas.', Pilih tanggal yang lain. Data perjalanan belum diajukan');
-                Session::flash('message_type', 'danger');
-                return redirect()->route('transaksi.index');
+                if ($request->trxid != $data->trx_id)
+                {
+                    Session::flash('message', '<strong>(ERROR)</strong> Sudah ada Data Perjalanan tanggal <i>' . Carbon::parse($request->tglberangkat)->format('j F Y') . '</i> an. <strong>'.$data->peg_nama.'</strong> ke '.$data->Matrik->Tujuan->nama_kabkota.' Tugas '.$data->tugas.', Pilih tanggal yang lain. Data perjalanan belum diajukan');
+                    Session::flash('message_type', 'danger');
+                    return redirect()->route('transaksi.index');
+                }
+
             }
-            else
-            {
+            //ini akan diproses kalo tidak ada perjalanan yang lain
                 ///nip pegawai di tglbrkt dgn data yg ada di transaksi belum ada
                 //input transaksi
             $dt_pegawai = Pegawai::where('nip_baru','=',$request->peg_nip)->first();
@@ -251,12 +254,10 @@ class TransaksiController extends Controller
                 Session::flash('message_type', 'success');
                 return redirect()->route('transaksi.index');
             }
-            Session::flash('message', '['.$datatrx->kode_trx.'] Data Perjalanan ke <strong>'. $dataMatrik->Tujuan->nama_kabkota .'</strong> an. <strong>'.$datatrx->peg_nama.'</strong> tanggal berangkat <strong><i>'. Tanggal::Panjang($datatrx->tgl_brkt) .'</i></strong> sudah di update');
+            Session::flash('message', '['.$datatrx->kode_trx.'] Data Perjalanan ke <strong>'. $datatrx->Matrik->Tujuan->nama_kabkota .'</strong> an. <strong>'.$datatrx->peg_nama.'</strong> tanggal berangkat <strong><i>'. Tanggal::Panjang($datatrx->tgl_brkt) .'</i></strong> sudah di update');
             Session::flash('message_type', 'warning');
             return redirect()->route('transaksi.index');
-            }
         }
-
         elseif ($request->aksi == "editalokasi") {
             //search pegawai
             //dd($request->all());

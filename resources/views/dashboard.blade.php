@@ -35,6 +35,7 @@
                     <div class="col-md-12 col-lg-12 col-sm-12">
                         <div class="white-box">
                             <div class="row row-in">
+                                @if (Jumlah::Transaksi(10,Session::get('tahun_anggaran'))>0)
                                 <div class="col-lg-3 col-sm-6 row-in-br">
                                     <div class="col-in row">
                                         <div class="col-md-6 col-sm-6 col-xs-6"> <i data-icon="E" class="linea-icon linea-basic"></i>
@@ -87,12 +88,16 @@
                                         </div>
                                     </div>
                                 </div>
+                                @else
+                                    <h3 class="text-center">DATA TRANSAKSI MASIH KOSONG</h3>
+                                @endif
                             </div>
                         </div>
                     </div>
-                </div>
-                <!--row -->
+                </div> <!---batas-->
+
                 <!-- /.row -->
+                @if (Jumlah::Transaksi(10,Session::get('tahun_anggaran'))>0)
                 <div class="row">
                     <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
                         <div class="white-box">
@@ -127,6 +132,6 @@
                         </div>
                     </div>
                 </div>
-
-            </div>
+                @endif
+</div>
 @endsection
