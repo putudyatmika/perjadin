@@ -22,7 +22,7 @@
  <!-- end - This is for export functionality only -->
  <!-- Date Picker Plugin JavaScript -->
 <script src="{{asset('tema/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
- @include('kelengkapan.js')
+@include('kelengkapan.js')
 <script>
     $(function () {
     $("#DataTableCustom").dataTable({

@@ -37,7 +37,7 @@ $('#EditModal').on('show.bs.modal', function (event) {
             $('#EditModal .modal-body #ttd').val(data.hasil.flag_ttd)
             $('#EditModal .modal-body #ttd_nip').val(data.hasil.ttd_nip)
             $('#EditModal .modal-body #kendaraan').val(data.hasil.kendaraan)
-            $('#EditModal .modal-body input[name="cetaktujuan"][value="'+data.hasil.flag_cetak_tujuan+'"]').prop('checked',true)
+            
            
                 if (data.hasil.ttd_nip != null)
                 {
@@ -92,6 +92,7 @@ $('#EditModal').on('show.bs.modal', function (event) {
                 if (nomor_spd != null)
                 {
                     $('#EditModal .modal-body #nomor_spd').val(nomor_spd)
+                    $('#EditModal .modal-body input[name="cetaktujuan"][value="'+data.hasil.flag_cetak_tujuan+'"]').prop('checked',true)
                 }
                 else {
                     $.ajax({
@@ -111,6 +112,7 @@ $('#EditModal').on('show.bs.modal', function (event) {
                         }
 
                     });
+                    $('#EditModal .modal-body input[name="cetaktujuan"][value="1"]').prop('checked',true)
                 }               
             }
             else 

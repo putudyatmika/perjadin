@@ -136,18 +136,6 @@ class KelengkapanController extends Controller
             $dataSpd->tahun_spd = Session::get('tahun_anggaran');
             $dataSpd->update();
 
-            //input tabel kuitansi dan set flag transaksi menunggu pembayaran
-            $count_kuitansi = \App\Kuitansi::where('trx_id','=',$request->trx_id)->count();
-            if ($count_kuitansi < 1) {
-                //kuitansi belum ada
-                //kuitansi di tambahkan baru
-                //bila sudah ada tidak diupdate lagi
-                $dataKuitansi = new \App\Kuitansi();
-                $dataKuitansi->trx_id = $request->trx_id;
-                $dataKuitansi->tahun_kuitansi = Session::get('tahun_anggaran');
-                $dataKuitansi->save();
-            }
-
             //update transaksi
             $dataTrx = \App\Transaksi::where('trx_id',$request->trx_id)->first();
             $matrik_id = $dataTrx->matrik_id;
@@ -159,6 +147,18 @@ class KelengkapanController extends Controller
             $dataMatrik->flag_matrik = 5;
             $dataMatrik->update();
 
+            //input tabel kuitansi dan set flag transaksi menunggu pembayaran
+            $count_kuitansi = \App\Kuitansi::where('trx_id','=',$request->trx_id)->count();
+            if ($count_kuitansi < 1) {
+                //kuitansi belum ada
+                //kuitansi di tambahkan baru
+                //bila sudah ada tidak diupdate lagi
+                $dataKuitansi = new \App\Kuitansi();
+                $dataKuitansi->trx_id = $request->trx_id;
+                $dataKuitansi->tahun_kuitansi = Session::get('tahun_anggaran');
+                $dataKuitansi->flag_jenisperjadin = $dataMatrik->jenis_perjadin;
+                $dataKuitansi->save();
+            }
 
             $pesan_error = '['.$request->kodetrx.'] Kelengkapan Perjadin an. <strong>'.$dataTrx->peg_nama.'</strong> ke <strong>'.$dataMatrik->Tujuan->nama_kabkota.'</strong> tanggal berangkat <strong><i>'.Tanggal::Panjang($dataTrx->tgl_brkt).'</i></strong> sudah di update';
             $warna_error = 'success';

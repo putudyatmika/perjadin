@@ -150,9 +150,9 @@ class KuitansiController extends Controller
         $Bulan = config('globalvar.Bulan');
         $FlagKendaraan = config('globalvar.Kendaraan');
         $DataBendahara = Pegawai::where([['flag_pengelola','=','3'],['flag','=','1']])->get();
-
+        $Bendahara = Pegawai::where([['flag_pengelola','=','3'],['flag','=','1']])->first();
         $dataTransaksi = \App\Transaksi::with('Matrik','SuratTugas','Spd','Kuitansi')->where('trx_id','=',$id)->get();
-        return view('kuitansi.edit',compact('dataTransaksi','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','Bulan','FlagKendaraan','DataBendahara','JenisPerjadin'));
+        return view('kuitansi.edit',compact('dataTransaksi','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','Bulan','FlagKendaraan','DataBendahara','JenisPerjadin','Bendahara'));
         //dd($dataTransaksi);
     }
 

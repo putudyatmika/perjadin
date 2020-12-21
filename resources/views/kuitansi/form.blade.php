@@ -374,16 +374,7 @@ else {
     <label for="totalbiaya" class="col-2 col-form-label">Bendahara</label>
     <div class="input-group col-5">
         <div class="input-group-addon"><i class="ti-user"></i></div>
-        <select class="form-control" name="bendahara_nip" required="" id="bendahara_nip">
-            <option value="">Pilih Bendahara</option>
-            @foreach ($DataBendahara as $item)
-              @if ($item->nip_baru == $dataTransaksi[0]->Kuitansi->bendahara_nip)
-                <option value="{{$item->nip_baru}}" selected="selected">{{$item->nama}}</option>
-              @else
-                <option value="{{$item->nip_baru}}">{{$item->nama}}</option>
-              @endif
-            @endforeach
-
-        </select>
+        <input type="text" class="form-control" id="bendahara_nama" name="bendahara_nama" placeholder="Nama Bendahara" required="" readonly="" value="{{$Bendahara->nama}}">
+        <input type="hidden" name="bendahara_nip" id="bendahara_nip" value="{{$Bendahara->nip_baru}}" />
     </div>
 </div>

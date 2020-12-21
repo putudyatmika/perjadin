@@ -273,7 +273,18 @@ $(document).on('click', '.pilihTujuan', function (e) {
     document.getElementById("nilaiTransport").value = $(this).attr('data-rate');
     $('#CariTujuan').modal('hide');
 });
-
+$(document).on('click', '.pilihTujuanKedua', function (e) {
+    document.getElementById("nama_tujuan_kedua").value = $(this).attr('data-tujuankedua');
+    document.getElementById("kode_kabkota_kedua").value = $(this).attr('data-kodekabkotakedua');
+    //document.getElementById("nilaiTransport2").value = $(this).attr('data-rate2');
+    $('#CariTujuanKedua').modal('hide');
+});
+$(document).on('click', '.pilihTujuanKetiga', function (e) {
+    document.getElementById("nama_tujuan_ketiga").value = $(this).attr('data-tujuanketiga');
+    document.getElementById("kode_kabkota_ketiga").value = $(this).attr('data-kodekabkotaketiga');
+    //document.getElementById("nilaiTransport_ketiga").value = $(this).attr('data-rate3');
+    $('#CariTujuanKetiga').modal('hide');
+});
 $(document).on('click', '.pilihSumberDana', function (e) {
     //var sumberdana = $(this).attr('data-mak') + " " + $(this).attr('data-uraian');
     document.getElementById("dana_makid").value = $(this).attr('data-makid');

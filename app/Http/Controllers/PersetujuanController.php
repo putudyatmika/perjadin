@@ -221,8 +221,8 @@ class PersetujuanController extends Controller
                 $kirim_mail = 0;
                 //kembalikan dana turunan anggaran karena di batalkan
                 $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id','=',$request->dana_tid)->first();
-                $dataTurunanAnggaran -> pagu_rencana = $dataTurunanAnggaran->pagu_rencana - $request->pagu_rencana;
-                $dataTurunanAnggaran -> update();
+                $dataTurunanAnggaran->pagu_rencana = $dataTurunanAnggaran->pagu_rencana - $request->pagu_rencana;
+                $dataTurunanAnggaran->update();
             }
             //ubah status matrik
             $dataMatrik = MatrikPerjalanan::where('id',$request->matrikid)->first();
@@ -230,18 +230,18 @@ class PersetujuanController extends Controller
             $dataMatrik -> update();
             //ubah status transaksi
             $datatrx = Transaksi::where('trx_id','=',$request->trxid)->first();
-            $datatrx -> ppk_konfirmasi = $request->ppk_setuju;
-            $datatrx -> ppk_ket = $request->ket_ppk;
-            $datatrx -> flag_trx = $flagtrx;
-            $datatrx -> update();
+            $datatrx->ppk_konfirmasi = $request->ppk_setuju;
+            $datatrx->ppk_ket = $request->ket_ppk;
+            $datatrx->flag_trx = $flagtrx;
+            $datatrx->update();
 
              //flag surat tugas
              $count = SuratTugas::where('trx_id',$request->trxid)->count();
              if ($count>0) {
                  //sudah ada update aja
                  $datasrt = SuratTugas::where('trx_id',$request->trxid)->first();
-                 $datasrt -> flag_surattugas = $flag_surattugas;
-                 $datasrt -> update();
+                 $datasrt->flag_surattugas = $flag_surattugas;
+                 $datasrt->update();
              }
 
              //flag spd
@@ -249,8 +249,8 @@ class PersetujuanController extends Controller
              if ($count>0) {
                  //sudah ada update aja
                  $dataspd = Spd::where('trx_id',$request->trxid)->first();
-                 $dataspd -> flag_spd = $flag_spd;
-                 $dataspd -> update();
+                 $dataspd->flag_spd = $flag_spd;
+                 $dataspd->update();
              }
              //persetujuan kpa
              if ($kirim_mail == 1)
@@ -310,40 +310,40 @@ class PersetujuanController extends Controller
                 $kirim_mail = 0;
                 //kembalikan dana turunan anggaran karena di batalkan
                 $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id','=',$request->dana_tid)->first();
-                $dataTurunanAnggaran -> pagu_rencana = $dataTurunanAnggaran->pagu_rencana - $request->pagu_rencana;
-                $dataTurunanAnggaran -> update();
+                $dataTurunanAnggaran->pagu_rencana = $dataTurunanAnggaran->pagu_rencana - $request->pagu_rencana;
+                $dataTurunanAnggaran->update();
 
             }
             //ubah status matrik
             $dataMatrik = MatrikPerjalanan::where('id',$request->matrikid)->first();
-            $dataMatrik -> flag_matrik = $flagmatrik;
-            $dataMatrik -> update();
+            $dataMatrik->flag_matrik = $flagmatrik;
+            $dataMatrik->update();
             //ubah status transaksi
             $datatrx = Transaksi::where('trx_id','=',$request->trxid)->first();
-            $datatrx -> kpa_konfirmasi = $request->kpa_setuju;
-            $datatrx -> kpa_ket = $request->ket_kpa;
-            $datatrx -> flag_trx = $flagtrx;
-            $datatrx -> update();
+            $datatrx->kpa_konfirmasi = $request->kpa_setuju;
+            $datatrx->kpa_ket = $request->ket_kpa;
+            $datatrx->flag_trx = $flagtrx;
+            $datatrx->update();
 
             $count = SuratTugas::where('trx_id',$request->trxid)->count();
             if ($count>0) {
                 //sudah ada update aja
                 $datasrt = SuratTugas::where('trx_id',$request->trxid)->first();
-                $datasrt -> flag_surattugas = $flag_surattugas;
-                $datasrt -> flag_ttd = 0;
-                $datasrt -> nomor_surat = NULL;
-                $datasrt -> tgl_surat = NULL;
-                $datasrt -> tahun_srt = Session::get('tahun_anggaran');
-                $datasrt -> update();
+                $datasrt->flag_surattugas = $flag_surattugas;
+                $datasrt->flag_ttd = 0;
+                $datasrt->nomor_surat = NULL;
+                $datasrt->tgl_surat = NULL;
+                $datasrt->tahun_srt = Session::get('tahun_anggaran');
+                $datasrt->update();
             }
             else {
                 //data belum ada isikan
                 if ($request->kpa_setuju==1) {
                     $datasrt = new SuratTugas();
-                    $datasrt -> trx_id = $request->trxid;
-                    $datasrt -> flag_surattugas = $flag_surattugas;
-                    $datasrt -> tahun_srt = Session::get('tahun_anggaran');
-                    $datasrt -> save();
+                    $datasrt->trx_id = $request->trxid;
+                    $datasrt->flag_surattugas = $flag_surattugas;
+                    $datasrt->tahun_srt = Session::get('tahun_anggaran');
+                    $datasrt->save();
                 }
             }
             //isi SPD juga
@@ -351,21 +351,21 @@ class PersetujuanController extends Controller
             if ($count>0) {
                 //sudah ada update aja
                 $dataspd = Spd::where('trx_id',$request->trxid)->first();
-                $dataspd -> flag_spd = $flag_spd;
-                $dataspd -> flag_ttd = 0;
-                $dataspd -> nomor_spd = NULL;
-                $dataspd -> tahun_spd = Session::get('tahun_anggaran');
-                $dataspd -> update();
+                $dataspd->flag_spd = $flag_spd;
+                $dataspd->flag_ttd = 0;
+                $dataspd->nomor_spd = NULL;
+                $dataspd->tahun_spd = Session::get('tahun_anggaran');
+                $dataspd->update();
             }
             else {
                 if ($request->kpa_setuju==1) {
                     //data belum ada isikan
                     $dataspd = new Spd();
-                    $dataspd -> trx_id = $request->trxid;
-                    $dataspd -> flag_spd = $flag_spd;
-                    $dataspd -> flag_ttd = 0;
-                    $dataspd -> tahun_spd = Session::get('tahun_anggaran');
-                    $dataspd -> save();
+                    $dataspd->trx_id = $request->trxid;
+                    $dataspd->flag_spd = $flag_spd;
+                    $dataspd->flag_ttd = 0;
+                    $dataspd->tahun_spd = Session::get('tahun_anggaran');
+                    $dataspd->save();
                 }
             }
 
