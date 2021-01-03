@@ -14,8 +14,8 @@ class JenisPerjadin extends Migration
     public function up()
     {
         Schema::create('t_jenis', function (Blueprint $table) {
-            $table->increments('jenis_id');
-            $table->boolean('level_id')->unsigned();
+            $table->increments('j_id');
+            $table->boolean('jenis_id')->unsigned();
             $table->string('jenis_nama');
         });
     }

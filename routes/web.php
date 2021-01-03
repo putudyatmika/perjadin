@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('matrik/baru', 'MatrikController@baru')->name('matrik.baru');
     Route::get('matrik/multi', 'MatrikController@MultiTujuan')->name('matrik.multi');
     Route::post('matrik/simpan', 'MatrikController@simpan')->name('matrik.simpan');
+    Route::post('matrik/simpanmulti', 'MatrikController@SimpanMulti')->name('matrik.simpanmulti');
     Route::post('matrik/update', 'MatrikController@updateMatrik')->name('matrik.update');
     Route::get('matrik/edit/{mid}', 'MatrikController@editMatrik')->name('matrik.edit');
     Route::post('matrik/alokasi', 'MatrikController@updateAlokasi')->name('matrik.alokasi');

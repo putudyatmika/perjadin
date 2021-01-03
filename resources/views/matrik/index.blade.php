@@ -18,10 +18,12 @@
                     <!-- /.breadcrumb -->
                 </div>
                 <div class="row">
-                    @if (Auth::user()->pengelola>3 || Auth::user()->pengelola==0)
+                    @if (Auth::user()->pengelola > 3 || Auth::user()->pengelola == 0)
                     <div class="col-lg-4 col-sm-6 col-md-6">
-                            <a href="{{route('matrik.baru')}}" class="btn btn-danger btn-rounded btn-fw"><i class="fa fa-plus"></i> Tambah Matrik Perjalanan</a>
-                            <a href="{{route('matrik.multi')}}" class="btn btn-success btn-rounded btn-fw"><i class="fa fa-plus"></i> Matrik Multi Perjalanan</a>
+                            <a href="{{route('matrik.baru')}}" class="btn btn-danger btn-rounded btn-fw"><i class="fa fa-plus"></i> Tambah Matrik</a>
+                            @if (Auth::user()->user_level > 3)
+                            <a href="{{route('matrik.multi')}}" class="btn btn-success btn-rounded btn-fw"><i class="fa fa-plus"></i> Multi Tujuan</a>
+                            @endif
                     </div>
                     <div class="col-lg-4">
                     </div>

@@ -708,4 +708,8 @@ class MatrikController extends Controller
         }
         return redirect()->back()->with(['error' => 'Please choose file before']);
     }
+    public function SimpanMulti(Request $request)
+    {
+        dd($request->all());
+    }
 }

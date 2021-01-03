@@ -32,39 +32,22 @@
 
                             <div class="row">
                                 <div class="col-sm-12 col-xs-12">
-                                    <form method="POST" action="{{route('matrik.simpan') }}">
+                                    <form method="POST" action="{{route('matrik.simpanmulti') }}">
                                         @csrf
-                                        <div class="form-group row">
-                                            <label for="nama" class="col-lg-2 col-xs-12 col-form-label">Tujuan I</label>
-                                            <div class="input-group col-lg-8 col-sm-8 col-xs-12">
-                                                <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                <input type="text" class="form-control" id="nama_tujuan" name="nama_tujuan" placeholder="Tujuan" required readonly="">
-                                                <input id="kode_kabkota" type="hidden" name="kode_kabkota" value="{{ old('kode_kabkota') }}" />
-                                            <span class="input-group-btn">
-                                                <button type="button" id="check-minutes" class="btn waves-effect waves-light btn-success" data-toggle="modal" data-target="#CariTujuan"><i class="fa fa-search"></i></button>
-                                            </span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="nama" class="col-lg-2 col-xs-12 col-form-label">Tujuan II</label>
-                                            <div class="input-group col-lg-8 col-sm-8 col-xs-12">
-                                                <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                <input type="text" class="form-control" id="nama_tujuan_kedua" name="nama_tujuan_kedua" placeholder="Tujuan" required="">
-                                                <input id="kode_kabkota_kedua" type="hidden" name="kode_kabkota_kedua" value="{{ old('kode_kabkota_kedua') }}" />
-                                            <span class="input-group-btn">
-                                                <button type="button" id="check-minutes" class="btn waves-effect waves-light btn-success" data-toggle="modal" data-target="#CariTujuanKedua"><i class="fa fa-search"></i></button>
-                                            </span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="nama" class="col-lg-2 col-xs-12 col-form-label">Tujuan III</label>
-                                            <div class="input-group col-lg-8 col-sm-8 col-xs-12">
-                                                <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                <input type="text" class="form-control" id="nama_tujuan_ketiga" name="nama_tujuan_ketiga" placeholder="Tujuan" required="">
-                                                <input id="kode_kabkota_ketiga" type="hidden" name="kode_kabkota_ketiga" value="{{ old('kode_kabkota_ketiga') }}" />
-                                            <span class="input-group-btn">
-                                                <button type="button" id="check-minutes" class="btn waves-effect waves-light btn-success" data-toggle="modal" data-target="#CariTujuanKetiga"><i class="fa fa-search"></i></button>
-                                            </span>
+                                        <div class="gruptujuan">
+                                            <div class="form-group row">
+                                                <label for="nama" class="col-lg-2 col-xs-12 col-form-label">Tujuan</label>
+                                                <div class="input-group col-lg-7 col-sm-7 col-xs-12">
+                                                    <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                    <input type="text" class="form-control" id="nama_tujuan" name="nama_tujuan[]" placeholder="Tujuan" required readonly="">
+                                                    <input id="kode_kabkota" type="hidden" name="kode_kabkota[]" value="{{ old('kode_kabkota') }}" />
+                                                <span class="input-group-btn">
+                                                    <button type="button" id="check-minutes" class="btn waves-effect waves-light btn-success" data-toggle="modal" data-target="#CariTujuan"><i class="fa fa-search"></i></button>
+                                                </span>
+                                                </div>
+                                                <div class="col-lg-1 col-sm-1 col-xs-12">
+                                                    <button type="button" id="tambahirow" class="btn waves-effect waves-light btn-info tambahirow"><i class="fa fa-plus"></i></button>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -147,7 +130,7 @@
                                         <div class="form-group row">
                                             <label for="jenisperjadin" class="col-lg-3 col-xs-12 col-form-label">Jenis Perjadin</label>
                                             <div class="input-group col-lg-9 col-sm-9 col-xs-12">
-                                             
+
                                                     <div class="radio-list">
                                                         <label class="radio-inline p-0">
                                                             <div class="radio radio-success">
@@ -162,7 +145,7 @@
                                                             </div>
                                                         </label>
                                                     </div>
-                                               
+
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -250,6 +233,7 @@
 <script src="{{asset('tema/plugins/bower_components/timepicker/bootstrap-timepicker.min.js')}}"></script>
 <script src="{{asset('tema/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 @include('matrik.js')
+@include('matrik.jsmulti')
 <script>
     jQuery('#date-range').datepicker({
     format: 'yyyy-mm-dd',

@@ -9,7 +9,7 @@ $('#ViewModal').on('show.bs.modal', function (event) {
         cache: false,
         dataType: 'json',
         success: function(data){
-           
+
             $('#ViewModal .modal-body #tahun').text(data.hasil.tahun_matrik)
             $('#ViewModal .modal-body #tujuan').text("["+data.hasil.kode_kabkota+"] "+data.hasil.nama_kabkota)
             $('#ViewModal .modal-body #lamanya').text(data.hasil.lamanya+" hari")
@@ -23,7 +23,7 @@ $('#ViewModal').on('show.bs.modal', function (event) {
             {
                 $('#ViewModal .modal-body #pelaksana').text("["+ data.hasil.pelaksana_unitkode +"] "+data.hasil.pelaksana_unitnama)
             }
-           
+
             $('#ViewModal .modal-body #pagu_rencana').text(data.hasil.pagu_rencana)
             $('#ViewModal .modal-body #totalbiaya').text("Rp. "+number_format(data.hasil.total_biaya))
             $('#ViewModal .modal-body #flag').text(data.flag)
@@ -48,7 +48,7 @@ $('#ViewModal').on('show.bs.modal', function (event) {
                 $('#ViewModal .modal-footer #EditMatrik').toggle(true);
                 $('#ViewModal .modal-footer #EditMatrik').attr("href","{{route('matrik.edit','')}}/"+mid)
             }
-            
+
         },
         error: function(){
             alert("error");
@@ -66,13 +66,13 @@ $('#AlokasiModal').on('show.bs.modal', function (event) {
         cache: false,
         dataType: 'json',
         success: function(data){
-           
+
             $('#AlokasiModal .modal-body #tujuan').val("["+data.hasil.kode_kabkota+"] "+data.hasil.nama_kabkota)
             $('#AlokasiModal .modal-body #biaya').val("Rp. "+number_format(data.hasil.total_biaya))
             $('#AlokasiModal .modal-body #sm').val("["+data.hasil.turunan_unitkode+"] "+data.hasil.turunan_unitnama)
             $('#AlokasiModal .modal-body #mid').val(mid)
             $('#AlokasiModal .modal-body #unit_pelaksana').val(data.hasil.pelaksana_unitkode)
-            
+
         },
         error: function(){
             alert("error");
@@ -89,14 +89,14 @@ $('#FlagModal').on('show.bs.modal', function (event) {
         cache: false,
         dataType: 'json',
         success: function(data){
-           
+
             $('#FlagModal .modal-body #tujuan').val("["+data.hasil.kode_kabkota+"] "+data.hasil.nama_kabkota)
             $('#FlagModal .modal-body #biaya').val("Rp. "+number_format(data.hasil.total_biaya))
             $('#FlagModal .modal-body #sm').val("["+data.hasil.dana_unitkode+"] "+data.hasil.dana_unitnama)
             $('#FlagModal .modal-body #pelaksana').val("["+data.hasil.pelaksana_unitkode+"] "+data.hasil.pelaksana_unitnama)
             $('#FlagModal .modal-body #mid').val(mid)
             $('#FlagModal .modal-body #flag_old').val(data.flag)
-            
+
         },
         error: function(){
             alert("error");
@@ -115,7 +115,7 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
         cache: false,
         dataType: 'json',
         success: function(data){
-           
+
             $('#DeleteModal .modal-body #tujuan').val("["+data.hasil.kode_kabkota+"] "+data.hasil.nama_kabkota)
             $('#DeleteModal .modal-body #biaya').val("Rp. "+number_format(data.hasil.total_biaya))
             $('#DeleteModal .modal-body #sm').val("["+data.hasil.dana_unitkode+"] "+data.hasil.dana_unitnama)
@@ -123,7 +123,7 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
             $('#DeleteModal .modal-body #mid').val(mid)
             $('#DeleteModal .modal-body #flagmatrik').val(data.flag)
             $('#DeleteModal .modal-body #flagurl').val(flagurl)
-            
+
         },
         error: function(){
             alert("error");
@@ -272,18 +272,6 @@ $(document).on('click', '.pilihTujuan', function (e) {
     document.getElementById("kode_kabkota").value = $(this).attr('data-kodekabkota');
     document.getElementById("nilaiTransport").value = $(this).attr('data-rate');
     $('#CariTujuan').modal('hide');
-});
-$(document).on('click', '.pilihTujuanKedua', function (e) {
-    document.getElementById("nama_tujuan_kedua").value = $(this).attr('data-tujuankedua');
-    document.getElementById("kode_kabkota_kedua").value = $(this).attr('data-kodekabkotakedua');
-    //document.getElementById("nilaiTransport2").value = $(this).attr('data-rate2');
-    $('#CariTujuanKedua').modal('hide');
-});
-$(document).on('click', '.pilihTujuanKetiga', function (e) {
-    document.getElementById("nama_tujuan_ketiga").value = $(this).attr('data-tujuanketiga');
-    document.getElementById("kode_kabkota_ketiga").value = $(this).attr('data-kodekabkotaketiga');
-    //document.getElementById("nilaiTransport_ketiga").value = $(this).attr('data-rate3');
-    $('#CariTujuanKetiga').modal('hide');
 });
 $(document).on('click', '.pilihSumberDana', function (e) {
     //var sumberdana = $(this).attr('data-mak') + " " + $(this).attr('data-uraian');

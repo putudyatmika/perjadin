@@ -40,16 +40,16 @@
 </div>
 <!--end modal cari tujuan-->
 
-<!--modal cari tujuan2-->
-<div class="modal fade" id="CariTujuanKedua" tabindex="-1" role="dialog" aria-labelledby="CariTujuanKedua">
+<!--modal cari tujuan multi-->
+<div class="modal fade" id="CariTujuanMulti" tabindex="-1" role="dialog" aria-labelledby="CariTujuanMulti">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel1">Data Tujuan Perjalanan II</h4> </div>
+                <h4 class="modal-title" id="exampleModalLabel1">Data Tujuan Perjalanan Multi</h4> </div>
             <div class="modal-body">
                     <div class="table-responsive">
-                            <table id="TabelTujuan" class="table table-bordered table-hover table-striped">
+                            <table id="TabelTujuanMulti" class="table table-bordered table-hover table-striped">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -58,8 +58,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <input type="hidden" id="idtujuan" name="idtujuan" value="" />
                                     @foreach ($DataTujuan as $tujuan)
-                                        <tr class="pilihTujuanKedua" data-tujuankedua="{{$tujuan->nama_kabkota}}" data-kodekabkotakedua="{{$tujuan->kode_kabkota}}" data-ratekedua="{{$tujuan->rate_darat}}">
+                                        <tr class="pilihTujuanMulti" data-tujuanmulti="{{$tujuan->nama_kabkota}}" data-kodekabkotamulti="{{$tujuan->kode_kabkota}}" data-ratemulti="{{$tujuan->rate_darat}}">
                                             <td>{{$loop->iteration}}</td>
                                             <td>{{$tujuan->nama_kabkota}}</td>
                                             <td>{{$tujuan->rate_darat}}</td>
@@ -81,49 +82,7 @@
     </div>
 </div>
 <!--end modal cari tujuan-->
-
-<!--modal cari tujuan3-->
-<div class="modal fade" id="CariTujuanKetiga" tabindex="-1" role="dialog" aria-labelledby="CariTujuanKetiga">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel1">Data Tujuan Perjalanan III</h4> </div>
-            <div class="modal-body">
-                    <div class="table-responsive">
-                            <table id="TabelTujuanKetiga" class="table table-bordered table-hover table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Kabkota</th>
-                                        <th>Rate Darat</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($DataTujuan as $tujuan)
-                                        <tr class="pilihTujuanKetiga" data-tujuanketiga="{{$tujuan->nama_kabkota}}" data-kodekabkotaketiga="{{$tujuan->kode_kabkota}}" data-rateketiga="{{$tujuan->rate_darat}}">
-                                            <td>{{$loop->iteration}}</td>
-                                            <td>{{$tujuan->nama_kabkota}}</td>
-                                            <td>{{$tujuan->rate_darat}}</td>
-                                        </tr>
-                                    @endforeach
-
-                                </tbody>
-                            </table>
-                    </div>
-
-
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-inverse waves-effect waves-light" data-dismiss="modal">Cancel</button>
-
-            </div>
-        </div>
-    </div>
-</div>
-<!--end modal cari tujuan-->
- <!--modal cari tujuan-->
+ <!--modal cari sumberdana-->
  <div class="modal fade" id="SumberDana" tabindex="-1" role="dialog" aria-labelledby="SumberDana">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -147,7 +106,7 @@
                                         <tr class="pilihSumberDana" data-makid="{{$dana->a_id}}" data-komponen="[{{$dana->komponen_kode}}] {{$dana->komponen_nama}}" data-tid="{{$dana->t_id}}" data-mak="{{$dana->mak}}" data-uraian="{{$dana->uraian}}" data-pagu="{{$dana->pagu_awal}}" data-unitkerja="{{$dana->unit_pelaksana}}" data-namaunitkerja="{{$dana->unit_nama}}" data-sisapagu="{{$dana->pagu_awal-$dana->pagu_rencana}}">
                                             <td>{{$loop->iteration}}</td>
                                             <td>
-                                                {{$dana->uraian}} <br /> 
+                                                {{$dana->uraian}} <br />
                                                 <strong>{{$dana->mak}}</strong><br />
                                                 [{{$dana->komponen_kode}}] {{$dana->komponen_nama}}
                                             </td>
@@ -171,4 +130,4 @@
         </div>
     </div>
 </div>
-<!--end modal cari tujuan-->
+<!--end modal sumberdana-->
