@@ -85,13 +85,22 @@
                                                     <td>{{$loop->iteration}}</td>
                                                     <td>
                                                         <p class="text-center">{{$item->kode_trx}} <br />
-                                                        <small @if ($item->jenis_perjadin==1) class="text-center label label-success" @else class="text-center label label-info" @endif>
+                                                        <small @if ($item->jenis_perjadin==1) class="label label-success" @else class="label label-info" @endif>
                                                             {{$JenisPerjadin[$item->jenis_perjadin]}}
                                                         </small>
                                                          </p>
                                                     </td>
                                                     <td>
-                                                        {{$item->Tujuan->nama_kabkota}}
+                                                        @if ($item->tipe_perjadin==1)
+                                                        <div class="m-b-5">{{$item->Tujuan->nama_kabkota}}</div>
+                                                        @elseif ($item->tipe_perjadin==2)
+                                                            @foreach ($item->MultiTujuan as $t)
+                                                                <div class="m-b-5">{{$t->namakabkota_tujuan}}</div> 
+                                                            @endforeach
+                                                            <div class="label label-info">
+                                                                {{$TipePerjadin[$item->tipe_perjadin]}}
+                                                            </div>
+                                                        @endif
                                                     </td>
                                                     <td>{{$item->lamanya}} hari</td>
                                                     <td>

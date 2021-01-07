@@ -120,7 +120,11 @@
         ],
         'JenisPerjadin'=>[
             '1'=>'Biasa',
-            '2'=>'Paket Meeting'
+            '2'=>'Paket Meeting',
+        ],
+        'TipePerjadin'=>[
+            '1'=>'Satu Tujuan',
+            '2'=>'Multi Tujuan',
         ]
     ];
 ?>

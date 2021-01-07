@@ -17,11 +17,8 @@ class MatrikPerjalanan extends Model
     public function Tujuan(){
         return $this->belongsTo('App\Tujuan','kodekab_tujuan', 'kode_kabkota');
     }
-    public function TujuanDua(){
-        return $this->belongsTo('App\Tujuan','kodekab_tujuan2', 'kode_kabkota');
-    }
-    public function TujuanTiga(){
-        return $this->belongsTo('App\Tujuan','kodekab_tujuan2', 'kode_kabkota');
+    public function MultiTujuan(){
+        return $this->hasMany('App\MultiTujuan','matrik_id','id');
     }
     public function DanaUnitkerja()
     {

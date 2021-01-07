@@ -37,17 +37,18 @@
                                         <div class="gruptujuan">
                                             <div class="form-group row">
                                                 <label for="nama" class="col-lg-2 col-xs-12 col-form-label">Tujuan</label>
-                                                <div class="input-group col-lg-7 col-sm-7 col-xs-12">
+                                                <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                     <div class="input-group-addon"><i class="ti-user"></i></div>
                                                     <input type="text" class="form-control" id="nama_tujuan" name="nama_tujuan[]" placeholder="Tujuan" required readonly="">
                                                     <input id="kode_kabkota" type="hidden" name="kode_kabkota[]" value="{{ old('kode_kabkota') }}" />
                                                 <span class="input-group-btn">
                                                     <button type="button" id="check-minutes" class="btn waves-effect waves-light btn-success" data-toggle="modal" data-target="#CariTujuan"><i class="fa fa-search"></i></button>
                                                 </span>
+                                                <span class="input-group-btn">
+                                                    <button type="button" id="tambahirow" class="m-l-10 btn waves-effect waves-light btn-info tambahirow"><i class="fa fa-plus"></i></button>
+                                                </span>
                                                 </div>
-                                                <div class="col-lg-1 col-sm-1 col-xs-12">
-                                                    <button type="button" id="tambahirow" class="btn waves-effect waves-light btn-info tambahirow"><i class="fa fa-plus"></i></button>
-                                                </div>
+                                                
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -188,6 +189,8 @@
                                                             <div class="input-group-addon"><i class="ti-user"></i></div>
                                                             <input type="text" class="form-control" id="totalbiaya" name="totalbiaya" placeholder="Total Biaya" required="" readonly=""> </div>
                                             </div>
+                                            <!--tipe perjadin 1=satu tujuan, 2=multi tujuan-->
+                                            <input type="hidden" name="tipe_perjadin" value="2" />
                                         <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
                                         <button type="reset" class="btn btn-inverse waves-effect waves-light">Reset</button>
                                     </form>

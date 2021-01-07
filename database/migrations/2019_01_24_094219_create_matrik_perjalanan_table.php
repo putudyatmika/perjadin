@@ -40,6 +40,7 @@ class CreateMatrikPerjalananTable extends Migration
             $table->string('unit_pelaksana', 4)->nullable();
             $table->tinyInteger('flag_matrik')->nullable()->default(0);
             $table->tinyInteger('jenis_perjadin')->nullable()->default(1);
+            $table->tinyInteger('tipe_perjadin')->nullable()->default(1);
             $table->timestamps();
         });
     }

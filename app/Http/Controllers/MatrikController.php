@@ -23,6 +23,7 @@ use Generate;
 use App\TurunanAnggaran;
 use App\Helpers\Tanggal;
 use App\SuratTugas;
+use App\MultiTujuan;
 
 class MatrikController extends Controller
 {
@@ -62,6 +63,7 @@ class MatrikController extends Controller
             ->where('eselon', '<', '4')->where('flag_edit', '=', '0')->get();
         $MatrikFlag = config('globalvar.FlagMatrik');
         $JenisPerjadin = config('globalvar.JenisPerjadin');
+        $TipePerjadin = config('globalvar.TipePerjadin');
         if ($flag_matrik=='')
         {
             $DataMatrik = MatrikPerjalanan::with(['DanaUnitkerja','UnitPelaksana'])
@@ -86,7 +88,7 @@ class MatrikController extends Controller
         }
 
         //dd($DataMatrik);
-        return view('matrik.index', ['DataMatrik'=>$DataMatrik, 'MatrikFlag'=>$MatrikFlag, 'DataUnitkerja'=>$DataUnitkerja,'JenisPerjadin'=>$JenisPerjadin,'unitkerja'=>$flag_unitkerja]);
+        return view('matrik.index', ['DataMatrik'=>$DataMatrik, 'MatrikFlag'=>$MatrikFlag, 'DataUnitkerja'=>$DataUnitkerja,'JenisPerjadin'=>$JenisPerjadin,'unitkerja'=>$flag_unitkerja,'TipePerjadin'=>$TipePerjadin]);
     }
     public function MultiTujuan()
     {
@@ -101,7 +103,8 @@ class MatrikController extends Controller
                 ->where('anggaran.tahun_anggaran', Session::get('tahun_anggaran'))->where('flag_kunci_turunan', '=', 0)
                 ->orderBy('a_id', 'desc')
                 ->get();
-        } else {
+        } 
+        else {
             //operator bidang
             $unit_pelaksana = Auth::User()->user_unitkerja;
             $DataAnggaran = DB::table('turunan_anggaran')
@@ -641,6 +644,7 @@ class MatrikController extends Controller
     {
         $MatrikFlag = config('globalvar.FlagMatrik');
         $JenisPerjadin = config('globalvar.JenisPerjadin');
+        $TipePerjadin = config('globalvar.TipePerjadin');
         $arr = array(
             'status'=>false,
             'hasil'=>'Data matrik perjalanan tidak tersedia'
@@ -657,15 +661,39 @@ class MatrikController extends Controller
                     ->leftJoin(DB::raw("(select kode as turunan_unitkode, nama as turunan_unitnama from unitkerja) as unit_turunan"),'turunan.t_unitkerja','=','unit_turunan.turunan_unitkode')
                     ->where('id','=',$mid)
                     ->first();
+            if ($data->tipe_perjadin == 2)
+            {
+                //multi tujuan
+                $multi_tujuan = array();
+                $data_tujuan = MatrikPerjalanan::where('id',$mid)->first();
+                foreach ($data_tujuan->MultiTujuan as $item) {
+                    $arr_tujuan[]=array(
+                        'urutan_tujuan'=>$item->urutan_tujuan,
+                        'kodekab_tujuan'=>$item->kodekab_tujuan,
+                        'namakabkota_tujuan'=>$item->namakabkota_tujuan
+                    );
+                }
+                $multi_tujuan = $arr_tujuan;
+                $bnyk_tujuan = count($data_tujuan->MultiTujuan);
+            }
+            else 
+            {
+                $multi_tujuan = 'hanya 1 tujuan';
+                $bnyk_tujuan = 1;
+            }
             //dd($data);
             $flag = $MatrikFlag[$data->flag_matrik];
             $flag_jenisperjadin = $JenisPerjadin[$data->jenis_perjadin];
+            $flag_tipe_perjadin = $TipePerjadin[$data->tipe_perjadin];
             $tgl_pelaksanaan=Tanggal::Panjang($data->tgl_awal)." s/d ".Tanggal::Panjang($data->tgl_akhir);
             $arr = array(
                 'status'=>true,
                 'hasil'=>$data,
                 'flag'=>$flag,
                 'flag_jenisperjadin'=>$flag_jenisperjadin,
+                'flag_tipe_perjadin'=>$flag_tipe_perjadin,
+                'multi_tujuan'=>$multi_tujuan,
+                'bnyk_tujuan'=>$bnyk_tujuan,
                 'tanggal'=>$tgl_pelaksanaan
             );
         }
@@ -710,6 +738,120 @@ class MatrikController extends Controller
     }
     public function SimpanMulti(Request $request)
     {
-        dd($request->all());
+        //dd($request->kode_kabkota[0]);
+        //dd($request->all());
+
+        $totalharian = $request->uangharian * $request->harian;
+        $totalhotel = $request->nilaihotel * $request->hotelhari;
+        $totalbiaya = $totalharian + $totalhotel + $request->nilaiTransport + $request->pengeluaranrill;
+
+        if ($request->dana_tid and $request->dana_makid)
+        {
+            //langsung bisa input matrik
+             //hitung ulang totalharian, totalhotel, totalbiaya
+
+            // cek dulu sisa anggaran di turunan_anggaran
+            $dataTurunanAnggaran = \App\TurunanAnggaran::where('t_id', '=', $request->dana_tid)->first();
+            $sisa_rencana = $dataTurunanAnggaran->pagu_awal - $dataTurunanAnggaran->pagu_rencana;
+            if ($sisa_rencana >= $totalbiaya) {
+
+                //tambah matrik baru
+                $kode_trx = Generate::Kode(6);
+                $datamatrik = new MatrikPerjalanan();
+                $datamatrik->kode_trx = $kode_trx;
+                $datamatrik->tahun_matrik = Session::get('tahun_anggaran');
+                $datamatrik->tgl_awal = $request['tglawal'];
+                $datamatrik->tgl_akhir = $request['tglakhir'];
+                $datamatrik->kodekab_tujuan = $request->kode_kabkota[0];
+                $datamatrik->lamanya = $request['lamanya'];
+                $datamatrik->mak_id = $request->dana_makid;
+                $datamatrik->dana_tid = $request->dana_tid;
+                $datamatrik->dana_mak = $request['dana_mak'];
+                $datamatrik->dana_pagu = $request['dana_pagu'];
+                $datamatrik->dana_unitkerja = $request['dana_kodeunit'];
+                $datamatrik->lama_harian = $request['harian'];
+                $datamatrik->dana_harian = $request['uangharian'];
+                $datamatrik->total_harian = $totalharian;
+                $datamatrik->dana_transport = $request['nilaiTransport'];
+                $datamatrik->lama_hotel = $request['hotelhari'];
+                $datamatrik->dana_hotel = $request['nilaihotel'];
+                $datamatrik->total_hotel = $totalhotel;
+                $datamatrik->pengeluaran_rill = $request['pengeluaranrill'];
+                $datamatrik->total_biaya = $totalbiaya;
+                $datamatrik->jenis_perjadin = $request->jenis_perjadin;
+                $datamatrik->tipe_perjadin = $request->tipe_perjadin;
+                $datamatrik->save();
+
+                //tambahkan ke tabel multi_tujuan
+                for ($i=0; $i < count($request->kode_kabkota); $i++) { 
+                    //simpan mengulang sebanyak count
+                    $dataMulti = new MultiTujuan();
+                    $dataMulti->matrik_id = $datamatrik->id;
+                    $dataMulti->urutan_tujuan = $i+1;
+                    $dataMulti->kodekab_tujuan = $request->kode_kabkota[$i];
+                    $dataMulti->namakabkota_tujuan = $request->nama_tujuan[$i];
+                    $dataMulti->save();
+                }
+                //    
+                //update turunan anggaran
+                $dataTurunanAnggaran->pagu_rencana = $dataTurunanAnggaran->pagu_rencana + $totalbiaya;
+                $dataTurunanAnggaran->update();
+
+                $pesan_error = 'Matrik perjalanan multi tujuan sudah di tambahkan';
+                $warna_error = 'success';
+
+            } 
+            else {
+                //totalbiaya lebih besar dari sisa
+                Session::flash('message_header', "Ada Kesalahan");
+                Session::flash('message_status', "error");
+                $pesan_error = 'Sisa anggaran tidak mencukupi';
+                $warna_error = 'danger';
+            }
+        }
+        else
+        {
+            //input matriknya saja dan belum bisa di alokasi
+            $kode_trx = Generate::Kode(6);
+            $datamatrik = new MatrikPerjalanan();
+            $datamatrik->kode_trx = $kode_trx;
+            $datamatrik->tahun_matrik = Carbon::parse($request['tglawal'])->format('Y');
+            $datamatrik->tgl_awal = $request['tglawal'];
+            $datamatrik->tgl_akhir = $request['tglakhir'];
+            $datamatrik->kodekab_tujuan =$request->kode_kabkota[0];
+            $datamatrik->lamanya = $request['lamanya'];
+            $datamatrik->dana_unitkerja = Auth::user()->user_unitkerja;
+            $datamatrik->lama_harian = $request['harian'];
+            $datamatrik->dana_harian = $request['uangharian'];
+            $datamatrik->total_harian = $totalharian;
+            $datamatrik->dana_transport = $request['nilaiTransport'];
+            $datamatrik->lama_hotel = $request['hotelhari'];
+            $datamatrik->dana_hotel = $request['nilaihotel'];
+            $datamatrik->total_hotel = $totalhotel;
+            $datamatrik->pengeluaran_rill = $request['pengeluaranrill'];
+            $datamatrik->total_biaya = $totalbiaya;
+            $datamatrik->jenis_perjadin = $request->jenis_perjadin;
+            $datamatrik->tipe_perjadin = $request->tipe_perjadin;
+            $datamatrik->save();
+
+            //tambahkan ke tabel multi_tujuan
+            for ($i=0; $i < count($request->kode_kabkota); $i++) { 
+                //simpan mengulang sebanyak count
+                $dataMulti = new MultiTujuan();
+                $dataMulti->matrik_id = $datamatrik->id;
+                $dataMulti->urutan_tujuan = $i+1;
+                $dataMulti->kodekab_tujuan = $request->kode_kabkota[$i];
+                $dataMulti->namakabkota_tujuan = $request->nama_tujuan[$i];
+                $dataMulti->save();
+            }
+            //    
+            $pesan_error = '['.$kode_trx.'] Matrik perjalanan multi tujuan berhasil di tambahkan dan belum bisa di alokasikan';
+            $warna_error = 'warning';
+
+        }
+
+        Session::flash('message', $pesan_error);
+        Session::flash('message_type', $warna_error);
+        return redirect()->route('matrik.list');
     }
 }

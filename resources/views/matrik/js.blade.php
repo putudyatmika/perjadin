@@ -11,7 +11,22 @@ $('#ViewModal').on('show.bs.modal', function (event) {
         success: function(data){
 
             $('#ViewModal .modal-body #tahun').text(data.hasil.tahun_matrik)
-            $('#ViewModal .modal-body #tujuan').text("["+data.hasil.kode_kabkota+"] "+data.hasil.nama_kabkota)
+            if (data.hasil.tipe_perjadin == 2)
+            {
+                //multi tujuan
+                var teks ="";
+                //var multi_tujuan = data.multi_tujuan;
+                $('#ViewModal .modal-body #tujuan').html("");
+                for (i = 0; i < data.bnyk_tujuan; i++) 
+                {
+                    $('#ViewModal .modal-body #tujuan').append("["+ data.multi_tujuan[i].kodekab_tujuan +"] "+ data.multi_tujuan[i].namakabkota_tujuan+"<br />");
+                }
+                //$('#ViewModal .modal-body #tujuan').text(teks)
+            }
+            if (data.hasil.tipe_perjadin == 1) 
+            {
+                $('#ViewModal .modal-body #tujuan').text("["+data.hasil.kode_kabkota+"] "+data.hasil.nama_kabkota)
+            }
             $('#ViewModal .modal-body #lamanya').text(data.hasil.lamanya+" hari")
             if (data.hasil.t_id != null)
             {
@@ -48,6 +63,7 @@ $('#ViewModal').on('show.bs.modal', function (event) {
                 $('#ViewModal .modal-footer #EditMatrik').toggle(true);
                 $('#ViewModal .modal-footer #EditMatrik').attr("href","{{route('matrik.edit','')}}/"+mid)
             }
+            
 
         },
         error: function(){

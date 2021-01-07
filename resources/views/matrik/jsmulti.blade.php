@@ -11,17 +11,18 @@ $(document).ready(function() {
             x++;
             $(wrapper).append('<div class="gruptujuan"><div class="form-group row">'+
                                             '<label for="nama" class="col-lg-2 col-xs-12 col-form-label">Tujuan</label>'+
-                                            '<div class="input-group col-lg-7 col-sm-7 col-xs-12">'+
+                                            '<div class="input-group col-lg-8 col-sm-8 col-xs-12">'+
                                                 '<div class="input-group-addon"><i class="ti-user"></i></div>'+
                                                 '<input type="text" class="form-control" id="nama_tujuan['+x+']" name="nama_tujuan[]" placeholder="Tujuan" required readonly="">'+
                                                 '<input id="kode_kabkota['+x+']" type="hidden" name="kode_kabkota[]" />'+
-                                           ' <span class="input-group-btn">'+
-                                                '<button type="button" id="check-minutes" class="btn waves-effect waves-light btn-success" data-toggle="modal" data-idtujuan="'+x+'" data-target="#CariTujuanMulti"><i class="fa fa-search"></i></button>'+
+                                            '<span class="input-group-btn">'+
+                                                '<button type="button" id="caritujuanmulti" class="btn waves-effect waves-light btn-success" data-toggle="modal" data-idtujuan="'+x+'" data-target="#CariTujuanMulti"><i class="fa fa-search"></i></button>'+
+                                            '</span>'+
+                                            '<span class="input-group-btn">'+
+                                                '<button type="button" id="kurangirow" class="m-l-10 btn waves-effect waves-light btn-danger kurangirow"><i class="fa fa-minus"></i></button>'+
                                             '</span>'+
                                             '</div>'+
-                                            '<div class="col-lg-1 col-sm-1 col-xs-12">'+
-                                                '<button type="button" id="kurangirow" class="btn waves-effect waves-light btn-danger kurangirow"><i class="fa fa-minus"></i></button>'+
-                                            '</div></div>'); //add input box
+                                            '</div></div>'); 
         }
 		else
 		{
@@ -31,7 +32,7 @@ $(document).ready(function() {
 
     $(wrapper).on("click",".kurangirow", function(e){
         e.preventDefault();
-        $(this).parent('div').parent('div').parent('div').remove();
+        $(this).parent('span').parent('div').parent('div').remove();
         x--;
     });
 
