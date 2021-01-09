@@ -3,13 +3,15 @@ $(document).ready(function() {
     var max_fields      = 5;
     var wrapper         = $(".gruptujuan");
     var add_button      = $(".tambahirow");
-
-    var x = 1;
+    
+    var x = add_button.attr("data-jumlahx");
     $(add_button).click(function(e){
+        //var x = add_button.attr("data-jumlahx");
         e.preventDefault();
         if(x < max_fields){
             x++;
-            $(wrapper).append('<div class="gruptujuan"><div class="form-group row">'+
+            $(wrapper).last().append('<div class="gruptujuan">'+
+                                    '<div class="form-group row">'+
                                             '<label for="nama" class="col-lg-2 col-xs-12 col-form-label">Tujuan</label>'+
                                             '<div class="input-group col-lg-8 col-sm-8 col-xs-12">'+
                                                 '<div class="input-group-addon"><i class="ti-user"></i></div>'+
@@ -22,7 +24,8 @@ $(document).ready(function() {
                                                 '<button type="button" id="kurangirow" class="m-l-10 btn waves-effect waves-light btn-danger kurangirow"><i class="fa fa-minus"></i></button>'+
                                             '</span>'+
                                             '</div>'+
-                                            '</div></div>'); 
+                                    '</div>'+
+                                '</div>'); 
         }
 		else
 		{

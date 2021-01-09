@@ -139,7 +139,11 @@
                                                             <span data-toggle="tooltip" title="Alokasi matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-bookmark"></i></span>
                                                         </button>
                                                             @endif
-                                                        <a href="{{route('matrik.edit',$item->id)}}" class="btn btn-circle btn-custom btn-sm">
+                                                            @if ($item->tipe_perjadin == 2)
+                                                            <a href="{{route('matrik.editmulti',$item->id)}}" class="btn btn-circle btn-custom btn-sm">
+                                                            @else 
+                                                            <a href="{{route('matrik.edit',$item->id)}}" class="btn btn-circle btn-custom btn-sm">
+                                                            @endif
                                                             <span data-toggle="tooltip" title="Edit matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-pencil"></i></span>
                                                         </a>
                                                         @endif

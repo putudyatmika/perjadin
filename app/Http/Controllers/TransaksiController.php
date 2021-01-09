@@ -81,8 +81,8 @@ class TransaksiController extends Controller
             })
             ->where('flag_trx',request('flag_trx'))->orderBy('flag_trx', 'ASC')->orderBy('tgl_brkt', 'desc')->get();
         }
-
-        return view('transaksi.matrik', compact('dataTransaksi', 'FlagTrx', 'FlagKonfirmasi', 'DataPegawai', 'MatrikFlag', 'DataBidang','flag_unitkerja'));
+        $TipePerjadin = config('globalvar.TipePerjadin');
+        return view('transaksi.matrik', compact('dataTransaksi', 'FlagTrx', 'FlagKonfirmasi', 'DataPegawai', 'MatrikFlag', 'DataBidang','flag_unitkerja','TipePerjadin'));
         //dd($dataTransaksi);
     }
 

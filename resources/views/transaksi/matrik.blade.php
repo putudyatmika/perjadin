@@ -98,7 +98,19 @@ $(function () {
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
                                             <td>@include('transaksi.detil')</td>
-                                            <td>{{$item->Matrik->kodekab_tujuan}}-{{$item->Matrik->Tujuan->nama_kabkota}}</td>
+                                            <td>
+                                                @if ($item->Matrik->tipe_perjadin==2)
+                                                    @foreach ($item->Matrik->MultiTujuan as $t)
+                                                        <div class="m-b-5">{{$t->namakabkota_tujuan}}</div> 
+                                                    @endforeach
+                                                    <div class="label label-info">
+                                                        {{$TipePerjadin[$item->Matrik->tipe_perjadin]}}
+                                                    </div>
+                                                @else 
+                                                {{$item->Matrik->kodekab_tujuan}}-{{$item->Matrik->Tujuan->nama_kabkota}}
+                                                @endif
+                                                
+                                            </td>
                                             <td>{{$item->Matrik->unit_pelaksana}}-{{$item->Matrik->UnitPelaksana->nama}}</td>
                                             <td>{{$peg_nama}}</td>
                                             <td>
