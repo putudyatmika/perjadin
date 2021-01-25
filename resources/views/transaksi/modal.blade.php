@@ -181,6 +181,8 @@
                 <h4 class="box-title">Transaksi Perjalanan</h4>
                 <hr>
                 <dl class="row">
+                        <dt class="col-sm-3">Tahun Anggaran</dt>
+                        <dd class="col-sm-9"><span id="tahun"></span></dd>
                         <dt class="col-sm-3">Kode Trx</dt>
                         <dd class="col-sm-9"><span id="kode_trx"></span></dd>
                         <dt class="col-sm-3">Nama Pegawai</dt>
@@ -217,9 +219,9 @@
                         <dt class="col-sm-3 text-truncate">Total Biaya</dt>
                         <dd class="col-sm-9"><span id="totalbiaya"></span></dd>
                         <dt class="col-sm-3 text-truncate">Flag Matrik</dt>
-                        <dd class="col-sm-9"><span id="flagmatrik"></span></dd>
+                        <dd class="col-sm-9"><span id="flagmatrik" class="label label-success"></span></dd>
                         <dt class="col-sm-3 text-truncate">Flag Transaksi</dt>
-                        <dd class="col-sm-9"><span id="flagtransaksi"></span> <span id="flagket"></span></dd>
+                        <dd class="col-sm-9"><span id="flagtransaksi" class="label label-primary"></span> <span id="flagket"></span></dd>
                 </dl>
 
                 <input type="hidden" name="matrikid" id="matrikid">

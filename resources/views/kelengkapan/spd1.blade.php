@@ -95,7 +95,19 @@
     <tr>
         <td class="garis-l"></td>
         <td class="garis-r"><span class="pull-left">b. Tempat tujuan</span></td>
-        <td class="garis-r">b. {{$data->Matrik->Tujuan->nama_kabkota}}</td>
+        <td class="garis-r">b. 
+            @if ($data->Matrik->tipe_perjadin ==1) 
+                {{$data->Matrik->Tujuan->nama_kabkota}}
+            @else 
+                @foreach ($data->Matrik->MultiTujuan as $t)
+                    @if ($loop->last)
+                     dan {{$t->namakabkota_tujuan}}
+                    @else 
+                    {{$t->namakabkota_tujuan}},
+                    @endif
+                @endforeach
+            @endif
+        </td>
     </tr>
     <tr>
             <td class="garis-t garis-l"><span class="pull-left">7.</span></td>

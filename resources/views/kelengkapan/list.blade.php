@@ -107,8 +107,27 @@
                                                     </div>
                                               </td>
                                                <td>
-                                                   {{$item->Transaksi->Matrik->Tujuan->nama_kabkota}} <br />
-                                                   <small>({{$FlagKendaraan[$item->Transaksi->Spd->kendaraan]}})</small>
+                                                @if ($item->Transaksi->Matrik->tipe_perjadin==2)
+                                                    @foreach ($item->Transaksi->Matrik->MultiTujuan as $t)
+                                                        <div class="m-b-5">{{$t->kodekab_tujuan}}-{{$t->namakabkota_tujuan}}</div> 
+                                                    @endforeach
+                                                    <div class="label label-info">
+                                                        {{$TipePerjadin[$item->Transaksi->Matrik->tipe_perjadin]}}
+                                                    </div>
+                                                @else 
+                                                {{$item->Transaksi->Matrik->kodekab_tujuan}}-{{$item->Transaksi->Matrik->Tujuan->nama_kabkota}}
+                                                @endif
+                                                <div class="m-t-5">
+                                                    @if ($item->Transaksi->Spd->kendaraan == 1)
+                                                        <span class="label label-success">{{$FlagKendaraan[$item->Transaksi->Spd->kendaraan]}}</span>
+                                                    @elseif ($item->Transaksi->Spd->kendaraan == 2)
+                                                        <span class="label label-info">{{$FlagKendaraan[$item->Transaksi->Spd->kendaraan]}}</span>
+                                                    @else 
+                                                        <span class="label label-warning">{{$FlagKendaraan[$item->Transaksi->Spd->kendaraan]}}</span>
+                                                    @endif
+                                                    
+                                                </div>
+                                                   
                                                 </td>
                                                <td>
                                                 @if ($item->tgl_surat != NULL) {{Tanggal::Pendek($item->tgl_surat)}} @endif

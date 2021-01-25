@@ -14,36 +14,59 @@ $('#EditModal').on('show.bs.modal', function (event) {
 
     //load dulu transaksinya
     $.ajax({
-        url : '{{route("cari.trx","")}}/'+kodetrx,
+        url : '{{route("cari.transaksi","")}}/'+trxid,
         method : 'get',
         cache: false,
         dataType: 'json',
         success: function(data){
             if (data.status == true)
             {
-            var nomor_surat = data.hasil.nomor_surat;
-            var nomor_spd = data.hasil.nomor_spd;
-            $('#EditModal .modal-body #kode_trx').text(kodetrx)
-            $('#EditModal .modal-body #peg_nama').text(data.hasil.peg_nama)
-            $('#EditModal .modal-body #tujuan').text(data.hasil.tujuan_nama)
+            var nomor_surat = data.surattugas.hasil_surattugas.nomor_surat;
+            var nomor_spd = data.spd.hasil_spd.nomor_spd;
+            $('#EditModal .modal-body #kode_trx').text(data.hasil.kode_trx)
+            if (data.pegawai.status_pegawai == true)
+                {
+                    $('#EditModal .modal-body #peg_nama').html("");
+                    $('#EditModal .modal-body #peg_nama').append(data.pegawai.hasil_pegawai.peg_nama+"<br />")
+                    $('#EditModal .modal-body #peg_nama').append(data.pegawai.hasil_pegawai.peg_nip+"<br />")
+                    $('#EditModal .modal-body #peg_nama').append(data.pegawai.hasil_pegawai.peg_gol_nama)
+                }
+            else 
+                {
+                    $('#EditModal .modal-body #peg_nama').text("-")
+                }
+            if (data.matrik.tipe_perjadin == 2)
+            {
+                $('#EditModal .modal-body #tujuan').html("");
+                for (i = 0; i < data.tujuan.length; i++) 
+                {
+                    $('#EditModal .modal-body #tujuan').append(data.tujuan[i].tujuan_kode +"-"+ data.tujuan[i].tujuan_nama+"<br />");
+                }
+                $('#EditModal .modal-body #tujuan').append('<div class="m-t-10"><span class="label label-info">'+data.matrik.tipe_perjadin_nama+'</span></div>');
+            }
+            else
+            {
+                $('#EditModal .modal-body #tujuan').text(data.tujuan.tujuan_kode+"-"+data.tujuan.tujuan_nama)
+            }
+            
             $('#EditModal .modal-body #tugas').text(data.hasil.tugas)
             $('#EditModal .modal-body #brkt').text(data.hasil.tgl_brkt_nama)
             $('#EditModal .modal-body #kembali').text(data.hasil.tgl_balik_nama)
-            $('#EditModal .modal-body #tglsurat').val(data.hasil.tgl_surat)
-            $('#EditModal .modal-body #kodetrx').val(kodetrx)
+            $('#EditModal .modal-body #tglsurat').val(data.surattugas.hasil_surattugas.tgl_surat)
+            $('#EditModal .modal-body #kodetrx').val(data.hasil.kode_trx)
             $('#EditModal .modal-body #trx_id').val(trxid)
-            $('#EditModal .modal-body #srt_id').val(data.hasil.srt_id)
-            $('#EditModal .modal-body #spd_id').val(data.hasil.spd_id)
-            $('#EditModal .modal-body #ttd').val(data.hasil.flag_ttd)
-            $('#EditModal .modal-body #ttd_nip').val(data.hasil.ttd_nip)
-            $('#EditModal .modal-body #kendaraan').val(data.hasil.kendaraan)
+            $('#EditModal .modal-body #srt_id').val(data.surattugas.hasil_surattugas.srt_id)
+            $('#EditModal .modal-body #spd_id').val(data.spd.hasil_spd.spd_id)
+            $('#EditModal .modal-body #ttd').val(data.surattugas.hasil_surattugas.flag_ttd)
+            $('#EditModal .modal-body #ttd_nip').val(data.surattugas.hasil_surattugas.ttd_nip)
+            $('#EditModal .modal-body #kendaraan').val(data.spd.hasil_spd.kendaraan)
             
            
-                if (data.hasil.ttd_nip != null)
+                if (data.surattugas.hasil_surattugas.ttd_nip != null)
                 {
-                    $('#EditModal .modal-body #ttd_nip').val(data.hasil.ttd_nip)
-                    $('#EditModal .modal-body #ttd_nama').val(data.hasil.ttd_nama)
-                    $('#EditModal .modal-body #ttd_jabatan').val(data.hasil.ttd_jabatan)
+                    $('#EditModal .modal-body #ttd_nip').val(data.surattugas.hasil_surattugas.ttd_nip)
+                    $('#EditModal .modal-body #ttd_nama').val(data.surattugas.hasil_surattugas.ttd_nama)
+                    $('#EditModal .modal-body #ttd_jabatan').val(data.surattugas.hasil_surattugas.ttd_jabatan)
                 }
                 else 
                 {
@@ -92,7 +115,7 @@ $('#EditModal').on('show.bs.modal', function (event) {
                 if (nomor_spd != null)
                 {
                     $('#EditModal .modal-body #nomor_spd').val(nomor_spd)
-                    $('#EditModal .modal-body input[name="cetaktujuan"][value="'+data.hasil.flag_cetak_tujuan+'"]').prop('checked',true)
+                    $('#EditModal .modal-body input[name="cetaktujuan"][value="'+data.spd.hasil_spd.flag_cetak_tujuan+'"]').prop('checked',true)
                 }
                 else {
                     $.ajax({
@@ -244,32 +267,77 @@ $('#ViewModal').on('show.bs.modal', function (event) {
 
     //load dulu transaksinya
     $.ajax({
-        url : '{{route("cari.trx","")}}/'+kodetrx,
+        url : '{{route("cari.transaksi","")}}/'+trxid,
         method : 'get',
         cache: false,
         dataType: 'json',
         success: function(data){
             if (data.status == true)
             {
-            var nomor_surat = data.hasil.nomor_surat;
-            var nomor_spd = data.hasil.nomor_spd;
-            var totalbiaya = number_format(data.hasil.total_biaya);
-            $('#ViewModal .modal-body #kode_trx').text(kodetrx)
-            $('#ViewModal .modal-body #peg_nama').text(data.hasil.peg_nama)
-            $('#ViewModal .modal-body #tujuan').text(data.hasil.tujuan_nama)
+            
+            $('#ViewModal .modal-body #kode_trx').text(data.hasil.kode_trx)
+
+            if (data.pegawai.status_pegawai == true)
+                {
+                    $('#ViewModal .modal-body #peg_nama').html("");
+                    $('#ViewModal .modal-body #peg_nama').append(data.pegawai.hasil_pegawai.peg_nama+"<br />")
+                    $('#ViewModal .modal-body #peg_nama').append(data.pegawai.hasil_pegawai.peg_nip+"<br />")
+                    $('#ViewModal .modal-body #peg_nama').append(data.pegawai.hasil_pegawai.peg_gol_nama)
+                }
+            else 
+                {
+                    $('#ViewModal .modal-body #peg_nama').text("-")
+                }
+            
+            if (data.matrik.tipe_perjadin == 2)
+            {
+                $('#ViewModal .modal-body #tujuan').html("");
+                for (i = 0; i < data.tujuan.length; i++) 
+                {
+                    $('#ViewModal .modal-body #tujuan').append(data.tujuan[i].tujuan_kode +"-"+ data.tujuan[i].tujuan_nama+"<br />");
+                }
+                $('#ViewModal .modal-body #tujuan').append('<div class="m-t-10"><span class="label label-info">'+data.matrik.tipe_perjadin_nama+'</span></div>');
+            }
+            else
+            {
+                $('#ViewModal .modal-body #tujuan').text(data.tujuan.tujuan_kode+"-"+data.tujuan.tujuan_nama)
+            }
+            if (data.kuitansi.status_kuitansi == true)
+            {
+                $('#ViewModal .modal-body #status_kuitansi').text(data.kuitansi.hasil_kuitansi.flag_kuitansi_nama)
+            }
+            else 
+            {
+                $('#ViewModal .modal-body #status_kuitansi').text(data.kuitansi.hasil_kuitansi)
+            }
+
+            if (data.surattugas.hasil_surattugas.nomor_surat == null)
+                {   
+                    $('#ViewModal .modal-body #nomor_surat').text("-")
+                }
+            else 
+            {
+                $('#ViewModal .modal-body #nomor_surat').text(data.surattugas.hasil_surattugas.nomor_surat)
+            }
+
+            if (data.spd.hasil_spd.nomor_spd == null)
+                {   
+                    $('#ViewModal .modal-body #nomor_spd').text("-")
+                }
+            else 
+            {
+                $('#ViewModal .modal-body #nomor_spd').text(data.spd.hasil_spd.nomor_spd)
+            }
             $('#ViewModal .modal-body #tugas').text(data.hasil.tugas)
             $('#ViewModal .modal-body #brkt').text(data.hasil.tgl_brkt_nama)
             $('#ViewModal .modal-body #kembali').text(data.hasil.tgl_balik_nama)
-            $('#ViewModal .modal-body #nomor_surat').text(data.hasil.nomor_surat)
-            $('#ViewModal .modal-body #nomor_spd').text(data.hasil.nomor_spd)
-            $('#ViewModal .modal-body #totalbiaya').text('Rp. '+totalbiaya)          
-            $('#ViewModal .modal-body #sumber_dana').text(data.hasil.dana_mak +'-'+data.hasil.dana_uraian)
-            $('#ViewModal .modal-body #komponen').text('['+data.hasil.komponen_kode +'] '+data.hasil.komponen_nama)
-            $('#ViewModal .modal-body #status').text(data.hasil.flag_surattugas_nama)
-            $('#ViewModal .modal-body #status_kuitansi').text(data.hasil.flag_surattugas_nama)
+            $('#ViewModal .modal-body #totalbiaya').text('Rp. '+number_format(data.matrik.total_biaya))          
+            $('#ViewModal .modal-body #sumber_dana').text(data.matrik.dana_mak +'-'+data.matrik.dana_uraian)
+            $('#ViewModal .modal-body #komponen').text('['+data.matrik.komponen_kode +'] '+data.matrik.komponen_nama)
+            $('#ViewModal .modal-body #status').text(data.surattugas.hasil_surattugas.flag_surattugas_nama)
             $('#ViewModal .modal-body #status_trx').text(data.hasil.flag_trx_nama)
-            $('#ViewModal .modal-body #status_matrik').text(data.hasil.flag_matrik_nama)
-            $('#ViewModal .modal-body #cetak_tujuan').text(data.hasil.flag_cetak_tujuan_nama)
+            $('#ViewModal .modal-body #status_matrik').text(data.matrik.flag_matrik_nama)
+            $('#ViewModal .modal-body #cetak_tujuan').text(data.spd.hasil_spd.flag_cetak_tujuan_nama)
             }
             else 
             {

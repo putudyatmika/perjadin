@@ -58,6 +58,7 @@ class KelengkapanController extends Controller
         $FlagTTD = config('globalvar.FlagTTD');
         $Bilangan = config('globalvar.Bilangan');
         $FlagKendaraan = config('globalvar.Kendaraan');
+        $TipePerjadin=config('globalvar.TipePerjadin');
         $DataPPK = Pegawai::where([['flag_pengelola','=','2'],['flag','=','1']])->orderBy('unitkerja')->first();
         $DataPegawai = Pegawai::where([['jabatan','<','3'],['flag','=','1']])->orderBy('unitkerja')->get();
         $DataBidang = Unitkerja::where('eselon', '<', '4')->orderBy('kode', 'asc')->get();
@@ -103,7 +104,8 @@ class KelengkapanController extends Controller
             'DataPPK'=>$DataPPK,
             'DataPegawai'=>$DataPegawai,
             'DataBidang'=>$DataBidang,
-            'flag_unitkerja'=>$flag_unitkerja
+            'flag_unitkerja'=>$flag_unitkerja,
+            'TipePerjadin'=>$TipePerjadin
         ]);
     }
     public function simpan(Request $request)

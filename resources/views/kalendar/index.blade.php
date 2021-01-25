@@ -72,7 +72,7 @@ $(function () {
                     <div class="col-lg-12">
                         <div class="white-box">
                             @include('kalendar.filter')
-                            <h3 class="box-title m-b-0">Kalendar Perjalanan Dinas yang sudah disetujui</h3>
+                            <h3 class="box-title m-b-0">Kalendar Perjalanan Dinas @if (request('flag_kalendar')==1) Sedang Diajukan @else Sudah Disetujui @endif</h3>
                             <p class="text-muted m-b-20">@if (Session::has('tahun_anggaran')) <code>Tahun Anggaran {{Session::get('tahun_anggaran')}}</code> @endif</p>
                             <div id="calendar"></div>
                         </div>

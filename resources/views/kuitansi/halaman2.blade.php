@@ -23,7 +23,13 @@
     </tr>
     <tr>
         <td class="garis-l" valign="top" align="center">1.</td>
-        <td class="garis-l">Biaya perjalanan dinas dalam rangka {{$data->tugas}} dari Mataram ke {{$data->Matrik->Tujuan->nama_kabkota}} selama {{$data->bnyk_hari}} ({{strtolower($Bilangan[$data->bnyk_hari])}}) hari 
+        <td class="garis-l">Biaya perjalanan dinas dalam rangka {{$data->tugas}} dari Mataram ke @if ($data->Matrik->tipe_perjadin==2)  @foreach ($data->Matrik->MultiTujuan as $t)
+            @if ($loop->last)
+             dan {{$t->namakabkota_tujuan}}
+            @else 
+            {{$t->namakabkota_tujuan}},
+            @endif
+        @endforeach @else {{$data->Matrik->Tujuan->nama_kabkota}} @endif selama {{$data->bnyk_hari}} ({{strtolower($Bilangan[$data->bnyk_hari])}}) hari 
             @if ($data->bnyk_hari > 1)
             dari tanggal {{Tanggal::Panjang($data->tgl_brkt)}} s.d. {{Tanggal::Panjang($data->tgl_balik)}}@else
             tanggal {{Tanggal::Panjang($data->tgl_brkt)}}@endif, dengan rincian sebagai berikut :
@@ -84,7 +90,7 @@
 </table>
 
 
-<div style="margin-top:15px;margin-bottom:15px;">
+<div style="margin-top:5px;margin-bottom:5px;">
     <table width="100%">
         <tr>
             <td width="5%" height="30px"></td>
@@ -102,7 +108,7 @@
             <td>Yang Bertugas,</td>
         </tr>
         <tr>
-            <td height="70px">&nbsp;</td>
+            <td height="60px">&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
         </tr>
@@ -153,7 +159,7 @@
             <td>BPS Provinsi Nusa Tenggara Barat</td>
         </tr>
         <tr>
-            <td height="70px">&nbsp;</td>
+            <td height="60px">&nbsp;</td>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
         </tr>

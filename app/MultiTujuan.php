@@ -12,4 +12,7 @@ class MultiTujuan extends Model
     {
         return $this->belongsTO('App\MatrikPerjalanan', 'matrik_id', 'id');
     }
+    public function Tujuan(){
+        return $this->belongsTo('App\Tujuan','kodekab_tujuan', 'kode_kabkota');
+    }
 }

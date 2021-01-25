@@ -330,12 +330,26 @@ class TransaksiController extends Controller
                         end: '2020-09-11',
                         className: 'bg-danger'
         */
-        $dataTransaksi = Transaksi::with('Matrik')->where('tahun_trx', '=', Session::get('tahun_anggaran'))->where('flag_trx','>','3')
-        ->when(request('unitkerja'),function($query){
-            return $query->whereHas('matrik',function($q){
-                return $q->where('unit_pelaksana',request('unitkerja'));
-            });
-        })->orderBy('flag_trx', 'ASC')->orderBy('tgl_brkt', 'desc')->get();
+        if (request('flag_kalendar') == 1)
+        {
+            //diajukan
+            $dataTransaksi = Transaksi::with('Matrik')->where('tahun_trx', '=', Session::get('tahun_anggaran'))->whereIn('flag_trx',[1,2])
+            ->when(request('unitkerja'),function($query){
+                return $query->whereHas('matrik',function($q){
+                    return $q->where('unit_pelaksana',request('unitkerja'));
+                });
+            })->orderBy('flag_trx', 'ASC')->orderBy('tgl_brkt', 'desc')->get();
+        }
+        else {
+            //disetujui
+            $dataTransaksi = Transaksi::with('Matrik')->where('tahun_trx', '=', Session::get('tahun_anggaran'))->where('flag_trx','>','3')
+            ->when(request('unitkerja'),function($query){
+                return $query->whereHas('matrik',function($q){
+                    return $q->where('unit_pelaksana',request('unitkerja'));
+                });
+            })->orderBy('flag_trx', 'ASC')->orderBy('tgl_brkt', 'desc')->get();
+        }
+        
 
         $dataPerjalan=array();
         $className='';
@@ -374,9 +388,32 @@ class TransaksiController extends Controller
             {
                 $className = 'bg-default';
             }
+
+            if ($item->Matrik->tipe_perjadin==1)
+            {
+                $nama_tujuan = $item->Matrik->Tujuan->nama_kabkota;
+            }
+            else 
+            {
+                $i = 0;
+                $nama_tujuan='';
+                foreach ($item->Matrik->MultiTujuan as $t) {
+                    if ($i == count($item->Matrik->MultiTujuan)-1)
+                    {
+                        $nama_tujuan .= 'dan '.$t->namakabkota_tujuan;
+                    }
+                    else 
+                    {   
+                        $nama_tujuan .= $t->namakabkota_tujuan.', ';
+                    }
+                    $i = $i+1;
+                }
+                $nama_tujuan = '(Multi Tujuan) '. $nama_tujuan;
+            }
+
             $dataPerjalan[]=array(
                 'title'=>$item->peg_nama,
-                'description' => 'Tujuan: '.$item->Matrik->Tujuan->nama_kabkota .' | Tugas: '.$item->tugas .' | MAK: '.$item->Matrik->DanaAnggaran->mak.' ('.$item->Matrik->DanaAnggaran->uraian.') | Komponen: ['.$item->Matrik->DanaAnggaran->komponen_kode.'] '.$item->Matrik->DanaAnggaran->komponen_nama.' | Trx: '.$item->kode_trx,
+                'description' => 'Tujuan: '.$nama_tujuan .' | Tugas: '.$item->tugas .' | MAK: '.$item->Matrik->DanaAnggaran->mak.' ('.$item->Matrik->DanaAnggaran->uraian.') | Komponen: ['.$item->Matrik->DanaAnggaran->komponen_kode.'] '.$item->Matrik->DanaAnggaran->komponen_nama.' | Trx: '.$item->kode_trx,
                 'start'=>$item->tgl_brkt,
                 'end'=>$tgl_balik,
                 'className'=> $className

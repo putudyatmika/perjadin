@@ -103,7 +103,15 @@ ul, ol, dl  { page-break-before:avoid }
 /* Displaying link color and link behaviour */
 
 /* Hiding unnecessary elements for the print */
-
+table .pad10x tr td {
+    padding-left: 10px !important;
+}
+.pad10px {
+    padding-left: 10px;
+}
+.pad5x {
+    padding-left: 4px;
+}
 .kopsurat {
 font-size: 13pt;
 margin-top: 10pt !important;
@@ -194,10 +202,33 @@ footer {
         <div class="halbox">
             @include('kelengkapan.spd1')
         </div>
-        <div class="pindah-halaman"></div>
-        <div class="halbox">
-            @include('kelengkapan.spd2')
-        </div>
+        @if ($data->Matrik->tipe_perjadin ==1)
+            <div class="pindah-halaman"></div>
+            <div class="halbox">
+                @include('kelengkapan.spd2')
+            </div>
+        @else 
+            @if (count($data->Matrik->MultiTujuan) > 3)
+                <div class="pindah-halaman"></div>
+                <div class="halbox">
+                    @include('kelengkapan.spdmulti3')
+                </div>
+                <div class="pindah-halaman"></div>
+                <div class="halbox">
+                    @include('kelengkapan.spdmulti4')
+                </div>
+            @elseif (count($data->Matrik->MultiTujuan) > 2)
+                <div class="pindah-halaman"></div>
+                <div class="halbox">
+                    @include('kelengkapan.spdmulti2')
+                </div>
+            @else 
+                <div class="pindah-halaman"></div>
+                <div class="halbox">
+                    @include('kelengkapan.spdmulti1')
+                </div>
+            @endif
+        @endif
     </main>
     
 <!-- jQuery -->

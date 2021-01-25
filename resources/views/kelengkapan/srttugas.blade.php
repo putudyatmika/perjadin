@@ -77,7 +77,19 @@
     <tr>
         <td valign="top">Tujuan/Tugas</td>
         <td valign="top">:</td>
-        <td valign="top">{{$data->Matrik->Tujuan->nama_kabkota}} / {{$data->tugas}}</td>
+        <td valign="top">
+            @if ($data->Matrik->tipe_perjadin==2)
+                @foreach ($data->Matrik->MultiTujuan as $t)
+                    @if ($loop->last)
+                    dan {{$t->namakabkota_tujuan}}
+                    @else 
+                    {{$t->namakabkota_tujuan}},
+                    @endif
+                @endforeach
+            @else 
+                {{$data->Matrik->Tujuan->nama_kabkota}}
+            @endif
+            / {{$data->tugas}}</td>
     </tr>
     <tr>
         <td valign="top">Jangka Waktu</td>
@@ -86,7 +98,7 @@
             @if ($data->bnyk_hari==1)
                 {{ Tanggal::Panjang($data->tgl_brkt) }}
             @elseif (\Carbon\Carbon::parse($data->tgl_brkt)->format('m') == \Carbon\Carbon::parse($data->tgl_balik)->format('m'))
-                {{ \Carbon\Carbon::parse($data->tgl_brkt)->format('j') }} - {{ Tanggal::Panjang($data->tgl_balik) }}
+                {{ \Carbon\Carbon::parse($data->tgl_brkt)->format('j') }} s.d. {{ Tanggal::Panjang($data->tgl_balik) }}
             @else 
                 {{ Tanggal::Panjang($data->tgl_brkt) }} s.d. {{ Tanggal::Panjang($data->tgl_balik) }}
             @endif

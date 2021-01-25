@@ -1,6 +1,6 @@
 @php
-$tgl_brkt = explode('-',$dataTransaksi[0]->tgl_brkt);
-$tgl_balik = explode('-',$dataTransaksi[0]->tgl_balik);
+$tgl_brkt = explode('-',$dataTransaksi->tgl_brkt);
+$tgl_balik = explode('-',$dataTransaksi->tgl_balik);
 
 $bln_brkt = (int)($tgl_brkt[1]);
 $bln_balik = (int)($tgl_balik[1]);
@@ -8,49 +8,71 @@ $bln_balik = (int)($tgl_balik[1]);
 $tgl_berangkat = (int)($tgl_brkt[2]) .' '.$Bulan[$bln_brkt].' '.$tgl_brkt[0];
 $tgl_blk = (int)($tgl_balik[2]) .' '.$Bulan[$bln_balik].' '.$tgl_balik[0];
 
-if ($dataTransaksi[0]->Spd->kendaraan==2) {
+if ($dataTransaksi->Matrik->tipe_perjadin==1) 
+{
+    $nama_tujuan = $dataTransaksi->Matrik->Tujuan->nama_kabkota;
+}
+    
+else 
+{
+    $i = 0;
+    $nama_tujuan='';
+    foreach ($dataTransaksi->Matrik->MultiTujuan as $t) {
+        if ($i == count($dataTransaksi->Matrik->MultiTujuan)-1)
+        {
+            $nama_tujuan .= 'dan '.$t->namakabkota_tujuan;
+        }
+        else 
+        {   
+            $nama_tujuan .= $t->namakabkota_tujuan.', ';
+        }
+        $i = $i+1;
+    }
+}
+
+if ($dataTransaksi->Spd->kendaraan==2) {
     $flag_req='';
  }
  else {
     $flag_req='required=""';
  }
-if ($dataTransaksi[0]->Kuitansi->flag_kuitansi==0) {
+if ($dataTransaksi->Kuitansi->flag_kuitansi==0) {
     //kuitansi masih kosong
     //harian
-    $harian_rupiah = $dataTransaksi[0]->Matrik->dana_harian;
-    $harian_lama = $dataTransaksi[0]->Matrik->lama_harian;
-    $harian_total = $dataTransaksi[0]->Matrik->total_harian;
+    $harian_rupiah = $dataTransaksi->Matrik->dana_harian;
+    $harian_lama = $dataTransaksi->Matrik->lama_harian;
+    $harian_total = $dataTransaksi->Matrik->total_harian;
     //biaya penginapan
-    $hotel_rupiah = $dataTransaksi[0]->Matrik->dana_hotel;
-    $hotel_lama = $dataTransaksi[0]->Matrik->lama_hotel;
-    $hotel_total = $dataTransaksi[0]->Matrik->total_hotel;
-    $flag_jenisperjadin = $dataTransaksi[0]->Matrik->jenis_perjadin;
+    $hotel_rupiah = $dataTransaksi->Matrik->dana_hotel;
+    $hotel_lama = $dataTransaksi->Matrik->lama_hotel;
+    $hotel_total = $dataTransaksi->Matrik->total_hotel;
+    $flag_jenisperjadin = $dataTransaksi->Matrik->jenis_perjadin;
     $txt_jenisperjadin = '';
-    if ($dataTransaksi[0]->Kuitansi->hotel_flag==0) {
+    if ($dataTransaksi->Kuitansi->hotel_flag==0) {
         $hotel_flag = "";
     }
     else {
         $hotel_flag ="checked";
     }
     //biaya transportasi
-    $transport_rupiah = $dataTransaksi[0]->Matrik->dana_transport;
-    if ($dataTransaksi[0]->Spd->kendaraan==2) {
+    $transport_rupiah = $dataTransaksi->Matrik->dana_transport;
+    if ($dataTransaksi->Spd->kendaraan==2) {
         $transport_ket = '';
     }
     else {
-        $transport_ket = 'Transport dari Mataram ke '. $dataTransaksi[0]->Matrik->Tujuan->nama_kabkota;
+        $transport_ket = 'Transport dari Mataram ke '. $nama_tujuan;
     }
 
-    if ($dataTransaksi[0]->Kuitansi->transport_flag==0) {
+    if ($dataTransaksi->Kuitansi->transport_flag==0) {
         $transport_flag = "";
     }
     else {
         $transport_flag ="checked";
     }
      //pengeluaran rill 1
-    $rill1_rupiah = $dataTransaksi[0]->Matrik->pengeluaran_rill;
+    $rill1_rupiah = $dataTransaksi->Matrik->pengeluaran_rill;
     $rill1_ket = "";
-    if ($dataTransaksi[0]->Kuitansi->rill1_flag==0) {
+    if ($dataTransaksi->Kuitansi->rill1_flag==0) {
         $rill1_flag = "";
     }
     else {
@@ -59,7 +81,7 @@ if ($dataTransaksi[0]->Kuitansi->flag_kuitansi==0) {
     //pengeluaran rill 2
     $rill2_rupiah = "";
     $rill2_ket = "";
-    if ($dataTransaksi[0]->Kuitansi->rill2_flag==0) {
+    if ($dataTransaksi->Kuitansi->rill2_flag==0) {
         $rill2_flag = "";
     }
     else {
@@ -68,91 +90,91 @@ if ($dataTransaksi[0]->Kuitansi->flag_kuitansi==0) {
     //pengeluaran rill 3
     $rill3_rupiah = '';
     $rill3_ket = '';
-    if ($dataTransaksi[0]->Kuitansi->rill3_flag==0) {
+    if ($dataTransaksi->Kuitansi->rill3_flag==0) {
         $rill3_flag = "";
     }
     else {
         $rill3_flag ="checked";
     }
     //totalbiaya
-    $totalbiaya = $dataTransaksi[0]->Matrik->total_biaya;
+    $totalbiaya = $dataTransaksi->Matrik->total_biaya;
 }
 else {
     //kuitansi sudah pernah di edit
-    $harian_rupiah = $dataTransaksi[0]->Kuitansi->harian_rupiah;
-    $harian_lama = $dataTransaksi[0]->Kuitansi->harian_lama;
-    $harian_total = $dataTransaksi[0]->Kuitansi->harian_total;
+    $harian_rupiah = $dataTransaksi->Kuitansi->harian_rupiah;
+    $harian_lama = $dataTransaksi->Kuitansi->harian_lama;
+    $harian_total = $dataTransaksi->Kuitansi->harian_total;
     //biaya penginapan
-    $hotel_rupiah = $dataTransaksi[0]->Kuitansi->hotel_rupiah;
-    $hotel_lama = $dataTransaksi[0]->Kuitansi->hotel_lama;
-    $hotel_total = $dataTransaksi[0]->Kuitansi->hotel_total;
-    $flag_jenisperjadin = $dataTransaksi[0]->Kuitansi->flag_jenisperjadin;
-    $txt_jenisperjadin = $dataTransaksi[0]->Kuitansi->txt_jenisperjadin;
-    if ($dataTransaksi[0]->Kuitansi->hotel_flag==0) {
+    $hotel_rupiah = $dataTransaksi->Kuitansi->hotel_rupiah;
+    $hotel_lama = $dataTransaksi->Kuitansi->hotel_lama;
+    $hotel_total = $dataTransaksi->Kuitansi->hotel_total;
+    $flag_jenisperjadin = $dataTransaksi->Kuitansi->flag_jenisperjadin;
+    $txt_jenisperjadin = $dataTransaksi->Kuitansi->txt_jenisperjadin;
+    if ($dataTransaksi->Kuitansi->hotel_flag==0) {
         $hotel_flag = "";
     }
     else {
         $hotel_flag ="checked";
     }
     //biaya transport
-    $transport_rupiah = $dataTransaksi[0]->Kuitansi->transport_rupiah;
-    $transport_ket = $dataTransaksi[0]->Kuitansi->transport_ket;
-    if ($dataTransaksi[0]->Kuitansi->transport_flag==0) {
+    $transport_rupiah = $dataTransaksi->Kuitansi->transport_rupiah;
+    $transport_ket = $dataTransaksi->Kuitansi->transport_ket;
+    if ($dataTransaksi->Kuitansi->transport_flag==0) {
         $transport_flag = "";
     }
     else {
         $transport_flag ="checked";
     }
     //pengeluaran rill 1
-    $rill1_rupiah = $dataTransaksi[0]->Kuitansi->rill1_rupiah;
-    $rill1_ket = $dataTransaksi[0]->Kuitansi->rill1_ket;
-    if ($dataTransaksi[0]->Kuitansi->rill1_flag==0) {
+    $rill1_rupiah = $dataTransaksi->Kuitansi->rill1_rupiah;
+    $rill1_ket = $dataTransaksi->Kuitansi->rill1_ket;
+    if ($dataTransaksi->Kuitansi->rill1_flag==0) {
         $rill1_flag = "";
     }
     else {
         $rill1_flag ="checked";
     }
     //pengeluaran rill 2
-    $rill2_rupiah = $dataTransaksi[0]->Kuitansi->rill2_rupiah;
-    $rill2_ket = $dataTransaksi[0]->Kuitansi->rill2_ket;
-    if ($dataTransaksi[0]->Kuitansi->rill2_flag==0) {
+    $rill2_rupiah = $dataTransaksi->Kuitansi->rill2_rupiah;
+    $rill2_ket = $dataTransaksi->Kuitansi->rill2_ket;
+    if ($dataTransaksi->Kuitansi->rill2_flag==0) {
         $rill2_flag = "";
     }
     else {
         $rill2_flag ="checked";
     }
     //pengeluaran rill 3
-    $rill3_rupiah = $dataTransaksi[0]->Kuitansi->rill3_rupiah;
-    $rill3_ket = $dataTransaksi[0]->Kuitansi->rill3_ket;
-    if ($dataTransaksi[0]->Kuitansi->rill3_flag==0) {
+    $rill3_rupiah = $dataTransaksi->Kuitansi->rill3_rupiah;
+    $rill3_ket = $dataTransaksi->Kuitansi->rill3_ket;
+    if ($dataTransaksi->Kuitansi->rill3_flag==0) {
         $rill3_flag = "";
     }
     else {
         $rill3_flag ="checked";
     }
     //totalbiaya
-    $totalbiaya = $dataTransaksi[0]->Kuitansi->total_biaya;
+    $totalbiaya = $dataTransaksi->Kuitansi->total_biaya;
 }
 @endphp
 <div class="form-group row">
 <label for="nama" class="col-2 col-form-label">Nama Pegawai</label>
 <div class="input-group col-8">
     <div class="input-group-addon"><i class="ti-user"></i></div>
-    <input type="text" class="form-control" id="nama" name="nama" value="{{$dataTransaksi[0]->peg_nama}}" placeholder="Tujuan" readonly="">
+    <input type="text" class="form-control" id="nama" name="nama" value="{{$dataTransaksi->peg_nama}}" placeholder="Tujuan" readonly="">
 </div>
 </div>
 <div class="form-group row">
 <label for="nama" class="col-2 col-form-label">Tujuan</label>
 <div class="input-group col-8">
     <div class="input-group-addon"><i class="ti-user"></i></div>
-    <input type="text" class="form-control" id="nama_tujuan" name="nama_tujuan" value="{{$dataTransaksi[0]->Matrik->Tujuan->nama_kabkota}}" placeholder="Tujuan" readonly="">
+    <input type="text" class="form-control" id="nama_tujuan" name="nama_tujuan" value="{!! $nama_tujuan !!}" placeholder="Tujuan" readonly="">
 </div>
 </div>
 <div class="form-group row">
 <label for="nama" class="col-2 col-form-label">Tugas</label>
 <div class="input-group col-8">
     <div class="input-group-addon"><i class="ti-user"></i></div>
-    <input type="text" class="form-control" id="tugas" name="tugas" value="{{$dataTransaksi[0]->tugas}}" placeholder="Tugas" readonly="">
+    <input type="text" class="form-control" id="tugas" name="tugas" value="{{$dataTransaksi->tugas}}" placeholder="Tugas" readonly="">
 
 </div>
 </div>
@@ -160,8 +182,8 @@ else {
 <label for="nama" class="col-2 col-form-label">Lamanya</label>
 <div class="input-group col-8">
     <div class="input-group-addon"><i class="ti-user"></i></div>
-    <input type="text" class="form-control" id="lamanya_text" name="lamanya_text"  value="{{$dataTransaksi[0]->bnyk_hari}} Hari" placeholder="Banyak hari" readonly="">
-    <input type="hidden" class="form-control" id="lamanya" name="lamanya"  value="{{$dataTransaksi[0]->bnyk_hari}}" />
+    <input type="text" class="form-control" id="lamanya_text" name="lamanya_text"  value="{{$dataTransaksi->bnyk_hari}} Hari" placeholder="Banyak hari" readonly="">
+    <input type="hidden" class="form-control" id="lamanya" name="lamanya"  value="{{$dataTransaksi->bnyk_hari}}" />
 </div>
 </div>
 <div class="form-group row">
@@ -177,21 +199,21 @@ else {
     <label for="nama" class="col-2 col-form-label">Nomor Surat Tugas</label>
     <div class="input-group col-8">
         <div class="input-group-addon"><i class="ti-user"></i></div>
-        <input type="text" class="form-control" id="nomor_surattugas" name="nomor_surattugas"  value="{{$dataTransaksi[0]->Surattugas->nomor_surat}}" placeholder="Nomor Surat Tugas" readonly="">
+        <input type="text" class="form-control" id="nomor_surattugas" name="nomor_surattugas"  value="{{$dataTransaksi->Surattugas->nomor_surat}}" placeholder="Nomor Surat Tugas" readonly="">
     </div>
 </div>
 <div class="form-group row">
     <label for="nama" class="col-2 col-form-label">Nomor SPD</label>
     <div class="input-group col-8">
         <div class="input-group-addon"><i class="ti-user"></i></div>
-        <input type="text" class="form-control" id="nomor_spd" name="nomor_spd"  value="{{$dataTransaksi[0]->Spd->nomor_spd}}" placeholder="Nomor SPD" readonly="">
+        <input type="text" class="form-control" id="nomor_spd" name="nomor_spd"  value="{{$dataTransaksi->Spd->nomor_spd}}" placeholder="Nomor SPD" readonly="">
     </div>
 </div>
 <div class="form-group row">
     <label for="nama" class="col-2 col-form-label">Kendaraan</label>
     <div class="input-group col-8">
         <div class="input-group-addon"><i class="ti-user"></i></div>
-        <input type="text" class="form-control" id="kendaraan" name="kendaraan"  value="{{$FlagKendaraan[$dataTransaksi[0]->Spd->kendaraan]}}" placeholder="Nomor SPD" readonly="">
+        <input type="text" class="form-control" id="kendaraan" name="kendaraan"  value="{{$FlagKendaraan[$dataTransaksi->Spd->kendaraan]}}" placeholder="Nomor SPD" readonly="">
     </div>
 </div>
 <h3 class="box-title m-t-40">Sumber Dana</h3>
@@ -200,14 +222,14 @@ else {
         <label for="MAK" class="col-2 col-form-label">MAK</label>
         <div class="input-group col-8">
             <div class="input-group-addon"><i class="ti-user"></i></div>
-            <input type="text" class="form-control" id="dana_mak" name="dana_mak" placeholder="MAK Dana" value="{{$dataTransaksi[0]->Matrik->dana_mak}}" required="" readonly="">
+            <input type="text" class="form-control" id="dana_mak" name="dana_mak" placeholder="MAK Dana" value="{{$dataTransaksi->Matrik->dana_mak}}" required="" readonly="">
         </div>
     </div>
     <div class="form-group row">
             <label for="dana_uraian" class="col-2 col-form-label">Uraian</label>
             <div class="input-group col-8">
                 <div class="input-group-addon"><i class="ti-user"></i></div>
-                <input type="text" class="form-control" id="dana_uraian" name="dana_uraian" placeholder="Uraian Dana" value="{{$dataTransaksi[0]->Matrik->DanaAnggaran->uraian}}" readonly="">
+                <input type="text" class="form-control" id="dana_uraian" name="dana_uraian" placeholder="Uraian Dana" value="{{$dataTransaksi->Matrik->DanaAnggaran->uraian}}" readonly="">
 
             </div>
         </div>
@@ -215,7 +237,7 @@ else {
                 <label for="dana_pagu" class="col-2 col-form-label">Pagu</label>
                 <div class="input-group col-8">
                     <div class="input-group-addon"><i class="ti-user"></i></div>
-                    <input type="text" class="form-control" id="dana_pagu" name="dana_pagu" placeholder="Pagu Dana" value="{{$dataTransaksi[0]->Matrik->AnggaranTurunan->pagu_awal}}" readonly="">
+                    <input type="text" class="form-control" id="dana_pagu" name="dana_pagu" placeholder="Pagu Dana" value="{{$dataTransaksi->Matrik->AnggaranTurunan->pagu_awal}}" readonly="">
 
                 </div>
             </div>
@@ -223,7 +245,7 @@ else {
                 <label for="dana_pagu" class="col-2 col-form-label">Sisa Pagu</label>
                 <div class="input-group col-8">
                     <div class="input-group-addon"><i class="ti-user"></i></div>
-                    <input type="text" class="form-control" id="dana_pagusisa" name="dana_pagusisa" placeholder="Sisa Pagu Dana" value="{{$dataTransaksi[0]->Matrik->AnggaranTurunan->pagu_awal-$dataTransaksi[0]->Matrik->AnggaranTurunan->pagu_realisasi}}" readonly="">
+                    <input type="text" class="form-control" id="dana_pagusisa" name="dana_pagusisa" placeholder="Sisa Pagu Dana" value="{{$dataTransaksi->Matrik->AnggaranTurunan->pagu_awal-$dataTransaksi->Matrik->AnggaranTurunan->pagu_realisasi}}" readonly="">
 
                 </div>
             </div>
@@ -231,7 +253,7 @@ else {
                 <label for="dana_unitkerja" class="col-2 col-form-label">Unitkerja</label>
                 <div class="input-group col-8">
                     <div class="input-group-addon"><i class="ti-user"></i></div>
-                    <input type="text" class="form-control" id="dana_unitkerja" name="dana_unitkerja" placeholder="Unitkerja Sumber Dana" value="{{$dataTransaksi[0]->Matrik->DanaUnitkerja->nama}}" readonly="">
+                    <input type="text" class="form-control" id="dana_unitkerja" name="dana_unitkerja" placeholder="Unitkerja Sumber Dana" value="{{$dataTransaksi->Matrik->DanaUnitkerja->nama}}" readonly="">
 
                 </div>
             </div>
@@ -262,7 +284,7 @@ else {
         <label for="tgl_kuitansi" class="col-2 col-form-label">Tanggal Kuitansi</label>
         <div class="input-group col-3 input-daterange" id="date-range">
             <div class="input-group-addon"><i class="ti-user"></i></div>
-            <input type="text" class="form-control" id="tgl_kuitansi" name="tgl_kuitansi" placeholder="Tanggal kuitansi" required="" value="{{$dataTransaksi[0]->Kuitansi->tgl_kuitansi}}" autocomplete="off">
+            <input type="text" class="form-control" id="tgl_kuitansi" name="tgl_kuitansi" placeholder="Tanggal kuitansi" required="" value="{{$dataTransaksi->Kuitansi->tgl_kuitansi}}" autocomplete="off">
 
         </div>
 </div>

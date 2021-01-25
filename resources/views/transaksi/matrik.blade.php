@@ -31,8 +31,9 @@ $(function () {
     });
 });
 </script>
+@include('transaksi.jsview')
 @include('transaksi.js')
-@include('transaksi.jsSetuju')
+
 @stop
 @extends('layouts.default')
 
@@ -97,11 +98,15 @@ $(function () {
                                         @endphp
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>@include('transaksi.detil')</td>
+                                            <td>
+                                                <button class="btn btn-info btn-success btn-rounded" data-toggle="modal" data-target="#ViewModal" data-trxid="{{$item->trx_id}}" data-kodetrx="{{$item->kode_trx}}">
+                                                    <span data-toggle="tooltip" title="Detil Transaksi">{{$item->kode_trx}}</span>
+                                                </button>
+                                            </td>
                                             <td>
                                                 @if ($item->Matrik->tipe_perjadin==2)
                                                     @foreach ($item->Matrik->MultiTujuan as $t)
-                                                        <div class="m-b-5">{{$t->namakabkota_tujuan}}</div> 
+                                                        <div class="m-b-5">{{$t->kodekab_tujuan}}-{{$t->namakabkota_tujuan}}</div> 
                                                     @endforeach
                                                     <div class="label label-info">
                                                         {{$TipePerjadin[$item->Matrik->tipe_perjadin]}}
@@ -123,6 +128,7 @@ $(function () {
                                             <td>@include('transaksi.kpa')</td>
                                             <td>@include('transaksi.flagtransaksi')</td>
                                             <td>
+                                                
                                                 @include('transaksi.ajukan')
                                                 @if (Auth::user()->pengelola>4)
                                                     @if ($item->flag_trx < 7)

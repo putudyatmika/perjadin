@@ -94,6 +94,11 @@ $(function () {
                                                         {{$JenisPerjadin[$item->flag_jenisperjadin]}}
                                                     </small>
                                                     </p>
+                                                    @if ($item->Transaksi->Matrik->tipe_perjadin==2)
+                                                    <div class="label label-info">
+                                                        {{$TipePerjadin[$item->Transaksi->Matrik->tipe_perjadin]}}
+                                                    </div>
+                                                    @endif
                                                 </td>
                                                 <td>
                                                     @if ($item->tgl_kuitansi)
@@ -109,14 +114,24 @@ $(function () {
                                                 </td>
                                                 <td>
                                                     {{$item->Transaksi->tugas}} <br />
-
+                                                    @if ($item->Transaksi->Matrik->tipe_perjadin==1)
                                                     <small class="text-danger">
-                                                        ({{$item->Transaksi->Matrik->Tujuan->nama_kabkota}} ) <br />
+                                                        ({{$item->Transaksi->Matrik->Tujuan->nama_kabkota}}) <br />
                                                     </small>
-                                                    <small class="text-primary">
-                                                        Berangkat : <b>{{Tanggal::Pendek($item->Transaksi->tgl_brkt)}}</b><br />
-                                                        Kembali :  <b>{{Tanggal::Pendek($item->Transaksi->tgl_balik)}}</b>
-                                                    </small>
+                                                    @else 
+                                                        @foreach ($item->Transaksi->Matrik->MultiTujuan as $t)
+                                                        <small class="text-danger">
+                                                        ({{$t->namakabkota_tujuan}}) <br />
+                                                        </small>
+                                                        @endforeach
+                                                    @endif
+                                                    <div>
+                                                        <small class="text-primary">
+                                                            Berangkat : <b>{{Tanggal::Pendek($item->Transaksi->tgl_brkt)}}</b><br />
+                                                            Kembali :  <b>{{Tanggal::Pendek($item->Transaksi->tgl_balik)}}</b>
+                                                        </small>
+                                                    </div>
+                                                    
                                                 </td>
                                                 <td align="right">
                                                     @if ($item->total_biaya)

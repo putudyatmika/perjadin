@@ -22,6 +22,7 @@
  <!-- end - This is for export functionality only -->
 
 @include('setuju.jsSetuju')
+@include('transaksi.jsview')
 @stop
 @extends('layouts.default')
 
@@ -83,8 +84,19 @@
                                         @foreach ($dataTransaksi as $item)
                                             <tr>
                                                 <td>{{$loop->iteration}}</td>
-                                                <td>{{$item->peg_nama}}</td>
-                                                <td>{{$item->Matrik->Tujuan->nama_kabkota}}</td>
+                                                <td><a href="#" data-toggle="modal" data-target="#ViewModal" data-trxid="{{$item->trx_id}}" data-kodetrx="{{$item->kode_trx}}">{{$item->peg_nama}}</a></td>
+                                                <td>
+                                                    @if ($item->Matrik->tipe_perjadin==1)
+                                                        <div class="m-b-5">{{$item->Matrik->kodekab_tujuan}}-{{$item->Matrik->Tujuan->nama_kabkota}}</div>
+                                                    @elseif ($item->Matrik->tipe_perjadin==2)
+                                                        @foreach ($item->Matrik->MultiTujuan as $t)
+                                                            <div class="m-b-5">{{$t->kodekab_tujuan}}-{{$t->namakabkota_tujuan}}</div> 
+                                                        @endforeach
+                                                        <div class="label label-info">
+                                                            {{$TipePerjadin[$item->Matrik->tipe_perjadin]}}
+                                                        </div>
+                                                    @endif
+                                                </td>
                                                 <td>{{$item->Matrik->DanaUnitkerja->nama}}</td>
                                                 <td class="text-left">{{Tanggal::Panjang($item->tgl_brkt)}}</td>
                                                 <td class="text-right">{{Tanggal::Panjang($item->tgl_balik)}}</td>
@@ -106,4 +118,5 @@
             </div>
             <!-- /.container-fluid -->
             @include('setuju.modalSetuju')
+            
 @endsection

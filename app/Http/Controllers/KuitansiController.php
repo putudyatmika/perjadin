@@ -64,11 +64,14 @@ class KuitansiController extends Controller
         $FlagTTD = config('globalvar.FlagTTD');
         $FlagKendaraan = config('globalvar.Kendaraan');
         $JenisPerjadin = config('globalvar.JenisPerjadin');
+        $TipePerjadin=config('globalvar.TipePerjadin');
         $DataPPK = Pegawai::where([['jabatan','=','2'],['flag','=','1']])->orderBy('unitkerja')->get();
         $DataBidang = Unitkerja::where('eselon', '<', '4')->orderBy('kode', 'asc')->get();
 
+        
         if ($flag_kuitansi=='')
         {
+           
             $DataKuitansi = Kuitansi::with('Transaksi')
                         ->leftJoin('transaksi','transaksi.trx_id','=','kuitansi.trx_id')
                         ->leftJoin(DB::raw("(select id, unit_pelaksana from matrik) as matrik"),'transaksi.matrik_id','=','matrik.id')
@@ -79,9 +82,18 @@ class KuitansiController extends Controller
                         ->orderBy('flag_kuitansi','asc')
                         ->orderBy('tgl_brkt','desc')
                         ->get();
+            
+                        /*
+            $DataKuitansi = Kuitansi::with('Transaksi')->where('tahun_kuitansi','=',Session::get('tahun_anggaran'))
+            
+            ->where('flag_kuitansi',request('flag_kuitansi'))
+            ->orderBy('flag_kuitansi','asc')
+            
+            ->get(); */
         }
         else
         {
+            
             $DataKuitansi = Kuitansi::with('Transaksi')
                             ->leftJoin('transaksi','transaksi.trx_id','=','kuitansi.trx_id')
                             ->leftJoin(DB::raw("(select id, unit_pelaksana from matrik) as matrik"),'transaksi.matrik_id','=','matrik.id')
@@ -93,9 +105,24 @@ class KuitansiController extends Controller
                             ->orderBy('flag_kuitansi','asc')
                             ->orderBy('tgl_brkt','desc')
                             ->get();
+            
+            /*
+            $DataKuitansi = Kuitansi::with('Transaksi')->where('tahun_kuitansi','=',Session::get('tahun_anggaran'))
+                            
+                            ->where('flag_kuitansi',request('flag_kuitansi'))
+                            ->orderBy('flag_kuitansi','asc')
+                            
+                            ->get();
+            */
         }
-
-        return view('kuitansi.index',compact('DataKuitansi','FlagTrx','FlagKonfirmasi','FlagSrt','MatrikFlag','FlagTTD','DataPPK','FlagKendaraan','DataBidang','JenisPerjadin','flag_unitkerja'));
+        
+        /*
+        $DataKuitansi = Kuitansi::where('tahun_kuitansi','=',Session::get('tahun_anggaran'))
+        ->orderBy('flag_kuitansi','asc')
+        ->get();
+        */
+        //dd($DataKuitansi);
+        return view('kuitansi.index',compact('DataKuitansi','FlagTrx','FlagKonfirmasi','FlagSrt','MatrikFlag','FlagTTD','DataPPK','FlagKendaraan','DataBidang','JenisPerjadin','flag_unitkerja','TipePerjadin'));
     }
 
     /**
@@ -151,7 +178,8 @@ class KuitansiController extends Controller
         $FlagKendaraan = config('globalvar.Kendaraan');
         $DataBendahara = Pegawai::where([['flag_pengelola','=','3'],['flag','=','1']])->get();
         $Bendahara = Pegawai::where([['flag_pengelola','=','3'],['flag','=','1']])->first();
-        $dataTransaksi = \App\Transaksi::with('Matrik','SuratTugas','Spd','Kuitansi')->where('trx_id','=',$id)->get();
+        $dataTransaksi = \App\Transaksi::with('Matrik','SuratTugas','Spd','Kuitansi')->where('trx_id','=',$id)->first();
+        //dd($dataTransaksi);
         return view('kuitansi.edit',compact('dataTransaksi','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','Bulan','FlagKendaraan','DataBendahara','JenisPerjadin','Bendahara'));
         //dd($dataTransaksi);
     }

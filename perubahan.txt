@@ -1,0 +1,6 @@
+V5.2
+-Tambah multi tujuan
+--tambah kolom tipe_perjadin di tabel matrik tipe tinyinteger default 1 (biasa)
+--tipe perjadin 2 (multi tujuan)
+--tambah tabel multi_tujuan
+

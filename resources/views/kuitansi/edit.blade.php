@@ -60,15 +60,15 @@
                                     <form method="POST" action="{{ route('kuitansi.update','update') }}">
                                         @csrf
                                         @method('put')
-                                        <input type="hidden" name="trx_id" value="{{$dataTransaksi[0]->trx_id}}" />
-                                        <input type="hidden" name="kuitansi_id" value="{{$dataTransaksi[0]->Kuitansi->kuitansi_id}}" />
+                                        <input type="hidden" name="trx_id" value="{{$dataTransaksi->trx_id}}" />
+                                        <input type="hidden" name="kuitansi_id" value="{{$dataTransaksi->Kuitansi->kuitansi_id}}" />
                                         <input type="hidden" name="aksi" value="update">
-                                        <input type="hidden" name="dana_tid" value="{{$dataTransaksi[0]->Matrik->dana_tid}}" />
-                                        <input type="hidden" name="mak_id" value="{{$dataTransaksi[0]->Matrik->mak_id}}" />
-                                        <input type="hidden" name="tgl_start_kuitansi" id="tgl_start_kuitansi" value="{{$dataTransaksi[0]->tgl_balik}}" />
-                                        <input type="hidden" name="flag_kuitansi" value="{{$dataTransaksi[0]->Kuitansi->flag_kuitansi}}" />
-                                        <input type="hidden" name="totalbiaya_sblm" value="{{$dataTransaksi[0]->Kuitansi->total_biaya}}" />
-                                        <input type="hidden" name="kode_trx" value="{{$dataTransaksi[0]->kode_trx}}" />
+                                        <input type="hidden" name="dana_tid" value="{{$dataTransaksi->Matrik->dana_tid}}" />
+                                        <input type="hidden" name="mak_id" value="{{$dataTransaksi->Matrik->mak_id}}" />
+                                        <input type="hidden" name="tgl_start_kuitansi" id="tgl_start_kuitansi" value="{{$dataTransaksi->tgl_balik}}" />
+                                        <input type="hidden" name="flag_kuitansi" value="{{$dataTransaksi->Kuitansi->flag_kuitansi}}" />
+                                        <input type="hidden" name="totalbiaya_sblm" value="{{$dataTransaksi->Kuitansi->total_biaya}}" />
+                                        <input type="hidden" name="kode_trx" value="{{$dataTransaksi->kode_trx}}" />
                                         @include('kuitansi.form')
                                         <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
                                         <a href="{{route('kuitansi.index')}}" class="btn btn-inverse waves-effect waves-light">Cancel</a>

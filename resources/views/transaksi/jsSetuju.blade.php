@@ -123,7 +123,7 @@ modal.find('.modal-body #penugasan').val(tugas)
 modal.find('.modal-body #sumberdana').text(sumberdana)
 });
 
-$('#ViewModal').on('show.bs.modal', function (event) {
+$('#ViewModalLama').on('show.bs.modal', function (event) {
 var button = $(event.relatedTarget) // Button that triggered the modal
 var trxid = button.data('trxid') // Extract info from data-* attributes
 var kodetrx = button.data('kodetrx')

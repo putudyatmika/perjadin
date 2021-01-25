@@ -39,7 +39,13 @@
         <tr>
             <td valign="top" height="50px">Untuk Pembayaran</td>
             <td valign="top">:</td>
-            <td valign="top">Biaya perjalanan dinas dari Mataram ke {{$data->Matrik->Tujuan->nama_kabkota}} sesuai dengan SPD Nomor {{$data->Spd->nomor_spd}} tanggal {{Tanggal::Panjang($data->SuratTugas->tgl_surat)}}
+            <td valign="top">Biaya perjalanan dinas dari Mataram ke @if ($data->Matrik->tipe_perjadin==2)  @foreach ($data->Matrik->MultiTujuan as $t)
+                @if ($loop->last)
+                 dan {{$t->namakabkota_tujuan}}
+                @else 
+                {{$t->namakabkota_tujuan}},
+                @endif
+            @endforeach @else {{$data->Matrik->Tujuan->nama_kabkota}} @endif sesuai dengan SPD Nomor {{$data->Spd->nomor_spd}} tanggal {{Tanggal::Panjang($data->SuratTugas->tgl_surat)}}
                 </td>
         </tr>
 </table>

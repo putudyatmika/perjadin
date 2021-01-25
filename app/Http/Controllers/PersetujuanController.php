@@ -32,8 +32,10 @@ class PersetujuanController extends Controller
         $FlagTrx = config('globalvar.FlagTransaksi');
         $FlagKonfirmasi = config('globalvar.FlagKonfirmasi');
         $MatrikFlag = config('globalvar.FlagMatrik');
+        $JenisPerjadin = config('globalvar.JenisPerjadin');
+        $TipePerjadin = config('globalvar.TipePerjadin');
         $dataTransaksi = Transaksi::whereIn('flag_trx',array(1,2))->get();
-        return view('setuju.index',compact('dataTransaksi','MatrikFlag','FlagTrx','FlagKonfirmasi'));
+        return view('setuju.index',compact('dataTransaksi','MatrikFlag','FlagTrx','FlagKonfirmasi','JenisPerjadin','TipePerjadin'));
     }
 
     /**
