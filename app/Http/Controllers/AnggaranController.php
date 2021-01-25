@@ -193,8 +193,8 @@ class AnggaranController extends Controller
             $dataAnggaran->rencana_pagu = $request->pagu_rencana;
             $dataAnggaran->pagu_utama = $request->pagu_utama;
             $dataAnggaran->unitkerja = $request->unitkerja;
-            $dataAnggaran -> komponen_kode = $request->komponen_kode;
-            $dataAnggaran -> komponen_nama = $request->komponen_nama;
+            $dataAnggaran->komponen_kode = $request->komponen_kode;
+            $dataAnggaran->komponen_nama = $request->komponen_nama;
             $dataAnggaran->update();
 
             $pesan_error = 'Data anggaran sudah diupdate';
