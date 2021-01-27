@@ -22,31 +22,6 @@
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
  <!-- end - This is for export functionality only -->
 <script>
-$('#EditModal').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget) // Button that triggered the modal
-  var tahun_anggaran = button.data('tahun') // Extract info from data-* attributes
-  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-  var mak = button.data('mak')
-  var uraian = button.data('uraian')
-  var pagu = button.data('pagu')
-  var rencana_pagu = button.data('pagurencana')
-  var unitkerja = button.data('unitkode')
-  var anggaranid = button.data('anggaranid')
-  var komponenkode = button.data('komponenkode')
-  var komponennama = button.data('komponennama')
-
-  var modal = $(this)
-  modal.find('.modal-body #tahun_anggaran').val(tahun_anggaran)
-  modal.find('.modal-body #mak').val(mak)
-  modal.find('.modal-body #uraian').val(uraian)
-  modal.find('.modal-body #pagu_utama').val(pagu)
-  modal.find('.modal-body #pagu_rencana').val(rencana_pagu)
-  modal.find('.modal-body #unitkerja').val(unitkerja)
-  modal.find('.modal-body #anggaranid').val(anggaranid)
-  modal.find('.modal-body #komponen_kode').val(komponenkode)
-  modal.find('.modal-body #komponen_nama').val(komponennama)
-})
 
 $('#DeleteModal').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget) // Button that triggered the modal
@@ -186,7 +161,7 @@ $(function () {
                                                     @if ($item->flag_kunci==0)
                                                     <a href="{{route('anggaran.alokasi',$item->id)}}" class="btn btn-sm btn-success btn-circle"><span data-toggle="tooltip" title="Alokasi anggaran {{ $item->uraian}}"><i class="fa fa-bookmark"></i></span></a>
                                                     @if (Auth::user()->pengelola>3)
-                                                    <button type="button" class="btn btn-sm btn-primary btn-circle" data-toggle="modal" data-target="#EditModal" data-tahun="{{ $item->tahun_anggaran}}" data-mak="{{ $item->mak}}" data-komponenkode="{{ $item->komponen_kode}}" data-pagu="{{ $item->pagu_utama}}" data-komponennama="{{ $item->komponen_nama}}" data-pagurencana="{{ $item->rencana_pagu}}" data-uraian="{{$item->uraian}}" data-unitkode="{{$item->unitkerja}}" data-anggaranid="{{$item->id}}"><span data-toggle="tooltip" title="Edit anggaran {{ $item->uraian}}"><i class="fa fa-pencil"></i></span></button>
+                                                    <button type="button" class="btn btn-sm btn-primary btn-circle" data-toggle="modal" data-target="#EditModal" data-aid="{{$item->id}}"><span data-toggle="tooltip" title="Edit anggaran {{$item->uraian}}"><i class="fa fa-pencil"></i></span></button>
                                                     <button type="button" class="btn btn-sm btn-danger btn-circle" data-toggle="modal" data-target="#DeleteModal" data-tahun="{{ $item->tahun_anggaran}}" data-mak="{{ $item->mak}}" data-pagu="{{ $item->pagu_utama}}" data-uraian="{{$item->uraian}}" data-unitkode="{{$item->unit_nama}}" data-anggaranid="{{$item->id}}" data-komponen="[{{ $item->komponen_kode}}] {{$item->komponen_nama}}"><span data-toggle="tooltip" title="Hapus anggaran {{ $item->uraian}}"><i class="fa fa-trash-o"></i></span></button>
                                                     @endif
                                                     @endif

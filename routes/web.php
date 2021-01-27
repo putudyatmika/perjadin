@@ -22,6 +22,14 @@ Route::get('print/{kodetrx}', 'KelengkapanController@print')->name('print.srt');
 Route::get('unduh/{kodetrx}', 'KelengkapanController@unduh')->name('unduh.srt');
 
 Route::group(['middleware' => ['auth']], function () {
+    Route::get('pok/program', 'PokController@Program')->name('pok.program');
+    Route::post('pok/program/simpan', 'PokController@ProgramSimpan')->name('pok.programsimpan');
+    Route::post('pok/program/update', 'PokController@ProgramUpdate')->name('pok.programupdate');
+    Route::post('pok/program/hapus', 'PokController@ProgramHapus')->name('pok.programhapus');
+    Route::get('pok/kegiatan', 'PokController@Kegiatan')->name('pok.kegiatan');
+    Route::post('pok/kegiatan/simpan', 'PokController@KegiatanSimpan')->name('pok.kegiatansimpan');
+    Route::post('pok/kegiatan/update', 'PokController@KegiatanUpdate')->name('pok.kegiatanupdate');
+    Route::post('pok/kegiatan/hapus', 'PokController@KegiatanHapus')->name('pok.kegiatanhapus');
     Route::resource('golongan', 'GolonganController');
     Route::get('pegawai/import', 'PegawaiController@import')->name('pegawai.import');
     Route::get('pejabat/{flagttd}', 'PegawaiController@CariPejabat')->name('cari.pejabat');
@@ -45,7 +53,10 @@ Route::group(['middleware' => ['auth']], function () {
     //Route::resource('matrik', 'MatrikController');
     Route::get('/format_matrik', 'MatrikController@format')->name('matrik.format');
     Route::post('/import_matrik', 'MatrikController@import')->name('matrik.import');
+    Route::get('anggaran/cari/{id}', 'AnggaranController@CariAnggaran')->name('anggaran.cari');
+    Route::post('anggaran/simpanupdate', 'AnggaranController@SimpanUpdate')->name('anggaran.simpanupdate');
     Route::get('anggaran/sinkron', 'AnggaranController@sinkron');
+    Route::get('anggaran/sinkronkode', 'AnggaranController@SinkronKode')->name('anggaran.sinkronkode');
     Route::get('anggaran/export', 'AnggaranController@export')->name('anggaran.export');
     Route::get('anggaran/viewturunan/{aid}', 'AnggaranController@viewturunan')->name('anggaran.turunan');
     Route::get('anggaran/alokasi/{id}', 'AnggaranController@alokasi')->name('anggaran.alokasi');

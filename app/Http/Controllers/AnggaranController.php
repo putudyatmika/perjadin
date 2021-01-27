@@ -295,16 +295,28 @@ class AnggaranController extends Controller
     }
     public function format()
     {
-        $fileName = 'format-anggaran';
+        $fileName = 'format-anggaran-';
         $data = [
             [
                 //'tahun_anggaran' => null,
-                'mak' => null,
-                'kode_komponen'=>null,
-                'nama_komponen'=>null,
+                'prog_kode'=>null,
+                'prog_nama'=>null,
+                'keg_kode'=>null,
+                'keg_nama'=>null,
+                'kro_kode'=>null,
+                'kro_nama'=>null,
+                'output_kode'=>null,
+                'output_nama'=>null,
+                'komponen_kode' => null,
+                'komponen_nama' => null,
+                'subkomponen_kode'=>null,
+                'subkomponen_nama'=>null,
+                'akun_kode'=>null,
+                'akun_nama'=>null,
                 'uraian' => null,
                 'pagu_utama' => null,
-                'unitkerja' => 'kode bidang/bagian 5 digit'
+                'unitkerja' => 'kode bidang/bagian 5 digit',
+                'catatan'=>'semua isian yang tidak ada dikosongkan saja. kolom Catatan ini dihapus saja'
             ]
         ];
 
@@ -425,8 +437,20 @@ class AnggaranController extends Controller
                     'id' => $dataAnggaran->id,
                     'tahun_anggaran' => $dataAnggaran->tahun_anggaran,
                     'mak' => $dataAnggaran->mak,
+                    'prog_kode'=>$dataAnggaran->prog_kode,
+                    'prog_nama'=>$dataAnggaran->prog_nama,
+                    'keg_kode'=>$dataAnggaran->keg_kode,
+                    'keg_nama'=>$dataAnggaran->keg_nama,
+                    'kro_kode'=>$dataAnggaran->kro_kode,
+                    'kro_nama'=>$dataAnggaran->kro_nama,
+                    'output_kode'=>$dataAnggaran->output_kode,
+                    'output_nama'=>$dataAnggaran->output_nama,
                     'komponen_kode' => $dataAnggaran->komponen_kode,
                     'komponen_nama' => $dataAnggaran->komponen_nama,
+                    'subkomponen_kode'=>$dataAnggaran->subkomponen_kode,
+                    'subkomponen_nama'=>$dataAnggaran->subkomponen_nama,
+                    'akun_kode'=>$dataAnggaran->akun_kode,
+                    'akun_nama'=>$dataAnggaran->akun_nama,
                     'uraian' => $dataAnggaran->uraian,
                     'pagu_utama' => (int) $dataAnggaran->pagu_utama,
                     'rencana_pagu' => (int) $dataAnggaran->rencana_pagu,
@@ -565,5 +589,133 @@ class AnggaranController extends Controller
         Session::flash('message', $pesan_error);
         Session::flash('message_type', $warna_error);
         return back();
+    }
+    public function SinkronKode()
+    {
+        $data = Anggaran::where('tahun_anggaran',Session::get('tahun_anggaran'))->get();
+        foreach ($data as $item) {
+            $mak = explode(".",$item->mak);
+            $jumlah = count($mak);
+            $data_update = Anggaran::where('id',$item->id)->first();
+            if ($jumlah == 9)
+            {
+                //ada subkomponen kro
+                $data_update->prog_kode = $mak[0].".".$mak[1].".".$mak[2];
+                $data_update->keg_kode = $mak[3];
+                $data_update->kro_kode = $mak[4];
+                $data_update->output_kode = $mak[5];
+                $data_update->komponen_kode = $mak[6];
+                $data_update->subkomponen_kode = $mak[7];
+                $data_update->akun_kode = $mak[8];
+                $data_update->update();
+            }
+            elseif ($jumlah == 8)
+            {
+                //ada subkomponen
+                $data_update->prog_kode = $mak[0].".".$mak[1].".".$mak[2];
+                $data_update->keg_kode = $mak[3];
+                $data_update->output_kode = $mak[4];
+                $data_update->komponen_kode = $mak[5];
+                $data_update->subkomponen_kode = $mak[6];
+                $data_update->akun_kode = $mak[7];
+                $data_update->update();
+            }
+            else 
+            {
+                //tanpa subkomponen
+                $data_update->prog_kode = $mak[0].".".$mak[1].".".$mak[2];
+                $data_update->keg_kode = $mak[3];
+                $data_update->output_kode = $mak[4];
+                $data_update->komponen_kode = $mak[5];
+                $data_update->akun_kode = $mak[6];
+                $data_update->update();
+            }
+        }
+        dd($data);
+    }
+    public function CariAnggaran($id)
+    {
+        $arr = array(
+            'status'=>false,
+            'hasil'=>'Anggaran tidak tersedia'
+        );
+        $count = Anggaran::where('id',$id)->count();
+        if ($count > 0)
+        {
+            $data = Anggaran::where('id',$id)->first();
+            $arrTurunan = array();
+            $arrTotal = array();
+            $tCount = TurunanAnggaran::where('a_id', '=', $id)->count();
+            if ($tCount > 0) {
+                $dTurunan = TurunanAnggaran::where('a_id', '=', $id)->get();
+                $i = 1;
+                $tStatus = true;
+                foreach ($dTurunan as $item) {
+                    $arrTurunan[] = array(
+                        'no' => $i,
+                        't_id' => $item->t_id,
+                        'a_id' => $item->a_id,
+                        't_unitkode' => $item->unit_pelaksana,
+                        't_unitnama' => $item->Unitkerja->nama,
+                        't_paguawal' => (int) $item->pagu_awal,
+                        't_pagurencana' => (int) $item->pagu_rencana,
+                        't_pagurealisasi' => (int) $item->pagu_realisasi
+                    );
+                    $i++;
+                }
+                $arrTotal = array(
+                    'persen' => (float) number_format(($dTurunan->sum('pagu_rencana') / $dTurunan->sum('pagu_awal')) * 100, 2),
+                    'pagu_awal' => $dTurunan->sum('pagu_awal'),
+                    'pagu_rencana' => $dTurunan->sum('pagu_rencana'),
+                    'pagu_realisasi' => $dTurunan->sum('pagu_realisasi'),
+                );
+            } 
+            else {
+                $tStatus = false;
+            }
+            $hasil = array(
+                'id'=>$data->id,
+                'tahun_anggaran'=>$data->tahun_anggaran,
+                'mak'=>$data->mak,
+                'prog_kode'=>$data->prog_kode,
+                'prog_nama'=>$data->prog_nama,
+                'keg_kode'=>$data->keg_kode,
+                'keg_nama'=>$data->keg_nama,
+                'kro_kode'=>$data->kro_kode,
+                'kro_nama'=>$data->kro_nama,
+                'output_kode'=>$data->output_kode,
+                'output_nama'=>$data->output_nama,
+                'komponen_kode'=>$data->komponen_kode,
+                'komponen_nama'=>$data->komponen_nama,
+                'subkomponen_kode'=>$data->subkomponen_kode,
+                'subkomponen_nama'=>$data->subkomponen_nama,
+                'akun_kode'=>$data->akun_kode,
+                'akun_nama'=>$data->akun_nama,
+                'uraian'=>$data->uraian,
+                'pagu_utama'=>(int) $data->pagu_utama,
+                'rencana_pagu'=>(int) $data->rencana_pagu,
+                'realisasi_pagu'=>(int)$data->realisasi_pagu,
+                'unitkerja'=>$data->unitkerja,
+                'unitkerja_nama'=>$data->Unitkerja->nama,
+                'status'=>$data->status,
+                'flag_kunci'=>$data->flag_kunci,
+                'created_at'=>$data->created_at,
+                'updated_at'=>$data->updated_at
+            );
+            $arr = array (
+                'status'=>true,
+                'hasil'=>$hasil,
+                'turunan_status' => $tStatus,
+                't_jumlah' => $tCount,
+                'total' => $arrTotal,
+                'turunan' => $arrTurunan,
+            );
+        }
+         //dd($arr);
+         return Response()->json($arr);
+    }
+    public function SimpanUpdate(Request $request)
+    {
+        dd($request->all());
     }
 }

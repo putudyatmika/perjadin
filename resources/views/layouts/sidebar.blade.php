@@ -86,6 +86,17 @@
                     
                     
                     @if (Auth::user()->user_level>3)
+                    <li> <a href="#" class="waves-effect"><i data-icon="&#xe00b;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">POK<span class="fa arrow"></span></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="{{route('pok.program')}}">Program</a></li>
+                            <li><a href="{{route('pok.kegiatan')}}">Kegiatan</a></li>
+                            <li><a href="{{url('unitkerja')}}">KRO</a></li>
+                            <li><a href="{{url('unitkerja')}}">Output</a></li>
+                            <li><a href="{{url('unitkerja')}}">Komponen</a></li>
+                            <li><a href="{{url('unitkerja')}}">Subkomponen</a></li>
+                            <li><a href="{{url('unitkerja')}}">Akun</a></li>
+                        </ul>
+                    </li>
                     <li><a href="{{url('user')}}" class="waves-effect"><i class="icon-people fa-fw"></i><span class="hide-menu" >User</span></a> </li>
                     <li><a href="{{url('tahundasar')}}" class="waves-effect"><i class="icon-compass fa-fw"></i><span class="hide-menu" >Tahun Dasar</span></a> </li>
                     <li><a href="{{url('data')}}" class="waves-effect"><i class="icon-folder fa-fw"></i><span class="hide-menu" >Database</span></a> </li>

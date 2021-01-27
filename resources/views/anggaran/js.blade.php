@@ -103,4 +103,45 @@ $('#KunciModal').on('show.bs.modal', function (event) {
   modal.find('.modal-body #flag_kunci').val(flag_kunci)
   modal.find('.modal-footer #btn_tulisan').html(btn_text)
 });
+
+$('#EditModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var aid = button.data('aid')
+
+  $.ajax({
+        url : '{{route("anggaran.cari","")}}/'+aid,
+        method : 'get',
+        cache: false,
+        dataType: 'json',
+        success: function(data){
+            $('#EditModal .modal-body #tahun_anggaran').val(data.hasil.tahun_anggaran)
+            $('#EditModal .modal-body #mak').val(data.hasil.mak)
+            $('#EditModal .modal-body #prog_kode').val(data.hasil.prog_kode)
+            $('#EditModal .modal-body #prog_nama').val(data.hasil.prog_nama)
+            $('#EditModal .modal-body #keg_kode').val(data.hasil.keg_kode)
+            $('#EditModal .modal-body #keg_nama').val(data.hasil.keg_nama)
+            $('#EditModal .modal-body #kro_kode').val(data.hasil.kro_kode)
+            $('#EditModal .modal-body #kro_nama').val(data.hasil.kro_nama)
+            $('#EditModal .modal-body #output_kode').val(data.hasil.output_kode)
+            $('#EditModal .modal-body #output_nama').val(data.hasil.output_nama)
+            $('#EditModal .modal-body #komponen_kode').val(data.hasil.komponen_kode)
+            $('#EditModal .modal-body #komponen_nama').val(data.hasil.komponen_nama)
+            $('#EditModal .modal-body #subkomponen_kode').val(data.hasil.subkomponen_kode)
+            $('#EditModal .modal-body #subkomponen_nama').val(data.hasil.subkomponen_nama)
+            $('#EditModal .modal-body #akun_kode').val(data.hasil.akun_kode)
+            $('#EditModal .modal-body #uraian').val(data.hasil.uraian)
+            $('#EditModal .modal-body #pagu_utama').val(data.hasil.pagu_utama)
+            $('#EditModal .modal-body #pagu_rencana').val(data.hasil.rencana_pagu)
+            $('#EditModal .modal-body #unitkerja').val(data.hasil.unitkerja)
+            $('#EditModal .modal-body #anggaranid').val(aid)
+            
+           
+
+        },
+        error: function(){
+            alert("error");
+        }
+
+    });
+});
 </script>
