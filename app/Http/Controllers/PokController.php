@@ -40,7 +40,7 @@ use App\PokAkun;
 class PokController extends Controller
 {
     //
-    
+
     public function Program()
     {
         $tahun_anggaran=Session::get('tahun_anggaran');
@@ -58,7 +58,7 @@ class PokController extends Controller
            $pesan_error = 'Data Program <b>'.$request->prog_nama.'</b> sudah pernah di entri';
            $warna_error = 'danger';
        }
-       else 
+       else
        {
             $data = new PokProgram();
             $data->tahun_prog = $request->tahun_anggaran;
@@ -88,7 +88,7 @@ class PokController extends Controller
             $pesan_error = 'Data Program <b>['.$request->prog_kode.'] '.$request->prog_nama.'</b> berhasil di update';
             $warna_error = 'success';
        }
-       else 
+       else
        {
            $pesan_error = 'Data Program <b>'.$request->prog_nama.'</b> tidak ada';
             $warna_error = 'danger';
@@ -99,7 +99,7 @@ class PokController extends Controller
     }
     public function ProgramHapus(Request $request)
     {
-        
+
         $count = PokProgram::where('id_prog',$request->id_prog)->count();
         if ($count > 0)
         {
@@ -121,9 +121,9 @@ class PokController extends Controller
                 $pesan_error = 'Data Program <b>['.$request->prog_kode.'] '.$request->prog_nama.'</b> berhasil di hapus';
                 $warna_error = 'success';
             }
-            
+
         }
-        else 
+        else
         {
             $pesan_error = 'Data Program <b>'.$request->prog_nama.'</b> tidak ada';
             $warna_error = 'danger';
@@ -149,7 +149,7 @@ class PokController extends Controller
             $pesan_error = 'Data Kegiatan <b>['.$request->keg_kode.'] '.$request->keg_nama.'</b> sudah pernah di entri';
             $warna_error = 'danger';
         }
-        else 
+        else
         {
              $data = new PokKegiatan();
              $data->tahun_keg = $request->tahun_anggaran;
@@ -158,10 +158,10 @@ class PokController extends Controller
              $data->nama_keg = trim($request->keg_nama);
              $data->flag_kro = $request->flag_kro;
              $data->save();
- 
+
              $pesan_error = 'Data Kegiatan <b>['.$request->keg_kode.'] '.$request->keg_nama.'</b> berhasil di simpan';
              $warna_error = 'success';
- 
+
         }
         Session::flash('message', $pesan_error);
         Session::flash('message_type', $warna_error);
@@ -185,7 +185,7 @@ class PokController extends Controller
             $warna_error = 'success';
 
         }
-        else 
+        else
         {
              //tidak ada idkegiatan ini
             $pesan_error = 'Data Kegiatan <b>['.$request->keg_kode.'] '.$request->keg_nama.'</b> tidak ada';
@@ -209,7 +209,7 @@ class PokController extends Controller
             $warna_error = 'success';
 
         }
-        else 
+        else
         {
              //tidak ada idkegiatan ini
             $pesan_error = 'Data Kegiatan <b>['.$request->keg_kode.'] '.$request->keg_nama.'</b> tidak ada';
@@ -253,7 +253,7 @@ class PokController extends Controller
         {
             $count = PokKegiatan::where([['tahun_keg',$tahun_anggaran],['kode_prog',$kodeprog],['flag_kro',$flagkro]])->count();
         }
-        
+
         $arr = array(
             'status'=>false,
             'hasil'=>'Kegiatan tidak tersedia'
@@ -264,7 +264,7 @@ class PokController extends Controller
             {
                 $data = PokKegiatan::where([['tahun_keg',$tahun_anggaran],['kode_prog',$kodeprog]])->get();
             }
-            else 
+            else
             {
                 $data = PokKegiatan::where([['tahun_keg',$tahun_anggaran],['kode_prog',$kodeprog],['flag_kro',$flagkro]])->get();
             }
@@ -292,7 +292,7 @@ class PokController extends Controller
                             'hasil_kro'=>$hasil_kro
                         );
                     }
-                    else 
+                    else
                     {
                         $arr_kro = array(
                             'status_kro'=>false,
@@ -380,7 +380,7 @@ class PokController extends Controller
         }
         else
         {
-            
+
 
             $pesan_error = 'Data KRO <b>['.$request->kro_kode.'] '.$request->kro_nama.'</b> tidak ada';
             $warna_error = 'danger';
@@ -403,7 +403,7 @@ class PokController extends Controller
         }
         else
         {
-            
+
 
             $pesan_error = 'Data KRO <b>['.$request->kro_kode.'] '.$request->kro_nama.'</b> tidak ada';
             $warna_error = 'danger';
@@ -419,10 +419,10 @@ class PokController extends Controller
             'status'=>false,
             'hasil'=>'KRO tidak tersedia'
         );
-        $count = PokKro::where([['tahun_kro',$tahun_anggaran],['kode_prog',$kodeprog],['kode_keg',$kodekeg]])->count(); 
+        $count = PokKro::where([['tahun_kro',$tahun_anggaran],['kode_prog',$kodeprog],['kode_keg',$kodekeg]])->count();
         if ($count > 0)
         {
-            $data = PokKro::where([['tahun_kro',$tahun_anggaran],['kode_prog',$kodeprog],['kode_keg',$kodekeg]])->get(); 
+            $data = PokKro::where([['tahun_kro',$tahun_anggaran],['kode_prog',$kodeprog],['kode_keg',$kodekeg]])->get();
             $arr_kro = array();
             foreach ($data as $item) {
                 $hasil[]=array(
@@ -513,7 +513,7 @@ class PokController extends Controller
 
             $pesan_error = 'Data Output Kegiatan <b>['.$request->output_kode.'] '.$request->output_nama.'</b> berhasil di update';
             $warna_error = 'success';
-            
+
         }
         else
         {
@@ -535,7 +535,7 @@ class PokController extends Controller
 
             $pesan_error = 'Data Output Kegiatan <b>['.$request->output_kode.'] '.$request->output_nama.'</b> berhasil di hapus';
             $warna_error = 'success';
-            
+
         }
         else
         {
@@ -556,25 +556,25 @@ class PokController extends Controller
         if ($kodekro == 1)
         {
             //tidak ada kro langsung output
-            $count = PokOutput::where([['tahun_output',$tahun_anggaran],['kode_prog',$kodeprog],['kode_keg',$kodekeg]])->count(); 
+            $count = PokOutput::where([['tahun_output',$tahun_anggaran],['kode_prog',$kodeprog],['kode_keg',$kodekeg]])->count();
         }
         else
         {
             //pakai kro
-            $count = PokOutput::where([['tahun_output',$tahun_anggaran],['kode_prog',$kodeprog],['kode_keg',$kodekeg],['kode_kro',$kodekro]])->count(); 
+            $count = PokOutput::where([['tahun_output',$tahun_anggaran],['kode_prog',$kodeprog],['kode_keg',$kodekeg],['kode_kro',$kodekro]])->count();
         }
-        
+
         if ($count > 0)
         {
             if ($kodekro == 1)
             {
-                $data = PokOutput::where([['tahun_output',$tahun_anggaran],['kode_prog',$kodeprog],['kode_keg',$kodekeg]])->get(); 
+                $data = PokOutput::where([['tahun_output',$tahun_anggaran],['kode_prog',$kodeprog],['kode_keg',$kodekeg]])->get();
             }
-            else 
+            else
             {
-                $data = PokOutput::where([['tahun_output',$tahun_anggaran],['kode_prog',$kodeprog],['kode_keg',$kodekeg],['kode_kro',$kodekro]])->get(); 
+                $data = PokOutput::where([['tahun_output',$tahun_anggaran],['kode_prog',$kodeprog],['kode_keg',$kodekeg],['kode_kro',$kodekro]])->get();
             }
-            
+
             foreach ($data as $item) {
                 $hasil[]=array(
                     'id_output'=>$item->id_output,
@@ -584,7 +584,6 @@ class PokController extends Controller
                     'kode_keg'=>$item->kode_keg,
                     'nama_keg'=>$item->Kegiatan->nama_keg,
                     'kode_kro'=>$item->kode_kro,
-                    'nama_kro'=>$item->nama_kro,
                     'kode_output'=>$item->kode_output,
                     'nama_output'=>$item->nama_output
                 );
@@ -618,7 +617,7 @@ class PokController extends Controller
                 $kro_kode = trim($request->kro_kode);
                 $count = PokKomponen::where([['tahun_komponen',$request->tahun_anggaran],['kode_prog',$request->prog_kode],['kode_keg',$request->keg_kode],['kode_output',$request->output_kode],['kode_kro',$request->kro_kode],['kode_komponen',$request->komponen_kode]])->count();
             }
-        
+
         if ($count > 0)
         {
             //sudah ada kro ini
@@ -673,7 +672,7 @@ class PokController extends Controller
 
             $pesan_error = 'Data Komponen Kegiatan <b>['.$request->komponen_kode.'] '.$request->komponen_nama.'</b> berhasil di update';
             $warna_error = 'success';
-            
+
         }
         else
         {
@@ -696,7 +695,7 @@ class PokController extends Controller
 
             $pesan_error = 'Data Komponen Kegiatan <b>['.$request->komponen_kode.'] '.$request->komponen_nama.'</b> berhasil di hapus';
             $warna_error = 'success';
-            
+
         }
         else
         {
@@ -707,34 +706,37 @@ class PokController extends Controller
         Session::flash('message_type', $warna_error);
         return redirect()->route('pok.komponen');
     }
-    public function CariKomponenByOutput($kodeprog,$kodekeg,$kodeoutput,$flagsub)
+    public function CariKomponenByOutput($kodeprog,$kodekeg,$kodekro,$kodeoutput,$flagsub)
     {
         $tahun_anggaran=Session::get('tahun_anggaran');
         $arr = array(
             'status'=>false,
             'hasil'=>'Komponen tidak tersedia'
         );
-       
+        if ($kodekro == 1)
+        {
+            //tidak ada kro
+            $kodekro = null;
+        }
+
         if ($flagsub > 1)
         {
             //semua komponen
-            $count = PokKomponen::where([['tahun_komponen',$tahun_anggaran],['kode_prog',$kodeprog],['kode_keg',$kodekeg],['kode_output',$kodeoutput]])->count();
+                $count = PokKomponen::where([['tahun_komponen',$tahun_anggaran],['kode_prog',$kodeprog],['kode_keg',$kodekeg],['kode_kro',$kodekro],['kode_output',$kodeoutput]])->count();
         }
-        else 
+        else
         {
-            //hanya sesuai $flagsub
-            //0 = tidak ada, 1 = ada sub
-            $count = PokKomponen::where([['tahun_komponen',$tahun_anggaran],['kode_prog',$kodeprog],['kode_keg',$kodekeg],['kode_output',$kodeoutput],['flag_sub',$flagsub]])->count();
+                $count = PokKomponen::where([['tahun_komponen',$tahun_anggaran],['kode_prog',$kodeprog],['kode_keg',$kodekeg],['kode_kro',$kodekro],['kode_output',$kodeoutput],['flag_sub',$flagsub]])->count();
         }
         if ($count > 0)
         {
             if ($flagsub > 1)
             {
-                $data = PokKomponen::where([['tahun_komponen',$tahun_anggaran],['kode_prog',$kodeprog],['kode_keg',$kodekeg],['kode_output',$kodeoutput]])->get();
+                $data = PokKomponen::where([['tahun_komponen',$tahun_anggaran],['kode_prog',$kodeprog],['kode_keg',$kodekeg],['kode_kro',$kodekro],['kode_output',$kodeoutput]])->get();
             }
-            else 
+            else
             {
-                $data = PokKomponen::where([['tahun_komponen',$tahun_anggaran],['kode_prog',$kodeprog],['kode_keg',$kodekeg],['kode_output',$kodeoutput],['flag_sub',$flagsub]])->get();
+                $data = PokKomponen::where([['tahun_komponen',$tahun_anggaran],['kode_prog',$kodeprog],['kode_keg',$kodekeg],['kode_kro',$kodekro],['kode_output',$kodeoutput],['flag_sub',$flagsub]])->get();
             }
             foreach ($data as $item) {
                 $hasil[]=array(
@@ -757,7 +759,7 @@ class PokController extends Controller
                 'jumlah' =>$count,
                 'hasil'=>$hasil
             );
-        
+
         }
         return Response()->json($arr);
     }
@@ -781,7 +783,7 @@ class PokController extends Controller
                 $kro_kode = trim($request->kro_kode);
                 $count = PokSubKomponen::where([['tahun_subkom',$request->tahun_anggaran],['kode_prog',$request->prog_kode],['kode_keg',$request->keg_kode],['kode_output',$request->output_kode],['kode_komponen',$request->komponen_kode],['kode_subkom',$request->subkomponen_kode],['kode_kro',$request->kro_kode]])->count();
             }
-        
+
         if ($count > 0)
         {
             //sudah ada kro ini
@@ -836,7 +838,7 @@ class PokController extends Controller
             $pesan_error = 'Data Sub Komponen Kegiatan <b>['.$request->subkomponen_kode.'] '.$request->subkomponen_nama.'</b> berhasil di update';
             $warna_error = 'success';
 
-            
+
         }
         else
         {
@@ -860,7 +862,7 @@ class PokController extends Controller
             $pesan_error = 'Data Sub Komponen Kegiatan <b>['.$request->subkomponen_kode.'] '.$request->subkomponen_nama.'</b> berhasil di hapus';
             $warna_error = 'success';
 
-            
+
         }
         else
         {
@@ -966,7 +968,7 @@ class PokController extends Controller
         $namafile = $fileName . date('Y-m-d_H-i-s') . '.xlsx';
         //dd($data);
         return Excel::download(new FormatViewImport($data), $namafile);
-    }   
+    }
     public function OutputImport(Request $request)
     {
         //dd($request->all());
@@ -1059,18 +1061,21 @@ class PokController extends Controller
         }
         return redirect()->back()->with(['error' => 'Please choose file before']);
     }
-    public function CariSubByKomponen($kodeprog,$kodekeg,$kodeoutput,$kodekomponen)
+    public function CariSubByKomponen($kodeprog,$kodekeg,$kodekro,$kodeoutput,$kodekomponen)
     {
         $tahun_anggaran=Session::get('tahun_anggaran');
         $arr = array(
             'status'=>false,
             'hasil'=>'Komponen tidak tersedia'
         );
-       
-        $count = PokSubKomponen::where([['tahun_subkom',$tahun_anggaran],['kode_prog',$kodeprog],['kode_keg',$kodekeg],['kode_output',$kodeoutput],['kode_komponen',$kodekomponen]])->count();
+        if ($kodekro == 1)
+        {
+            $kodekro = NULL;
+        }
+        $count = PokSubKomponen::where([['tahun_subkom',$tahun_anggaran],['kode_prog',$kodeprog],['kode_keg',$kodekeg],['kode_kro',$kodekro],['kode_output',$kodeoutput],['kode_komponen',$kodekomponen]])->count();
         if ($count > 0)
         {
-            $data = PokSubKomponen::where([['tahun_subkom',$tahun_anggaran],['kode_prog',$kodeprog],['kode_keg',$kodekeg],['kode_output',$kodeoutput],['kode_komponen',$kodekomponen]])->get();
+            $data = PokSubKomponen::where([['tahun_subkom',$tahun_anggaran],['kode_prog',$kodeprog],['kode_keg',$kodekeg],['kode_kro',$kodekro],['kode_output',$kodeoutput],['kode_komponen',$kodekomponen]])->get();
             foreach ($data as $item) {
                 $hasil[]=array(
                     'id_subkomponen'=>$item->id_subkom,
@@ -1093,9 +1098,9 @@ class PokController extends Controller
                 'jumlah' =>$count,
                 'hasil'=>$hasil
             );
-        
+
         }
-        return Response()->json($arr);    
+        return Response()->json($arr);
     }
 
 }

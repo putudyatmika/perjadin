@@ -20,7 +20,7 @@ $('#ViewModal').on('show.bs.modal', function (event) {
             $('#ViewModal .modal-body #pagu_utama').text(pagu_utama)
             $('#ViewModal .modal-body #pagu_rencana').text(pagu_rencana)
             $('#ViewModal .modal-body #pagu_sisa').text(pagu_sisa)
-            
+
             $('#ViewModal .modal-footer #ViewAlokasi').attr("href","{{route('anggaran.alokasi','')}}/"+anggaranid)
             if (data.hasil.turunan_status==false) {
                 $('#ViewModal .modal-body #tabelturunan tbody').html("<tr><td colspan='6' align='center'>Belum ada alokasi</td></tr>")
@@ -134,8 +134,8 @@ $('#EditModal').on('show.bs.modal', function (event) {
             $('#EditModal .modal-body #pagu_rencana').val(data.hasil.rencana_pagu)
             $('#EditModal .modal-body #unitkerja').val(data.hasil.unitkerja)
             $('#EditModal .modal-body #anggaranid').val(aid)
-            
-           
+
+
 
         },
         error: function(){
@@ -154,14 +154,14 @@ $('#TambahAnggaranModal').on('show.bs.modal', function (event) {
                 method : 'get',
                 cache: false,
                 dataType: 'json',
-                success: function(data) {     
+                success: function(data) {
                     var jumlah = data.jumlah;
                     $('#TambahAnggaranModal .modal-body #keg_kode_anggaran').html("");
                     $('#TambahAnggaranModal .modal-body #keg_kode_anggaran').append('<option value="">Pilih Kegiatan</option>');
                     for (i = 0; i < jumlah; i++) {
                         $('#TambahAnggaranModal .modal-body #keg_kode_anggaran').append('<option value="'+ data.hasil[i].kode_keg +'">['+ data.hasil[i].kode_keg +'] '+ data.hasil[i].nama_keg +'</option>');
                     }
-                    
+
                 },
                 error: function(){
                     alert("error data kegiatan");
@@ -177,7 +177,7 @@ $('#TambahAnggaranModal').on('show.bs.modal', function (event) {
                 method : 'get',
                 cache: false,
                 dataType: 'json',
-                success: function(data) {     
+                success: function(data) {
                     if (data.status == true)
                     {
                       var jumlah = data.jumlah;
@@ -189,18 +189,18 @@ $('#TambahAnggaranModal').on('show.bs.modal', function (event) {
                       $('#TambahAnggaranModal .modal-body #kro_kode_anggaran').attr('readonly',false)
                       $('#TambahAnggaranModal .modal-body #kro_kode_anggaran').attr('required',true)
                     }
-                    else 
+                    else
                     {
                       $('#TambahAnggaranModal .modal-body #kro_kode_anggaran').html("");
                       $('#TambahAnggaranModal .modal-body #kro_kode_anggaran').append('<option value="">Tidak ada KRO</option>');
                       $('#TambahAnggaranModal .modal-body #kro_kode_anggaran').attr('readonly',true)
                       $('#TambahAnggaranModal .modal-body #kro_kode_anggaran').attr('required',false)
                       $.ajax({
-                            url : '{{route("pok.outputbyprogkegcari",["","",""])}}/'+prog_kode+'/'+keg_kode+'/0',
+                            url : '{{route("pok.outputbyprogkegcari",["","",""])}}/'+prog_kode+'/'+keg_kode+'/1',
                             method : 'get',
                             cache: false,
                             dataType: 'json',
-                            success: function(data) {     
+                            success: function(data) {
                                 if (data.status == true)
                                 {
                                   var jumlah = data.jumlah;
@@ -212,14 +212,14 @@ $('#TambahAnggaranModal').on('show.bs.modal', function (event) {
                                   $('#TambahAnggaranModal .modal-body #output_kode_anggaran').attr('readonly',false)
                                   $('#TambahAnggaranModal .modal-body #output_kode_anggaran').attr('required',true)
                                 }
-                                else 
+                                else
                                 {
                                   $('#TambahAnggaranModal .modal-body #output_kode_anggaran').html("");
                                   $('#TambahAnggaranModal .modal-body #output_kode_anggaran').append('<option value="">Tidak ada Output</option>');
                                   $('#TambahAnggaranModal .modal-body #output_kode_anggaran').attr('readonly',true)
                                   $('#TambahAnggaranModal .modal-body #output_kode_anggaran').attr('required',false)
                                 }
-                                
+
                             },
                             error: function(){
                                 alert("error data output");
@@ -227,7 +227,7 @@ $('#TambahAnggaranModal').on('show.bs.modal', function (event) {
 
                         });
                     }
-                    
+
                 },
                 error: function(){
                     alert("error data kro");
@@ -235,16 +235,56 @@ $('#TambahAnggaranModal').on('show.bs.modal', function (event) {
 
             });
     });
+    $('#kro_kode_anggaran').change(function(){
+        var prog_kode = $('#prog_kode_anggaran').val();
+        var keg_kode = $('#keg_kode_anggaran').val();
+        var kro_kode = $('#kro_kode_anggaran').val();
+        $.ajax({
+            url : '{{route("pok.outputbyprogkegcari",["","",""])}}/'+prog_kode+'/'+keg_kode+'/'+kro_kode,
+            method : 'get',
+            cache: false,
+            dataType: 'json',
+            success: function(data) {
+                if (data.status == true)
+                {
+                    var jumlah = data.jumlah;
+                    $('#TambahAnggaranModal .modal-body #output_kode_anggaran').html("");
+                    $('#TambahAnggaranModal .modal-body #output_kode_anggaran').append('<option value="">Pilih Output</option>');
+                    for (i = 0; i < jumlah; i++) {
+                        $('#TambahAnggaranModal .modal-body #output_kode_anggaran').append('<option value="'+ data.hasil[i].kode_output +'">['+ data.hasil[i].kode_output +'] '+ data.hasil[i].nama_output +'</option>');
+                    }
+                    $('#TambahAnggaranModal .modal-body #output_kode_anggaran').attr('readonly',false)
+                    $('#TambahAnggaranModal .modal-body #output_kode_anggaran').attr('required',true)
+                }
+                else
+                {
+                    $('#TambahAnggaranModal .modal-body #output_kode_anggaran').html("");
+                    $('#TambahAnggaranModal .modal-body #output_kode_anggaran').append('<option value="">Tidak ada Output</option>');
+                    $('#TambahAnggaranModal .modal-body #output_kode_anggaran').attr('readonly',true)
+                    $('#TambahAnggaranModal .modal-body #output_kode_anggaran').attr('required',false)
+                }
+
+            },
+            error: function(){
+                alert("error data kegiatan");
+            }
+        });
+    });
     $('#output_kode_anggaran').change(function(){
         var prog_kode = $('#prog_kode_anggaran').val();
         var keg_kode = $('#keg_kode_anggaran').val();
         var output_kode = $('#output_kode_anggaran').val();
+        var kode_kro = $('#kro_kode_anggaran').val();
+        if (kode_kro == "")
+        {
+            var kode_kro = 1;
+        }
         $.ajax({
-                url : '{{route("pok.kompbyoutput",["","","",""])}}/'+prog_kode+'/'+keg_kode+'/'+output_kode+'/2',
+                url : '{{route("pok.kompbyoutput",["","","","",""])}}/'+prog_kode+'/'+keg_kode+'/'+kode_kro+'/'+output_kode+'/2',
                 method : 'get',
                 cache: false,
                 dataType: 'json',
-                success: function(data) {     
+                success: function(data) {
                     if (data.status == true)
                     {
                         $('#TambahAnggaranModal .modal-body #komponen_kode_anggaran').html("");
@@ -255,7 +295,7 @@ $('#TambahAnggaranModal').on('show.bs.modal', function (event) {
                         $('#TambahAnggaranModal .modal-body #komponen_kode_anggaran').attr('readonly',false)
                         $('#TambahAnggaranModal .modal-body #komponen_kode_anggaran').attr('required',true)
                     }
-                    else 
+                    else
                     {
                         $('#TambahAnggaranModal .modal-body #komponen_kode_anggaran').html("");
                         $('#TambahAnggaranModal .modal-body #komponen_kode_anggaran').append('<option value="">Tidak ada Komponen</option>');
@@ -263,8 +303,8 @@ $('#TambahAnggaranModal').on('show.bs.modal', function (event) {
                         $('#TambahAnggaranModal .modal-body #komponen_kode_anggaran').attr('required',false)
                     }
 
-                    
-                    
+
+
                 },
                 error: function(){
                     alert("error data Komponen");
@@ -275,14 +315,19 @@ $('#TambahAnggaranModal').on('show.bs.modal', function (event) {
     $('#komponen_kode_anggaran').change(function(){
         var prog_kode = $('#prog_kode_anggaran').val();
         var keg_kode = $('#keg_kode_anggaran').val();
+        var kode_kro = $('#kro_kode_anggaran').val();
+        if (kode_kro == "")
+        {
+            var kode_kro = 1;
+        }
         var output_kode = $('#output_kode_anggaran').val();
         var komponen_kode = $('#komponen_kode_anggaran').val();
         $.ajax({
-                url : '{{route("pok.subkombykomponen",["","","",""])}}/'+prog_kode+'/'+keg_kode+'/'+output_kode+'/'+komponen_kode,
+                url : '{{route("pok.subkombykomponen",["","","","",""])}}/'+prog_kode+'/'+keg_kode+'/'+kode_kro+'/'+output_kode+'/'+komponen_kode,
                 method : 'get',
                 cache: false,
                 dataType: 'json',
-                success: function(data) {     
+                success: function(data) {
                     if (data.status == true)
                     {
                         $('#TambahAnggaranModal .modal-body #subkomponen_kode_anggaran').html("");
@@ -293,7 +338,7 @@ $('#TambahAnggaranModal').on('show.bs.modal', function (event) {
                         $('#TambahAnggaranModal .modal-body #subkomponen_kode_anggaran').attr('readonly',false)
                         $('#TambahAnggaranModal .modal-body #subkomponen_kode_anggaran').attr('required',true)
                     }
-                    else 
+                    else
                     {
                         $('#TambahAnggaranModal .modal-body #subkomponen_kode_anggaran').html("");
                         $('#TambahAnggaranModal .modal-body #subkomponen_kode_anggaran').append('<option value="">Tidak ada Sub Komponen</option>');
@@ -301,8 +346,8 @@ $('#TambahAnggaranModal').on('show.bs.modal', function (event) {
                         $('#TambahAnggaranModal .modal-body #subkomponen_kode_anggaran').attr('required',false)
                     }
 
-                    
-                    
+
+
                 },
                 error: function(){
                     alert("error data subKomponen");

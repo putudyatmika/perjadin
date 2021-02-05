@@ -54,8 +54,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('pok/komponen/simpan', 'PokController@KomponenSimpan')->name('pok.komponensimpan');
     Route::post('pok/komponen/update', 'PokController@KomponenUpdate')->name('pok.komponenupdate');
     Route::post('pok/komponen/hapus', 'PokController@KomponenHapus')->name('pok.komponenhapus');
-    Route::get('pok/kompbyoutput/cari/{kodeprog}/{kodekeg}/{kodeoutput}/{flagsub}', 'PokController@CariKomponenByOutput')->name('pok.kompbyoutput');
-    Route::get('pok/subkombykomponen/cari/{kodeprog}/{kodekeg}/{kodeoutput}/{kodekomponen}', 'PokController@CariSubByKomponen')->name('pok.subkombykomponen');
+    Route::get('pok/kompbyoutput/cari/{kodeprog}/{kodekeg}/{kodekro}/{kodeoutput}/{flagsub}', 'PokController@CariKomponenByOutput')->name('pok.kompbyoutput');
+    Route::get('pok/subkombykomponen/cari/{kodeprog}/{kodekeg}/{kodekro}/{kodeoutput}/{kodekomponen}', 'PokController@CariSubByKomponen')->name('pok.subkombykomponen');
     Route::get('pok/subkomponen', 'PokController@SubKomponen')->name('pok.subkomponen');
     Route::get('pok/subkomponen/format', 'PokController@FormatSubKomponenImport')->name('pok.subkomponenformat');
     Route::post('pok/subkomponen/import', 'PokController@SubKomponenImport')->name('pok.subkomponenimport');

@@ -4,7 +4,7 @@ $('#EditModal').on('show.bs.modal', function (event) {
   var idprog = button.data('idprog')
   var namaprog = button.data('namaprog')
   var kodeprog = button.data('kodeprog')
-  
+
 
   var modal = $(this)
   modal.find('.modal-body #prog_kode').val(kodeprog)
@@ -17,7 +17,7 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
   var idprog = button.data('idprog')
   var namaprog = button.data('namaprog')
   var kodeprog = button.data('kodeprog')
-  
+
 
   var modal = $(this)
   modal.find('.modal-body #prog_kode').val(kodeprog)
@@ -66,7 +66,7 @@ $('#TambahKroModal').on('show.bs.modal', function (event) {
                 method : 'get',
                 cache: false,
                 dataType: 'json',
-                success: function(data) {     
+                success: function(data) {
                     var jumlah = data.jumlah;
                     $('#TambahKroModal .modal-body #keg_kode_kro').html("");
                     $('#TambahKroModal .modal-body #keg_kode_kro').append('<option value="">Pilih Kegiatan</option>');
@@ -93,13 +93,13 @@ $('#EditKroModal').on('show.bs.modal', function (event) {
   var kodekeg = button.data('kodekeg')
   var kodekro = button.data('kodekro')
   var namakro = button.data('namakro')
-  
+
   $.ajax({
           url : '{{route("pok.kegbyprogcari",["",""])}}/'+kodeprog+'/1',
           method : 'get',
           cache: false,
           dataType: 'json',
-          success: function(data) {     
+          success: function(data) {
               var jumlah = data.jumlah;
               $('#EditKroModal .modal-body #prog_kode_editkro').val(kodeprog);
               $('#EditKroModal .modal-body #kro_kode').val(kodekro);
@@ -117,7 +117,7 @@ $('#EditKroModal').on('show.bs.modal', function (event) {
           }
 
       });
-  
+
   $('#prog_kode_editkro').change(function(){
         var prog_kode_kro = $('#prog_kode_editkro').val();
         $.ajax({
@@ -125,7 +125,7 @@ $('#EditKroModal').on('show.bs.modal', function (event) {
                 method : 'get',
                 cache: false,
                 dataType: 'json',
-                success: function(data) {     
+                success: function(data) {
                     var jumlah = data.jumlah;
                     $('#EditKroModal .modal-body #keg_kode_editkro').html("");
                     $('#EditKroModal .modal-body #keg_kode_editkro').append('<option value="">Pilih Kegiatan</option>');
@@ -159,7 +159,7 @@ $('#DeleteKroModal').on('show.bs.modal', function (event) {
   modal.find('.modal-body #kro_kode').val(kodekro)
   modal.find('.modal-body #kro_nama').val(namakro)
   modal.find('.modal-body #idkro').val(idkro)
-  
+
 });
 
 $('#TambahOutputModal').on('show.bs.modal', function (event) {
@@ -171,14 +171,14 @@ $('#TambahOutputModal').on('show.bs.modal', function (event) {
                 method : 'get',
                 cache: false,
                 dataType: 'json',
-                success: function(data) {     
+                success: function(data) {
                     var jumlah = data.jumlah;
                     $('#TambahOutputModal .modal-body #keg_kode_output').html("");
                     $('#TambahOutputModal .modal-body #keg_kode_output').append('<option value="">Pilih Kegiatan</option>');
                     for (i = 0; i < jumlah; i++) {
                         $('#TambahOutputModal .modal-body #keg_kode_output').append('<option value="'+ data.hasil[i].kode_keg +'">['+ data.hasil[i].kode_keg +'] '+ data.hasil[i].nama_keg +'</option>');
                     }
-                    
+
                 },
                 error: function(){
                     alert("error data kegiatan");
@@ -194,7 +194,7 @@ $('#TambahOutputModal').on('show.bs.modal', function (event) {
                 method : 'get',
                 cache: false,
                 dataType: 'json',
-                success: function(data) {     
+                success: function(data) {
                     if (data.status == true)
                     {
                       var jumlah = data.jumlah;
@@ -206,14 +206,14 @@ $('#TambahOutputModal').on('show.bs.modal', function (event) {
                       $('#TambahOutputModal .modal-body #kro_kode_output').attr('readonly',false)
                       $('#TambahOutputModal .modal-body #kro_kode_output').attr('required',true)
                     }
-                    else 
+                    else
                     {
                       $('#TambahOutputModal .modal-body #kro_kode_output').html("");
                       $('#TambahOutputModal .modal-body #kro_kode_output').append('<option value="">Tidak ada KRO</option>');
                       $('#TambahOutputModal .modal-body #kro_kode_output').attr('readonly',true)
                       $('#TambahOutputModal .modal-body #kro_kode_output').attr('required',false)
                     }
-                    
+
                 },
                 error: function(){
                     alert("error data kegiatan");
@@ -240,7 +240,7 @@ $('#EditOutputModal').on('show.bs.modal', function (event) {
             method : 'get',
             cache: false,
             dataType: 'json',
-            success: function(data) {     
+            success: function(data) {
                 var jumlah = data.jumlah;
                 $('#EditOutputModal .modal-body #prog_kode_editoutput').val(kodeprog);
                 $('#EditOutputModal .modal-body #kro_kode_editoutput').val(kodekro);
@@ -264,7 +264,7 @@ $.ajax({
                 method : 'get',
                 cache: false,
                 dataType: 'json',
-                success: function(data) {     
+                success: function(data) {
                     if (data.status == true)
                     {
                       var jumlah = data.jumlah;
@@ -276,7 +276,7 @@ $.ajax({
                       $('#EditOutputModal .modal-body #kro_kode_editoutput').attr('readonly',false)
                       $('#EditOutputModal .modal-body #kro_kode_editoutput').attr('required',true)
                     }
-                    else 
+                    else
                     {
                       $('#EditOutputModal .modal-body #kro_kode_editoutput').html("");
                       $('#EditOutputModal .modal-body #kro_kode_editoutput').append('<option value="">Tidak ada KRO</option>');
@@ -284,7 +284,7 @@ $.ajax({
                       $('#EditOutputModal .modal-body #kro_kode_editoutput').attr('required',false)
                     }
                     $('#EditOutputModal .modal-body #kro_kode_editoutput').val(kodekro);
-                    
+
                 },
                 error: function(){
                     alert("error data kegiatan");
@@ -298,7 +298,7 @@ $.ajax({
                 method : 'get',
                 cache: false,
                 dataType: 'json',
-                success: function(data) {     
+                success: function(data) {
                     var jumlah = data.jumlah;
                     $('#EditOutputModal .modal-body #keg_kode_editoutput').html("");
                     $('#EditOutputModal .modal-body #keg_kode_editoutput').append('<option value="">Pilih Kegiatan</option>');
@@ -320,7 +320,7 @@ $.ajax({
                 method : 'get',
                 cache: false,
                 dataType: 'json',
-                success: function(data) {     
+                success: function(data) {
                     if (data.status == true)
                     {
                       var jumlah = data.jumlah;
@@ -332,14 +332,14 @@ $.ajax({
                       $('#EditOutputModal .modal-body #kro_kode_editoutput').attr('readonly',false)
                       $('#EditOutputModal .modal-body #kro_kode_editoutput').attr('required',true)
                     }
-                    else 
+                    else
                     {
                       $('#EditOutputModal .modal-body #kro_kode_editoutput').html("");
                       $('#EditOutputModal .modal-body #kro_kode_editoutput').append('<option value="">Tidak ada KRO</option>');
                       $('#EditOutputModal .modal-body #kro_kode_editoutput').attr('readonly',true)
                       $('#EditOutputModal .modal-body #kro_kode_editoutput').attr('required',false)
                     }
-                    
+
                 },
                 error: function(){
                     alert("error data kegiatan");
@@ -369,7 +369,7 @@ $('#DeleteOutputModal').on('show.bs.modal', function (event) {
   modal.find('.modal-body #output_kode').val(kodeoutput)
   modal.find('.modal-body #output_nama').val(namaoutput)
   modal.find('.modal-body #idoutput').val(idoutput)
-  
+
 });
 
 $('#TambahKomponenModal').on('show.bs.modal', function (event) {
@@ -381,14 +381,14 @@ $('#TambahKomponenModal').on('show.bs.modal', function (event) {
                 method : 'get',
                 cache: false,
                 dataType: 'json',
-                success: function(data) {     
+                success: function(data) {
                     var jumlah = data.jumlah;
                     $('#TambahKomponenModal .modal-body #keg_kode_komponen').html("");
                     $('#TambahKomponenModal .modal-body #keg_kode_komponen').append('<option value="">Pilih Kegiatan</option>');
                     for (i = 0; i < jumlah; i++) {
                         $('#TambahKomponenModal .modal-body #keg_kode_komponen').append('<option value="'+ data.hasil[i].kode_keg +'">['+ data.hasil[i].kode_keg +'] '+ data.hasil[i].nama_keg +'</option>');
                     }
-                    
+
                 },
                 error: function(){
                     alert("error data kegiatan");
@@ -404,7 +404,7 @@ $('#TambahKomponenModal').on('show.bs.modal', function (event) {
                 method : 'get',
                 cache: false,
                 dataType: 'json',
-                success: function(data) {     
+                success: function(data) {
                     if (data.status == true)
                     {
                       var jumlah = data.jumlah;
@@ -416,7 +416,7 @@ $('#TambahKomponenModal').on('show.bs.modal', function (event) {
                       $('#TambahKomponenModal .modal-body #kro_kode_komponen').attr('readonly',false)
                       $('#TambahKomponenModal .modal-body #kro_kode_komponen').attr('required',true)
                     }
-                    else 
+                    else
                     {
                       $('#TambahKomponenModal .modal-body #kro_kode_komponen').html("");
                       $('#TambahKomponenModal .modal-body #kro_kode_komponen').append('<option value="">Tidak ada KRO</option>');
@@ -427,7 +427,7 @@ $('#TambahKomponenModal').on('show.bs.modal', function (event) {
                             method : 'get',
                             cache: false,
                             dataType: 'json',
-                            success: function(data) {     
+                            success: function(data) {
                                 if (data.status == true)
                                 {
                                   var jumlah = data.jumlah;
@@ -439,14 +439,14 @@ $('#TambahKomponenModal').on('show.bs.modal', function (event) {
                                   $('#TambahKomponenModal .modal-body #output_kode_komponen').attr('readonly',false)
                                   $('#TambahKomponenModal .modal-body #output_kode_komponen').attr('required',true)
                                 }
-                                else 
+                                else
                                 {
                                   $('#TambahKomponenModal .modal-body #output_kode_komponen').html("");
                                   $('#TambahKomponenModal .modal-body #output_kode_komponen').append('<option value="">Tidak ada Output</option>');
                                   $('#TambahKomponenModal .modal-body #output_kode_komponen').attr('readonly',true)
                                   $('#TambahKomponenModal .modal-body #output_kode_komponen').attr('required',false)
                                 }
-                                
+
                             },
                             error: function(){
                                 alert("error data kegiatan");
@@ -454,7 +454,7 @@ $('#TambahKomponenModal').on('show.bs.modal', function (event) {
 
                         });
                     }
-                    
+
                 },
                 error: function(){
                     alert("error data kegiatan");
@@ -472,7 +472,7 @@ $('#TambahKomponenModal').on('show.bs.modal', function (event) {
             method : 'get',
             cache: false,
             dataType: 'json',
-            success: function(data) {     
+            success: function(data) {
                 if (data.status == true)
                 {
                     var jumlah = data.jumlah;
@@ -484,14 +484,14 @@ $('#TambahKomponenModal').on('show.bs.modal', function (event) {
                     $('#TambahKomponenModal .modal-body #output_kode_komponen').attr('readonly',false)
                     $('#TambahKomponenModal .modal-body #output_kode_komponen').attr('required',true)
                 }
-                else 
+                else
                 {
                     $('#TambahKomponenModal .modal-body #output_kode_komponen').html("");
                     $('#TambahKomponenModal .modal-body #output_kode_komponen').append('<option value="">Tidak ada Output</option>');
                     $('#TambahKomponenModal .modal-body #output_kode_komponen').attr('readonly',true)
                     $('#TambahKomponenModal .modal-body #output_kode_komponen').attr('required',false)
                 }
-                
+
             },
             error: function(){
                 alert("error data kegiatan");
@@ -526,7 +526,7 @@ $.ajax({
             method : 'get',
             cache: false,
             dataType: 'json',
-            success: function(data) {     
+            success: function(data) {
                 var jumlah = data.jumlah;
                 $('#EditKomponenModal .modal-body #keg_kode_editkomponen').html("");
                 $('#EditKomponenModal .modal-body #keg_kode_editkomponen').append('<option value="">Pilih Kegiatan</option>');
@@ -534,7 +534,7 @@ $.ajax({
                     $('#EditKomponenModal .modal-body #keg_kode_editkomponen').append('<option value="'+ data.hasil[i].kode_keg +'">['+ data.hasil[i].kode_keg +'] '+ data.hasil[i].nama_keg +'</option>');
                 }
                 $('#EditKomponenModal .modal-body #keg_kode_editkomponen').val(kodekeg);
-                
+
             },
             error: function(){
                 alert("error data kegiatan");
@@ -546,7 +546,7 @@ $.ajax({
     method : 'get',
     cache: false,
     dataType: 'json',
-    success: function(data) {     
+    success: function(data) {
         if (data.status == true)
         {
             var jumlah = data.jumlah;
@@ -560,7 +560,7 @@ $.ajax({
 
             $('#EditKomponenModal .modal-body #kro_kode_editkomponen').val(kodekro);
         }
-        else 
+        else
         {
             $('#EditKomponenModal .modal-body #kro_kode_editkomponen').html("");
             $('#EditKomponenModal .modal-body #kro_kode_editkomponen').append('<option value="">Tidak ada KRO</option>');
@@ -571,7 +571,7 @@ $.ajax({
                 method : 'get',
                 cache: false,
                 dataType: 'json',
-                success: function(dataout) {     
+                success: function(dataout) {
                     if (dataout.status == true)
                     {
                         $('#EditKomponenModal .modal-body #output_kode_editkomponen').html("");
@@ -582,7 +582,7 @@ $.ajax({
                         $('#EditKomponenModal .modal-body #output_kode_editkomponen').attr('readonly',false)
                         $('#EditKomponenModal .modal-body #output_kode_editkomponen').attr('required',true)
                     }
-                    else 
+                    else
                     {
                         $('#EditKomponenModal .modal-body #output_kode_editkomponen').html("");
                         $('#EditKomponenModal .modal-body #output_kode_editkomponen').append('<option value="">Tidak ada Output</option>');
@@ -590,7 +590,7 @@ $.ajax({
                         $('#EditKomponenModal .modal-body #output_kode_editkomponen').attr('required',false)
                     }
                     $('#EditKomponenModal .modal-body #output_kode_editkomponen').val(kodeoutput);
-                    
+
                 },
                 error: function(){
                     alert("error data output");
@@ -598,21 +598,21 @@ $.ajax({
 
             });
         }
-        
+
     },
     error: function(){
         alert("error data kegiatan");
     }
 
 });
-  if (kodekro != null)
+  if (kodekro != "")
   {
     $.ajax({
             url : '{{route("pok.outputbyprogkegcari",["","",""])}}/'+kodeprog+'/'+kodekeg+'/'+kodekro,
             method : 'get',
             cache: false,
             dataType: 'json',
-            success: function(data) {     
+            success: function(data) {
                 if (data.status == true)
                 {
                     var jumlah = data.jumlah;
@@ -625,14 +625,14 @@ $.ajax({
                     $('#EditKomponenModal .modal-body #output_kode_editkomponen').attr('required',true)
                     $('#EditKomponenModal .modal-body #output_kode_editkomponen').val(kodeoutput);
                 }
-                else 
+                else
                 {
                     $('#EditKomponenModal .modal-body #output_kode_editkomponen').html("");
                     $('#EditKomponenModal .modal-body #output_kode_editkomponen').append('<option value="">Tidak ada Output</option>');
                     $('#EditKomponenModal .modal-body #output_kode_editkomponen').attr('readonly',true)
                     $('#EditKomponenModal .modal-body #output_kode_editkomponen').attr('required',false)
                 }
-                
+
             },
             error: function(){
                 alert("error data kro");
@@ -646,14 +646,14 @@ $.ajax({
                 method : 'get',
                 cache: false,
                 dataType: 'json',
-                success: function(data) {     
+                success: function(data) {
                     var jumlah = data.jumlah;
                     $('#EditKomponenModal .modal-body #keg_kode_editkomponen').html("");
                     $('#EditKomponenModal .modal-body #keg_kode_editkomponen').append('<option value="">Pilih Kegiatan</option>');
                     for (i = 0; i < jumlah; i++) {
                         $('#EditKomponenModal .modal-body #keg_kode_editkomponen').append('<option value="'+ data.hasil[i].kode_keg +'">['+ data.hasil[i].kode_keg +'] '+ data.hasil[i].nama_keg +'</option>');
                     }
-                    
+
                 },
                 error: function(){
                     alert("error data kegiatan");
@@ -670,7 +670,7 @@ $('#keg_kode_editkomponen').change(function(){
                 method : 'get',
                 cache: false,
                 dataType: 'json',
-                success: function(data) {     
+                success: function(data) {
                     if (data.status == true)
                     {
                       var jumlah = data.jumlah;
@@ -682,7 +682,7 @@ $('#keg_kode_editkomponen').change(function(){
                       $('#EditKomponenModal .modal-body #kro_kode_editkomponen').attr('readonly',false)
                       $('#EditKomponenModal .modal-body #kro_kode_editkomponen').attr('required',true)
                     }
-                    else 
+                    else
                     {
                       $('#EditKomponenModal .modal-body #kro_kode_editkomponen').html("");
                       $('#EditKomponenModal .modal-body #kro_kode_editkomponen').append('<option value="">Tidak ada KRO</option>');
@@ -693,7 +693,7 @@ $('#keg_kode_editkomponen').change(function(){
                             method : 'get',
                             cache: false,
                             dataType: 'json',
-                            success: function(dataout) {     
+                            success: function(dataout) {
                                 if (dataout.status == true)
                                 {
                                   $('#EditKomponenModal .modal-body #output_kode_editkomponen').html("");
@@ -704,14 +704,14 @@ $('#keg_kode_editkomponen').change(function(){
                                   $('#EditKomponenModal .modal-body #output_kode_editkomponen').attr('readonly',false)
                                   $('#EditKomponenModal .modal-body #output_kode_editkomponen').attr('required',true)
                                 }
-                                else 
+                                else
                                 {
                                   $('#EditKomponenModal .modal-body #output_kode_editkomponen').html("");
                                   $('#EditKomponenModal .modal-body #output_kode_editkomponen').append('<option value="">Tidak ada Output</option>');
                                   $('#EditKomponenModal .modal-body #output_kode_editkomponen').attr('readonly',true)
                                   $('#EditKomponenModal .modal-body #output_kode_editkomponen').attr('required',false)
                                 }
-                                
+
                             },
                             error: function(){
                                 alert("error data kegiatan");
@@ -719,7 +719,7 @@ $('#keg_kode_editkomponen').change(function(){
 
                         });
                     }
-                    
+
                 },
                 error: function(){
                     alert("error data kegiatan");
@@ -736,7 +736,7 @@ $('#keg_kode_editkomponen').change(function(){
             method : 'get',
             cache: false,
             dataType: 'json',
-            success: function(data) {     
+            success: function(data) {
                 if (data.status == true)
                 {
                     var jumlah = data.jumlah;
@@ -748,14 +748,14 @@ $('#keg_kode_editkomponen').change(function(){
                     $('#EditKomponenModal .modal-body #output_kode_editkomponen').attr('readonly',false)
                     $('#EditKomponenModal .modal-body #output_kode_editkomponen').attr('required',true)
                 }
-                else 
+                else
                 {
                     $('#EditKomponenModal .modal-body #output_kode_editkomponen').html("");
                     $('#EditKomponenModal .modal-body #output_kode_editkomponen').append('<option value="">Tidak ada Output</option>');
                     $('#EditKomponenModal .modal-body #output_kode_editkomponen').attr('readonly',true)
                     $('#EditKomponenModal .modal-body #output_kode_editkomponen').attr('required',false)
                 }
-                
+
             },
             error: function(){
                 alert("error data kegiatan");
@@ -799,14 +799,14 @@ $('#TambahSubKomponenModal').on('show.bs.modal', function (event) {
                 method : 'get',
                 cache: false,
                 dataType: 'json',
-                success: function(data) {     
+                success: function(data) {
                     var jumlah = data.jumlah;
                     $('#TambahSubKomponenModal .modal-body #keg_kode_subkomponen').html("");
                     $('#TambahSubKomponenModal .modal-body #keg_kode_subkomponen').append('<option value="">Pilih Kegiatan</option>');
                     for (i = 0; i < jumlah; i++) {
                         $('#TambahSubKomponenModal .modal-body #keg_kode_subkomponen').append('<option value="'+ data.hasil[i].kode_keg +'">['+ data.hasil[i].kode_keg +'] '+ data.hasil[i].nama_keg +'</option>');
                     }
-                    
+
                 },
                 error: function(){
                     alert("error data kegiatan");
@@ -822,7 +822,7 @@ $('#TambahSubKomponenModal').on('show.bs.modal', function (event) {
                 method : 'get',
                 cache: false,
                 dataType: 'json',
-                success: function(data) {     
+                success: function(data) {
                     if (data.status == true)
                     {
                       var jumlah = data.jumlah;
@@ -834,7 +834,7 @@ $('#TambahSubKomponenModal').on('show.bs.modal', function (event) {
                       $('#TambahSubKomponenModal .modal-body #kro_kode_subkomponen').attr('readonly',false)
                       $('#TambahSubKomponenModal .modal-body #kro_kode_subkomponen').attr('required',true)
                     }
-                    else 
+                    else
                     {
                       $('#TambahSubKomponenModal .modal-body #kro_kode_subkomponen').html("");
                       $('#TambahSubKomponenModal .modal-body #kro_kode_subkomponen').append('<option value="">Tidak ada KRO</option>');
@@ -845,7 +845,7 @@ $('#TambahSubKomponenModal').on('show.bs.modal', function (event) {
                             method : 'get',
                             cache: false,
                             dataType: 'json',
-                            success: function(data) {     
+                            success: function(data) {
                                 if (data.status == true)
                                 {
                                   var jumlah = data.jumlah;
@@ -857,14 +857,14 @@ $('#TambahSubKomponenModal').on('show.bs.modal', function (event) {
                                   $('#TambahSubKomponenModal .modal-body #output_kode_subkomponen').attr('readonly',false)
                                   $('#TambahSubKomponenModal .modal-body #output_kode_subkomponen').attr('required',true)
                                 }
-                                else 
+                                else
                                 {
                                   $('#TambahSubKomponenModal .modal-body #output_kode_subkomponen').html("");
                                   $('#TambahSubKomponenModal .modal-body #output_kode_subkomponen').append('<option value="">Tidak ada Output</option>');
                                   $('#TambahSubKomponenModal .modal-body #output_kode_subkomponen').attr('readonly',true)
                                   $('#TambahSubKomponenModal .modal-body #output_kode_subkomponen').attr('required',false)
                                 }
-                                
+
                             },
                             error: function(){
                                 alert("error data kegiatan");
@@ -872,7 +872,7 @@ $('#TambahSubKomponenModal').on('show.bs.modal', function (event) {
 
                         });
                     }
-                    
+
                 },
                 error: function(){
                     alert("error data kegiatan");
@@ -889,7 +889,7 @@ $('#TambahSubKomponenModal').on('show.bs.modal', function (event) {
             method : 'get',
             cache: false,
             dataType: 'json',
-            success: function(data) {     
+            success: function(data) {
                 if (data.status == true)
                 {
                     var jumlah = data.jumlah;
@@ -901,14 +901,14 @@ $('#TambahSubKomponenModal').on('show.bs.modal', function (event) {
                     $('#TambahSubKomponenModal .modal-body #output_kode_subkomponen').attr('readonly',false)
                     $('#TambahSubKomponenModal .modal-body #output_kode_subkomponen').attr('required',true)
                 }
-                else 
+                else
                 {
                     $('#TambahSubKomponenModal .modal-body #output_kode_subkomponen').html("");
                     $('#TambahSubKomponenModal .modal-body #output_kode_subkomponen').append('<option value="">Tidak ada Output</option>');
                     $('#TambahSubKomponenModal .modal-body #output_kode_subkomponen').attr('readonly',true)
                     $('#TambahSubKomponenModal .modal-body #output_kode_subkomponen').attr('required',false)
                 }
-                
+
             },
             error: function(){
                 alert("error data kegiatan");
@@ -919,12 +919,18 @@ $('#TambahSubKomponenModal').on('show.bs.modal', function (event) {
         var prog_kode = $('#prog_kode_subkomponen').val();
         var keg_kode = $('#keg_kode_subkomponen').val();
         var output_kode = $('#output_kode_subkomponen').val();
+        var kro_kode = $('#kro_kode_subkomponen').val();
+        if (kro_kode == "")
+        {
+            //kosong tanpa kro
+            var kro_kode = 1;
+        }
         $.ajax({
-                url : '{{route("pok.kompbyoutput",["","","",""])}}/'+prog_kode+'/'+keg_kode+'/'+output_kode+'/1',
+                url : '{{route("pok.kompbyoutput",["","","","",""])}}/'+prog_kode+'/'+keg_kode+'/'+kro_kode+'/'+output_kode+'/1',
                 method : 'get',
                 cache: false,
                 dataType: 'json',
-                success: function(data) {     
+                success: function(data) {
                     if (data.status == true)
                     {
                         $('#TambahSubKomponenModal .modal-body #komponen_kode_subkomponen').html("");
@@ -935,7 +941,7 @@ $('#TambahSubKomponenModal').on('show.bs.modal', function (event) {
                         $('#TambahSubKomponenModal .modal-body #komponen_kode_subkomponen').attr('readonly',false)
                         $('#TambahSubKomponenModal .modal-body #komponen_kode_subkomponen').attr('required',true)
                     }
-                    else 
+                    else
                     {
                         $('#TambahSubKomponenModal .modal-body #komponen_kode_subkomponen').html("");
                         $('#TambahSubKomponenModal .modal-body #komponen_kode_subkomponen').append('<option value="">Tidak ada Komponen</option>');
@@ -943,11 +949,11 @@ $('#TambahSubKomponenModal').on('show.bs.modal', function (event) {
                         $('#TambahSubKomponenModal .modal-body #komponen_kode_subkomponen').attr('required',false)
                     }
 
-                    
-                    
+
+
                 },
                 error: function(){
-                    alert("error data Komponen");
+                    alert("error load data Komponen");
                 }
 
             });
@@ -968,7 +974,7 @@ $('#EditSubKomponenModal').on('show.bs.modal', function (event) {
   var kodekomponen = button.data('kodekomponen')
   var kodesubkomponen = button.data('kodesubkomponen')
   var namasubkomponen = button.data('namasubkomponen')
- 
+
 $('#EditSubKomponenModal .modal-body #prog_kode_editsubkomponen').val(kodeprog);
 $('#EditSubKomponenModal .modal-body #subkomponen_nama').val(namasubkomponen);
 $('#EditSubKomponenModal .modal-body #subkomponen_kode').val(kodesubkomponen);
@@ -979,7 +985,7 @@ $.ajax({
     method : 'get',
     cache: false,
     dataType: 'json',
-    success: function(data) {     
+    success: function(data) {
         var jumlah = data.jumlah;
         $('#EditSubKomponenModal .modal-body #keg_kode_editsubkomponen').html("");
         $('#EditSubKomponenModal .modal-body #keg_kode_editsubkomponen').append('<option value="">Pilih Kegiatan</option>');
@@ -987,7 +993,7 @@ $.ajax({
             $('#EditSubKomponenModal .modal-body #keg_kode_editsubkomponen').append('<option value="'+ data.hasil[i].kode_keg +'">['+ data.hasil[i].kode_keg +'] '+ data.hasil[i].nama_keg +'</option>');
         }
         $('#EditSubKomponenModal .modal-body #keg_kode_editsubkomponen').val(kodekeg)
-        
+
     },
     error: function(){
         alert("error data kegiatan");
@@ -999,7 +1005,7 @@ $.ajax({
     method : 'get',
     cache: false,
     dataType: 'json',
-    success: function(data) {     
+    success: function(data) {
         if (data.status == true)
         {
             var jumlah = data.jumlah;
@@ -1012,7 +1018,7 @@ $.ajax({
             $('#EditSubKomponenModal .modal-body #kro_kode_editsubkomponen').attr('required',true)
             $('#EditSubKomponenModal .modal-body #kro_kode_editsubkomponen').val(kodekro)
         }
-        else 
+        else
         {
             $('#EditSubKomponenModal .modal-body #kro_kode_editsubkomponen').html("");
             $('#EditSubKomponenModal .modal-body #kro_kode_editsubkomponen').append('<option value="">Tidak ada KRO</option>');
@@ -1023,7 +1029,7 @@ $.ajax({
                 method : 'get',
                 cache: false,
                 dataType: 'json',
-                success: function(data) {     
+                success: function(data) {
                     if (data.status == true)
                     {
                         var jumlah = data.jumlah;
@@ -1034,15 +1040,16 @@ $.ajax({
                         }
                         $('#EditSubKomponenModal .modal-body #output_kode_editsubkomponen').attr('readonly',false)
                         $('#EditSubKomponenModal .modal-body #output_kode_editsubkomponen').attr('required',true)
+                        $('#EditSubKomponenModal .modal-body #output_kode_editsubkomponen').val(kodeoutput);
                     }
-                    else 
+                    else
                     {
                         $('#EditSubKomponenModal .modal-body #output_kode_editsubkomponen').html("");
                         $('#EditSubKomponenModal .modal-body #output_kode_editsubkomponen').append('<option value="">Tidak ada Output</option>');
                         $('#EditSubKomponenModal .modal-body #output_kode_editsubkomponen').attr('readonly',true)
                         $('#EditSubKomponenModal .modal-body #output_kode_editsubkomponen').attr('required',false)
                     }
-                   
+
                 },
                 error: function(){
                     alert("error data kegiatan");
@@ -1050,21 +1057,21 @@ $.ajax({
 
             });
         }
-        
+
     },
     error: function(){
         alert("error data kegiatan");
     }
 
 });
-if (kodekro != null)
+if (kodekro != "")
 {
     $.ajax({
             url : '{{route("pok.outputbyprogkegcari",["","",""])}}/'+kodeprog+'/'+kodekeg+'/'+kodekro,
             method : 'get',
             cache: false,
             dataType: 'json',
-            success: function(data) {     
+            success: function(data) {
                 if (data.status == true)
                 {
                     var jumlah = data.jumlah;
@@ -1077,29 +1084,32 @@ if (kodekro != null)
                     $('#EditSubKomponenModal .modal-body #output_kode_editsubkomponen').attr('required',true)
                     $('#EditSubKomponenModal .modal-body #output_kode_editsubkomponen').val(kodeoutput);
                 }
-                else 
+                else
                 {
                     $('#EditSubKomponenModal .modal-body #output_kode_editsubkomponen').html("");
                     $('#EditSubKomponenModal .modal-body #output_kode_editsubkomponen').append('<option value="">Tidak ada Output</option>');
                     $('#EditSubKomponenModal .modal-body #output_kode_editsubkomponen').attr('readonly',true)
                     $('#EditSubKomponenModal .modal-body #output_kode_editsubkomponen').attr('required',false)
                 }
-                
-                
+
+
             },
             error: function(){
                 alert("error data kegiatan");
             }
         });
 }
-
+else
+{
+    var kodekro=1;
+}
 
 $.ajax({
-    url : '{{route("pok.kompbyoutput",["","","",""])}}/'+kodeprog+'/'+kodekeg+'/'+kodeoutput+'/1',
+    url : '{{route("pok.kompbyoutput",["","","","",""])}}/'+kodeprog+'/'+kodekeg+'/'+kodekro+'/'+kodeoutput+'/1',
     method : 'get',
     cache: false,
     dataType: 'json',
-    success: function(data) {     
+    success: function(data) {
         if (data.status == true)
         {
             $('#EditSubKomponenModal .modal-body #komponen_kode_editsubkomponen').html("");
@@ -1110,7 +1120,7 @@ $.ajax({
             $('#EditSubKomponenModal .modal-body #komponen_kode_editsubkomponen').attr('readonly',false)
             $('#EditSubKomponenModal .modal-body #komponen_kode_editsubkomponen').attr('required',true)
         }
-        else 
+        else
         {
             $('#EditSubKomponenModal .modal-body #komponen_kode_editsubkomponen').html("");
             $('#EditSubKomponenModal .modal-body #komponen_kode_editsubkomponen').append('<option value="">Tidak ada Komponen</option>');
@@ -1118,8 +1128,8 @@ $.ajax({
             $('#EditSubKomponenModal .modal-body #komponen_kode_editsubkomponen').attr('required',false)
         }
         $('#EditSubKomponenModal .modal-body #komponen_kode_editsubkomponen').val(kodekomponen)
-        
-        
+
+
     },
     error: function(){
         alert("error data Komponen");
@@ -1133,14 +1143,14 @@ $.ajax({
                 method : 'get',
                 cache: false,
                 dataType: 'json',
-                success: function(data) {     
+                success: function(data) {
                     var jumlah = data.jumlah;
                     $('#EditSubKomponenModal .modal-body #keg_kode_editsubkomponen').html("");
                     $('#EditSubKomponenModal .modal-body #keg_kode_editsubkomponen').append('<option value="">Pilih Kegiatan</option>');
                     for (i = 0; i < jumlah; i++) {
                         $('#EditSubKomponenModal .modal-body #keg_kode_editsubkomponen').append('<option value="'+ data.hasil[i].kode_keg +'">['+ data.hasil[i].kode_keg +'] '+ data.hasil[i].nama_keg +'</option>');
                     }
-                    
+
                 },
                 error: function(){
                     alert("error data kegiatan");
@@ -1156,7 +1166,7 @@ $.ajax({
                 method : 'get',
                 cache: false,
                 dataType: 'json',
-                success: function(data) {     
+                success: function(data) {
                     if (data.status == true)
                     {
                       var jumlah = data.jumlah;
@@ -1168,7 +1178,7 @@ $.ajax({
                       $('#EditSubKomponenModal .modal-body #kro_kode_editsubkomponen').attr('readonly',false)
                       $('#EditSubKomponenModal .modal-body #kro_kode_editsubkomponen').attr('required',true)
                     }
-                    else 
+                    else
                     {
                       $('#EditSubKomponenModal .modal-body #kro_kode_editsubkomponen').html("");
                       $('#EditSubKomponenModal .modal-body #kro_kode_editsubkomponen').append('<option value="">Tidak ada KRO</option>');
@@ -1179,7 +1189,7 @@ $.ajax({
                             method : 'get',
                             cache: false,
                             dataType: 'json',
-                            success: function(data) {     
+                            success: function(data) {
                                 if (data.status == true)
                                 {
                                   var jumlah = data.jumlah;
@@ -1191,14 +1201,14 @@ $.ajax({
                                   $('#EditSubKomponenModal .modal-body #output_kode_editsubkomponen').attr('readonly',false)
                                   $('#EditSubKomponenModal .modal-body #output_kode_editsubkomponen').attr('required',true)
                                 }
-                                else 
+                                else
                                 {
                                   $('#EditSubKomponenModal .modal-body #output_kode_editsubkomponen').html("");
                                   $('#EditSubKomponenModal .modal-body #output_kode_editsubkomponen').append('<option value="">Tidak ada Output</option>');
                                   $('#EditSubKomponenModal .modal-body #output_kode_editsubkomponen').attr('readonly',true)
                                   $('#EditSubKomponenModal .modal-body #output_kode_editsubkomponen').attr('required',false)
                                 }
-                                
+
                             },
                             error: function(){
                                 alert("error data kegiatan");
@@ -1206,7 +1216,7 @@ $.ajax({
 
                         });
                     }
-                    
+
                 },
                 error: function(){
                     alert("error data kegiatan");
@@ -1223,7 +1233,7 @@ $.ajax({
             method : 'get',
             cache: false,
             dataType: 'json',
-            success: function(data) {     
+            success: function(data) {
                 if (data.status == true)
                 {
                     var jumlah = data.jumlah;
@@ -1235,14 +1245,14 @@ $.ajax({
                     $('#EditSubKomponenModal .modal-body #output_kode_editsubkomponen').attr('readonly',false)
                     $('#EditSubKomponenModal .modal-body #output_kode_editsubkomponen').attr('required',true)
                 }
-                else 
+                else
                 {
                     $('#EditSubKomponenModal .modal-body #output_kode_editsubkomponen').html("");
                     $('#EditSubKomponenModal .modal-body #output_kode_editsubkomponen').append('<option value="">Tidak ada Output</option>');
                     $('#EditSubKomponenModal .modal-body #output_kode_editsubkomponen').attr('readonly',true)
                     $('#EditSubKomponenModal .modal-body #output_kode_editsubkomponen').attr('required',false)
                 }
-                
+
             },
             error: function(){
                 alert("error data kegiatan");
@@ -1253,12 +1263,21 @@ $.ajax({
         var prog_kode = $('#prog_kode_editsubkomponen').val();
         var keg_kode = $('#keg_kode_editsubkomponen').val();
         var output_kode = $('#output_kode_editsubkomponen').val();
+        var kro_kode = $('#kro_kode_editsubkomponen').val();
+        if (kro_kode == null)
+        {
+            var kodekro = 1;
+        }
+        else
+        {
+            var kodekro = kro_kode;
+        }
         $.ajax({
-                url : '{{route("pok.kompbyoutput",["","","",""])}}/'+prog_kode+'/'+keg_kode+'/'+output_kode+'/1',
+                url : '{{route("pok.kompbyoutput",["","","","",""])}}/'+prog_kode+'/'+keg_kode+'/'+kodekro+'/'+output_kode+'/1',
                 method : 'get',
                 cache: false,
                 dataType: 'json',
-                success: function(data) {     
+                success: function(data) {
                     if (data.status == true)
                     {
                         $('#EditSubKomponenModal .modal-body #komponen_kode_editsubkomponen').html("");
@@ -1269,7 +1288,7 @@ $.ajax({
                         $('#EditSubKomponenModal .modal-body #komponen_kode_editsubkomponen').attr('readonly',false)
                         $('#EditSubKomponenModal .modal-body #komponen_kode_editsubkomponen').attr('required',true)
                     }
-                    else 
+                    else
                     {
                         $('#EditSubKomponenModal .modal-body #komponen_kode_editsubkomponen').html("");
                         $('#EditSubKomponenModal .modal-body #komponen_kode_editsubkomponen').append('<option value="">Tidak ada Komponen</option>');
@@ -1277,8 +1296,8 @@ $.ajax({
                         $('#EditSubKomponenModal .modal-body #komponen_kode_editsubkomponen').attr('required',false)
                     }
 
-                    
-                    
+
+
                 },
                 error: function(){
                     alert("error data Komponen");
@@ -1302,7 +1321,7 @@ $('#DeleteSubKomponenModal').on('show.bs.modal', function (event) {
   var kodekomponen = button.data('kodekomponen')
   var kodesubkomponen = button.data('kodesubkomponen')
   var namasubkomponen = button.data('namasubkomponen')
-  
+
 
   var modal = $(this)
   modal.find('.modal-body #prog_kode_hapussubkomponen').val(kodeprog)

@@ -23,7 +23,7 @@ class PokSubKomponenImport implements ToCollection, WithHeadingRow, WithBatchIns
     public function collection(Collection $rows)
     {
         $tahun_anggaran = Session::get('tahun_anggaran');
-       
+
         foreach ($rows as $row)
         {
             /*
@@ -35,21 +35,29 @@ class PokSubKomponenImport implements ToCollection, WithHeadingRow, WithBatchIns
                 'subkomponen_kode' => null,
                 'subkomponen_nama' => null,
             */
-            $count = PokSubKomponen::where([['tahun_subkom',$tahun_anggaran],['kode_prog',$row['prog_kode']],['kode_keg',$row['keg_kode']],['kode_kro',$row['kro_kode']],['kode_output',$row['output_kode']],['kode_komponen',$row['komponen_kode'],['kode_subkom',$row['subkomponen_kode']]]])->count();
+            $count = PokSubKomponen::where([['tahun_subkom',$tahun_anggaran],['kode_prog',trim($row['prog_kode'])],['kode_keg',trim($row['keg_kode'])],['kode_kro',$row['kro_kode']],['kode_output',trim($row['output_kode'])],['kode_komponen',trim($row['komponen_kode'])],['kode_subkom',trim($row['subkomponen_kode'])]])->count();
             if ($count == 0)
             {
+                if ($row['kro_kode'] == "" or $row['kro_kode']==NULL)
+                {
+                    $kode_kro = NULL;
+                }
+                else
+                {
+                    $kode_kro=$row['kro_kode'];
+                }
                 $data = new PokSubKomponen();
                 $data->tahun_subkom = $tahun_anggaran;
-                $data->kode_prog = $row['prog_kode'];
-                $data->kode_keg = $row['keg_kode'];
-                $data->kode_kro = $row['kro_kode'];
-                $data->kode_output = $row['output_kode'];
-                $data->kode_komponen = $row['komponen_kode'];
-                $data->kode_subkom = $row['subkomponen_kode'];
-                $data->nama_subkom = $row['subkomponen_nama'];
+                $data->kode_prog = trim($row['prog_kode']);
+                $data->kode_keg = trim($row['keg_kode']);
+                $data->kode_kro = $kode_kro;
+                $data->kode_output = trim($row['output_kode']);
+                $data->kode_komponen = trim($row['komponen_kode']);
+                $data->kode_subkom = trim($row['subkomponen_kode']);
+                $data->nama_subkom = trim($row['subkomponen_nama']);
                 $data->save();
             }
-            
+
         }
     }
     public function batchSize(): int
