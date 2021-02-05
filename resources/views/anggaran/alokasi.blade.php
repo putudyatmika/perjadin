@@ -43,8 +43,24 @@
                                 <dd class="col-sm-9">{{$dataAnggaran->id}}</dd>
                                 <dt class="col-sm-3">MAK</dt>
                                 <dd class="col-sm-9">{{$dataAnggaran->mak}}</dd>
+                                <dt class="col-sm-3">Program</dt>
+                                <dd class="col-sm-9">[{{$dataAnggaran->prog_kode}}] {{$dataAnggaran->prog_nama}}</dd>
+                                <dt class="col-sm-3">Kegiatan</dt>
+                                <dd class="col-sm-9">[{{$dataAnggaran->keg_kode}}] {{$dataAnggaran->keg_nama}}</dd>
+                                @if ($dataAnggaran->kro_kode != NULL)
+                                <dt class="col-sm-3">KRO</dt>
+                                <dd class="col-sm-9">[{{$dataAnggaran->kro_kode}}] {{$dataAnggaran->kro_nama}}</dd>
+                                @endif
+                                <dt class="col-sm-3">Output</dt>
+                                <dd class="col-sm-9">[{{$dataAnggaran->output_kode}}] {{$dataAnggaran->output_nama}}</dd>
                                 <dt class="col-sm-3">Komponen</dt>
                                 <dd class="col-sm-9">[{{$dataAnggaran->komponen_kode}}] {{$dataAnggaran->komponen_nama}}</dd>
+                                @if ($dataAnggaran->subkomponen_kode != NULL)
+                                <dt class="col-sm-3">Sub Komponen</dt>
+                                <dd class="col-sm-9">[{{$dataAnggaran->subkomponen_kode}}] {{$dataAnggaran->subkomponen_nama}}</dd>
+                                @endif
+                                <dt class="col-sm-3">Akun</dt>
+                                <dd class="col-sm-9">[{{$dataAnggaran->akun_kode}}] {{$dataAnggaran->akun_nama}}</dd>
                                 <dt class="col-sm-3">Uraian</dt>
                                 <dd class="col-sm-9">{{$dataAnggaran->uraian}}</dd>
                                 <dt class="col-sm-3">Subject Matter</dt>

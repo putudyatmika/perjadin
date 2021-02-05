@@ -166,14 +166,14 @@
 </div>
 <!--end modal edit-->
 <!--modal tambah anggaran-->
-<div class="modal fade" id="TambahModal" tabindex="-1" role="dialog" aria-labelledby="EditModal">
+<div class="modal fade" id="TambahAnggaranModal" tabindex="-1" role="dialog" aria-labelledby="TambahAnggaranModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="exampleModalLabel1">Tambah Data Anggaran</h4> </div>
             <div class="modal-body">
-                    <form method="POST" action="{{ route('anggaran.store') }}">
+                    <form method="POST" id="FormTambahAnggaran" name="FormTambahAnggaran" action="{{route('anggaran.simpan')}}">
                     @csrf
                     @include('anggaran.formdata')
 

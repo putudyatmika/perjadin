@@ -33,30 +33,27 @@
                     </div>
                     <!-- .row -->
                     <div class="row" style="margin-top: 20px;">
-                    <div class="col-lg-8">
+                    <div class="col-lg-12">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0">@if (Session::has('tahun_anggaran')) Data Program Tahun Anggaran {{Session::get('tahun_anggaran')}} @endif  </h3> 
+                            <h3 class="box-title m-b-0">@if (Session::has('tahun_anggaran')) Data Akun Tahun Anggaran {{Session::get('tahun_anggaran')}} @endif  </h3> 
                             <p class="text-muted m-b-20">Keadaan <code>{{\Carbon\Carbon::today()->format('d F Y')}}</code></p>
                             <div class="table-responsive">
                                 <table class="table striped" id="DTable">
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>Kode Program</th>
-                                            <th>Nama Program</th>
+                                            <th>Kode Akun</th>
+                                            <th>Nama Akun</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($dataProgram as $item)
+                                        @foreach ($dataAkun as $item)
                                             <tr>
                                                 <td>{{$loop->iteration}}</td>
-                                                <td>{{$item->kode_prog}}</td>
-                                                <td>{{$item->nama_prog}}</td>
-                                                <td>
-                                                    <button type="button" class="btn btn-sm btn-primary btn-circle" data-toggle="modal" data-target="#EditModal" data-idprog="{{$item->id_prog}}" data-kodeprog="{{$item->kode_prog}}" data-namaprog="{{$item->nama_prog}}"><span data-toggle="tooltip" title="Edit program {{$item->nama_prog}}"><i class="fa fa-pencil"></i></span></button>
-                                                    <button type="button" class="btn btn-sm btn-danger btn-circle" data-toggle="modal" data-target="#DeleteModal" data-idprog="{{$item->id_prog}}" data-kodeprog="{{$item->kode_prog}}" data-namaprog="{{$item->nama_prog}}"><span data-toggle="tooltip" title="Hapus program {{ $item->nama_prog}}"><i class="fa fa-trash-o"></i></span></button>
-                                                </td>
+                                                <td>{{$item->kode_akun}}</td>
+                                                <td>{{$item->nama_akun}}</td>
+                                                <td></td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -68,7 +65,7 @@
                 <!-- /.row -->
             </div>
             <!-- /.container-fluid -->
-            @include('pok.modal')
+            
 @endsection
 
 @section('css')
@@ -100,9 +97,9 @@ $(function () {
         dom: 'Bfrtip',
         buttons: [
             'copy', 'excel', 'pdf', 'print'
-        ]
+        ],
+        "pageLength": 20
     });
 });
 </script>
-@include('pok.js')
 @stop

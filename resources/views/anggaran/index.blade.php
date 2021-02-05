@@ -79,7 +79,7 @@ $(function () {
                 <div class="col-lg-4 col-sm-6 col-md-6">
                 <a href="{{route('anggaran.export')}}" class="btn btn-success btn-rounded btn-fw"><i class="fa fa-file-excel-o"></i> Export to Excel</a>
                 @if (Auth::user()->pengelola>3)
-                    <a href="" class="btn btn-danger btn-rounded btn-fw" data-toggle="modal" data-target="#TambahModal"><i class="fa fa-plus"></i> Tambah Anggaran</a>
+                    <a href="" class="btn btn-danger btn-rounded btn-fw" data-toggle="modal" data-target="#TambahAnggaranModal"><i class="fa fa-plus"></i> Tambah Anggaran</a>
                 </div>
                 <div class="col-lg-4">
                 </div>
@@ -133,7 +133,21 @@ $(function () {
                                                     <br />
                                                     <small>{{ $item->mak}}</small>
                                                     <br />
+                                                    <small>[{{ $item->keg_kode}}] {{$item->keg_nama}}</small>
+                                                    @if ($item->kro_kode != NULL)
+                                                    <br />
+                                                    <small>[{{ $item->kro_kode}}] {{$item->kro_nama}}</small>
+                                                    @endif
+                                                    <br />
+                                                    <small>[{{ $item->output_kode}}] {{$item->output_nama}}</small>
+                                                    <br />
                                                     <small>[{{ $item->komponen_kode}}] {{$item->komponen_nama}}</small>
+                                                    @if ($item->subkomponen_kode != NULL)
+                                                    <br />
+                                                    <small>[{{ $item->subkomponen_kode}}] {{$item->subkomponen_nama}}</small>
+                                                    @endif
+                                                    <br />
+                                                    <small>[{{ $item->akun_kode}}] {{$item->akun_nama}}</small>
                                                     <br />
                                                     <small>{{ $item->unit_nama}}</small>
                                                 </td>

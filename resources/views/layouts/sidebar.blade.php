@@ -90,11 +90,11 @@
                         <ul class="nav nav-second-level">
                             <li><a href="{{route('pok.program')}}">Program</a></li>
                             <li><a href="{{route('pok.kegiatan')}}">Kegiatan</a></li>
-                            <li><a href="{{url('unitkerja')}}">KRO</a></li>
-                            <li><a href="{{url('unitkerja')}}">Output</a></li>
-                            <li><a href="{{url('unitkerja')}}">Komponen</a></li>
-                            <li><a href="{{url('unitkerja')}}">Subkomponen</a></li>
-                            <li><a href="{{url('unitkerja')}}">Akun</a></li>
+                            <li><a href="{{route('pok.kro')}}">KRO</a></li>
+                            <li><a href="{{route('pok.output')}}">Output</a></li>
+                            <li><a href="{{route('pok.komponen')}}">Komponen</a></li>
+                            <li><a href="{{route('pok.subkomponen')}}">Subkomponen</a></li>
+                            <li><a href="{{route('pok.akun')}}">Akun</a></li>
                         </ul>
                     </li>
                     <li><a href="{{url('user')}}" class="waves-effect"><i class="icon-people fa-fw"></i><span class="hide-menu" >User</span></a> </li>

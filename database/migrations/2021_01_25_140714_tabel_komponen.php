@@ -17,10 +17,11 @@ class TabelKomponen extends Migration
             $table->increments('id_komponen');
             $table->year('tahun_komponen');
             $table->string('kode_prog',10);
-            $table->string('kode_keg',10);
-            $table->string('kode_output',10);
+            $table->string('kode_keg',4);
+            $table->string('kode_kro',3)->nullable();
+            $table->string('kode_output',3);
             $table->string('kode_komponen',10);
-            $table->string('nama_komponen',100);
+            $table->string('nama_komponen',254);
             $table->string('singkatan_komponen',10)->nullable();
             $table->boolean('flag_sub')->default(0);
             $table->string('pagu_komponen',20)->nullable();

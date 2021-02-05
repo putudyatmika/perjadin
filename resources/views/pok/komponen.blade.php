@@ -20,20 +20,21 @@
                 <div class="row">
                     @if (Auth::user()->pengelola>3)
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-8">
-                            <a href="#" class="btn btn-danger btn-rounded btn-fw" data-toggle="modal" data-target="#TambahKegModal"><i class="fa fa-plus"></i> Tambah Kegiatan</a>
-                            <a href="{{route('pok.kegiatanformat')}}" class="btn btn-success btn-rounded btn-fw">Format Import</a>
+                            <a href="#" class="btn btn-danger btn-rounded btn-fw" data-toggle="modal" data-target="#TambahKomponenModal"><i class="fa fa-plus"></i> Tambah Komponen</a>
+                            <a href="{{route('pok.komponenformat')}}" class="btn btn-success btn-rounded btn-fw">Format Import</a>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-                        <form action="{{route('pok.kegiatanimport')}}" method="post" class="form" enctype="multipart/form-data">
+                        <form action="{{route('pok.komponenimport')}}" method="post" class="form" enctype="multipart/form-data">
                             @csrf
-                            <div class="input-group {{ $errors->has('fileKegiatanImport') ? 'has-error' : '' }}">
-                              <input type="file" class="form-control" name="fileKegiatanImport" required="">
+                            <div class="input-group {{ $errors->has('fileImportKomponen') ? 'has-error' : '' }}">
+                              <input type="file" class="form-control" name="fileImportKomponen" required="">
                               <span class="input-group-btn">
                                       <button type="submit" class="btn btn-success" style="height: 38px;margin-left: -2px;">Import</button>
                               </span>
                             </div>
                           </form>
                     </div>
+                    
                     @endif
                     <div class="col-lg-12">
                         @if (Session::has('message'))
@@ -46,7 +47,7 @@
                     <div class="row" style="margin-top: 20px;">
                     <div class="col-lg-12">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0">@if (Session::has('tahun_anggaran')) Data Kegiatan Tahun Anggaran {{Session::get('tahun_anggaran')}} @endif  </h3> 
+                            <h3 class="box-title m-b-0">@if (Session::has('tahun_anggaran')) Data Komponen Kegiatan Tahun Anggaran {{Session::get('tahun_anggaran')}} @endif  </h3> 
                             <p class="text-muted m-b-20">Keadaan <code>{{\Carbon\Carbon::today()->format('d F Y')}}</code></p>
                             <div class="table-responsive">
                                 <table class="table striped" id="DTable">
@@ -54,34 +55,44 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Kode Program</th>
-                                            <th>Nama Program</th>
                                             <th>Kode Kegiatan</th>
-                                            <th>Nama Kegiatan</th>
-                                            <th>Flag KRO</th>
+                                            <th>Kode KRO</th>
+                                            <th>Kode Output</th>
+                                            <th>Kode Komponen</th>
+                                            <th>Nama Komponen</th>
+                                            <th>Flag Sub Komponen</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($dataKegiatan as $item)
-                                            <tr>
-                                                <td>{{$loop->iteration}}</td>
-                                                <td>{{$item->kode_prog}}</td>
-                                                <td>{{$item->Program->nama_prog}}</td>
-                                                <td>{{$item->kode_keg}}</td>
-                                                <td>{{$item->nama_keg}}</td>
-                                                <td>
-                                                    @if ($item->flag_kro == 0)
-                                                        <span class="label label-danger">Tidak Ada</span>                                                        
-                                                    @else
-                                                    <span class="label label-info">Ada</span>
-                                                    @endif
+                                       @foreach ($dataKomponen as $item)
+                                           <tr>
+                                               <td>{{$loop->iteration}}</td>
+                                               <td>{{$item->kode_prog}}</td>
+                                               <td>{{$item->kode_keg}}</td>
+                                               <td>
+                                                @if ($item->kode_kro == NULL)
+                                                    -
+                                                @else
+                                                    {{$item->kode_kro}}
+                                                @endif
+                                               </td>
+                                               <td>{{$item->kode_output}}</td>
+                                               <td>{{$item->kode_komponen}}</td>
+                                               <td>{{$item->nama_komponen}}</td>
+                                               <td>
+                                                @if ($item->flag_sub == 0)
+                                                <span class="label label-danger">Tidak Ada</span>                                                        
+                                                @else
+                                                <span class="label label-info">Ada</span>
+                                                @endif
                                                 </td>
-                                                <td>
-                                                    <button type="button" class="btn btn-sm btn-primary btn-circle" data-toggle="modal" data-target="#EditKegModal" data-idkeg="{{$item->id_keg}}" data-kodeprog="{{$item->kode_prog}}" data-kodekeg="{{$item->kode_keg}}" data-namakeg="{{$item->nama_keg}}" data-flagkro="{{$item->flag_kro}}"><span data-toggle="tooltip" title="Edit kegiatan {{$item->nama_keg}}"><i class="fa fa-pencil"></i></span></button>
-                                                    <button type="button" class="btn btn-sm btn-danger btn-circle" data-toggle="modal" data-target="#DeleteKegModal" data-idkeg="{{$item->id_keg}}" data-kodeprog="{{$item->kode_prog}}" data-kodekeg="{{$item->kode_keg}}" data-namakeg="{{$item->nama_keg}}" data-flagkro="{{$item->flag_kro}}"><span data-toggle="tooltip" title="Hapus kegiatan {{ $item->nama_keg}}"><i class="fa fa-trash-o"></i></span></button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                               <td>
+                                                <button type="button" class="btn btn-sm btn-primary btn-circle" data-toggle="modal" data-target="#EditKomponenModal" data-idkomponen="{{$item->id_komponen}}" data-kodeprog="{{$item->kode_prog}}" data-kodekeg="{{$item->kode_keg}}" data-kodekro="{{$item->kode_kro}}" data-kodeoutput="{{$item->kode_output}}" data-kodekomponen="{{$item->kode_komponen}}" data-namakomponen="{{$item->nama_komponen}}" data-flagkomponen="{{$item->flag_sub}}"><span data-toggle="tooltip" title="Edit Komponen {{$item->nama_komponen}}"><i class="fa fa-pencil"></i></span></button>
+                                                <button type="button" class="btn btn-sm btn-danger btn-circle" data-toggle="modal" data-target="#DeleteKomponenModal" data-idkomponen="{{$item->id_komponen}}" data-kodeprog="{{$item->kode_prog}}" data-kodekeg="{{$item->kode_keg}}" data-kodekro="{{$item->kode_kro}}" data-kodeoutput="{{$item->kode_output}}" data-kodekomponen="{{$item->kode_komponen}}" data-namakomponen="{{$item->nama_komponen}}" data-flagkomponen="{{$item->flag_sub}}"><span data-toggle="tooltip" title="Hapus Komponen {{ $item->nama_komponen}}"><i class="fa fa-trash-o"></i></span></button>
+                                               </td>
+                                           </tr>
+                                       @endforeach
                                     </tbody>
                                 </table>
                             </div>

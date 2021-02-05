@@ -19,10 +19,21 @@
                 </div>
                 <div class="row">
                     @if (Auth::user()->pengelola>3)
-                    <div class="col-lg-4">
-                            <a href="#" class="btn btn-danger btn-rounded btn-fw" data-toggle="modal" data-target="#TambahModal"><i class="fa fa-plus"></i> Tambah Program</a>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-8">
+                            <a href="#" class="btn btn-danger btn-rounded btn-fw" data-toggle="modal" data-target="#TambahKroModal"><i class="fa fa-plus"></i> Tambah KRO</a>
+                            <a href="{{route('pok.kroformat')}}" class="btn btn-success btn-rounded btn-fw">Format Import</a>
                     </div>
-                    
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                        <form action="{{route('pok.kroimport')}}" method="post" class="form" enctype="multipart/form-data">
+                            @csrf
+                            <div class="input-group {{ $errors->has('fileKroImport') ? 'has-error' : '' }}">
+                              <input type="file" class="form-control" name="fileKroImport" required="">
+                              <span class="input-group-btn">
+                                      <button type="submit" class="btn btn-success" style="height: 38px;margin-left: -2px;">Import</button>
+                              </span>
+                            </div>
+                          </form>
+                    </div>
                     @endif
                     <div class="col-lg-12">
                         @if (Session::has('message'))
@@ -33,9 +44,9 @@
                     </div>
                     <!-- .row -->
                     <div class="row" style="margin-top: 20px;">
-                    <div class="col-lg-8">
+                    <div class="col-lg-12">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0">@if (Session::has('tahun_anggaran')) Data Program Tahun Anggaran {{Session::get('tahun_anggaran')}} @endif  </h3> 
+                            <h3 class="box-title m-b-0">@if (Session::has('tahun_anggaran')) Data KRO Tahun Anggaran {{Session::get('tahun_anggaran')}} @endif  </h3> 
                             <p class="text-muted m-b-20">Keadaan <code>{{\Carbon\Carbon::today()->format('d F Y')}}</code></p>
                             <div class="table-responsive">
                                 <table class="table striped" id="DTable">
@@ -43,21 +54,27 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Kode Program</th>
-                                            <th>Nama Program</th>
+                                            <th>Kode Kegiatan</th>
+                                            <th>Nama Kegiatan</th>
+                                            <th>Kode KRO</th>
+                                            <th>Nama KRO</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($dataProgram as $item)
-                                            <tr>
-                                                <td>{{$loop->iteration}}</td>
-                                                <td>{{$item->kode_prog}}</td>
-                                                <td>{{$item->nama_prog}}</td>
-                                                <td>
-                                                    <button type="button" class="btn btn-sm btn-primary btn-circle" data-toggle="modal" data-target="#EditModal" data-idprog="{{$item->id_prog}}" data-kodeprog="{{$item->kode_prog}}" data-namaprog="{{$item->nama_prog}}"><span data-toggle="tooltip" title="Edit program {{$item->nama_prog}}"><i class="fa fa-pencil"></i></span></button>
-                                                    <button type="button" class="btn btn-sm btn-danger btn-circle" data-toggle="modal" data-target="#DeleteModal" data-idprog="{{$item->id_prog}}" data-kodeprog="{{$item->kode_prog}}" data-namaprog="{{$item->nama_prog}}"><span data-toggle="tooltip" title="Hapus program {{ $item->nama_prog}}"><i class="fa fa-trash-o"></i></span></button>
-                                                </td>
-                                            </tr>
+                                        @foreach ($dataKro as $item)
+                                        <tr>
+                                            <td>{{$loop->iteration}}</td>
+                                            <td>{{$item->kode_prog}}</td>
+                                            <td>{{$item->kode_keg}}</td>
+                                            <td>{{$item->Kegiatan->nama_keg}}</td>
+                                            <td>{{$item->kode_kro}}</td>
+                                            <td>{{$item->nama_kro}}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-sm btn-primary btn-circle" data-toggle="modal" data-target="#EditKroModal" data-idkro="{{$item->id_kro}}" data-kodeprog="{{$item->kode_prog}}" data-kodekeg="{{$item->kode_keg}}" data-kodekro="{{$item->kode_kro}}" data-namakro="{{$item->nama_kro}}"><span data-toggle="tooltip" title="Edit KRO {{$item->nama_kro}}"><i class="fa fa-pencil"></i></span></button>
+                                                <button type="button" class="btn btn-sm btn-danger btn-circle" data-toggle="modal" data-target="#DeleteKroModal" data-idkro="{{$item->id_kro}}" data-kodeprog="{{$item->kode_prog}}" data-kodekeg="{{$item->kode_keg}}" data-kodekro="{{$item->kode_kro}}" data-namakro="{{$item->nama_kro}}"><span data-toggle="tooltip" title="Hapus KRO {{ $item->nama_kro}}"><i class="fa fa-trash-o"></i></span></button>
+                                            </td>
+                                        </tr>
                                         @endforeach
                                     </tbody>
                                 </table>

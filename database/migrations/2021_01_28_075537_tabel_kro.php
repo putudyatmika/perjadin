@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class TabelKegiatan extends Migration
+class TabelKro extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class TabelKegiatan extends Migration
      */
     public function up()
     {
-        Schema::create('tbl_kegiatan', function (Blueprint $table) {
-            $table->increments('id_keg');
-            $table->year('tahun_keg');
+        Schema::create('tbl_kro', function (Blueprint $table) {
+            $table->increments('id_kro');
+            $table->year('tahun_kro');
             $table->string('kode_prog',10);
             $table->string('kode_keg',4);
-            $table->string('nama_keg',254);
-            $table->string('singkatan_keg',10)->nullable();
-            $table->string('pagu_keg',20)->nullable();
-            $table->boolean('flag_kro')->default(0);
+            $table->string('kode_kro',3);
+            $table->string('nama_kro',254);
+            $table->string('singkatan_kro',10)->nullable();
+            $table->string('pagu_kro',20)->nullable();
             $table->timestamps();
         });
     }
@@ -33,6 +33,6 @@ class TabelKegiatan extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_kegiatan');
+        Schema::dropIfExists('tbl_kro');
     }
 }

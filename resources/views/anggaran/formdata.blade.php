@@ -6,105 +6,77 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="prog_kode"><span class="text-info">Kode Program</span></label>
+        <label for="unitkerja">Program</label>
         <div class="input-group">
-            <div class="input-group-addon"><i class="ti-user"></i></div>
-            <input type="text" class="form-control" id="prog_kode" name="prog_kode" placeholder="Kode Program" required=""> </div>
-            <span class="font-13 text-muted">cth : 054.01.01</span>
+            <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
+            <select class="form-control select2" id="prog_kode_anggaran" name="prog_kode" required="">
+                <option value="">Pilih Program</option>
+                @foreach ($dataProgram as $prog)
+                    <option value="{{$prog->kode_prog}}">[{{$prog->kode_prog}}] {{$prog->nama_prog}}</option>
+                @endforeach
+            </select>
+
+            </div>
     </div>
     <div class="form-group">
-        <label for="mak"><span class="text-info">Nama Program</span></label>
+        <label for="unitkerja">Kegiatan</label>
         <div class="input-group">
-            <div class="input-group-addon"><i class="ti-user"></i></div>
-            <input type="text" class="form-control" id="prog_nama" name="prog_nama" placeholder="Nama Program" required=""> </div>
-            <span class="font-13 text-muted">cth : Program Penyediaan dan Pelayanan Informasi Statistik</span>
+            <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
+            <select class="form-control select2" id="keg_kode_anggaran" name="keg_kode" required="">
+                
+               
+            </select>
+
+            </div>
     </div>
     <div class="form-group">
-        <label for="mak"><span class="text-warning">Kode Kegiatan</span></label>
+        <label for="unitkerja">KRO</label>
         <div class="input-group">
-            <div class="input-group-addon"><i class="ti-user"></i></div>
-            <input type="text" class="form-control" id="keg_kode" name="keg_kode" placeholder="Kode Kegiatan" required=""> </div>
-            <span class="font-13 text-muted">cth : 2896</span>
+            <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
+            <select class="form-control select2" id="kro_kode_anggaran" name="kro_kode" required="">
+                
+               
+            </select>
+
+            </div>
     </div>
     <div class="form-group">
-        <label for="mak"><span class="text-warning">Nama Kegiatan</span></label>
+        <label for="unitkerja">Output</label>
         <div class="input-group">
-            <div class="input-group-addon"><i class="ti-user"></i></div>
-            <input type="text" class="form-control" id="keg_nama" name="keg_nama" placeholder="Nama Kegiatan" required=""> </div>
-            <span class="font-13 text-muted">cth : Pengembangan dan Analisis Statistik</span>
+            <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
+            <select class="form-control select2" id="output_kode_anggaran" name="output_kode" required="">
+            </select>
+        </div>
     </div>
     <div class="form-group">
-        <label for="mak">Kode KRO</label>
+        <label for="mak"><span class="text-success">Komponen</span></label>
         <div class="input-group">
-            <div class="input-group-addon"><i class="ti-user"></i></div>
-            <input type="text" class="form-control" id="kro_kode" name="kro_kode" placeholder="Kode KRO"> </div>
-            <span class="font-13 text-muted">cth : 100</span>
-    </div>
-    <div class="form-group">
-        <label for="mak">Nama KRO</label>
-        <div class="input-group">
-            <div class="input-group-addon"><i class="ti-user"></i></div>
-            <input type="text" class="form-control" id="kro_nama" name="kro_nama" placeholder="Nama KRO"> </div>
-            <span class="font-13 text-muted">cth : Data dan Informasi Publik</span>
-    </div>
-    <div class="form-group">
-        <label for="mak"><span class="text-danger">Kode Output</span></label>
-        <div class="input-group">
-            <div class="input-group-addon"><i class="ti-user"></i></div>
-            <input type="text" class="form-control" id="output_kode" name="output_kode" placeholder="Kode Output Kegiatan" required=""> </div>
-            <span class="font-13 text-muted">cth : 004</span>
-    </div>
-    <div class="form-group">
-        <label for="mak"><span class="text-danger">Nama Output</span></label>
-        <div class="input-group">
-            <div class="input-group-addon"><i class="ti-user"></i></div>
-            <input type="text" class="form-control" id="output_nama" name="output_nama" placeholder="Nama Output Kegiatan" required=""> </div>
-            <span class="font-13 text-muted">cth : PUBLIKASI/LAPORAN ANALISIS DAN PENGEMBANGAN STATISTIK</span>
-    </div>
-    <div class="form-group">
-        <label for="mak"><span class="text-success">Kode Komponen</span></label>
-        <div class="input-group">
-            <div class="input-group-addon"><i class="ti-user"></i></div>
-            <input type="text" class="form-control" id="komponen_kode" name="komponen_kode" placeholder="Kode Komponen Kegiatan" required=""> </div>
-            <span class="font-13 text-muted">cth : 100</span>
-    </div>
-    <div class="form-group">
-        <label for="mak"><span class="text-success">Nama Komponen</span></label>
-        <div class="input-group">
-            <div class="input-group-addon"><i class="ti-user"></i></div>
-            <input type="text" class="form-control" id="komponen_nama" name="komponen_nama" placeholder="Nama Komponen Kegiatan" required=""> </div>
-            <span class="font-13 text-muted">cth : SURVEI ANGKATAN KERJA NASIONAL (SAKERNAS) SEMESTERAN</span>
+            <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
+            <select class="form-control select2" id="komponen_kode_anggaran" name="komponen_kode" required="">
+            </select>
+        </div>
     </div>
     <div class="form-group">
         <label for="mak">Kode Sub Komponen</label>
         <div class="input-group">
-            <div class="input-group-addon"><i class="ti-user"></i></div>
-            <input type="text" class="form-control" id="subkomponen_kode" name="subkomponen_kode" placeholder="Kode Sub Komponen Kegiatan"> </div>
-            <span class="font-13 text-muted">cth : A</span>
+            <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
+            <select class="form-control select2" id="subkomponen_kode_anggaran" name="subkomponen_kode" required="">
+            </select>
+        </div>
     </div>
     <div class="form-group">
-        <label for="mak">Nama Sub Komponen</label>
+        <label for="mak">Akun</label>
         <div class="input-group">
-            <div class="input-group-addon"><i class="ti-user"></i></div>
-            <input type="text" class="form-control" id="subkomponen_nama" name="subkomponen_nama" placeholder="Nama Sub Komponen Kegiatan"> </div>
-            <span class="font-13 text-muted">cth : PELATIHAN INNAS, INDA, PETUGAS</span>
+            <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
+            <select class="form-control select2" id="akun_kode_anggaran" name="akun_kode" required="">
+                @foreach ($dataAkun as $akun)
+                    <option value="{{$akun->kode_akun}}">[{{$akun->kode_akun}}] {{$akun->nama_akun}}</option>
+                @endforeach
+            </select>
+        </div>
     </div>
     <div class="form-group">
-        <label for="mak">Kode Akun</label>
-        <div class="input-group">
-            <div class="input-group-addon"><i class="ti-user"></i></div>
-            <input type="text" class="form-control" id="akun_kode" name="akun_kode" placeholder="Kode Akun Kegiatan" required=""> </div>
-            <span class="font-13 text-muted">cth : 521211</span>
-    </div>
-    <div class="form-group">
-        <label for="mak">Nama Akun</label>
-        <div class="input-group">
-            <div class="input-group-addon"><i class="ti-user"></i></div>
-            <input type="text" class="form-control" id="akun_nama" name="akun_nama" placeholder="Nama Akun Kegiatan"> </div>
-            <span class="font-13 text-muted">cth : Belanja Perjalanan Dinas Biasa</span>
-    </div>
-    <div class="form-group">
-        <label for="uraian">Uraian</label>
+        <label for="uraian">Uraian/Detil</label>
         <div class="input-group">
             <div class="input-group-addon"><i class="ti-medall"></i></div>
             <input type="text" class="form-control" id="uraian" name="uraian" placeholder="Uraian Anggaran" required=""> </div>

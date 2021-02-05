@@ -23,6 +23,13 @@ use App\Transaksi;
 use App\SuratTugas;
 use App\Spd;
 use App\Kuitansi;
+use App\PokProgram;
+use App\PokKegiatan;
+use App\PokOutput;
+use App\PokKro;
+use App\PokKomponen;
+use App\PokSubKomponen;
+use App\PokAkun;
 
 class AnggaranController extends Controller
 {
@@ -34,6 +41,9 @@ class AnggaranController extends Controller
     public function index()
     {
         //
+        $tahun_anggaran=Session::get('tahun_anggaran');
+        $dataProgram = PokProgram::where('tahun_prog',$tahun_anggaran)->get();
+        $dataAkun = PokAkun::where('kode_akun','like','524%')->get();
         if (Auth::user()->user_level == 2)
         {
             if (request('unitkerja') == NULL)
@@ -74,7 +84,7 @@ class AnggaranController extends Controller
             })
             ->get();
         //dd(session()->all());
-        return view('anggaran.index', compact('DataAnggaran', 'DataUnitkerja','flag_unitkerja'));
+        return view('anggaran.index', compact('DataAnggaran', 'DataUnitkerja','flag_unitkerja','dataProgram','dataAkun'));
     }
 
     /**
@@ -135,6 +145,87 @@ class AnggaranController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function Simpan(Request $request)
+    {
+        //dd($request->all());
+        //cek untuk eloquent yg tepat
+        if ($request->subkomponen_kode != NULL)
+        {
+            if ($request->kro_kode == NULL)
+            {
+                $data_detil = PokSubKomponen::where([['tahun_subkom',$request->tahun_anggaran],['kode_prog',$request->prog_kode],['kode_keg',$request->keg_kode],['kode_output',$request->output_kode],['kode_komponen',$request->komponen_kode],['kode_subkom',$request->subkomponen_kode]])->first();
+            }
+            else
+            {
+                $data_detil = PokSubKomponen::where([['tahun_subkom',$request->tahun_anggaran],['kode_prog',$request->prog_kode],['kode_keg',$request->keg_kode],['kode_output',$request->output_kode],['kode_komponen',$request->komponen_kode],['kode_subkom',$request->subkomponen_kode],['kode_kro',$request->kro_kode]])->first();
+            }
+            
+        }
+        else
+        {
+            if ($request->kro_kode == NULL)
+            {
+                $data_detil = PokKomponen::where([['tahun_komponen',$request->tahun_anggaran],['kode_prog',$request->prog_kode],['kode_keg',$request->keg_kode],['kode_output',$request->output_kode],['kode_komponen',$request->komponen_kode]])->first();
+            }
+            else 
+            {   
+                $data_detil = PokKomponen::where([['tahun_komponen',$request->tahun_anggaran],['kode_prog',$request->prog_kode],['kode_keg',$request->keg_kode],['kode_output',$request->output_kode],['kode_kro',$request->kro_kode],['kode_komponen',$request->komponen_kode]])->first();
+            }
+        }
+
+        if ($request->kro_kode == NULL)
+        {
+            //tanpa kro
+            $mak = $request->prog_kode.'.'.$request->keg_kode.'.'.$request->output_kode.'.'.$request->komponen_kode;
+            $kro_nama = NULL;
+        }
+        else 
+        {
+            //dengan kro
+            $mak = $request->prog_kode.'.'.$request->keg_kode.'.'.$request->kro_kode.'.'.$request->output_kode.'.'.$request->komponen_kode;
+            $kro_nama = $data_detil->Kro->nama_kro;
+        }
+
+        if ($request->subkomponen_kode == NULL)
+        {
+            //tanpa subkomponen
+            $mak = $mak.'.'.$request->akun_kode;
+            $subkom_nama = NULL;
+            $komponen_nama = $data_detil->nama_komponen;
+        }
+        else 
+        {
+            //dengan subkomponen
+            $mak = $mak.'.'.$request->subkomponen_kode.'.'.$request->akun_kode;
+            $subkom_nama = $data_detil->nama_subkom;
+            $komponen_nama = $data_detil->Komponen->nama_komponen;
+        }
+        $data_akun = PokAkun::where('kode_akun',$request->akun_kode)->first();
+        $data = new Anggaran();
+        $data->tahun_anggaran = $request->tahun_anggaran;
+        $data->mak = $mak;
+        $data->prog_kode = $request->prog_kode;
+        $data->prog_nama = $data_detil->Program->nama_prog;
+        $data->keg_kode = $request->keg_kode;
+        $data->keg_nama = $data_detil->Kegiatan->nama_keg;
+        $data->kro_kode = $request->kro_kode;
+        $data->kro_nama = $kro_nama;
+        $data->output_kode = $request->output_kode;
+        $data->output_nama = $data_detil->Output->nama_output;
+        $data->komponen_kode = $request->komponen_kode;
+        $data->komponen_nama = $komponen_nama;
+        $data->subkomponen_kode = $request->subkomponen_kode;
+        $data->subkomponen_nama = $subkom_nama;
+        $data->akun_kode = $request->akun_kode;
+        $data->akun_nama = $data_akun->nama_akun;
+        $data->uraian = $request->uraian;
+        $data->pagu_utama = $request->pagu_utama;
+        $data->unitkerja = $request->unitkerja;
+        $data->save();
+        Session::flash('message', 'Data anggaran '.$mak.' '.$request->uraian.' telah ditambahkan');
+        Session::flash('message_type', 'success');
+        return redirect()->route('anggaran.index');
+    }
     public function show($id)
     {
         //
@@ -300,19 +391,12 @@ class AnggaranController extends Controller
             [
                 //'tahun_anggaran' => null,
                 'prog_kode'=>null,
-                'prog_nama'=>null,
                 'keg_kode'=>null,
-                'keg_nama'=>null,
                 'kro_kode'=>null,
-                'kro_nama'=>null,
                 'output_kode'=>null,
-                'output_nama'=>null,
                 'komponen_kode' => null,
-                'komponen_nama' => null,
                 'subkomponen_kode'=>null,
-                'subkomponen_nama'=>null,
                 'akun_kode'=>null,
-                'akun_nama'=>null,
                 'uraian' => null,
                 'pagu_utama' => null,
                 'unitkerja' => 'kode bidang/bagian 5 digit',
@@ -592,7 +676,9 @@ class AnggaranController extends Controller
     }
     public function SinkronKode()
     {
+        $tahun_anggaran = Session::get('tahun_anggaran');
         $data = Anggaran::where('tahun_anggaran',Session::get('tahun_anggaran'))->get();
+        //"mak" => "054.01.06.2903.009.101.A.524111"
         foreach ($data as $item) {
             $mak = explode(".",$item->mak);
             $jumlah = count($mak);
@@ -630,6 +716,37 @@ class AnggaranController extends Controller
                 $data_update->akun_kode = $mak[6];
                 $data_update->update();
             }
+            $data_prog = PokProgram::where([['tahun_prog',$tahun_anggaran],['kode_prog',$data_update->prog_kode]])->first();
+            $data_keg = PokKegiatan::where([['tahun_keg',$tahun_anggaran],['kode_prog',$data_update->prog_kode],['kode_keg',$data_update->keg_kode]])->first();
+            if ($data_update->kro_kode != NULL)
+            {
+                //ada kro
+                $data_kro = PokKro::where('kode_kro',$data_update->kro_kode)->first();
+                $data_update->kro_nama = $data_kro->nama_kro;
+
+                $data_output = PokOutput::where([['tahun_output',$tahun_anggaran],['kode_prog',$data_update->prog_kode],['kode_keg',$data_update->keg_kode],['kode_kro',$data_update->kro_kode],['kode_output',$data_update->output_kode]])->first();
+                $data_komponen = PokKomponen::where([['tahun_komponen',$tahun_anggaran],['kode_prog',$data_update->prog_kode],['kode_keg',$data_update->keg_kode],['kode_kro',$data_update->kro_kode],['kode_output',$data_update->output_kode],['kode_komponen',$data_update->komponen_kode]])->first();
+            }
+            else
+            {
+                //kro tidak ada
+                $data_output = PokOutput::where([['tahun_output',$tahun_anggaran],['kode_prog',$data_update->prog_kode],['kode_keg',$data_update->keg_kode],['kode_output',$data_update->output_kode]])->first();
+                $data_komponen = PokKomponen::where([['tahun_komponen',$tahun_anggaran],['kode_prog',$data_update->prog_kode],['kode_keg',$data_update->keg_kode],['kode_output',$data_update->output_kode],['kode_komponen',$data_update->komponen_kode]])->first();
+            }
+
+            if ($data_update->subkomponen_kode != NULL)
+            {
+                //ada sub
+                $data_subkom = PokSubkomponen::where([['tahun_subkom',$tahun_anggaran],['kode_prog',$data_update->prog_kode],['kode_keg',$data_update->keg_kode],['kode_komponen',$data_update->komponen_kode],['kode_subkom',$data_update->subkomponen_kode]])->first();
+                $data_update->subkomponen_nama = $data_subkom->nama_subkom;
+            }
+            $data_akun = PokAkun::where('kode_akun',$data_update->akun_kode)->first();
+            $data_update->prog_nama = $data_prog->nama_prog;
+            $data_update->keg_nama = $data_keg->nama_keg;
+            $data_update->output_nama = $data_output->nama_output;
+            $data_update->komponen_nama = $data_komponen->nama_komponen;
+            $data_update->akun_nama = $data_akun->nama_akun;
+            $data_update->update();
         }
         dd($data);
     }
