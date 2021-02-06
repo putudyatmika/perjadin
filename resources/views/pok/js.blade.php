@@ -605,7 +605,7 @@ $.ajax({
     }
 
 });
-  if (kodekro != "")
+  if (kodekro != null)
   {
     $.ajax({
             url : '{{route("pok.outputbyprogkegcari",["","",""])}}/'+kodeprog+'/'+kodekeg+'/'+kodekro,
@@ -920,7 +920,7 @@ $('#TambahSubKomponenModal').on('show.bs.modal', function (event) {
         var keg_kode = $('#keg_kode_subkomponen').val();
         var output_kode = $('#output_kode_subkomponen').val();
         var kro_kode = $('#kro_kode_subkomponen').val();
-        if (kro_kode == "")
+        if (kro_kode == '')
         {
             //kosong tanpa kro
             var kro_kode = 1;
@@ -1064,7 +1064,7 @@ $.ajax({
     }
 
 });
-if (kodekro != "")
+if (kodekro != '')
 {
     $.ajax({
             url : '{{route("pok.outputbyprogkegcari",["","",""])}}/'+kodeprog+'/'+kodekeg+'/'+kodekro,
@@ -1264,7 +1264,7 @@ $.ajax({
         var keg_kode = $('#keg_kode_editsubkomponen').val();
         var output_kode = $('#output_kode_editsubkomponen').val();
         var kro_kode = $('#kro_kode_editsubkomponen').val();
-        if (kro_kode == null)
+        if (kro_kode == '')
         {
             var kodekro = 1;
         }
