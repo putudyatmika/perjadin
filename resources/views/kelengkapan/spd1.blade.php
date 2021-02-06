@@ -95,14 +95,14 @@
     <tr>
         <td class="garis-l"></td>
         <td class="garis-r"><span class="pull-left">b. Tempat tujuan</span></td>
-        <td class="garis-r">b. 
-            @if ($data->Matrik->tipe_perjadin ==1) 
+        <td class="garis-r">b.
+            @if ($data->Matrik->tipe_perjadin == 1)
                 {{$data->Matrik->Tujuan->nama_kabkota}}
-            @else 
+            @else
                 @foreach ($data->Matrik->MultiTujuan as $t)
                     @if ($loop->last)
                      dan {{$t->namakabkota_tujuan}}
-                    @else 
+                    @else
                     {{$t->namakabkota_tujuan}},
                     @endif
                 @endforeach
@@ -127,8 +127,8 @@
     <tr>
         <td class="garis-t garis-l" height="20px"><span class="pull-left">8. </span></td>
         <td class="garis-t garis-r">
-            <span class="pull-left">Pengikut</span> 
-            <span style="margin-left:120px"  class="pull-right">Nama</span> 
+            <span class="pull-left">Pengikut</span>
+            <span style="margin-left:120px"  class="pull-right">Nama</span>
         </td>
         <td class="garis-t garis-r" valign="top">
             <span style="margin-left:20px" class="pull-left">Tanggal Lahir</span><span style="margin-left:100px">Keterangan</span>

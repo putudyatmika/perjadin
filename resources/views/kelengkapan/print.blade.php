@@ -2,16 +2,16 @@
 <html lang="en">
 <head>
     <title>PERJADIN_{{strtoupper($data->peg_nama)}}_TRX_ID_{{$data->kode_trx}}</title>
-    
+
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<!-- Bootstrap Core CSS -->
     <!--<link href="{{ asset('tema/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{ asset('tema/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css')}}" rel="stylesheet"> -->
     <!-- Custom CSS -->
-    
+
     <!-- color CSS -->
     <style type="text/css">
-       
+
 /* Setting content width, unsetting floats and margins */
 /* Attention: the classes and IDs vary from theme to theme. Thus, set own classes here */
 .row {
@@ -32,6 +32,9 @@
 .text-center {
   text-align: center;
 }
+.text-right {
+  text-align: right;
+}
 .text-uppercase {
     text-transform: uppercase;
 }
@@ -39,17 +42,11 @@ ol {
     margin:0px;
 }
 body {
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 12px;
-  line-height: 1.42857143;
-  color: #333;
-  background-color: #fff;
-}
-body {
     font-size : 10pt;
-    font-family: Helvetica !important;
+    font-family: Helvetica, Arial, sans-serif;
     background: #fff !important;
     color: #000;
+    line-height: 1.42857143;
 }
 
 h1 {
@@ -76,12 +73,12 @@ h1, h2, h3, h4, h5, h6 { page-break-after:avoid;
 img { page-break-inside:avoid;
      page-break-after:avoid; }
 table, pre { page-break-inside:avoid }
-table {  
+table {
         width: 100%;
         /*line-height: normal; /* inherit */
         text-align: left;
-        font-size : 10pt; 
-        border-collapse: collapse; 
+        font-size : 10pt;
+        border-collapse: collapse;
         padding:2pt !important;
 }
 .halbox {
@@ -119,7 +116,32 @@ margin-top: 10pt !important;
 .nomor {
 font-size:11pt;
 }
-
+.nomorminta {
+font-size:10pt;
+}
+.tujuanminta
+{
+    margin-left:20px;
+}
+.kepadaminta
+{
+    margin-top: 30px;
+}
+.isiminta
+{
+    margin-top:30px;
+}
+.formjln
+{
+    top:5px;
+    margin-left: 550px;
+    margin-right: 20px;
+    text-align: center;
+    font-weight: bold;
+    padding:5px;
+    font-size: 14pt !important;
+    border: 2px solid black;
+}
 .aturan table {
     border: none !important;
     font-size: 10pt;
@@ -146,30 +168,30 @@ font-size:11pt !important;
 }
 
 footer {
-    position: fixed; 
-    bottom: -60px; 
-    left: 0px; 
+    position: fixed;
+    bottom: -60px;
+    left: 0px;
     right: 0px;
-    height: 60px; 
+    height: 60px;
     font-size:9pt !important;
     text-align: center;
-    
+
 }
 .kaki {
-    position: fixed; 
-    bottom: -35px; 
-    left: 0px; 
+    position: fixed;
+    bottom: -35px;
+    left: 0px;
     right: 0px;
-    height: 50px; 
+    height: 50px;
     font-size: 9pt !important;
-    text-align: center; 
+    text-align: center;
 }
 .gratifikasi {
-    position: fixed; 
+    position: fixed;
     bottom:45px;
     margin-left: 120px;
-    margin-right: 120px; 
-    text-align: center; 
+    margin-right: 120px;
+    text-align: center;
     padding:5px;
     font-size: 8pt !important;
     color: gray;
@@ -193,8 +215,12 @@ footer {
 
 </head>
 <body>
-    
+
     <main>
+        <div class="halbox">
+            @include('kelengkapan.permintaan')
+        </div>
+        <div class="pindah-halaman"></div>
         <div class="halbox">
             @include('kelengkapan.srttugas')
         </div>
@@ -202,12 +228,12 @@ footer {
         <div class="halbox">
             @include('kelengkapan.spd1')
         </div>
-        @if ($data->Matrik->tipe_perjadin ==1)
+        @if ($data->Matrik->tipe_perjadin == 1)
             <div class="pindah-halaman"></div>
             <div class="halbox">
                 @include('kelengkapan.spd2')
             </div>
-        @else 
+        @else
             @if (count($data->Matrik->MultiTujuan) > 3)
                 <div class="pindah-halaman"></div>
                 <div class="halbox">
@@ -222,7 +248,7 @@ footer {
                 <div class="halbox">
                     @include('kelengkapan.spdmulti2')
                 </div>
-            @else 
+            @else
                 <div class="pindah-halaman"></div>
                 <div class="halbox">
                     @include('kelengkapan.spdmulti1')
@@ -230,7 +256,7 @@ footer {
             @endif
         @endif
     </main>
-    
+
 <!-- jQuery -->
 <script src="{{ asset('tema/plugins/bower_components/jquery/dist/jquery.min.js')}}"></script>
 <!-- Bootstrap Core JavaScript -->

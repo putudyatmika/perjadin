@@ -68,10 +68,10 @@ class KuitansiController extends Controller
         $DataPPK = Pegawai::where([['jabatan','=','2'],['flag','=','1']])->orderBy('unitkerja')->get();
         $DataBidang = Unitkerja::where('eselon', '<', '4')->orderBy('kode', 'asc')->get();
 
-        
+
         if ($flag_kuitansi=='')
         {
-           
+
             $DataKuitansi = Kuitansi::with('Transaksi')
                         ->leftJoin('transaksi','transaksi.trx_id','=','kuitansi.trx_id')
                         ->leftJoin(DB::raw("(select id, unit_pelaksana from matrik) as matrik"),'transaksi.matrik_id','=','matrik.id')
@@ -82,18 +82,18 @@ class KuitansiController extends Controller
                         ->orderBy('flag_kuitansi','asc')
                         ->orderBy('tgl_brkt','desc')
                         ->get();
-            
+
                         /*
             $DataKuitansi = Kuitansi::with('Transaksi')->where('tahun_kuitansi','=',Session::get('tahun_anggaran'))
-            
+
             ->where('flag_kuitansi',request('flag_kuitansi'))
             ->orderBy('flag_kuitansi','asc')
-            
+
             ->get(); */
         }
         else
         {
-            
+
             $DataKuitansi = Kuitansi::with('Transaksi')
                             ->leftJoin('transaksi','transaksi.trx_id','=','kuitansi.trx_id')
                             ->leftJoin(DB::raw("(select id, unit_pelaksana from matrik) as matrik"),'transaksi.matrik_id','=','matrik.id')
@@ -105,17 +105,17 @@ class KuitansiController extends Controller
                             ->orderBy('flag_kuitansi','asc')
                             ->orderBy('tgl_brkt','desc')
                             ->get();
-            
+
             /*
             $DataKuitansi = Kuitansi::with('Transaksi')->where('tahun_kuitansi','=',Session::get('tahun_anggaran'))
-                            
+
                             ->where('flag_kuitansi',request('flag_kuitansi'))
                             ->orderBy('flag_kuitansi','asc')
-                            
+
                             ->get();
             */
         }
-        
+
         /*
         $DataKuitansi = Kuitansi::where('tahun_kuitansi','=',Session::get('tahun_anggaran'))
         ->orderBy('flag_kuitansi','asc')
