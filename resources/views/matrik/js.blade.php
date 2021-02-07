@@ -17,13 +17,13 @@ $('#ViewModal').on('show.bs.modal', function (event) {
                 var teks ="";
                 //var multi_tujuan = data.multi_tujuan;
                 $('#ViewModal .modal-body #tujuan').html("");
-                for (i = 0; i < data.bnyk_tujuan; i++) 
+                for (i = 0; i < data.bnyk_tujuan; i++)
                 {
                     $('#ViewModal .modal-body #tujuan').append("["+ data.multi_tujuan[i].kodekab_tujuan +"] "+ data.multi_tujuan[i].namakabkota_tujuan+"<br />");
                 }
                 //$('#ViewModal .modal-body #tujuan').text(teks)
             }
-            if (data.hasil.tipe_perjadin == 1) 
+            if (data.hasil.tipe_perjadin == 1)
             {
                 $('#ViewModal .modal-body #tujuan').text("["+data.hasil.kode_kabkota+"] "+data.hasil.nama_kabkota)
             }
@@ -63,7 +63,7 @@ $('#ViewModal').on('show.bs.modal', function (event) {
                 $('#ViewModal .modal-footer #EditMatrik').toggle(true);
                 $('#ViewModal .modal-footer #EditMatrik').attr("href","{{route('matrik.edit','')}}/"+mid)
             }
-            
+
 
         },
         error: function(){
@@ -294,7 +294,12 @@ $(document).on('click', '.pilihSumberDana', function (e) {
     document.getElementById("dana_makid").value = $(this).attr('data-makid');
     document.getElementById("dana_tid").value = $(this).attr('data-tid');
     document.getElementById("dana_mak").value = $(this).attr('data-mak');
+    document.getElementById("dana_program").value = $(this).attr('data-program');
+    document.getElementById("dana_kegiatan").value = $(this).attr('data-kegiatan');
+    document.getElementById("dana_kro").value = $(this).attr('data-kro');
+    document.getElementById("dana_output").value = $(this).attr('data-output');
     document.getElementById("dana_komponen").value = $(this).attr('data-komponen');
+    document.getElementById("dana_subkomponen").value = $(this).attr('data-subkomponen');
     document.getElementById("dana_uraian").value = $(this).attr('data-uraian');
     document.getElementById("dana_pagu").value = $(this).attr('data-pagu');
     document.getElementById("dana_kodeunit").value = $(this).attr('data-unitkerja');

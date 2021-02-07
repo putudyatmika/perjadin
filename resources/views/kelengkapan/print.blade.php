@@ -142,6 +142,10 @@ font-size:10pt;
     font-size: 14pt !important;
     border: 2px solid black;
 }
+table .tulisankecil tr, table .tulisankecil td {
+    font-size: 9pt;
+    padding:2pt !important;
+}
 .aturan table {
     border: none !important;
     font-size: 10pt;
@@ -218,7 +222,11 @@ footer {
 
     <main>
         <div class="halbox">
-            @include('kelengkapan.permintaan')
+            @include('kelengkapan.permintaan1')
+        </div>
+        <div class="pindah-halaman"></div>
+        <div class="halbox">
+            @include('kelengkapan.permintaan2')
         </div>
         <div class="pindah-halaman"></div>
         <div class="halbox">

@@ -22,15 +22,29 @@
     <label for="biaya">Biaya</label>
     <div class="input-group">
         <div class="input-group-addon"><i class="ti-user"></i></div>
-        <input type="text" class="form-control" id="biaya" name="biaya" readonly> </div>
+        <input type="text" class="form-control" id="biaya" name="biaya" readonly=""> </div>
 
 </div>
 <div class="form-group">
     <label for="biaya">Subject Matter</label>
     <div class="input-group">
         <div class="input-group-addon"><i class="ti-user"></i></div>
-        <input type="text" class="form-control" id="sm" name="sm" disabled> </div>
+        <input type="text" class="form-control" id="sm" name="sm" readonly=""> </div>
 
+</div>
+<div class="form-group">
+    <label for="form_nomor_surat">Nomor Surat Permintaan</label>
+    <div class="input-group">
+        <div class="input-group-addon"><i class="ti-lock"></i></div>
+        <input type="text" class="form-control" id="form_nomor_surat" name="form_nomor_surat" placeholder="Nomor Surat Form Permintaan" required="">
+    </div>
+</div>
+<div class="form-group">
+    <label for="form_tgl_surat">Tanggal Surat Permintaan</label>
+    <div class="input-group">
+        <div class="input-group-addon"><i class="ti-lock"></i></div>
+        <input type="text" class="form-control" id="form_tgl_surat" name="form_tgl_surat" placeholder="Tanggal Surat Form Permintaan" required="">
+    </div>
 </div>
 <div class="form-group">
         <label for="tugas">Tugas</label>
@@ -81,9 +95,9 @@
                 <label for="kirim_notifikasi2" class="text-danger">Kirimkan</label>
             </div>
         </label>
-    </div>    
+    </div>
 </div>
-@else 
+@else
 <input type="hidden" name="kirim_notifikasi" value="1" />
 @endif
 <div class="form-group">
@@ -103,5 +117,5 @@
             </label>
         </div>
         <span class="pull-left"><i><b>Catatan : Perjadin yang sudah diajukan tidak bisa ditarik kembali</b></i></span>
-        
+
     </div>

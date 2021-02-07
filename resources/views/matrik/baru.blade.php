@@ -79,11 +79,45 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
+                                                    <label for="dana_program" class="col-lg-2 col-xs-12 col-form-label">Program</label>
+                                                    <div class="input-group col-lg-8 col-sm-8 col-xs-12">
+                                                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                        <input type="text" class="form-control" id="dana_program" name="dana_program"  placeholder="Program Anggaran" readonly="">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="dana_kegiatan" class="col-lg-2 col-xs-12 col-form-label">Kegiatan</label>
+                                                    <div class="input-group col-lg-8 col-sm-8 col-xs-12">
+                                                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                        <input type="text" class="form-control" id="dana_kegiatan" name="dana_kegiatan"  placeholder="Kegiatan Anggaran" readonly="">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="dana_kro" class="col-lg-2 col-xs-12 col-form-label">KRO</label>
+                                                    <div class="input-group col-lg-8 col-sm-8 col-xs-12">
+                                                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                        <input type="text" class="form-control" id="dana_kro" name="dana_kro"  placeholder="KRO Anggaran" readonly="">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="dana_output" class="col-lg-2 col-xs-12 col-form-label">Output</label>
+                                                    <div class="input-group col-lg-8 col-sm-8 col-xs-12">
+                                                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                        <input type="text" class="form-control" id="dana_output" name="dana_output"  placeholder="Output Anggaran" readonly="">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
                                                     <label for="dana_komponen" class="col-lg-2 col-xs-12 col-form-label">Komponen</label>
                                                     <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                         <div class="input-group-addon"><i class="ti-user"></i></div>
                                                         <input type="text" class="form-control" id="dana_komponen" name="dana_komponen"  placeholder="Komponen Anggaran" readonly="">
-
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="dana_subkomponen" class="col-lg-2 col-xs-12 col-form-label">Sub Komponen</label>
+                                                    <div class="input-group col-lg-8 col-sm-8 col-xs-12">
+                                                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                        <input type="text" class="form-control" id="dana_subkomponen" name="dana_subkomponen"  placeholder="Sub Komponen Anggaran" readonly="">
                                                     </div>
                                                 </div>
                                                     <div class="form-group row">
@@ -125,7 +159,7 @@
                                         <div class="form-group row">
                                             <label for="jenisperjadin" class="col-lg-3 col-xs-12 col-form-label">Jenis Perjadin</label>
                                             <div class="input-group col-lg-9 col-sm-9 col-xs-12">
-                                             
+
                                                     <div class="radio-list">
                                                         <label class="radio-inline p-0">
                                                             <div class="radio radio-success">
@@ -140,7 +174,7 @@
                                                             </div>
                                                         </label>
                                                     </div>
-                                               
+
                                             </div>
                                         </div>
                                         <div class="form-group row">

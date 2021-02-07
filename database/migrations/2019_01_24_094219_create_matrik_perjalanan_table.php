@@ -27,7 +27,7 @@ class CreateMatrikPerjalananTable extends Migration
             $table->integer('dana_tid')->unsigned()->nullable();
             $table->string('dana_mak', 30);
             $table->string('dana_pagu', 20);
-            $table->string('dana_unitkerja', 4);
+            $table->string('dana_unitkerja', 5);
             $table->tinyInteger('lama_harian');
             $table->string('dana_harian', 20)->nullable();
             $table->string('total_harian', 20)->nullable();
@@ -37,7 +37,7 @@ class CreateMatrikPerjalananTable extends Migration
             $table->string('total_hotel', 20)->nullable();
             $table->string('pengeluaran_rill', 20)->nullable();
             $table->string('total_biaya', 20)->nullable();
-            $table->string('unit_pelaksana', 4)->nullable();
+            $table->string('unit_pelaksana', 5)->nullable();
             $table->tinyInteger('flag_matrik')->nullable()->default(0);
             $table->tinyInteger('jenis_perjadin')->nullable()->default(1);
             $table->tinyInteger('tipe_perjadin')->nullable()->default(1);

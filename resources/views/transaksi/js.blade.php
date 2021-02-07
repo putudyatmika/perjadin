@@ -50,6 +50,19 @@ $("#tglberangkat").datepicker({
     // prevent datepicker from firing bootstrap modal "show.bs.modal"
     event.stopPropagation();
   });
+  $("#form_tgl_surat").datepicker({
+    autoclose: true,
+    format: 'yyyy-mm-dd',
+    toggleActive: true,
+    todayHighlight: true,
+    daysOfWeekHighlighted: "0,6",
+    startDate: tglawal,
+    endDate: tglakhir,
+    zIndex: 2048,
+  }).on('show.bs.modal', function(event) {
+    // prevent datepicker from firing bootstrap modal "show.bs.modal"
+    event.stopPropagation();
+  });
 });
 
 $('#EditModal').on('show.bs.modal', function (event) {

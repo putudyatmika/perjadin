@@ -52,7 +52,7 @@
                                                     <span class="input-group-btn">
                                                         <button type="button" id="tambahirow"  data-jumlahx="{{$MultiTujuan->count()}}" class="m-l-10 btn waves-effect waves-light btn-info tambahirow"><i class="fa fa-plus"></i></button>
                                                     </span>
-                                                    @else 
+                                                    @else
                                                     <span class="input-group-btn">
                                                         <button type="button" id="kurangirow" class="m-l-10 btn waves-effect waves-light btn-danger kurangirow"><i class="fa fa-minus"></i></button>
                                                     </span>
@@ -95,11 +95,46 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
+                                                    <label for="dana_program" class="col-lg-2 col-xs-12 col-form-label">Program</label>
+                                                    <div class="input-group col-lg-8 col-sm-8 col-xs-12">
+                                                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                        <input type="text" class="form-control" id="dana_program" name="dana_program" value="[{{$DataMatrik->prog_kode}}] {{$DataMatrik->prog_nama}}" placeholder="Program Anggaran" readonly="">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="dana_kegiatan" class="col-lg-2 col-xs-12 col-form-label">Kegiatan</label>
+                                                    <div class="input-group col-lg-8 col-sm-8 col-xs-12">
+                                                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                        <input type="text" class="form-control" id="dana_kegiatan" name="dana_kegiatan" value="[{{$DataMatrik->keg_kode}}] {{$DataMatrik->keg_nama}}" placeholder="Kegiatan Anggaran" readonly="">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="dana_kro" class="col-lg-2 col-xs-12 col-form-label">KRO</label>
+                                                    <div class="input-group col-lg-8 col-sm-8 col-xs-12">
+                                                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                        <input type="text" class="form-control" id="dana_kro" name="dana_kro" @if ($DataMatrik->kro_kode) value="[{{$DataMatrik->kro_kode}}] {{$DataMatrik->kro_nama}}" @else value="-" @endif placeholder="KRO Anggaran" readonly="">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="dana_output" class="col-lg-2 col-xs-12 col-form-label">Output</label>
+                                                    <div class="input-group col-lg-8 col-sm-8 col-xs-12">
+                                                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                        <input type="text" class="form-control" id="dana_output" name="dana_output" value="[{{$DataMatrik->output_kode}}] {{$DataMatrik->output_nama}}" placeholder="Output Anggaran" readonly="">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
                                                     <label for="dana_komponen" class="col-lg-2 col-xs-12 col-form-label">Komponen</label>
                                                     <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                         <div class="input-group-addon"><i class="ti-user"></i></div>
                                                         <input type="text" class="form-control" id="dana_komponen" name="dana_komponen" @if ($DataMatrik->dana_tid) value="[{{$DataMatrik->komponen_kode}}] {{$DataMatrik->komponen_nama}}" @endif placeholder="Komponen Anggaran" readonly="">
 
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="dana_subkomponen" class="col-lg-2 col-xs-12 col-form-label">Sub Komponen</label>
+                                                    <div class="input-group col-lg-8 col-sm-8 col-xs-12">
+                                                        <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                        <input type="text" class="form-control" id="dana_subkomponen" name="dana_subkomponen" @if ($DataMatrik->subkomponen_kode) value="[{{$DataMatrik->subkomponen_kode}}] {{$DataMatrik->subkomponen_nama}}" @else value="-" @endif placeholder="Sub Komponen Anggaran" readonly="">
                                                     </div>
                                                 </div>
                                                     <div class="form-group row">
@@ -141,7 +176,7 @@
                                         <div class="form-group row">
                                             <label for="jenisperjadin" class="col-lg-3 col-xs-12 col-form-label">Jenis Perjadin</label>
                                             <div class="input-group col-lg-9 col-sm-9 col-xs-12">
-                                             
+
                                                     <div class="radio-list">
                                                         <label class="radio-inline p-0">
                                                             <div class="radio radio-success">
@@ -156,7 +191,7 @@
                                                             </div>
                                                         </label>
                                                     </div>
-                                               
+
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -208,18 +243,18 @@
                                         <input type="hidden" name="mid" id="mid" value="{{$DataMatrik->id}}" />
                                         <input type="hidden" name="tid_sblm" id="tid_sblm" value="{{$DataMatrik->dana_tid}}" />
                                         <input type="hidden" name="aid_sblm" id="aid_sblm" value="{{$DataMatrik->mak_id}}" />
-                                        <input type="hidden" name="totalbiaya_sblm" id="totalbiaya_sblm" value="{{$DataMatrik->total_biaya}}" /> 
+                                        <input type="hidden" name="totalbiaya_sblm" id="totalbiaya_sblm" value="{{$DataMatrik->total_biaya}}" />
                                     </form>
                                 </div>
                             </div>
                             @endif
                         </div>
-                       
+
                     </div>
-                    
+
                 </div>
                 <!-- /.row -->
-                
+
             </div>
             <!-- /.container-fluid -->
             @include('matrik.modalmaster')

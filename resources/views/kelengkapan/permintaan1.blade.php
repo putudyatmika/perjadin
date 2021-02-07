@@ -116,17 +116,14 @@ di <br />
             <td class="garis-t garis-l">No</td>
             <td class="garis-t garis-l">Grup Akun/Item Kegiatan</td>
             <td class="garis-t garis-l">Pagu POK</td>
-            <td class="garis-t garis-l">Realisasi
-                Anggaran
-                (Kumulatif)
+            <td class="garis-t garis-l">Realisasi Anggaran (Kumulatif)
                 </td>
-            <td class="garis-t garis-l">Sisa Anggaran
-                yang masih dapat digunakan
+            <td class="garis-t garis-l">Sisa Anggaran yang masih dapat digunakan
                 </td>
             <td class="garis-t garis-l">Anggaran yang akan digunakan</td>
             <td class="garis-t garis-l garis-r">Sisa Anggaran</td>
         </tr>
-        <tr class="text-center">
+        <tr class="text-center tulisankecil">
             <td class="garis-t garis-l">(1)</td>
             <td class="garis-t garis-l">(2)</td>
             <td class="garis-t garis-l">(3)</td>
@@ -134,6 +131,33 @@ di <br />
             <td class="garis-t garis-l">(5)</td>
             <td class="garis-t garis-l">(6)</td>
             <td class="garis-t garis-l garis-r">(7)</td>
+        </tr>
+        <tr>
+            <td class="garis-t garis-l">1.</td>
+            <td class="garis-t garis-l"><b>({{$data->Matrik->DanaAnggaran->akun_kode}}) {{$data->Matrik->DanaAnggaran->akun_nama}}</b></td>
+            <td class="garis-t garis-l"></td>
+            <td class="garis-t garis-l"></td>
+            <td class="garis-t garis-l"></td>
+            <td class="garis-t garis-l"></td>
+            <td class="garis-t garis-l garis-r"></td>
+        </tr>
+        <tr>
+            <td class="garis-t garis-l">&nbsp;</td>
+            <td class="garis-t garis-l">{{$data->Matrik->DanaAnggaran->uraian}}</td>
+            <td class="garis-t garis-l text-center">@duit($data->Matrik->DanaAnggaran->pagu_utama)</td>
+            <td class="garis-t garis-l text-center">@duit($data->Matrik->DanaAnggaran->realisasi_pagu-$data->Matrik->total_biaya)</td>
+            <td class="garis-t garis-l text-center">@duit(($data->Matrik->DanaAnggaran->pagu_utama - $data->Matrik->DanaAnggaran->realisasi_pagu)+$data->Matrik->total_biaya)</td>
+            <td class="garis-t garis-l text-center">@duit($data->Matrik->total_biaya)</td>
+            <td class="garis-t garis-l garis-r text-center">@duit($data->Matrik->DanaAnggaran->pagu_utama - $data->Matrik->DanaAnggaran->realisasi_pagu)</td>
+        </tr>
+        <tr>
+            <td class="garis-t garis-l garis-b">&nbsp;</td>
+            <td class="garis-t garis-l garis-b text-center"><b>JUMLAH</b></td>
+            <td class="garis-t garis-l garis-b text-center">@duit($data->Matrik->DanaAnggaran->pagu_utama)</td>
+            <td class="garis-t garis-l garis-b text-center">@duit($data->Matrik->DanaAnggaran->realisasi_pagu-$data->Matrik->total_biaya)</td>
+            <td class="garis-t garis-l garis-b text-center">@duit(($data->Matrik->DanaAnggaran->pagu_utama - $data->Matrik->DanaAnggaran->realisasi_pagu)+$data->Matrik->total_biaya)</td>
+            <td class="garis-t garis-l garis-b text-center">@duit($data->Matrik->total_biaya)</td>
+            <td class="garis-t garis-l garis-r garis-b text-center">@duit($data->Matrik->DanaAnggaran->pagu_utama - $data->Matrik->DanaAnggaran->realisasi_pagu)</td>
         </tr>
     </table>
 </div>

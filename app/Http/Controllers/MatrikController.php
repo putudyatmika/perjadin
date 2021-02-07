@@ -99,18 +99,18 @@ class MatrikController extends Controller
             $DataAnggaran = DB::table('turunan_anggaran')
                 ->leftJoin('anggaran', 'anggaran.id', '=', 'turunan_anggaran.a_id')
                 ->leftJoin('unitkerja', 'turunan_anggaran.unit_pelaksana', '=', 'unitkerja.kode')
-                ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.komponen_kode, anggaran.komponen_nama, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                ->select(DB::Raw('turunan_anggaran.*, anggaran.*, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
                 ->where('anggaran.tahun_anggaran', Session::get('tahun_anggaran'))->where('flag_kunci_turunan', '=', 0)
                 ->orderBy('a_id', 'desc')
                 ->get();
-        } 
+        }
         else {
             //operator bidang
             $unit_pelaksana = Auth::User()->user_unitkerja;
             $DataAnggaran = DB::table('turunan_anggaran')
                 ->leftJoin('anggaran', 'anggaran.id', '=', 'turunan_anggaran.a_id')
                 ->leftJoin('unitkerja', 'turunan_anggaran.unit_pelaksana', '=', 'unitkerja.kode')
-                ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.komponen_kode, anggaran.komponen_nama, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                ->select(DB::Raw('turunan_anggaran.*, anggaran.*, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
                 ->where([['anggaran.tahun_anggaran', Session::get('tahun_anggaran')], ['unit_pelaksana', '=', $unit_pelaksana]])->where('flag_kunci_turunan', '=', 0)
                 ->orderBy('a_id', 'desc')
                 ->get();
@@ -128,7 +128,7 @@ class MatrikController extends Controller
             $DataAnggaran = DB::table('turunan_anggaran')
                 ->leftJoin('anggaran', 'anggaran.id', '=', 'turunan_anggaran.a_id')
                 ->leftJoin('unitkerja', 'turunan_anggaran.unit_pelaksana', '=', 'unitkerja.kode')
-                ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.komponen_kode, anggaran.komponen_nama, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                ->select(DB::Raw('turunan_anggaran.*, anggaran.*, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
                 ->where('anggaran.tahun_anggaran', Session::get('tahun_anggaran'))->where('flag_kunci_turunan', '=', 0)
                 ->orderBy('a_id', 'desc')
                 ->get();
@@ -138,7 +138,7 @@ class MatrikController extends Controller
             $DataAnggaran = DB::table('turunan_anggaran')
                 ->leftJoin('anggaran', 'anggaran.id', '=', 'turunan_anggaran.a_id')
                 ->leftJoin('unitkerja', 'turunan_anggaran.unit_pelaksana', '=', 'unitkerja.kode')
-                ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.komponen_kode, anggaran.komponen_nama, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                ->select(DB::Raw('turunan_anggaran.*, anggaran.*, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
                 ->where([['anggaran.tahun_anggaran', Session::get('tahun_anggaran')], ['unit_pelaksana', '=', $unit_pelaksana]])->where('flag_kunci_turunan', '=', 0)
                 ->orderBy('a_id', 'desc')
                 ->get();
@@ -248,7 +248,7 @@ class MatrikController extends Controller
             ->leftJoin(DB::raw("(select kode_kabkota,nama_kabkota from tujuan) as tujuan"),'matrik.kodekab_tujuan','=','tujuan.kode_kabkota')
             ->leftJoin(DB::raw("(select kode as dana_unitkode, nama as dana_unitnama from unitkerja) as dana_unit"),'matrik.dana_unitkerja','=','dana_unit.dana_unitkode')
             ->leftJoin(DB::raw("(select kode as pelaksana_unitkode, nama as pelaksana_unitnama from unitkerja) as unit_pelaksana"),'matrik.unit_pelaksana','=','unit_pelaksana.pelaksana_unitkode')
-            ->leftJoin(DB::raw("(select id as a_id,mak,komponen_kode,komponen_nama,uraian,pagu_utama,rencana_pagu,realisasi_pagu,status,flag_kunci from anggaran) as dana"),'matrik.mak_id','=','dana.a_id')
+            ->leftJoin(DB::raw("(select id as a_id,mak,prog_kode,prog_nama,keg_kode,keg_nama,kro_kode,kro_nama,output_kode,output_nama,komponen_kode,komponen_nama,subkomponen_kode,subkomponen_nama,uraian,pagu_utama,rencana_pagu,realisasi_pagu,status,flag_kunci from anggaran) as dana"),'matrik.mak_id','=','dana.a_id')
             ->leftJoin(DB::raw("(select t_id,unit_pelaksana as t_unitkerja, pagu_awal, pagu_rencana,pagu_realisasi,flag_kunci_turunan from turunan_anggaran) as turunan"),'matrik.dana_tid','=','turunan.t_id')
             ->leftJoin(DB::raw("(select kode as turunan_unitkode, nama as turunan_unitnama from unitkerja) as unit_turunan"),'turunan.t_unitkerja','=','unit_turunan.turunan_unitkode')
             ->where('id','=',$mid)
@@ -267,7 +267,7 @@ class MatrikController extends Controller
             ->leftJoin(DB::raw("(select kode_kabkota,nama_kabkota from tujuan) as tujuan"),'matrik.kodekab_tujuan','=','tujuan.kode_kabkota')
             ->leftJoin(DB::raw("(select kode as dana_unitkode, nama as dana_unitnama from unitkerja) as dana_unit"),'matrik.dana_unitkerja','=','dana_unit.dana_unitkode')
             ->leftJoin(DB::raw("(select kode as pelaksana_unitkode, nama as pelaksana_unitnama from unitkerja) as unit_pelaksana"),'matrik.unit_pelaksana','=','unit_pelaksana.pelaksana_unitkode')
-            ->leftJoin(DB::raw("(select id as a_id,mak,komponen_kode,komponen_nama,uraian,pagu_utama,rencana_pagu,realisasi_pagu,status,flag_kunci from anggaran) as dana"),'matrik.mak_id','=','dana.a_id')
+            ->leftJoin(DB::raw("(select id as a_id,mak,prog_kode,prog_nama,keg_kode,keg_nama,kro_kode,kro_nama,output_kode,output_nama,komponen_kode,komponen_nama,subkomponen_kode,subkomponen_nama,uraian,pagu_utama,rencana_pagu,realisasi_pagu,status,flag_kunci from anggaran) as dana"),'matrik.mak_id','=','dana.a_id')
             ->leftJoin(DB::raw("(select t_id,unit_pelaksana as t_unitkerja, pagu_awal, pagu_rencana,pagu_realisasi,flag_kunci_turunan from turunan_anggaran) as turunan"),'matrik.dana_tid','=','turunan.t_id')
             ->leftJoin(DB::raw("(select kode as turunan_unitkode, nama as turunan_unitnama from unitkerja) as unit_turunan"),'turunan.t_unitkerja','=','unit_turunan.turunan_unitkode')
             ->where([
@@ -286,7 +286,7 @@ class MatrikController extends Controller
             $DataAnggaran = DB::table('turunan_anggaran')
                 ->leftJoin('anggaran', 'anggaran.id', '=', 'turunan_anggaran.a_id')
                 ->leftJoin('unitkerja', 'turunan_anggaran.unit_pelaksana', '=', 'unitkerja.kode')
-                ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.komponen_kode, anggaran.komponen_nama, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                ->select(DB::Raw('turunan_anggaran.*, anggaran.*, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
                 ->where('anggaran.tahun_anggaran', Session::get('tahun_anggaran'))->where('flag_kunci_turunan', '=', 0)
                 ->orderBy('a_id', 'desc')
                 ->get();
@@ -296,12 +296,12 @@ class MatrikController extends Controller
             $DataAnggaran = DB::table('turunan_anggaran')
                 ->leftJoin('anggaran', 'anggaran.id', '=', 'turunan_anggaran.a_id')
                 ->leftJoin('unitkerja', 'turunan_anggaran.unit_pelaksana', '=', 'unitkerja.kode')
-                ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.komponen_kode, anggaran.komponen_nama, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                ->select(DB::Raw('turunan_anggaran.*, anggaran.*, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
                 ->where([['anggaran.tahun_anggaran', Session::get('tahun_anggaran')], ['unit_pelaksana', '=', $unit_pelaksana]])->where('flag_kunci_turunan', '=', 0)
                 ->orderBy('a_id', 'desc')
                 ->get();
         }
-        
+
         $DataTujuan = Tujuan::all();
         return view('matrik.edit',[
             'DataAnggaran'=>$DataAnggaran,
@@ -486,7 +486,9 @@ class MatrikController extends Controller
     }
     public function updateAlokasi(Request $request)
     {
-        //dd($request->all());
+        //cek dulu kabag/kabidnya
+        $data_peg = Pegawai::where([['unitkerja',$request->unit_pelaksana],['flag','1'],['jabatan','2']])->orWhere('jabatan','1')->first();
+        //dd($request->all(),$data_peg);
         /*
         1. cek dulu matrik yang mau di ajukan (ada/tidak)
         2. cek dulu di transaksi sudah ada apa tidak
@@ -500,8 +502,13 @@ class MatrikController extends Controller
             $cek_transaksi = Transaksi::where('matrik_id','=',$request->mid)->count();
             if ($cek_transaksi > 0)
             {
-                //matrik sudah ada update aja
-
+                //transaksi sudah ada update aja
+                $dataTrx = Transaksi::where('matrik_id','=',$request->mid)->first();
+                $dataTrx->form_unitkerja_kode = $request->unit_pelaksana;
+                $dataTrx->form_unitkerja_nama = $data_peg->Unitkerja->nama;
+                $dataTrx->form_ttd_nip = $data_peg->nip_baru;
+                $dataTrx->form_ttd_nama = $data_peg->nama;
+                $dataTrx->update();
                 $pesan_error = '['.$data->kode_trx.'] Matrik perjalanan ke <strong>'.$data->Tujuan->nama_kabkota.'</strong> sudah dialokasikan';
                 $warna_error = 'warning';
             }
@@ -512,6 +519,11 @@ class MatrikController extends Controller
                 $dataTrx->kode_trx = $data->kode_trx;
                 $dataTrx->matrik_id = $request->mid;
                 $dataTrx->tahun_trx = $data->tahun_matrik;
+                //tambah untuk form permintaaan
+                $dataTrx->form_unitkerja_kode = $request->unit_pelaksana;
+                $dataTrx->form_unitkerja_nama = $data_peg->Unitkerja->nama;
+                $dataTrx->form_ttd_nip = $data_peg->nip_baru;
+                $dataTrx->form_ttd_nama = $data_peg->nama;
                 $dataTrx->save();
                 //matrik tidak ditemukan
                 $pesan_error = '['.$data->kode_trx.'] Matrik perjalanan ke <strong>'.$data->Tujuan->nama_kabkota.'</strong> sudah dialokasikan';
@@ -676,7 +688,7 @@ class MatrikController extends Controller
                 $multi_tujuan = $arr_tujuan;
                 $bnyk_tujuan = count($data_tujuan->MultiTujuan);
             }
-            else 
+            else
             {
                 $multi_tujuan = 'hanya 1 tujuan';
                 $bnyk_tujuan = 1;
@@ -783,7 +795,7 @@ class MatrikController extends Controller
                 $datamatrik->save();
 
                 //tambahkan ke tabel multi_tujuan
-                for ($i=0; $i < count($request->kode_kabkota); $i++) { 
+                for ($i=0; $i < count($request->kode_kabkota); $i++) {
                     //simpan mengulang sebanyak count
                     $dataMulti = new MultiTujuan();
                     $dataMulti->matrik_id = $datamatrik->id;
@@ -792,7 +804,7 @@ class MatrikController extends Controller
                     $dataMulti->namakabkota_tujuan = $request->nama_tujuan[$i];
                     $dataMulti->save();
                 }
-                //    
+                //
                 //update turunan anggaran
                 $dataTurunanAnggaran->pagu_rencana = $dataTurunanAnggaran->pagu_rencana + $totalbiaya;
                 $dataTurunanAnggaran->update();
@@ -800,7 +812,7 @@ class MatrikController extends Controller
                 $pesan_error = 'Matrik perjalanan multi tujuan sudah di tambahkan';
                 $warna_error = 'success';
 
-            } 
+            }
             else {
                 //totalbiaya lebih besar dari sisa
                 Session::flash('message_header', "Ada Kesalahan");
@@ -835,7 +847,7 @@ class MatrikController extends Controller
             $datamatrik->save();
 
             //tambahkan ke tabel multi_tujuan
-            for ($i=0; $i < count($request->kode_kabkota); $i++) { 
+            for ($i=0; $i < count($request->kode_kabkota); $i++) {
                 //simpan mengulang sebanyak count
                 $dataMulti = new MultiTujuan();
                 $dataMulti->matrik_id = $datamatrik->id;
@@ -844,7 +856,7 @@ class MatrikController extends Controller
                 $dataMulti->namakabkota_tujuan = $request->nama_tujuan[$i];
                 $dataMulti->save();
             }
-            //    
+            //
             $pesan_error = '['.$kode_trx.'] Matrik perjalanan multi tujuan berhasil di tambahkan dan belum bisa di alokasikan';
             $warna_error = 'warning';
 
@@ -864,7 +876,7 @@ class MatrikController extends Controller
             ->leftJoin(DB::raw("(select kode_kabkota,nama_kabkota from tujuan) as tujuan"),'matrik.kodekab_tujuan','=','tujuan.kode_kabkota')
             ->leftJoin(DB::raw("(select kode as dana_unitkode, nama as dana_unitnama from unitkerja) as dana_unit"),'matrik.dana_unitkerja','=','dana_unit.dana_unitkode')
             ->leftJoin(DB::raw("(select kode as pelaksana_unitkode, nama as pelaksana_unitnama from unitkerja) as unit_pelaksana"),'matrik.unit_pelaksana','=','unit_pelaksana.pelaksana_unitkode')
-            ->leftJoin(DB::raw("(select id as a_id,mak,komponen_kode,komponen_nama,uraian,pagu_utama,rencana_pagu,realisasi_pagu,status,flag_kunci from anggaran) as dana"),'matrik.mak_id','=','dana.a_id')
+            ->leftJoin(DB::raw("(select id as a_id,mak,prog_kode,prog_nama,keg_kode,keg_nama,kro_kode,kro_nama,output_kode,output_nama,komponen_kode,komponen_nama,subkomponen_kode,subkomponen_nama,uraian,pagu_utama,rencana_pagu,realisasi_pagu,status,flag_kunci from anggaran) as dana"),'matrik.mak_id','=','dana.a_id')
             ->leftJoin(DB::raw("(select t_id,unit_pelaksana as t_unitkerja, pagu_awal, pagu_rencana,pagu_realisasi,flag_kunci_turunan from turunan_anggaran) as turunan"),'matrik.dana_tid','=','turunan.t_id')
             ->leftJoin(DB::raw("(select kode as turunan_unitkode, nama as turunan_unitnama from unitkerja) as unit_turunan"),'turunan.t_unitkerja','=','unit_turunan.turunan_unitkode')
             ->where('id','=',$mid)
@@ -883,7 +895,7 @@ class MatrikController extends Controller
             ->leftJoin(DB::raw("(select kode_kabkota,nama_kabkota from tujuan) as tujuan"),'matrik.kodekab_tujuan','=','tujuan.kode_kabkota')
             ->leftJoin(DB::raw("(select kode as dana_unitkode, nama as dana_unitnama from unitkerja) as dana_unit"),'matrik.dana_unitkerja','=','dana_unit.dana_unitkode')
             ->leftJoin(DB::raw("(select kode as pelaksana_unitkode, nama as pelaksana_unitnama from unitkerja) as unit_pelaksana"),'matrik.unit_pelaksana','=','unit_pelaksana.pelaksana_unitkode')
-            ->leftJoin(DB::raw("(select id as a_id,mak,komponen_kode,komponen_nama,uraian,pagu_utama,rencana_pagu,realisasi_pagu,status,flag_kunci from anggaran) as dana"),'matrik.mak_id','=','dana.a_id')
+            ->leftJoin(DB::raw("(select id as a_id,mak,prog_kode,prog_nama,keg_kode,keg_nama,kro_kode,kro_nama,output_kode,output_nama,komponen_kode,komponen_nama,subkomponen_kode,subkomponen_nama,uraian,pagu_utama,rencana_pagu,realisasi_pagu,status,flag_kunci from anggaran) as dana"),'matrik.mak_id','=','dana.a_id')
             ->leftJoin(DB::raw("(select t_id,unit_pelaksana as t_unitkerja, pagu_awal, pagu_rencana,pagu_realisasi,flag_kunci_turunan from turunan_anggaran) as turunan"),'matrik.dana_tid','=','turunan.t_id')
             ->leftJoin(DB::raw("(select kode as turunan_unitkode, nama as turunan_unitnama from unitkerja) as unit_turunan"),'turunan.t_unitkerja','=','unit_turunan.turunan_unitkode')
             ->where([
@@ -902,7 +914,7 @@ class MatrikController extends Controller
             $DataAnggaran = DB::table('turunan_anggaran')
                 ->leftJoin('anggaran', 'anggaran.id', '=', 'turunan_anggaran.a_id')
                 ->leftJoin('unitkerja', 'turunan_anggaran.unit_pelaksana', '=', 'unitkerja.kode')
-                ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.komponen_kode, anggaran.komponen_nama, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                ->select(DB::Raw('turunan_anggaran.*, anggaran.*, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
                 ->where('anggaran.tahun_anggaran', Session::get('tahun_anggaran'))->where('flag_kunci_turunan', '=', 0)
                 ->orderBy('a_id', 'desc')
                 ->get();
@@ -912,7 +924,7 @@ class MatrikController extends Controller
             $DataAnggaran = DB::table('turunan_anggaran')
                 ->leftJoin('anggaran', 'anggaran.id', '=', 'turunan_anggaran.a_id')
                 ->leftJoin('unitkerja', 'turunan_anggaran.unit_pelaksana', '=', 'unitkerja.kode')
-                ->select(DB::Raw('turunan_anggaran.*, anggaran.tahun_anggaran, anggaran.mak, anggaran.komponen_kode, anggaran.komponen_nama, anggaran.uraian, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
+                ->select(DB::Raw('turunan_anggaran.*, anggaran.*, unitkerja.id as unit_id, unitkerja.kode as unit_kode,unitkerja.nama as unit_nama'))
                 ->where([['anggaran.tahun_anggaran', Session::get('tahun_anggaran')], ['unit_pelaksana', '=', $unit_pelaksana]])->where('flag_kunci_turunan', '=', 0)
                 ->orderBy('a_id', 'desc')
                 ->get();
@@ -1098,7 +1110,7 @@ class MatrikController extends Controller
             //hapus semua dulu di multi_tujuan
             $data_multi = MultiTujuan::where('matrik_id',$request->mid)->delete();
             //insert ulang multi_tujuan
-            for ($i=1; $i <= count($request->kode_kabkota); $i++) { 
+            for ($i=1; $i <= count($request->kode_kabkota); $i++) {
                 //simpan mengulang sebanyak count
                 $dataMulti = new MultiTujuan();
                 $dataMulti->matrik_id = $request->mid;
