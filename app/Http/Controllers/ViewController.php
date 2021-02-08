@@ -516,15 +516,34 @@ class ViewController extends Controller
                 'kpa_ket'=>$data->kpa_ket,
                 'flag_trx'=>$data->flag_trx,
                 'flag_trx_nama'=>$FlagTrx[$data->flag_trx],
+                'form_nomor_surat'=>$data->form_nomor_surat,
+                'form_tgl_surat'=>$data->form_tgl_surat,
+                'form_unitkerja_kode'=>$data->form_unitkerja_kode,
+                'form_unitkerja_nama'=>$data->form_unitkerja_nama,
+                'form_ttd_nip'=>$data->form_ttd_nip,
+                'form_ttd_nama'=>$data->form_ttd_nama,
+                'form_ttd_kepala_nip'=>$data->form_ttd_kepala_nip,
+                'form_ttd_kepala_nama'=>$data->form_ttd_kepala_nama,
                 'trx_dibuat'=>$data->created_at, 
+                'trx_diupdate'=>$data->updated_at
             );
             $arr_matrik = array(
                 'm_id'=>$data->matrik_id,
                 'a_id'=>$data->Matrik->AnggaranTurunan->a_id,
                 't_id'=>$data->Matrik->AnggaranTurunan->t_id,
                 'dana_mak'=>$data->Matrik->DanaAnggaran->mak,
+                'prog_kode'=>$data->Matrik->DanaAnggaran->prog_kode,
+                'prog_nama'=>$data->Matrik->DanaAnggaran->prog_nama,
+                'keg_kode'=>$data->Matrik->DanaAnggaran->keg_kode,
+                'keg_nama'=>$data->Matrik->DanaAnggaran->keg_nama,
+                'kro_kode'=>$data->Matrik->DanaAnggaran->kro_kode,
+                'kro_nama'=>$data->Matrik->DanaAnggaran->kro_nama,
+                'output_kode'=>$data->Matrik->DanaAnggaran->output_kode,
+                'output_nama'=>$data->Matrik->DanaAnggaran->output_nama,
                 'komponen_kode'=>$data->Matrik->DanaAnggaran->komponen_kode,
                 'komponen_nama'=>$data->Matrik->DanaAnggaran->komponen_nama,
+                'subkomponen_kode'=>$data->Matrik->DanaAnggaran->subkomponen_kode,
+                'subkomponen_nama'=>$data->Matrik->DanaAnggaran->subkomponen_nama,
                 'dana_uraian'=>$data->Matrik->DanaAnggaran->uraian,
                 'dana_pagu'=> $data->Matrik->dana_pagu,
                 'dana_unitkerja'=>$data->Matrik->dana_unitkerja,
@@ -551,6 +570,7 @@ class ViewController extends Controller
                 'tipe_perjadin'=>$data->Matrik->tipe_perjadin,
                 'tipe_perjadin_nama'=>$TipePerjadin[$data->Matrik->tipe_perjadin],
                 'matrik_dibuat'=>$data->Matrik->created_at,
+                'matrik_diupdate'=>$data->Matrik->updated_at
             );
             $arr = array (
                 'status'=>true,

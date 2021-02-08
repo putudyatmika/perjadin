@@ -23,7 +23,7 @@
     <label for="tugas">Tandatangan</label>
     <div class="input-group">
         <div class="input-group-addon"><i class="ti-lock"></i></div>
-        <select class="form-control" name="ttd" id="ttd" required>
+        <select class="form-control" name="ttd" id="ttd" required="">
             <option value="">Select</option>
             @for ($i = 0; $i < 4; $i++)
             <option value="{{ $i }}">{{ $FlagTTD[$i] }}</option>
@@ -36,7 +36,7 @@
     <label for="ttd_nip">Pejabat Tandatangan</label>
     <div class="input-group">
         <div class="input-group-addon"><i class="ti-lock"></i></div>
-        <select class="form-control" name="ttd_nip" id="ttd_nip" required>
+        <select class="form-control" name="ttd_nip" id="ttd_nip" required="">
             <option value="">Select</option>
             @foreach ($DataPegawai as $peg)
                <option value="{{$peg->nip_baru}}">{{$peg->nama}}</option>
@@ -49,7 +49,7 @@
         <label for="tugas">Angkutan Kendaraan</label>
         <div class="input-group">
             <div class="input-group-addon"><i class="ti-lock"></i></div>
-            <select class="form-control" name="kendaraan"  id="kendaraan" required>
+            <select class="form-control" name="kendaraan"  id="kendaraan" required="">
                 <option value="">Select</option>
                 @for ($j = 1; $j < 4; $j++)
                     <option value="{{$j}}">{{$FlagKendaraan[$j]}}</option>

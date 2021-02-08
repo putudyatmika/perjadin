@@ -2,7 +2,7 @@
 
 <div class="text-center">
     <b>FORMULIR PERMINTAAN <br /> BELANJA PERJALANAN DINAS BIASA <br /></b>
-    <span class="nomorminta">Nomor: B-    /BPS/52550/02/2021</span>
+    <span class="nomorminta">Nomor: {{$data->form_nomor_surat}}</span>
 </div>
 
 <div class="kepadaminta">

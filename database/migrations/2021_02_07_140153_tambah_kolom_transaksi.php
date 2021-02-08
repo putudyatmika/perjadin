@@ -21,6 +21,8 @@ class TambahKolomTransaksi extends Migration
             $table->string('form_unitkerja_nama', 254)->nullable()->after('form_unitkerja_kode');
             $table->string('form_ttd_nip',20)->nullable()->after('form_unitkerja_nama');
             $table->string('form_ttd_nama',254)->nullable()->after('form_ttd_nip');
+            $table->string('form_ttd_kepala_nip',20)->nullable()->after('form_ttd_nama');
+            $table->string('form_ttd_kepala_nama',254)->nullable()->after('form_ttd_kepala_nip');
         });
     }
 

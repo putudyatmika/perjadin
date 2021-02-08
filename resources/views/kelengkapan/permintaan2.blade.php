@@ -73,18 +73,18 @@
 
             </td>
             <td width="50%">
-                Mataram, {{Tanggal::Panjang($data->created_at)}}
+                Mataram, {{Tanggal::Panjang($data->form_tgl_surat)}}
             </td>
         </tr>
         <tr class="text-center">
             <td>
                 Kepala Badan Pusat Statistik <br />Provinsi Nusa Tenggara Barat
-                <p style="margin-top:60pt;"><b>{{strtoupper($data->SuratTugas->ttd_nama)}}</b></p>
+                <p style="margin-top:60pt;"><b>{{strtoupper($data->form_ttd_kepala_nama)}}</b></p>
             </td>
             <td>
-               Kepala {{$data->Matrik->UnitPelaksana->nama}}<br />BPS Provinsi Nusa Tenggara Barat
+               Kepala {{$data->form_unitkerja_nama}}<br />BPS Provinsi Nusa Tenggara Barat
 
-                <p style="margin-top:60pt;"><b>{{strtoupper($data->SuratTugas->ttd_nama)}}</b></p>
+                <p style="margin-top:60pt;"><b>{{strtoupper($data->form_ttd_nama)}}</b></p>
             </td>
         </tr>
         <tr>

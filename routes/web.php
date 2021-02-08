@@ -105,7 +105,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('tahundasar', 'TahunDasarController');
     Route::get('transaksi/pegawai/sync/{tahun}', 'TransaksiController@syncPegawai')->name('transaksi.sync');
     Route::get('transaksi/view', 'TransaksiController@view')->name('transaksi.view');
+    Route::get('transaksi/sinkronsurat', 'TransaksiController@SinkronSuratPermintaan')->name('transaksi.surat');
     Route::get('transaksi/kalendar', 'TransaksiController@Kalendar')->name('transaksi.kalendar');
+    Route::post('transaksi/ajukan', 'TransaksiController@AjukanTransaksi')->name('transaksi.ajukan');
+    Route::post('transaksi/editadmin', 'TransaksiController@EditAjukanAdmin')->name('transaksi.ajukanadmin');
     Route::resource('transaksi', 'TransaksiController');
     Route::get('surattugas/pdf/{kodetrx}', 'SuratTugasController@UnduhPDF')->name('surattugas.pdf');
     Route::get('surattugas/view/{kodetrx}', 'SuratTugasController@view')->name('surattugas.view');

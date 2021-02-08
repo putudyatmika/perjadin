@@ -487,7 +487,8 @@ class MatrikController extends Controller
     public function updateAlokasi(Request $request)
     {
         //cek dulu kabag/kabidnya
-        $data_peg = Pegawai::where([['unitkerja',$request->unit_pelaksana],['flag','1'],['jabatan','2']])->orWhere('jabatan','1')->first();
+        $data_peg = Pegawai::where([['unitkerja',$request->unit_pelaksana],['flag','1'],['jabatan','<','3']])->first();
+        $data_kepala = Pegawai::where([['flag','1'],['jabatan','1']])->first();
         //dd($request->all(),$data_peg);
         /*
         1. cek dulu matrik yang mau di ajukan (ada/tidak)
@@ -508,6 +509,8 @@ class MatrikController extends Controller
                 $dataTrx->form_unitkerja_nama = $data_peg->Unitkerja->nama;
                 $dataTrx->form_ttd_nip = $data_peg->nip_baru;
                 $dataTrx->form_ttd_nama = $data_peg->nama;
+                $dataTrx->form_ttd_kepala_nip = $data_kepala->nip_baru;
+                $dataTrx->form_ttd_kepala_nama = $data_kepala->nama;
                 $dataTrx->update();
                 $pesan_error = '['.$data->kode_trx.'] Matrik perjalanan ke <strong>'.$data->Tujuan->nama_kabkota.'</strong> sudah dialokasikan';
                 $warna_error = 'warning';
@@ -524,6 +527,8 @@ class MatrikController extends Controller
                 $dataTrx->form_unitkerja_nama = $data_peg->Unitkerja->nama;
                 $dataTrx->form_ttd_nip = $data_peg->nip_baru;
                 $dataTrx->form_ttd_nama = $data_peg->nama;
+                $dataTrx->form_ttd_kepala_nip = $data_kepala->nip_baru;
+                $dataTrx->form_ttd_kepala_nama = $data_kepala->nama;
                 $dataTrx->save();
                 //matrik tidak ditemukan
                 $pesan_error = '['.$data->kode_trx.'] Matrik perjalanan ke <strong>'.$data->Tujuan->nama_kabkota.'</strong> sudah dialokasikan';
