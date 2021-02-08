@@ -76,25 +76,24 @@ $(function () {
                     <!-- /.breadcrumb -->
                 </div>
                 <div class="row">
-                <div class="col-lg-4 col-sm-6 col-md-6">
-                <a href="{{route('anggaran.export')}}" class="btn btn-success btn-rounded btn-fw"><i class="fa fa-file-excel-o"></i> Export to Excel</a>
-                @if (Auth::user()->pengelola>3)
-                    <a href="" class="btn btn-danger btn-rounded btn-fw" data-toggle="modal" data-target="#TambahAnggaranModal"><i class="fa fa-plus"></i> Tambah Anggaran</a>
+                    <div class="col-lg-8 col-sm-6 col-md-6">
+                    <a href="{{route('anggaran.export')}}" class="btn btn-success btn-rounded btn-fw"><i class="fa fa-file-excel-o"></i> Export to Excel</a>
+                    @if (Auth::user()->pengelola>3)
+                        <a href="" class="btn btn-danger btn-rounded btn-fw" data-toggle="modal" data-target="#TambahAnggaranModal"><i class="fa fa-plus"></i> Tambah Anggaran</a>
+                        <a href="{{route('anggaran.sinkronkode')}}" class="btn btn-info btn-rounded btn-fw"><i class="fas fa-sync"></i> Sinkron POK</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                            <form action="{{ url('import_anggaran') }}" method="post" class="form" enctype="multipart/form-data">
+                            @csrf
+                            <div class="input-group {{ $errors->has('importAnggaran') ? 'has-error' : '' }}">
+                                <input type="file" class="form-control" name="importAnggaran" required="">
+                                <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-success" style="height: 38px;margin-left: -2px;">Import</button>
+                                </span>
+                            </div>
+                            </form>
+                    @endif
                 </div>
-                <div class="col-lg-4">
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-                        <form action="{{ url('import_anggaran') }}" method="post" class="form" enctype="multipart/form-data">
-                          @csrf
-                          <div class="input-group {{ $errors->has('importAnggaran') ? 'has-error' : '' }}">
-                            <input type="file" class="form-control" name="importAnggaran" required="">
-                            <span class="input-group-btn">
-                                    <button type="submit" class="btn btn-success" style="height: 38px;margin-left: -2px;">Import</button>
-                            </span>
-                          </div>
-                        </form>
-                @endif
-                </div>                
                 <div class="col-lg-12">
                     @if (Session::has('message'))
                     <div class="alert alert-{{ Session::get('message_type') }}" id="waktu2" style="margin-top:10px;">{{ Session::get('message') }}</div>
@@ -160,13 +159,13 @@ $(function () {
                                                     @if ((Auth::user()->pengelola==2) or ((Auth::user()->pengelola==5)))
                                                         @if ($item->flag_kunci==0)
                                                         <button class="btn btn-circle btn-info" data-toggle="modal" data-target="#KunciModal" data-tahun="{{ $item->tahun_anggaran}}" data-mak="{{ $item->mak}}" data-pagu="{{ $item->pagu_utama}}" data-uraian="{{$item->uraian}}" data-unitkode="{{$item->unit_nama}}" data-anggaranid="{{$item->id}}" data-kunci="{{$item->flag_kunci}}"><span data-toggle="tooltip" title="Kunci anggaran {{ $item->uraian}}"><i class="fa fa-unlock"></i></span></button>
-                                                        @else 
+                                                        @else
                                                         <button class="btn btn-circle label-warning" data-toggle="modal" data-target="#KunciModal" data-tahun="{{ $item->tahun_anggaran}}" data-mak="{{ $item->mak}}" data-pagu="{{ $item->pagu_utama}}" data-uraian="{{$item->uraian}}" data-unitkode="{{$item->unit_nama}}" data-anggaranid="{{$item->id}}" data-kunci="{{$item->flag_kunci}}"><span data-toggle="tooltip" title="Buka kunci anggaran {{ $item->uraian}}"><i class="fa fa-lock"></i></span></button>
                                                         @endif
-                                                    @else 
+                                                    @else
                                                         @if ($item->flag_kunci==0)
                                                         <button class="btn btn-circle btn-info"><span data-toggle="tooltip" title="anggaran {{ $item->uraian}} terbuka"><i class="fa fa-unlock"></i></span></button>
-                                                        @else 
+                                                        @else
                                                         <button class="btn btn-circle label-warning"><span data-toggle="tooltip" title="anggaran {{ $item->uraian}} terkunci"><i class="fa fa-lock"></i></span></button>
                                                         @endif
                                                     @endif

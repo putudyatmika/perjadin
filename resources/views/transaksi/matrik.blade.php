@@ -57,6 +57,11 @@ $(function () {
                 </div>
                 <!-- .row -->
                 <div class="row">
+                        @if (Auth::user()->pengelola>3)
+                        <div class="col-lg-8 col-sm-6 col-md-6">
+                        <a href="{{route('transaksi.surat')}}" class="btn btn-info btn-rounded btn-fw"><i class="fas fa-sync"></i> Sinkron POK</a>
+                        </div>
+                        @endif
                         <div class="col-lg-12">
                                 @if (Session::has('message'))
                                 <div class="alert alert-{{ Session::get('message_type') }}" id="waktu2" style="margin-top:10px;">
@@ -64,7 +69,7 @@ $(function () {
                                 </div>
                                 @endif
                         </div>
-                    <div class="col-lg-12">
+                    <div class="col-lg-12" style="margin-top: 20px;">
                         <div class="white-box">
                             @include('transaksi.filter')
                             <h3 class="box-title m-b-0">Transaksi Perjalanan Dinas</h3>
@@ -106,15 +111,15 @@ $(function () {
                                             <td>
                                                 @if ($item->Matrik->tipe_perjadin==2)
                                                     @foreach ($item->Matrik->MultiTujuan as $t)
-                                                        <div class="m-b-5">{{$t->kodekab_tujuan}}-{{$t->namakabkota_tujuan}}</div> 
+                                                        <div class="m-b-5">{{$t->kodekab_tujuan}}-{{$t->namakabkota_tujuan}}</div>
                                                     @endforeach
                                                     <div class="label label-info">
                                                         {{$TipePerjadin[$item->Matrik->tipe_perjadin]}}
                                                     </div>
-                                                @else 
+                                                @else
                                                 {{$item->Matrik->kodekab_tujuan}}-{{$item->Matrik->Tujuan->nama_kabkota}}
                                                 @endif
-                                                
+
                                             </td>
                                             <td>{{$item->Matrik->unit_pelaksana}}-{{$item->Matrik->UnitPelaksana->nama}}</td>
                                             <td>{{$peg_nama}}</td>
@@ -128,7 +133,7 @@ $(function () {
                                             <td>@include('transaksi.kpa')</td>
                                             <td>@include('transaksi.flagtransaksi')</td>
                                             <td>
-                                                
+
                                                 @include('transaksi.ajukan')
                                                 @if (Auth::user()->pengelola>4)
                                                     @if ($item->flag_trx < 7)
