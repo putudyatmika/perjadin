@@ -605,7 +605,7 @@ $.ajax({
     }
 
 });
-  if (kodekro != null)
+  if (kodekro)
   {
     $.ajax({
             url : '{{route("pok.outputbyprogkegcari",["","",""])}}/'+kodeprog+'/'+kodekeg+'/'+kodekro,
@@ -1064,7 +1064,7 @@ $.ajax({
     }
 
 });
-if (kodekro != '')
+if (kodekro)
 {
     $.ajax({
             url : '{{route("pok.outputbyprogkegcari",["","",""])}}/'+kodeprog+'/'+kodekeg+'/'+kodekro,
