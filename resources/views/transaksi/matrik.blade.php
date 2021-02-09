@@ -59,7 +59,7 @@ $(function () {
                 <div class="row">
                         @if (Auth::user()->pengelola>3)
                         <div class="col-lg-8 col-sm-6 col-md-6">
-                        <a href="{{route('transaksi.surat')}}" class="btn btn-info btn-rounded btn-fw"><i class="fas fa-sync"></i> Sinkron POK</a>
+                        <a href="{{route('transaksi.surat')}}" class="btn btn-info btn-rounded btn-fw"><i class="fas fa-sync"></i> Sinkron Surat Permintaan</a>
                         </div>
                         @endif
                         <div class="col-lg-12">

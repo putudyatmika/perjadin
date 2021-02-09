@@ -19,7 +19,8 @@
             <td class="garis-t garis-l">Tanggal</td>
             <td class="garis-t garis-l">Tujuan <br />(Provinsi/Kab/Kota)</td>
             <td class="garis-t garis-l">Lamanya <br />(o-h)</td>
-            <td class="garis-t garis-l garis-r">Keterangan</td>
+            <td class="garis-t garis-l">Keterangan</td>
+            <td class="garis-t garis-l garis-r">Perkiraan Biaya</td>
         </tr>
         <tr class="text-center tulisankecil">
             <td class="garis-t garis-l">(1)</td>
@@ -28,7 +29,8 @@
             <td class="garis-t garis-l">(4)</td>
             <td class="garis-t garis-l">(5)</td>
             <td class="garis-t garis-l">(6)</td>
-            <td class="garis-t garis-l garis-r">(7)</td>
+            <td class="garis-t garis-l">(7)</td>
+            <td class="garis-t garis-l garis-r">(8)</td>
         </tr>
         <tr>
             <td class="garis-t garis-l garis-b">1.</td>
@@ -59,8 +61,11 @@
             <td class="garis-t garis-l garis-b text-center">
                 {{$data->bnyk_hari}}
             </td>
-            <td class="garis-t garis-l garis-r garis-b text-center">
+            <td class="garis-t garis-l garis-b text-center">
                 {{$FlagKendaraan[$data->Spd->kendaraan]}}
+            </td>
+            <td class="garis-t garis-l garis-r garis-b text-center">
+                @duit($data->Matrik->total_biaya)
             </td>
         </tr>
     </table>
