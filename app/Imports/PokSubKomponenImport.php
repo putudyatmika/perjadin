@@ -29,7 +29,7 @@ class PokSubKomponenImport implements ToCollection, WithHeadingRow, WithBatchIns
                 'subkomponen_kode' => null,
                 'subkomponen_nama' => null,
             */
-            $count = PokSubKomponen::where([['tahun_subkom',$tahun_anggaran],['kode_prog',trim($row['prog_kode'])],['kode_keg',trim($row['keg_kode'])],['kode_kro',$row['kro_kode']],['kode_output',trim($row['output_kode'])],['kode_komponen',trim($row['komponen_kode'])],['kode_subkom',trim($row['subkomponen_kode'])]])->count();
+            $count = \App\PokSubKomponen::where([['tahun_subkom',$tahun_anggaran],['kode_prog',trim($row['prog_kode'])],['kode_keg',trim($row['keg_kode'])],['kode_kro',$row['kro_kode']],['kode_output',trim($row['output_kode'])],['kode_komponen',trim($row['komponen_kode'])],['kode_subkom',trim($row['subkomponen_kode'])]])->count();
             if ($count == 0)
             {
                 if ($row['kro_kode'] == "" or $row['kro_kode']==NULL)
@@ -40,7 +40,7 @@ class PokSubKomponenImport implements ToCollection, WithHeadingRow, WithBatchIns
                 {
                     $kode_kro=$row['kro_kode'];
                 }
-                $data = new PokSubKomponen();
+                $data = new \App\PokSubKomponen();
                 $data->tahun_subkom = $tahun_anggaran;
                 $data->kode_prog = trim($row['prog_kode']);
                 $data->kode_keg = trim($row['keg_kode']);
