@@ -138,7 +138,7 @@ class TransaksiController extends Controller
      */
     public function AjukanTransaksi(Request $request)
     {
-        dd($request->all());
+        //dd($request->all());
         $cek_jalan_pegawai = Transaksi::where([['peg_nip','=',$request->peg_nip],['tgl_brkt','=',$request->tglberangkat],['flag_trx','<>','3']])->orWhere([['peg_nip','=',$request->peg_nip],['tgl_balik','=',$request->tglberangkat],['flag_trx','<>','3']])->count();
             //dd($cek_jalan_pegawai);
             if ($cek_jalan_pegawai > 0)
