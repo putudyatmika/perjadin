@@ -25,7 +25,7 @@ class CreateMatrikPerjalananTable extends Migration
             $table->tinyInteger('lamanya');
             $table->integer('mak_id')->unsigned()->nullable();
             $table->integer('dana_tid')->unsigned()->nullable();
-            $table->string('dana_mak', 30);
+            $table->string('dana_mak', 40)->nullable();
             $table->string('dana_pagu', 20);
             $table->string('dana_unitkerja', 5);
             $table->tinyInteger('lama_harian');

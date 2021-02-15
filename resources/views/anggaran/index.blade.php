@@ -80,7 +80,9 @@ $(function () {
                     <a href="{{route('anggaran.export')}}" class="btn btn-success btn-rounded btn-fw"><i class="fa fa-file-excel-o"></i> Export to Excel</a>
                     @if (Auth::user()->pengelola>3)
                         <a href="" class="btn btn-danger btn-rounded btn-fw" data-toggle="modal" data-target="#TambahAnggaranModal"><i class="fa fa-plus"></i> Tambah Anggaran</a>
+                        @if (Auth::user()->user_level > 4)
                         <a href="{{route('anggaran.sinkronkode')}}" class="btn btn-info btn-rounded btn-fw"><i class="fas fa-sync"></i> Sinkron POK</a>
+                        @endif
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
                             <form action="{{ url('import_anggaran') }}" method="post" class="form" enctype="multipart/form-data">

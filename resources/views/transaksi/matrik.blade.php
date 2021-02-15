@@ -57,7 +57,7 @@ $(function () {
                 </div>
                 <!-- .row -->
                 <div class="row">
-                        @if (Auth::user()->pengelola>3)
+                        @if (Auth::user()->user_level > 4)
                         <div class="col-lg-8 col-sm-6 col-md-6">
                         <a href="{{route('transaksi.surat')}}" class="btn btn-info btn-rounded btn-fw"><i class="fas fa-sync"></i> Sinkron Surat Permintaan</a>
                         </div>

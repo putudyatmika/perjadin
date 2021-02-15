@@ -10,6 +10,8 @@ use App\PokKro;
 use App\PokKomponen;
 use App\PokSubKomponen;
 use App\PokAkun;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow; //TAMBAHKAN CODE INI
@@ -26,7 +28,7 @@ class AnggaranImport implements ToCollection, WithHeadingRow, WithBatchInserts, 
     public function collection(Collection $rows)
     {
         $tahun_anggaran = Session::get('tahun_anggaran');
-       
+
         foreach ($rows as $row)
         {
             /*
@@ -40,42 +42,58 @@ class AnggaranImport implements ToCollection, WithHeadingRow, WithBatchInserts, 
                 'uraian' => null,
                 'pagu_utama' => null,
                 'unitkerja' => 'kode bidang/bagian 5 digit',
-                'unitkerja' => 'kode bidang/bagian 5 digit',
             */
             if ($row['subkomponen_kode'] != NULL)
             {
                 if ($row['kro_kode'] == NULL)
                 {
-                    $data_detil = PokSubKomponen::where([['tahun_subkom',$tahun_anggaran],['kode_prog',$row['prog_kode']],['kode_keg',$row['keg_kode']],['kode_output',$row['output_kode']],['kode_komponen',$row['kode_komponen']],['kode_subkom',$row['subkomponen_kode']]])->first();
+                    $data_detil = PokSubKomponen::leftJoin('tbl_output',function ($join){
+                        $join->on('tbl_subkomponen.kode_output','=','tbl_output.kode_output')
+                        ->on('tbl_subkomponen.kode_keg','=','tbl_output.kode_keg');
+                    })
+                    ->where([['tahun_subkom',$tahun_anggaran],['tbl_subkomponen.kode_prog',$row['prog_kode']],['tbl_subkomponen.kode_keg',$row['keg_kode']],['tbl_subkomponen.kode_output',$row['output_kode']],['tbl_subkomponen.kode_komponen',$row['komponen_kode']],['kode_subkom',$row['subkomponen_kode']]])->first();
                 }
                 else
                 {
-                    $data_detil = PokSubKomponen::where([['tahun_subkom',$tahun_anggaran],['kode_prog',$row['prog_kode']],['kode_keg',$row['keg_kode']],['kode_output',$row['output_kode']],['kode_komponen',$row['kode_komponen']],['kode_subkom',$row['subkomponen_kode']],['kode_kro',$row['kro_kode']]])->first();
+                    $data_detil = PokSubKomponen::leftJoin('tbl_output',function ($join){
+                        $join->on('tbl_subkomponen.kode_output','=','tbl_output.kode_output')
+                        ->on('tbl_subkomponen.kode_kro','=','tbl_output.kode_kro')
+                        ->on('tbl_subkomponen.kode_keg','=','tbl_output.kode_keg');
+                    })
+                    ->where([['tahun_subkom',$tahun_anggaran],['tbl_subkomponen.kode_prog',$row['prog_kode']],['tbl_subkomponen.kode_keg',$row['keg_kode']],['tbl_subkomponen.kode_output',$row['output_kode']],['tbl_subkomponen.kode_komponen',$row['komponen_kode']],['kode_subkom',$row['subkomponen_kode']],['tbl_subkomponen.kode_kro',$row['kro_kode']]])->first();
                 }
-                
+
             }
             else
             {
                 if ($row['kro_kode'] == NULL)
                 {
-                    $data_detil = PokKomponen::where([['tahun_subkom',$tahun_anggaran],['kode_prog',$row['prog_kode']],['kode_keg',$row['keg_kode']],['kode_output',$row['output_kode']],['kode_komponen',$row['kode_komponen']]])->first();
+                    $data_detil = PokKomponen::leftJoin('tbl_output',function ($join){
+                        $join->on('tbl_komponen.kode_output','=','tbl_output.kode_output')
+                        ->on('tbl_komponen.kode_keg','=','tbl_output.kode_keg');
+                    })->where([['tahun_komponen',$tahun_anggaran],['tbl_komponen.kode_prog',$row['prog_kode']],['tbl_komponen.kode_keg',$row['keg_kode']],['tbl_komponen.kode_output',$row['output_kode']],['kode_komponen',$row['komponen_kode']]])->first();
                 }
-                else 
-                {   
-                    $data_detil = PokKomponen::where([['tahun_subkom',$tahun_anggaran],['kode_prog',$row['prog_kode']],['kode_keg',$row['keg_kode']],['kode_output',$row['output_kode']],['kode_komponen',$row['kode_komponen']],['kode_kro',$row['kro_kode']]])->first();
+                else
+                {
+                    $data_detil = PokKomponen::leftJoin('tbl_output',function ($join){
+                        $join->on('tbl_komponen.kode_output','=','tbl_output.kode_output')
+                        ->on('tbl_komponen.kode_kro','=','tbl_output.kode_kro')
+                        ->on('tbl_komponen.kode_keg','=','tbl_output.kode_keg');
+                    })
+                    ->where([['tahun_komponen',$tahun_anggaran],['tbl_komponen.kode_prog',$row['prog_kode']],['tbl_komponen.kode_keg',$row['keg_kode']],['tbl_komponen.kode_output',$row['output_kode']],['kode_komponen',$row['komponen_kode']],['tbl_komponen.kode_kro',$row['kro_kode']]])->first();
                 }
             }
 
             if ($row['kro_kode'] == NULL)
             {
                 //tanpa kro
-                $mak = $row['prog_kode'].'.'.$row['keg_kode'].'.'.$row['output_kode'].'.'.$row['kode_komponen'];
+                $mak = $row['prog_kode'].'.'.$row['keg_kode'].'.'.$row['output_kode'].'.'.$row['komponen_kode'];
                 $kro_nama = NULL;
             }
-            else 
+            else
             {
                 //dengan kro
-                $mak = $row['prog_kode'].'.'.$row['keg_kode'].'.'.$row['kro_kode'].'.'.$row['output_kode'].'.'.$row['kode_komponen'];
+                $mak = $row['prog_kode'].'.'.$row['keg_kode'].'.'.$row['kro_kode'].'.'.$row['output_kode'].'.'.$row['komponen_kode'];
                 $kro_nama = $data_detil->Kro->nama_kro;
             }
 
@@ -86,7 +104,7 @@ class AnggaranImport implements ToCollection, WithHeadingRow, WithBatchInserts, 
                 $subkom_nama = NULL;
                 $komponen_nama = $data_detil->nama_komponen;
             }
-            else 
+            else
             {
                 //dengan subkomponen
                 $mak = $mak.'.'.$row['subkomponen_kode'].'.'.$row['akun_kode'];
@@ -111,6 +129,7 @@ class AnggaranImport implements ToCollection, WithHeadingRow, WithBatchInserts, 
             $data_akun = PokAkun::where('kode_akun',$row['akun_kode'])->first();
             $dataAnggaran = new Anggaran();
             $dataAnggaran->tahun_anggaran =  $tahun_anggaran;
+            $dataAnggaran->mak =  $mak;
             $dataAnggaran->prog_kode = $row['prog_kode'];
             $dataAnggaran->prog_nama = $data_detil->Program->nama_prog;;
             $dataAnggaran->keg_kode = $row['keg_kode'];
@@ -118,8 +137,8 @@ class AnggaranImport implements ToCollection, WithHeadingRow, WithBatchInserts, 
             $dataAnggaran->kro_kode = $row['kro_kode'];
             $dataAnggaran->kro_nama = $kro_nama;
             $dataAnggaran->output_kode = $row['output_kode'];
-            $dataAnggaran->output_nama = $data_detil->Output->nama_output;
-            $dataAnggaran->komponen_kode = $row['kode_komponen'];
+            $dataAnggaran->output_nama = $data_detil->nama_output;
+            $dataAnggaran->komponen_kode = $row['komponen_kode'];
             $dataAnggaran->komponen_nama = $komponen_nama;
             $dataAnggaran->subkomponen_kode = $row['subkomponen_kode'];
             $dataAnggaran->subkomponen_nama = $subkom_nama;

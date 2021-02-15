@@ -9,7 +9,7 @@ class PokSubKomponen extends Model
     //
     protected $table = 'tbl_subkomponen';
     protected $primaryKey = 'id_subkom';
-    
+
     public function Program()
     {
         $tahun_anggaran=Session::get('tahun_anggaran');
