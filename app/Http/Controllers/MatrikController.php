@@ -487,7 +487,7 @@ class MatrikController extends Controller
     public function updateAlokasi(Request $request)
     {
         //cek dulu kabag/kabidnya
-        $data_peg = Pegawai::where([['unitkerja',$request->unit_pelaksana],['flag','1'],['jabatan','<','3']])->first();
+        $data_peg = Pegawai::where([['unitkerja',$request->unit_pelaksana],['flag','1'],['jabatan','<','4']])->first();
         $data_kepala = Pegawai::where([['flag','1'],['jabatan','1']])->first();
         //dd($request->all(),$data_peg);
         /*
@@ -509,6 +509,7 @@ class MatrikController extends Controller
                 $dataTrx->form_unitkerja_nama = $data_peg->Unitkerja->nama;
                 $dataTrx->form_ttd_nip = $data_peg->nip_baru;
                 $dataTrx->form_ttd_nama = $data_peg->nama;
+                $dataTrx->form_ttd_jabatan = $data_peg->jabatan;
                 $dataTrx->form_ttd_kepala_nip = $data_kepala->nip_baru;
                 $dataTrx->form_ttd_kepala_nama = $data_kepala->nama;
                 $dataTrx->update();
@@ -527,6 +528,7 @@ class MatrikController extends Controller
                 $dataTrx->form_unitkerja_nama = $data_peg->Unitkerja->nama;
                 $dataTrx->form_ttd_nip = $data_peg->nip_baru;
                 $dataTrx->form_ttd_nama = $data_peg->nama;
+                $dataTrx->form_ttd_jabatan = $data_peg->jabatan;
                 $dataTrx->form_ttd_kepala_nip = $data_kepala->nip_baru;
                 $dataTrx->form_ttd_kepala_nama = $data_kepala->nama;
                 $dataTrx->save();

@@ -42,7 +42,7 @@
         <select class="form-control select2" name="gol" required="" id="gol">
             <option>Select</option>
             @foreach ($DataGol as $Gol)
-                <option value="{{ $Gol -> kode }}">{{ $Gol -> pangkat }} ( {{ $Gol -> gol }})</option>
+                <option value="{{ $Gol -> kode }}">{{ $Gol->pangkat }} ( {{$Gol->gol }})</option>
             @endforeach
         </select>
 
@@ -55,7 +55,7 @@
         <select class="form-control select2" name="unitkerja" required="" id="unitkerja">
             <option>Select</option>
             @foreach ($DataUnitkerja as $Unit)
-                <option value="{{ $Unit -> kode }}">{{ $Unit -> kode }}-{{ $Unit -> nama }}</option>
+                <option value="{{ $Unit->kode }}">{{ $Unit->kode }}-{{ $Unit->nama }}</option>
             @endforeach
         </select>
 
@@ -67,7 +67,7 @@
         <div class="input-group-addon"><i class="ti-medall-alt"></i></div>
         <select class="form-control select2" name="jabatan" required="" id="jabatan">
             <option>Select</option>
-            @for ($i = 1; $i < 7; $i++)
+            @for ($i = 1; $i < 8; $i++)
             <option value="{{ $i }}">{{ $JenisJabatanVar[$i] }}</option>
             @endfor
         </select>

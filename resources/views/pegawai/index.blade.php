@@ -107,18 +107,18 @@ $(function () {
                                                 <td><a href="#" data-toggle="modal" data-target="#ViewModal" data-pegid="{{$Pegawai->id}}" data-nama="{{$Pegawai->nama}}" data-nip="{{$Pegawai->nip_baru}}" data-tgllahir="{{Tanggal::HariPanjang($Pegawai->tgl_lahir)}}" data-gol="{{ $Pegawai -> pangkat }} ({{ $Pegawai->nama_gol}})" data-unitkerja="{{$Pegawai -> unit_nama}}" data-jabatan="{{$JenisJabatanVar[$Pegawai -> jabatan]}}" data-jk="{{$jkVar[$Pegawai->jk]}}" data-bidang="{{ $Pegawai -> bidang_nama}}" data-email="{{$Pegawai->email}}">{{ $Pegawai -> nip_baru }}</a></td>
                                                 <td>{{ $Pegawai -> nama}}</td>
                                                 <td>{{ $Pegawai -> email}}</td>
-                                                <td><strong>{{ $JenisJabatanVar[$Pegawai -> jabatan] }}</strong> {{ $Pegawai -> unit_nama}}</td>
+                                                <td><strong>{{ $JenisJabatanVar[$Pegawai->jabatan] }}</strong> {{ $Pegawai->unit_nama}}</td>
                                                 <td>
                                                     @if ($Pegawai -> flag_pengelola>0)
-                                                        <span class="label label-rouded label-info">{{$FlagPengelola[$Pegawai -> flag_pengelola]}}</span>
+                                                        <span class="label label-rouded label-info">{{$FlagPengelola[$Pegawai->flag_pengelola]}}</span>
                                                     @endif
                                                 </td>
                                                 <td>{{ $Pegawai -> pangkat }} ({{ $Pegawai->nama_gol}})</td>
                                                 <td>
                                                     @if ($Pegawai->flag > 0)
-                                                    <span class="label label-rouded label-success">{{ $FlagUmum[$Pegawai -> flag] }}</span>
+                                                    <span class="label label-rouded label-success">{{ $FlagUmum[$Pegawai->flag] }}</span>
                                                     @else 
-                                                    <span class="label label-rouded label-danger">{{ $FlagUmum[$Pegawai -> flag] }}</span>
+                                                    <span class="label label-rouded label-danger">{{ $FlagUmum[$Pegawai->flag] }}</span>
                                                     @endif
                                                 </td>
                                                 @if (Auth::user()->pengelola>3)

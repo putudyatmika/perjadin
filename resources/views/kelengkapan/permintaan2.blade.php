@@ -87,7 +87,13 @@
                 <p style="margin-top:60pt;"><b>{{strtoupper($data->form_ttd_kepala_nama)}}</b></p>
             </td>
             <td>
-               Kepala {{$data->form_unitkerja_nama}}<br />BPS Provinsi Nusa Tenggara Barat
+               @if ($data->form_ttd_jabatan < 3)
+               Kepala 
+               @else 
+               Koordinator
+               @endif 
+               {{$data->form_unitkerja_nama}}<br />
+               BPS Provinsi Nusa Tenggara Barat
 
                 <p style="margin-top:60pt;"><b>{{strtoupper($data->form_ttd_nama)}}</b></p>
             </td>

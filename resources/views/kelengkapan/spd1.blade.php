@@ -58,12 +58,12 @@
             <div class="pull-left">
             @endif
                 b.
-                @if ($data->peg_jabatan<4)
+                @if ($data->peg_jabatan < 3)
                 Kepala {{$data->PegUnitkerja->nama}}
                 @else
-                Staf {{$data->PegUnitkerja->nama}}
+                {{$JenisJabatanVar[$data->peg_jabatan]}} {{$data->PegUnitkerja->nama}}
                 @endif
-            @if (strlen($data->PegUnitkerja->nama)>28)
+            @if (strlen($data->PegUnitkerja->nama)>40)
             </div>
             @endif
         </td>

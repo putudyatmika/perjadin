@@ -145,19 +145,57 @@ di <br />
             <td class="garis-t garis-l">&nbsp;</td>
             <td class="garis-t garis-l">{{$data->Matrik->DanaAnggaran->uraian}}</td>
             <td class="garis-t garis-l text-center">@duit($data->Matrik->DanaAnggaran->pagu_utama)</td>
-            <td class="garis-t garis-l text-center">@duit($data->Matrik->DanaAnggaran->realisasi_pagu-$data->Matrik->total_biaya)</td>
-            <td class="garis-t garis-l text-center">@duit(($data->Matrik->DanaAnggaran->pagu_utama - $data->Matrik->DanaAnggaran->realisasi_pagu)+$data->Matrik->total_biaya)</td>
+            <td class="garis-t garis-l text-center">
+                @if ($data->Matrik->DanaAnggaran->realisasi_pagu-$data->Matrik->total_biaya > 0)
+                    @duit($data->Matrik->DanaAnggaran->realisasi_pagu-$data->Matrik->total_biaya)
+                @else 
+                    0 
+                @endif
+            </td>
+            <td class="garis-t garis-l text-center">
+                @if ($data->Matrik->DanaAnggaran->realisasi_pagu-$data->Matrik->total_biaya > 0)
+                    @duit(($data->Matrik->DanaAnggaran->pagu_utama - $data->Matrik->DanaAnggaran->realisasi_pagu)+$data->Matrik->total_biaya)
+                @else 
+                    @duit($data->Matrik->DanaAnggaran->pagu_utama)
+                @endif
+            </td>
             <td class="garis-t garis-l text-center">@duit($data->Matrik->total_biaya)</td>
-            <td class="garis-t garis-l garis-r text-center">@duit($data->Matrik->DanaAnggaran->pagu_utama - $data->Matrik->DanaAnggaran->realisasi_pagu)</td>
+            <td class="garis-t garis-l garis-r text-center">
+                @if ($data->Matrik->DanaAnggaran->realisasi_pagu-$data->Matrik->total_biaya > 0)
+                    @duit($data->Matrik->DanaAnggaran->pagu_utama - $data->Matrik->DanaAnggaran->realisasi_pagu)
+                @else 
+                    @duit($data->Matrik->DanaAnggaran->pagu_utama - $data->Matrik->total_biaya)
+                @endif
+            </td>
         </tr>
         <tr>
             <td class="garis-t garis-l garis-b">&nbsp;</td>
             <td class="garis-t garis-l garis-b text-center"><b>JUMLAH</b></td>
             <td class="garis-t garis-l garis-b text-center">@duit($data->Matrik->DanaAnggaran->pagu_utama)</td>
-            <td class="garis-t garis-l garis-b text-center">@duit($data->Matrik->DanaAnggaran->realisasi_pagu-$data->Matrik->total_biaya)</td>
-            <td class="garis-t garis-l garis-b text-center">@duit(($data->Matrik->DanaAnggaran->pagu_utama - $data->Matrik->DanaAnggaran->realisasi_pagu)+$data->Matrik->total_biaya)</td>
-            <td class="garis-t garis-l garis-b text-center">@duit($data->Matrik->total_biaya)</td>
-            <td class="garis-t garis-l garis-r garis-b text-center">@duit($data->Matrik->DanaAnggaran->pagu_utama - $data->Matrik->DanaAnggaran->realisasi_pagu)</td>
+            <td class="garis-t garis-l garis-b text-center">
+                @if ($data->Matrik->DanaAnggaran->realisasi_pagu-$data->Matrik->total_biaya > 0)
+                    @duit($data->Matrik->DanaAnggaran->realisasi_pagu-$data->Matrik->total_biaya)
+                @else 
+                    0 
+                @endif
+            </td>
+            <td class="garis-t garis-l garis-b text-center">
+                @if ($data->Matrik->DanaAnggaran->realisasi_pagu-$data->Matrik->total_biaya > 0)
+                    @duit(($data->Matrik->DanaAnggaran->pagu_utama - $data->Matrik->DanaAnggaran->realisasi_pagu)+$data->Matrik->total_biaya)
+                @else 
+                    @duit($data->Matrik->DanaAnggaran->pagu_utama)
+                @endif
+            </td>
+            <td class="garis-t garis-l garis-b text-center">
+                @duit($data->Matrik->total_biaya)
+            </td>
+            <td class="garis-t garis-l garis-r garis-b text-center">
+                @if ($data->Matrik->DanaAnggaran->realisasi_pagu-$data->Matrik->total_biaya > 0)
+                    @duit($data->Matrik->DanaAnggaran->pagu_utama - $data->Matrik->DanaAnggaran->realisasi_pagu)
+                @else 
+                    @duit($data->Matrik->DanaAnggaran->pagu_utama - $data->Matrik->total_biaya)
+                @endif
+            </td>
         </tr>
     </table>
 </div>

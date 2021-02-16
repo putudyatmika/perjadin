@@ -59,7 +59,7 @@ class TransaksiController extends Controller
         $FlagTrx = config('globalvar.FlagTransaksi');
         $FlagKonfirmasi = config('globalvar.FlagKonfirmasi');
         $MatrikFlag = config('globalvar.FlagMatrik');
-        $DataPegawai = Pegawai::where('flag', '=', '1')->where('jabatan', '<', '5')->get();
+        $DataPegawai = Pegawai::where('flag', '=', '1')->where('jabatan', '<', '6')->get();
         //dd($DataPegawai);
         $DataBidang = Unitkerja::where('eselon', '<', '4')->orderBy('kode', 'asc')->get();
         if ($flag_trx=='')
@@ -230,7 +230,7 @@ class TransaksiController extends Controller
                 $objEmail->detil = $dataMatrik->DanaAnggaran->uraian;
                 $objEmail->totalbiaya = 'Rp. '.number_format($dataMatrik->total_biaya,0,',','.');
 
-                $dataKabid = Pegawai::where('unitkerja','=',$dataMatrik->dana_unitkerja)->where('jabatan','<','3')->where('flag','=','1')->first();
+                $dataKabid = Pegawai::where('unitkerja','=',$dataMatrik->dana_unitkerja)->where('jabatan','<','4')->where('flag','=','1')->first();
                 if ($request->kirim_notifikasi == 1)
                 {
                     Mail::to($dataKabid->email)->send(new MailPersetujuan($objEmail));
@@ -426,7 +426,7 @@ class TransaksiController extends Controller
                 $objEmail->detil = $dataMatrik->DanaAnggaran->uraian;
                 $objEmail->totalbiaya = 'Rp. '.number_format($dataMatrik->total_biaya,0,',','.');
 
-                $dataKabid = Pegawai::where('unitkerja','=',$dataMatrik->dana_unitkerja)->where('jabatan','<','3')->where('flag','=','1')->first();
+                $dataKabid = Pegawai::where('unitkerja','=',$dataMatrik->dana_unitkerja)->where('jabatan','<','4')->where('flag','=','1')->first();
                 if ($request->kirim_notifikasi == 1)
                 {
                     Mail::to($dataKabid->email)->send(new MailPersetujuan($objEmail));

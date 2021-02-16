@@ -62,10 +62,10 @@
         <td valign="top">Jabatan</td>
         <td valign="top">:</td>
         <td valign="top">
-            @if ($data->peg_jabatan<4)
+            @if ($data->peg_jabatan < 3)
             Kepala {{$data->PegUnitkerja->nama}}
             @else
-            Staf {{$data->PegUnitkerja->nama}}
+            {{$JenisJabatanVar[$data->peg_jabatan]}} {{$data->PegUnitkerja->nama}}
             @endif
         </td>
     </tr>

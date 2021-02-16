@@ -192,13 +192,14 @@ class KelengkapanController extends Controller
         $FlagTTD = config('globalvar.FlagTTD');
         $Bilangan = config('globalvar.Bilangan');
         $FlagKendaraan = config('globalvar.Kendaraan');
+        $JenisJabatanVar = config('globalvar.JenisJabatan');
         $count = Transaksi::where('kode_trx','=',$kodetrx)->where('flag_trx','>','3')->count();
         if ($count > 0)
         {
             $data = Transaksi::where('kode_trx','=',$kodetrx)->where('flag_trx','>','3')->first();
             //dd($data);
             PDF::setOptions(['dpi' => 150, 'defaultFont' => 'Helvetica','isHtml5ParserEnabled'=>true]);
-            $pdf = PDF::loadView('kelengkapan.print',compact('data','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','FlagKendaraan'))->setPaper('A4');
+            $pdf = PDF::loadView('kelengkapan.print',compact('data','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','FlagKendaraan','JenisJabatanVar'))->setPaper('A4');
             $nama=strtoupper($data->peg_nama);
             return $pdf->stream('PERJADIN_'.$nama.'_TRX_ID_'.$kodetrx.'.pdf');
             //return view('kelengkapan.print',compact('data','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','FlagKendaraan'));
@@ -215,13 +216,14 @@ class KelengkapanController extends Controller
         $FlagTTD = config('globalvar.FlagTTD');
         $Bilangan = config('globalvar.Bilangan');
         $FlagKendaraan = config('globalvar.Kendaraan');
+        $JenisJabatanVar = config('globalvar.JenisJabatan');
         $count = Transaksi::where('kode_trx','=',$kodetrx)->where('flag_trx','>','3')->count();
         if ($count > 0)
         {
             $data = Transaksi::where('kode_trx','=',$kodetrx)->where('flag_trx','>','3')->first();
             //dd($data);
             PDF::setOptions(['dpi' => 150, 'defaultFont' => 'Helvetica','isHtml5ParserEnabled'=>true]);
-            $pdf = PDF::loadView('kelengkapan.print',compact('data','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','FlagKendaraan'))->setPaper('A4');
+            $pdf = PDF::loadView('kelengkapan.print',compact('data','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','FlagKendaraan','JenisJabatanVar'))->setPaper('A4');
             //return $pdf->stream();
             //return view('kelengkapan.print',compact('data','FlagTrx','FlagKonfirmasi','MatrikFlag','FlagTTD','FlagSrt','Bilangan','FlagKendaraan'));
             $nama=strtoupper($data->peg_nama);
