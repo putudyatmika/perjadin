@@ -221,14 +221,14 @@ footer {
 <body>
 
     <main>
-        <div class="halbox">
+        <!--<div class="halbox">
             @include('kelengkapan.permintaan1')
         </div>
         <div class="pindah-halaman"></div>
         <div class="halbox">
             @include('kelengkapan.permintaan2')
         </div>
-        <div class="pindah-halaman"></div>
+        <div class="pindah-halaman"></div>-->
         <div class="halbox">
             @include('kelengkapan.srttugas')
         </div>

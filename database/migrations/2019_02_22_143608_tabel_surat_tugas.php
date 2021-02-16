@@ -18,7 +18,7 @@ class TabelSuratTugas extends Migration
             $table->integer('trx_id')->unsigned();
             $table->string('nomor_surat')->nullable();
             $table->date('tgl_surat')->nullable();
-            $table->string('ttd_nip',20)->nullable();
+            $table->string('ttd_nip',25)->nullable();
             $table->string('ttd_jabatan',200)->nullable();
             $table->string('ttd_nama',200)->nullable();
             $table->boolean('flag_ttd')->default(0);
