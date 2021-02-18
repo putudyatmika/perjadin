@@ -33,21 +33,24 @@
                     @endif
 
                     <li class="nav-small-cap m-t-10">--- Operator Menu</li>
-                    <li> 
+                    <li>
                         <a href="{{route('transaksi.kalendar')}}" class="waves-effect"><i data-icon="A" class="linea-icon linea-elaborate fa-fw"></i> <span class="hide-menu">Kalendar</span></a>
                     </li>
-                    <li> 
-                        <a href="{{url('matrik')}}" class="waves-effect"><i class="icon-briefcase fa-fw"></i><span class="hide-menu" >Matrik</span></a> 
+                    <li>
+                        <a href="{{url('matrik')}}" class="waves-effect"><i class="icon-briefcase fa-fw"></i><span class="hide-menu" >Matrik</span></a>
                     </li>
-                    <li> 
-                        <a href="{{url('transaksi')}}" class="waves-effect text-primary"><i class="icon-screen-desktop fa-fw"></i><span class="hide-menu" >Transaksi</span></a> 
+                    <li>
+                        <a href="{{route('permintaan.list')}}" class="waves-effect"><i class="icon-briefcase fa-fw"></i><span class="hide-menu" >Form-JLN</span></a>
                     </li>
-                    <li> 
+                    <li>
+                        <a href="{{url('transaksi')}}" class="waves-effect text-primary"><i class="icon-screen-desktop fa-fw"></i><span class="hide-menu" >Transaksi</span></a>
+                    </li>
+                    <li>
                         <a href="{{route('kelengkapan.list')}}" class="waves-effect text-success"><i class="icon-bag fa-fw"></i><span class="hide-menu" >Kelengkapan</span>
                             @if (Jumlah::SuratTugas(0,Session::get('tahun_anggaran'))>0)
                             <span class="label label-rouded label-info pull-right">{{Jumlah::SuratTugas(0,Session::get('tahun_anggaran'))}}</span>
                             @endif
-                        </a> 
+                        </a>
                     </li>
                     <!--<li> <a href="{{url('surattugas')}}" class="waves-effect text-info"><i class="icon-directions fa-fw"></i><span class="hide-menu" >Surat Tugas</span>
                         @if (Jumlah::SuratTugas(0,Session::get('tahun_anggaran'))>0)
@@ -83,8 +86,8 @@
                             <li><a href="{{url('unitkerja')}}">Unitkerja</a></li>
                             </ul>
                     </li>
-                    
-                    
+
+
                     @if (Auth::user()->user_level>3)
                     <li> <a href="#" class="waves-effect"><i data-icon="&#xe00b;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">POK<span class="fa arrow"></span></span></a>
                         <ul class="nav nav-second-level">

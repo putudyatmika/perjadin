@@ -1,5 +1,8 @@
-update transaksi 
-inner join pegawai on transaksi.peg_nip = pegawai.nip_baru 
+update transaksi
+inner join pegawai on transaksi.peg_nip = pegawai.nip_baru
 inner join unitkerja on pegawai.unitkerja = unitkerja.kode
 set transaksi.peg_nama = pegawai.nama, transaksi.peg_gol = pegawai.gol, transaksi.peg_jabatan=pegawai.jabatan, transaksi.peg_unitkerja=pegawai.unitkerja, transaksi.peg_unitkerja_nama = unitkerja.nama
 where transaksi.tahun_trx='2019'
+
+update matrik left join transaksi on transaksi.matrik_id=matrik.id LEFT join spd on spd.trx_id=transaksi.trx_id set matrik.flag_kendaraan_matrik = spd.kendaraan;
+select id,matrik.kode_trx,flag_kendaraan_matrik,transaksi.trx_id,spd.kendaraan from matrik left join transaksi on transaksi.matrik_id=matrik.id LEFT join spd on spd.trx_id=transaksi.trx_id;

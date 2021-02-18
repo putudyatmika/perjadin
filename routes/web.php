@@ -69,6 +69,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('pegawai/{nip}', 'PegawaiController@CariPegawai')->name('cari.pegawai');
     Route::resource('pegawai', 'PegawaiController');
     Route::resource('unitkerja', 'UnitkerjaController');
+    Route::get('permintaan/list', 'FormPermintaan@ListPermintaan')->name('permintaan.list');
     Route::get('matrik/baru', 'MatrikController@baru')->name('matrik.baru');
     Route::get('matrik/multi', 'MatrikController@MultiTujuan')->name('matrik.multi');
     Route::post('matrik/simpan', 'MatrikController@simpan')->name('matrik.simpan');
