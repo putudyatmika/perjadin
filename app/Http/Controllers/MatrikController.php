@@ -737,6 +737,7 @@ class MatrikController extends Controller
     public function viewByAnggaran($aid,$tid)
     {
         $FlagKendaraan = config('globalvar.Kendaraan');
+        $FlagTrx = config('globalvar.FlagTransaksi');
         $arr = array(
             'status'=>false,
             'hasil'=>'Data matrik tidak tersedia'
@@ -771,6 +772,17 @@ class MatrikController extends Controller
                     );
                     $bnyk_tujuan = 1;
                 }
+                if ($item->DetilPermintaan)
+                {
+
+                    $id_permintaan = $item->DetilPermintaan->id_permintaan;
+                    $id_detil_permintaan = $item->DetilPermintaan->id_detil_permintaan;
+                }
+                else
+                {
+                    $id_permintaan = 0;
+                    $id_detil_permintaan = 0;
+                }
                 $hasil[]=array(
                     'matrik_id'=>$item->id,
                     'tahun_matrik'=>$item->tahun_matrik,
@@ -796,6 +808,10 @@ class MatrikController extends Controller
                     'flag_sudah_permintaan'=>$item->Transaksi->flag_sudah_permintaan,
                     'tipe_perjadin'=>$item->tipe_perjadin,
                     'bnyk_tujuan'=>$bnyk_tujuan,
+                    'flag_trx'=>$item->Transaksi->flag_trx,
+                    'flag_trx_nama'=>$FlagTrx[$item->Transaksi->flag_trx],
+                    'id_permintaan'=>$id_permintaan,
+                    'id_detil_permintaan'=>$id_detil_permintaan,
                     'tujuan'=>$multi_tujuan
 
                 );

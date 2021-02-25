@@ -171,6 +171,7 @@
                                                     <th>Tujuan</th>
                                                     <th>Lama</th>
                                                     <th>Keterangan</th>
+                                                    <th>Flag Trx</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -183,6 +184,7 @@
                                                             <td>{{$item->Matrik->Tujuan->nama_kabkota}}</td>
                                                             <td>{{$item->bnyk_hari_detil}}</td>
                                                             <td>Menggunakan {{$FlagKendaraan[$item->Matrik->flag_kendaraan]}}</td>
+                                                            <td>@include('permintaan.flagtrx')</td>
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
@@ -190,6 +192,7 @@
 
                                                 </tfoot>
                                             </table>
+                                            <input type="hidden" name="id_permintaan" id="id_permintaan" value="{{$dataFormJln->id_permintaan}}" />
                                         <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
                                         <button type="reset" class="btn btn-inverse waves-effect waves-light">Reset</button>
                                     </form>
@@ -240,7 +243,7 @@
 <!-- Date range Plugin JavaScript -->
 <script src="{{asset('tema/plugins/bower_components/timepicker/bootstrap-timepicker.min.js')}}"></script>
 <script src="{{asset('tema/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
-@include('permintaan.js')
+@include('permintaan.jsedit')
 <script>
     jQuery('#date-range').datepicker({
     format: 'yyyy-mm-dd',

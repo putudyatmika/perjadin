@@ -70,7 +70,7 @@ $('#SumberDana').on('hidden.bs.modal', function (event) {
         success: function(data){
 
             if (data.status == false) {
-                $('#formJLNTambah #tabelmatrik tbody').html("<tr><td colspan='7' align='center'>Belum ada Matrik menggunakan anggaran ini</td></tr>")
+                $('#formJLNTambah #tabelmatrik tbody').html("<tr><td colspan='8' align='center'>Belum ada Matrik menggunakan anggaran ini</td></tr>")
                 $('#formJLNTambah #tabelmatrik tfoot').html("")
             }
             else {
@@ -103,8 +103,7 @@ $('#SumberDana').on('hidden.bs.modal', function (event) {
                     {
                         var peg_nama
                         //peg_nama ditransaksi masih kosong
-
-                        peg_nama ='<select name="pegid[]" id="pegid" class="form-control pilihan" required="">'+
+                        peg_nama ='<select name="pegid[]" id="pegid" class="form-control pilihan" required>'+
                                     '<option value="">Pilih Pegawai</option>';
                         @foreach ($dataPegawai as $item)
                             peg_nama += '<option value="{{$item->id}}">{{$item->nama}}</option>';
@@ -119,7 +118,7 @@ $('#SumberDana').on('hidden.bs.modal', function (event) {
                     {
                         var flag_minta = '';
                     }
-                    text += "<tr><td>"+flag_minta+"</td><td>"+(i+1)+"</td><td>"+peg_nama+"</td><td>"+tgl_brkt+"</td><td>"+tujuannama+"</td><td>"+data.hasil[i].lamanya+"</td><td>Menggunakan "+data.hasil[i].flag_kendaraan_nama+"</td></tr>";
+                    text += "<tr><td>"+flag_minta+"</td><td>"+(i+1)+"</td><td>"+peg_nama+"</td><td>"+tgl_brkt+"</td><td>"+tujuannama+"</td><td>"+data.hasil[i].lamanya+"</td><td>Menggunakan "+data.hasil[i].flag_kendaraan_nama+"</td><td><span class=\"label label-success\">"+data.hasil[i].flag_trx_nama+"</span></td></tr>";
                 }
 
                 $('#formJLNTambah #tabelmatrik tbody').html(text);

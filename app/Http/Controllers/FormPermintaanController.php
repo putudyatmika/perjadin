@@ -243,6 +243,7 @@ class FormPermintaanController extends Controller
             $dataFormJln = FormPermintaan::where([['id_permintaan',$pid],['unitkerja_kode_permintaan',$unit_pelaksana]])->first();
         }
         $FlagKendaraan = config('globalvar.Kendaraan');
+        $FlagTrx = config('globalvar.FlagTransaksi');
         $dataFungsi = Unitkerja::where('eselon', '=', '3')->orderBy('kode', 'asc')->get();
         $dataPegawai = Pegawai::where([['jabatan','<','6'],['flag','1']])->orderBy('unitkerja')->get();
         return view('permintaan.edit',[
@@ -250,11 +251,39 @@ class FormPermintaanController extends Controller
             'DataAnggaran'=>$DataAnggaran,
             'FlagKendaraan'=>$FlagKendaraan,
             'dataPegawai'=>$dataPegawai,
-            'dataFormJln'=>$dataFormJln
+            'dataFormJln'=>$dataFormJln,
+            'FlagTrx'=>$FlagTrx
         ]);
     }
     public function UpdatePermintaan(Request $request)
     {
         dd($request->all());
+        for ($i=0; $i < count($request->matrikid); $i++)
+            {
+                $m_id = $request->matrikid[$i];
+                if ($request->has('pegid'))
+                {
+                    $peg_id = $request->pegid[$m_id];
+                }
+                else
+                {
+                    $peg_id = $m_id;
+                }
+                if ($request->has('tgl_brkt'))
+                {
+                    $tgl_brkt = $request->tgl_brkt[$m_id];
+                }
+                else
+                {
+                    $tgl_brkt - $m_id;
+                }
+                $arr_loop[] = array(
+                    'matrik_id'=>$m_id,
+                    'peg_id'=>$peg_id,
+                    'tgl_brkt'=>$tgl_brkt
+                );
+
+            }
+        dd($request->all(),$arr_loop);
     }
 }
