@@ -8,12 +8,12 @@ $bln_balik = (int)($tgl_balik[1]);
 $tgl_berangkat = (int)($tgl_brkt[2]) .' '.$Bulan[$bln_brkt].' '.$tgl_brkt[0];
 $tgl_blk = (int)($tgl_balik[2]) .' '.$Bulan[$bln_balik].' '.$tgl_balik[0];
 
-if ($dataTransaksi->Matrik->tipe_perjadin==1) 
+if ($dataTransaksi->Matrik->tipe_perjadin==1)
 {
     $nama_tujuan = $dataTransaksi->Matrik->Tujuan->nama_kabkota;
 }
-    
-else 
+
+else
 {
     $i = 0;
     $nama_tujuan='';
@@ -22,8 +22,8 @@ else
         {
             $nama_tujuan .= 'dan '.$t->namakabkota_tujuan;
         }
-        else 
-        {   
+        else
+        {
             $nama_tujuan .= $t->namakabkota_tujuan.', ';
         }
         $i = $i+1;
@@ -164,14 +164,14 @@ else {
 </div>
 </div>
 <div class="form-group row">
-<label for="nama" class="col-2 col-form-label">Tujuan</label>
+<label for="nama_tujuan" class="col-2 col-form-label">Tujuan</label>
 <div class="input-group col-8">
     <div class="input-group-addon"><i class="ti-user"></i></div>
     <input type="text" class="form-control" id="nama_tujuan" name="nama_tujuan" value="{!! $nama_tujuan !!}" placeholder="Tujuan" readonly="">
 </div>
 </div>
 <div class="form-group row">
-<label for="nama" class="col-2 col-form-label">Tugas</label>
+<label for="tugas" class="col-2 col-form-label">Tugas</label>
 <div class="input-group col-8">
     <div class="input-group-addon"><i class="ti-user"></i></div>
     <input type="text" class="form-control" id="tugas" name="tugas" value="{{$dataTransaksi->tugas}}" placeholder="Tugas" readonly="">
@@ -179,7 +179,7 @@ else {
 </div>
 </div>
 <div class="form-group row">
-<label for="nama" class="col-2 col-form-label">Lamanya</label>
+<label for="lamanya_text" class="col-2 col-form-label">Lamanya</label>
 <div class="input-group col-8">
     <div class="input-group-addon"><i class="ti-user"></i></div>
     <input type="text" class="form-control" id="lamanya_text" name="lamanya_text"  value="{{$dataTransaksi->bnyk_hari}} Hari" placeholder="Banyak hari" readonly="">
@@ -187,7 +187,7 @@ else {
 </div>
 </div>
 <div class="form-group row">
-    <label for="Pelaksanaan" class="col-2 col-form-label">Pelaksanaan</label>
+    <label for="tglawal" class="col-2 col-form-label">Pelaksanaan</label>
     <div class="input-group col-8 input-daterange" id="date-range">
         <div class="input-group-addon" ><i class="ti-user"></i></div>
         <input type="text" class="form-control" id="tglawal" name="tglawal" placeholder="Tgl Awal" required="" value="{{$tgl_berangkat}}" readonly="">
@@ -196,26 +196,20 @@ else {
     </div>
 </div>
 <div class="form-group row">
-    <label for="nama" class="col-2 col-form-label">Nomor Surat Tugas</label>
+    <label for="nomor_surattugas" class="col-2 col-form-label">Nomor Surat Tugas</label>
     <div class="input-group col-8">
         <div class="input-group-addon"><i class="ti-user"></i></div>
         <input type="text" class="form-control" id="nomor_surattugas" name="nomor_surattugas"  value="{{$dataTransaksi->Surattugas->nomor_surat}}" placeholder="Nomor Surat Tugas" readonly="">
     </div>
 </div>
 <div class="form-group row">
-    <label for="nama" class="col-2 col-form-label">Nomor SPD</label>
+    <label for="nomor_spd" class="col-2 col-form-label">Nomor SPD</label>
     <div class="input-group col-8">
         <div class="input-group-addon"><i class="ti-user"></i></div>
         <input type="text" class="form-control" id="nomor_spd" name="nomor_spd"  value="{{$dataTransaksi->Spd->nomor_spd}}" placeholder="Nomor SPD" readonly="">
     </div>
 </div>
-<div class="form-group row">
-    <label for="nama" class="col-2 col-form-label">Kendaraan</label>
-    <div class="input-group col-8">
-        <div class="input-group-addon"><i class="ti-user"></i></div>
-        <input type="text" class="form-control" id="kendaraan" name="kendaraan"  value="{{$FlagKendaraan[$dataTransaksi->Spd->kendaraan]}}" placeholder="Nomor SPD" readonly="">
-    </div>
-</div>
+
 <h3 class="box-title m-t-40">Sumber Dana</h3>
 <hr>
 <div class="form-group row">
@@ -262,7 +256,7 @@ else {
 <div class="form-group row">
     <label for="jenisperjadin" class="col-2 col-form-label">Jenis Perjadin</label>
     <div class="input-group col-10">
-     
+
             <div class="radio-list">
                 <label class="radio-inline p-0">
                     <div class="radio radio-success">
@@ -277,7 +271,7 @@ else {
                     </div>
                 </label>
             </div>
-       
+
     </div>
 </div>
 <div class="form-group row">
@@ -289,7 +283,7 @@ else {
         </div>
 </div>
 <div class="form-group row">
-    <label for="nama" class="col-2 col-form-label">Uang Harian Perjalanan</label>
+    <label for="uangharian" class="col-2 col-form-label">Uang Harian Perjalanan</label>
     <div class="input-group col-10">
         <div class="input-group-addon"><i class="ti-user"></i></div>
         <input type="number" class="form-control" id="uangharian" name="uangharian" placeholder="Nilai Rp." value="{{$harian_rupiah}}" required="">
@@ -300,19 +294,19 @@ else {
     </div>
 </div>
 <div class="form-group row">
-    <label for="nama" id="penginapan_nama" class="col-2 col-form-label">
+    <label for="nilaihotel" class="col-2 col-form-label">
         @if ($flag_jenisperjadin==1)
             Biaya Penginapan
-        @else 
+        @else
             Uang Harian
         @endif
     </label>
     <div class="input-group col-10">
         <div class="input-group-addon"><i class="ti-user"></i></div>
-        
+
         <input type="text" class="form-control" id="txt_jenisperjadin" name="txt_jenisperjadin" placeholder="Uang Harian Apa" value="{{$txt_jenisperjadin}}" @if ($flag_jenisperjadin==1) style="display:none;"  @endif>
         <span class="input-group-addon bg-info b-0 text-white" id="batas_txt_perjadin" @if ($flag_jenisperjadin==1) style="display:none;" @endif>:</span>
-       
+
         <input type="number" class="form-control" id="nilaihotel" name="nilaihotel" placeholder="Nilai Hotel Rp." value="{{$hotel_rupiah}}" required="">
         <span class="input-group-addon bg-info b-0 text-white">x</span>
         <input type="number" class="form-control" id="hotelhari" name="hotelhari" placeholder="Lama hari" value="{{$hotel_lama}}" @if ($flag_jenisperjadin==1) readonly="" @endif required="">
@@ -324,6 +318,21 @@ else {
             </label>
 
         </span>
+    </div>
+</div>
+<div class="form-group row">
+    <label for="flag_jeniskendaraan" class="col-2 col-form-label">Jenis Kendaraan</label>
+    <div class="input-group col-3" >
+        <div class="input-group-addon"><i class="ti-user"></i></div>
+        <select class="form-control" name="flag_jeniskendaraan" id="flag_jeniskendaraan" required="">
+            <option value="">Pilih Kendaraan</option>
+            @for ($i = 1; $i < 4; $i++)
+                <option value="{{$i}}" @if ($i == $dataTransaksi->Kuitansi->flag_jeniskendaraan)
+                    selected="selected"
+                @endif>{{$FlagKendaraan[$i]}}</option>
+            @endfor
+        </select>
+
     </div>
 </div>
 <div class="form-group row">
@@ -343,7 +352,7 @@ else {
     </div>
 </div>
 <div class="form-group row">
-    <label for="pengeluaranrill" class="col-2 col-form-label">Pengeluaran Rill</label>
+    <label for="rill_ket1" class="col-2 col-form-label">Pengeluaran Rill</label>
     <div class="input-group col-10">
         <div class="input-group-addon"><i class="ti-user"></i></div>
         <span class="input-group-addon bg-info b-0 text-white">
@@ -393,7 +402,7 @@ else {
         <input type="text" class="form-control" id="totalbiaya" name="totalbiaya" placeholder="Total Biaya" required="" readonly="" value="{{$totalbiaya}}"> </div>
 </div>
 <div class="form-group row">
-    <label for="totalbiaya" class="col-2 col-form-label">Bendahara</label>
+    <label for="bendahara_nama" class="col-2 col-form-label">Bendahara</label>
     <div class="input-group col-5">
         <div class="input-group-addon"><i class="ti-user"></i></div>
         <input type="text" class="form-control" id="bendahara_nama" name="bendahara_nama" placeholder="Nama Bendahara" required="" readonly="" value="{{$Bendahara->nama}}">

@@ -70,7 +70,7 @@
                                         <input type="hidden" name="totalbiaya_sblm" value="{{$dataTransaksi->Kuitansi->total_biaya}}" />
                                         <input type="hidden" name="kode_trx" value="{{$dataTransaksi->kode_trx}}" />
                                         @include('kuitansi.form')
-                                        <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
+                                        <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Simpan</button>
                                         <a href="{{route('kuitansi.index')}}" class="btn btn-inverse waves-effect waves-light">Cancel</a>
                                     </form>
                                 </div>

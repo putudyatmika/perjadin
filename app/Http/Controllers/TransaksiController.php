@@ -178,8 +178,6 @@ class TransaksiController extends Controller
             $datatrx->ppk_ket = NULL;
             $datatrx->kpa_konfirmasi = 0;
             $datatrx->kpa_ket = NULL;
-            $datatrx->form_nomor_surat = $request->form_nomor_surat;
-            $datatrx->form_tgl_surat = $request->form_tgl_surat;
             $datatrx->update();
             //cek tabel surat tugas dan spd
 
@@ -264,8 +262,6 @@ class TransaksiController extends Controller
         $datatrx->kabid_konfirmasi = $request->kabid_setuju;
         $datatrx->ppk_konfirmasi = $request->ppk_setuju;
         $datatrx->kpa_konfirmasi = $request->kpa_setuju;
-        $datatrx->form_nomor_surat = $request->form_nomor_surat;
-        $datatrx->form_tgl_surat = $request->form_tgl_surat;
         $datatrx->update();
 
         Session::flash('message', '['.$datatrx->kode_trx.'] Data Perjalanan ke <strong>'. $datatrx->Matrik->Tujuan->nama_kabkota .'</strong> an. <strong>'.$datatrx->peg_nama.'</strong> tanggal berangkat <strong><i>'. Tanggal::Panjang($datatrx->tgl_brkt) .'</i></strong> sudah di update');
@@ -290,7 +286,7 @@ class TransaksiController extends Controller
         foreach ($data as $item) {
             $tanggal = explode('-',$item->tanggal_surat);
             $data_sinkron = Transaksi::where('trx_id',$item->trx_id)->first();
-            if (!$data_sinkron->form_nomor_surat) 
+            if (!$data_sinkron->form_nomor_surat)
             {
                 $data_sinkron->form_nomor_surat = 'B-'.$item->trx_id.'/BPS/'.$item->unit_kode.'/'.$tanggal[1].'/'.$tanggal[0];
             }
@@ -298,7 +294,7 @@ class TransaksiController extends Controller
             {
                 $data_sinkron->form_tgl_surat = $item->tanggal_surat;
             }
-            
+
             if (!$data_sinkron->form_ttd_nip)
             {
                 $data_sinkron->form_ttd_nip = $item->pejabat_nip;
@@ -333,7 +329,7 @@ class TransaksiController extends Controller
         $datapeg -> update();
 
         */
-        dd($request->all());
+        //dd($request->all());
         if ($request->aksi == "alokasipegawai") {
             //search pegawai
             //cek dulu nip pegawai ini tanggal sama ada perjalanan tidak
@@ -530,7 +526,7 @@ class TransaksiController extends Controller
                 });
             })->orderBy('flag_trx', 'ASC')->orderBy('tgl_brkt', 'desc')->get();
         }
-        
+
 
         $dataPerjalan=array();
         $className='';
@@ -574,7 +570,7 @@ class TransaksiController extends Controller
             {
                 $nama_tujuan = $item->Matrik->Tujuan->nama_kabkota;
             }
-            else 
+            else
             {
                 $i = 0;
                 $nama_tujuan='';
@@ -583,8 +579,8 @@ class TransaksiController extends Controller
                     {
                         $nama_tujuan .= 'dan '.$t->namakabkota_tujuan;
                     }
-                    else 
-                    {   
+                    else
+                    {
                         $nama_tujuan .= $t->namakabkota_tujuan.', ';
                     }
                     $i = $i+1;

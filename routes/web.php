@@ -67,9 +67,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('pegawai/import', 'PegawaiController@import')->name('pegawai.import');
     Route::get('pejabat/{flagttd}', 'PegawaiController@CariPejabat')->name('cari.pejabat');
     Route::get('pegawai/{nip}', 'PegawaiController@CariPegawai')->name('cari.pegawai');
+    Route::get('pegawai/list/{kodeunit}', 'PegawaiController@ListPegawai')->name('pegawai.list');
     Route::resource('pegawai', 'PegawaiController');
     Route::resource('unitkerja', 'UnitkerjaController');
-    Route::get('permintaan/list', 'FormPermintaan@ListPermintaan')->name('permintaan.list');
+    Route::get('permintaan/list', 'FormPermintaanController@ListPermintaan')->name('permintaan.list');
+    Route::get('permintaan/tambah', 'FormPermintaanController@TambahPermintaan')->name('permintaan.tambah');
+    Route::post('permintaan/simpan', 'FormPermintaanController@SimpanPermintaan')->name('permintaan.simpan');
+    Route::get('permintaan/edit/{pid}', 'FormPermintaanController@EditPermintaan')->name('permintaan.edit');
+    Route::post('permintaan/update', 'FormPermintaanController@UpdatePermintaan')->name('permintaan.update');
+    Route::get('matrik/kendaraan', 'MatrikController@SinkronKendaraan')->name('matrik.kendaraan');
     Route::get('matrik/baru', 'MatrikController@baru')->name('matrik.baru');
     Route::get('matrik/multi', 'MatrikController@MultiTujuan')->name('matrik.multi');
     Route::post('matrik/simpan', 'MatrikController@simpan')->name('matrik.simpan');
@@ -82,6 +88,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('matrik/flag', 'MatrikController@updateFlag')->name('matrik.flag');
     Route::post('matrik/hapus', 'MatrikController@hapus')->name('matrik.hapus');
     Route::get('matrik/view/{mid}', 'MatrikController@view')->name('matrik.view');
+    Route::get('matrik/viewbyanggaran/{aid}/{tid}', 'MatrikController@viewByAnggaran')->name('matrik.viewbyanggaran');
     Route::get('matrik', 'MatrikController@list')->name('matrik.list');
     Route::get('/format_matrik', 'MatrikController@format')->name('matrik.format');
     Route::post('/import_matrik', 'MatrikController@import')->name('matrik.import');

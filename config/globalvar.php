@@ -126,6 +126,13 @@
         'TipePerjadin'=>[
             '1'=>'Satu Tujuan',
             '2'=>'Multi Tujuan',
+        ],
+        'FlagFormPermintaan'=>[
+            '1'=>'Aktif',
+            '2'=>'Sudah Diajukan',
+            '3'=>'Sudah Disetujui',
+            '4'=>'Sudah Terlaksana',
+            '5'=>'Dibatalkan'
         ]
     ];
 ?>

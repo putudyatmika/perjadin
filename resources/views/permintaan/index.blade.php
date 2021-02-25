@@ -20,7 +20,7 @@
                 <div class="row">
                     @if (Auth::user()->pengelola > 3 || Auth::user()->pengelola == 0)
                     <div class="col-lg-4 col-sm-6 col-md-6">
-                            <a href="{{route('matrik.baru')}}" class="btn btn-danger btn-rounded btn-fw"><i class="fa fa-plus"></i> Tambah Form-JLN</a>
+                            <a href="{{route('permintaan.tambah')}}" class="btn btn-danger btn-rounded btn-fw"><i class="fa fa-plus"></i> Tambah Form-JLN</a>
                     </div>
                     <div class="col-lg-4">
                     </div>
@@ -54,7 +54,20 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-
+                                        @foreach ($dataPermintaan as $item)
+                                            <tr>
+                                                <td>{{$loop->iteration}}</td>
+                                                <td>{{$item->nomor_permintaan}}</td>
+                                                <td>{{Tanggal::Panjang($item->tgl_permintaan)}}</td>
+                                                <td>{{$item->pagu_utama_permintaan}}</td>
+                                                <td>{{$item->unitkerja_nama_permintaan}}</td>
+                                                <td>@include('permintaan.flag')</td>
+                                                <td>
+                                                    <a href="{{route('permintaan.edit',$item->id_permintaan)}}" class="btn btn-circle btn-custom btn-sm"><span data-toggle="tooltip" title="Edit  Form-JLN"><i class="fa fa-pencil"></i></span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -98,5 +111,4 @@
     "pageLength": 30
 });
  </script>
- @include('matrik.js')
 @endsection

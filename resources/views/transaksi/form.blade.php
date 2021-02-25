@@ -36,17 +36,17 @@
     <label for="form_nomor_surat">Nomor Surat Permintaan</label>
     <div class="input-group">
         <div class="input-group-addon"><i class="ti-lock"></i></div>
-        <input type="text" class="form-control" id="form_nomor_surat" name="form_nomor_surat" placeholder="Nomor Surat Form Permintaan" required="">
+        <input type="text" class="form-control" id="form_nomor_surat" name="form_nomor_surat" placeholder="Nomor Surat Form Permintaan" readonly="">
     </div>
-    <small class="text-danger">Harap ini disesuaikan dengan nomor bidang/bagian</small>
+    <small class="text-danger">Nomor surat Form-JLN</small>
 </div>
 <div class="form-group">
     <label for="form_tgl_surat">Tanggal Surat Permintaan</label>
     <div class="input-group">
         <div class="input-group-addon"><i class="ti-lock"></i></div>
-        <input type="text" class="form-control" id="form_tgl_surat" name="form_tgl_surat" placeholder="Tanggal Surat Form Permintaan" required="" autocomplete="off">
+        <input type="text" class="form-control" id="form_tgl_surat" name="form_tgl_surat" placeholder="Tanggal Surat Form Permintaan" readonly="" autocomplete="off">
     </div>
-    <small class="text-danger">Tanggal surat permintaan sebelum tanggal keberangkatan</small>
+    <small class="text-danger">Tanggal surat dari Form-JLN</small>
 </div>
 <div class="form-group">
         <label for="tugas">Tugas</label>
@@ -118,6 +118,6 @@
                 </div>
             </label>
         </div>
-        <span class="pull-left"><i><b>Catatan : <br />-Perjadin yang sudah diajukan tidak bisa ditarik kembali <br />- Nomor surat permintaan harap diperhatikan</b></i></span>
+        <span class="pull-left"><i><b>Catatan:</b> <br />-Perjadin yang sudah diajukan tidak bisa ditarik kembali</i></span>
 
     </div>

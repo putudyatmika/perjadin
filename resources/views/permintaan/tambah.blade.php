@@ -5,14 +5,14 @@
                 <div class="row bg-title">
                     <!-- .page title -->
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                        <h4 class="page-title">Master Data Matrik Perjalanan</h4>
+                        <h4 class="page-title">Master Form-JLN</h4>
                     </div>
                     <!-- /.page title -->
                     <!-- .breadcrumb -->
                     <div class="col-lg-8 col-sm-8 col-md-8 col-xs-12">
                          <ol class="breadcrumb">
                             <li><a href="{{url('')}}">Dashboard</a></li>
-                            <li><a href="{{route('matrik.list')}}">Data Matrik Perjalanan</a></li>
+                            <li><a href="{{route('matrik.list')}}">Data Form-JLN</a></li>
                             <li class="active">Tambah Data</li>
                         </ol>
                     </div>
@@ -27,45 +27,48 @@
                                 </div>
                     <div class="col-lg-12">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0">Form Matrik Perjalanan</h3>
+                            <h3 class="box-title m-b-0">Form-JLN</h3>
                             <p class="text-muted m-b-30 font-13"> BPS Provinsi Nusa Tenggara Barat </p>
 
                             <div class="row">
                                 <div class="col-sm-12 col-xs-12">
-                                    <form method="POST" action="{{route('matrik.simpan') }}">
+                                    <form method="POST" id="formJLNTambah" name="formJLNTambah" action="{{route('permintaan.simpan') }}">
                                         @csrf
                                         <div class="form-group row">
-                                            <label for="nama" class="col-lg-2 col-xs-12 col-form-label">Tujuan</label>
+                                            <label for="unitkerja" class="col-lg-2 col-xs-12 col-form-label">Unit Kerja</label>
                                             <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                 <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                <input type="text" class="form-control" id="nama_tujuan" name="nama_tujuan" placeholder="Tujuan" required readonly="">
-                                                <input id="kode_kabkota" type="hidden" name="kode_kabkota" value="{{ old('kode_kabkota') }}" required readonly="">
-                                            <span class="input-group-btn">
-                                                <button type="button" id="check-minutes" class="btn waves-effect waves-light btn-success" data-toggle="modal" data-target="#CariTujuan"><i class="fa fa-search"></i></button>
-                                            </span>
+                                                @if (Auth::user()->pengelola > 3)
+                                                    <select name="unitkerja" id="unitkerja" class="form-control" required="">
+                                                        <option value="">Pilih Unitkerja</option>
+                                                        @foreach ($dataFungsi as $item)
+                                                            <option value="{{$item->kode}}">[{{$item->kode}}] {{$item->nama}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                @else
+                                                    <input type="text" name="unitkerja_nama" id="unitkerja_nama" value="[{{Auth::user()->user_unitkerja}}] {{$dataFungsi->where('kode',Auth::user()->user_unitkerja)->first()->nama}}" disabled="" class="form-control"/>
+                                                    <input type="hidden" name="unitkerja" id="unitkerja" value="{{Auth::user()->user_unitkerja}}" />
+                                                @endif
+
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="nama" class="col-lg-2 col-xs-12 col-form-label">Lamanya</label>
-                                            <div class="input-group col-lg-8 col-sm-8 col-xs-12">
+                                            <label for="nomor_surat" class="col-lg-2 col-xs-12 col-form-label">Nomor Surat</label>
+                                            <div class="col-lg-8 col-sm-8 col-xs-12">
+                                            <div class="input-group">
                                                 <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                <select name="lamanya" id="lamanya" class="form-control" required>
-                                                    <option value="">Pilih</option>
-                                                    @for ($i = 1; $i <= 30; $i++)
-                                                        <option value="{{$i}}">{{$i}} Hari</option>
-                                                    @endfor
-                                                </select>
+                                                <input type="text" class="form-control" id="nomor_surat" name="nomor_surat" placeholder="Nomor Surat Form-JLN" required="">
+                                            </div>
+                                            <small class="text-danger">format : B-XXX/BPS/KodeFungsi/Bulan/Tahun. Harap ini diperhatikan</small>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                                <label for="Pelaksanaan" class="col-lg-2 col-xs-12 col-form-label">Durasi Kegiatan</label>
-                                                <div class="input-group col-lg-8 col-sm-8 col-xs-12 input-daterange" id="date-range">
-                                                    <div class="input-group-addon" ><i class="ti-user"></i></div>
-                                                    <input type="text" class="form-control" id="tglawal" name="tglawal" placeholder="Tgl Awal" required="" autocomplete="off">
-                                                    <span class="input-group-addon bg-info b-0 text-white">s/d</span>
-                                                    <input type="text" class="form-control" id="tglakhir" name="tglakhir" placeholder="Tgl Akhir" autocomplete="off" required="">
-                                                </div>
+                                            <label for="tanggal_surat" class="col-lg-2 col-xs-12 col-form-label">Tanggal Surat</label>
+                                            <div class="input-group col-lg-8 col-sm-8 col-xs-12">
+                                                <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                <input type="text" class="form-control" id="tanggal_surat" name="tanggal_surat" placeholder="Tanggal Surat Form-JLN" autocomplete="off" required="">
                                             </div>
+                                        </div>
                                         <h3 class="box-title m-t-40">Sumber Dana</h3>
                                         <hr>
                                             <div class="form-group row">
@@ -154,76 +157,25 @@
                                                             <input type="hidden" id="dana_tid" name="dana_tid">
                                                         </div>
                                                     </div>
-                                        <h3 class="box-title m-t-40">Rencana Anggaran Biaya</h3>
-                                        <hr>
-                                        <div class="form-group row">
-                                            <label for="jenisperjadin" class="col-lg-3 col-xs-12 col-form-label">Jenis Perjadin</label>
-                                            <div class="input-group col-lg-9 col-sm-9 col-xs-12">
+                                            <h3 class="box-title m-t-40">Matrik Perjalanan</h3>
+                                            <table class="table" id="tabelmatrik" name="tabelmatrik">
+                                                <thead>
+                                                <tr>
+                                                    <th><input type="checkbox" name="semuamatrik" id="semuamatrik" value="pilihsemua"></th>
+                                                    <th>No</th>
+                                                    <th>Nama</th>
+                                                    <th>Tanggal</th>
+                                                    <th>Tujuan</th>
+                                                    <th>Lama</th>
+                                                    <th>Keterangan</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                                <tfoot>
 
-                                                    <div class="radio-list">
-                                                        <label class="radio-inline p-0">
-                                                            <div class="radio radio-success">
-                                                                <input type="radio" name="jenis_perjadin" id="jenis1" value="1" required checked="checked">
-                                                                <label for="jenis1" class="text-success">Biasa</label>
-                                                            </div>
-                                                        </label>
-                                                        <label class="radio-inline">
-                                                            <div class="radio radio-danger">
-                                                                <input type="radio" name="jenis_perjadin" id="jenis2" value="2">
-                                                                <label for="jenis2" class="text-danger">Paket Meeting</label>
-                                                            </div>
-                                                        </label>
-                                                    </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                                <label for="uangharian" class="col-lg-3 col-xs-12 col-form-label">Uang Harian Perjadin</label>
-                                                <div class="input-group col-lg-9 col-sm-9 col-xs-12">
-                                                    <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                    <input type="number" class="form-control" id="uangharian" name="uangharian" placeholder="Nilai Rp." required="">
-                                                    <span class="input-group-addon bg-info b-0 text-white">x</span>
-                                                    <input type="number" class="form-control" id="harian" name="harian" placeholder="Lama hari" readonly="" required="">
-                                                    <span class="input-group-addon bg-info b-0 text-white">=</span>
-                                                    <input type="number" class="form-control" id="totalharian" name="totalharian" placeholder="" readonly="" required>
-                                                </div>
-                                            </div>
-                                        <div class="form-group row">
-                                            <label for="flag_kendaraan" class="col-lg-3 col-xs-12 col-form-label">Transport</label>
-                                            <div class="input-group col-lg-9 col-sm-9 col-xs-12">
-                                                <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                <select class="form-control" name="flag_kendaraan" id="flag_kendaraan" required="">
-                                                    <option value="">Pilih Kendaraan</option>
-                                                    @for ($i = 1; $i < 4; $i++)
-                                                        <option value="{{$i}}">{{$FlagKendaraan[$i]}}</option>
-                                                    @endfor
-                                                </select>
-                                                <input type="number" class="form-control" id="nilaiTransport" name="nilaiTransport" placeholder="Nilai transport Rp." required autocomplete="off">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                                <label for="nilaihotel" id="penginapan_nama" class="col-lg-3 col-xs-12 col-form-label">Penginapan</label>
-                                                <div class="input-group col-lg-9 col-sm-9 col-xs-12">
-                                                    <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                    <input type="number" class="form-control" id="nilaihotel" name="nilaihotel" placeholder="Nilai Hotel Rp." required="">
-                                                    <span class="input-group-addon bg-info b-0 text-white">x</span>
-                                                    <input type="number" class="form-control" id="hotelhari" name="hotelhari" placeholder="Lama hari" readonly="" required="">
-                                                    <span class="input-group-addon bg-info b-0 text-white">=</span>
-                                                    <input type="number" class="form-control" id="totalhotel" name="totalhotel" placeholder="" readonly="" required>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                    <label for="pengeluaranrill" class="col-lg-3 col-xs-12 col-form-label">Pengeluaran Rill</label>
-                                                    <div class="input-group col-lg-9 col-sm-9 col-xs-12">
-                                                        <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                        <input type="number" class="form-control" id="pengeluaranrill" name="pengeluaranrill" placeholder="Nilai pengeluaran rill Rp." required=""> </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                        <label for="totalbiaya" class="col-lg-3 col-xs-12 col-form-label">Total Rencana Biaya</label>
-                                                        <div class="input-group col-lg-9 col-sm-9 col-xs-12">
-                                                            <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                            <input type="text" class="form-control" id="totalbiaya" name="totalbiaya" placeholder="Total Biaya" required="" readonly=""> </div>
-                                            </div>
+                                                </tfoot>
+                                            </table>
                                         <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
                                         <button type="reset" class="btn btn-inverse waves-effect waves-light">Reset</button>
                                     </form>
@@ -236,7 +188,7 @@
                 <!-- /.row -->
             </div>
             <!-- /.container-fluid -->
-            @include('matrik.modalmaster')
+            @include('permintaan.modal')
 @endsection
 @section('css')
 <link href="{{asset('tema/plugins/bower_components/datatables/jquery.dataTables.min.css')}}" rel="stylesheet" type="text/css" />
@@ -268,7 +220,7 @@
 <!-- Date range Plugin JavaScript -->
 <script src="{{asset('tema/plugins/bower_components/timepicker/bootstrap-timepicker.min.js')}}"></script>
 <script src="{{asset('tema/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
-@include('matrik.js')
+@include('permintaan.js')
 <script>
     jQuery('#date-range').datepicker({
     format: 'yyyy-mm-dd',
@@ -276,5 +228,11 @@
     todayHighlight: true
 
     });
+    @if (Auth::user()->pengelola == 0)
+        var Tanggal = new Date();
+        var unit = $("#unitkerja").val();
+        var srtjln = 'B-xxx/BPS/'+ unit +'/'+ (Tanggal.getMonth()+1) + '/' + Tanggal.getFullYear();
+        $('#nomor_surat').val(srtjln);
+    @endif
 </script>
 @endsection

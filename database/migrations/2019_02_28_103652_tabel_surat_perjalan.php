@@ -18,7 +18,7 @@ class TabelSuratPerjalan extends Migration
             $table->integer('trx_id')->unsigned();
             $table->string('nomor_spd')->nullable();
             $table->boolean('kendaraan')->default(1);
-            $table->string('ppk_nip',20)->nullable();
+            $table->string('ppk_nip',25)->nullable();
             $table->string('ppk_nama',200)->nullable();
             $table->boolean('flag_ttd')->default(0);
             $table->boolean('flag_spd')->default(0);

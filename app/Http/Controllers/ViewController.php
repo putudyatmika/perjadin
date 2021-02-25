@@ -42,11 +42,11 @@ class ViewController extends Controller
             //$tgl_pelaksanaan=Tanggal::Panjang($data->tgl_awal)." s/d ".Tanggal::Panjang($data->tgl_akhir);
 
             $data = Transaksi::where('kode_trx','=',$kodetrx)->first();
-            if ($data->peg_jabatan < 4) 
-            { 
+            if ($data->peg_jabatan < 4)
+            {
                 $jabatan = 'Kepala';
             }
-            else 
+            else
             {
                 $jabatan = 'Staf';
             }
@@ -54,7 +54,7 @@ class ViewController extends Controller
             {
                 $flag_cetak = 'Cetak Langsung';
             }
-            else 
+            else
             {
                 $flag_cetak = 'Kosongkan';
             }
@@ -138,7 +138,7 @@ class ViewController extends Controller
                 'ppk_nama'=>$data->Spd->ppk_nama,
                 'flag_cetak_tujuan'=>$data->Spd->flag_cetak_tujuan,
                 'flag_cetak_tujuan_nama'=>$flag_cetak
-                
+
             );
             $arr = array (
                 'status'=>true,
@@ -168,11 +168,11 @@ class ViewController extends Controller
             //$tgl_pelaksanaan=Tanggal::Panjang($data->tgl_awal)." s/d ".Tanggal::Panjang($data->tgl_akhir);
 
             $data = Transaksi::where('kode_trx','=',$kodetrx)->first();
-            if ($data->peg_jabatan < 4) 
-            { 
+            if ($data->peg_jabatan < 4)
+            {
                 $jabatan = 'Kepala';
             }
-            else 
+            else
             {
                 $jabatan = 'Staf';
             }
@@ -180,7 +180,7 @@ class ViewController extends Controller
             {
                 $flag_cetak = 'Cetak Langsung';
             }
-            else 
+            else
             {
                 $flag_cetak = 'Kosongkan';
             }
@@ -274,7 +274,7 @@ class ViewController extends Controller
                 'kuitansi_flag_nama'=>$FlagSrt[$data->Kuitansi->flag_kuitansi],
                 'kuitansi_lama'=>$data->Kuitansi->harian_lama,
                 'kuitansi_harian'=>$data->Kuitansi->harian_rupiah
-                
+
             );
             $arr = array (
                 'status'=>true,
@@ -296,7 +296,7 @@ class ViewController extends Controller
         {
             $dataTransaksi = Transaksi::where('kode_trx','=',request('kode_trx'))->first();
         }
-        else 
+        else
         {
             $dataTransaksi='';
         }
@@ -322,22 +322,22 @@ class ViewController extends Controller
         $count = Transaksi::where('trx_id','=',$trxid)->count();
         if ($count > 0) {
             $data = Transaksi::where('trx_id','=',$trxid)->first();
-            if ($data->peg_jabatan < 4) 
-            { 
+            if ($data->peg_jabatan < 4)
+            {
                 $jabatan = 'Kepala';
             }
-            else 
+            else
             {
                 $jabatan = 'Staf';
             }
             //cek SPD sudah ada belum
-            if (!empty($data->Spd)) 
+            if (!empty($data->Spd))
             {
                 if ($data->Spd->flag_cetak_tujuan==0)
                 {
                     $flag_cetak = 'Cetak Langsung';
                 }
-                else 
+                else
                 {
                     $flag_cetak = 'Kosongkan';
                 }
@@ -356,7 +356,7 @@ class ViewController extends Controller
                     'hasil_spd'=>$data_spd,
                 );
             }
-            else 
+            else
             {
                 //spd belum
                 $arr_spd = array(
@@ -385,7 +385,7 @@ class ViewController extends Controller
                     'hasil_surattugas'=>$data_srttugas
                 );
             }
-            else 
+            else
             {
                 $arr_surattugas = array(
                     'status_surattugas'=>false,
@@ -426,20 +426,48 @@ class ViewController extends Controller
                     'flag_kuitansi_nama'=>$FlagSrt[$data->Kuitansi->flag_kuitansi],
                     'flag_jenis_kuitansi'=>$data->Kuitansi->flag_jenisperjadin,
                     'flag_jenis_kuitansi_nama'=>$JenisPerjadin[$data->Kuitansi->flag_jenisperjadin],
+                    'flag_jeniskendaraan'=>$data->Kuitansi->flag_jeniskendaraan,
+                    'flag_jeniskendaraan_nama'=>$FlagKendaraan[$data->Kuitansi->flag_jeniskendaraan],
                     'kuitansi_dibuat'=>$data->Kuitansi->created_at,
 
-                    
+
                 );
                 $arr_kuitansi = array(
                     'status_kuitansi'=>true,
                     'hasil_kuitansi'=>$data_kuitansi
                 );
             }
-            else 
+            else
             {
                 $arr_kuitansi = array(
                     'status_kuitansi'=>false,
                     'hasil_kuitansi'=>'Kuitansi belum diset'
+                );
+            }
+            //cek flag_sudah_permintaan
+            if ($data->flag_sudah_permintaan > 0)
+            {
+                //sudah ada permintaannya
+                $data_permintaan = array(
+                    'id_detil'=> $data->Matrik->DetilPermintaan->id_detil_permintaan,
+                    'id_permintaan'=>$data->Matrik->DetilPermintaan->id_permintaan,
+                    'nomor_urut'=>$data->Matrik->DetilPermintaan->nomor_urut_detil,
+                    'nomor_surat_permintaan'=>$data->Matrik->DetilPermintaan->Permintaan->nomor_permintaan,
+                    'tanggal_permintaan'=>$data->Matrik->DetilPermintaan->Permintaan->tgl_permintaan,
+                    'tanggal_permintaan_nama'=>Tanggal::Panjang($data->Matrik->DetilPermintaan->Permintaan->tgl_permintaan),
+                    'tid_permintaan'=>$data->Matrik->DetilPermintaan->Permintaan->t_id_permintaan,
+                    'aid_permintaan'=>$data->Matrik->DetilPermintaan->Permintaan->a_id_permintaan,
+                );
+                $arr_permintaan = array(
+                    'status_permintaan'=>true,
+                    'hasil_permintaan'=>$data_permintaan
+                );
+            }
+            else
+            {
+                $arr_permintaan = array(
+                    'status_permintaan'=>false,
+                    'hasil_permintaan'=>'Surat Form-JLN belum dibuat'
                 );
             }
             //cek pegawai yang jalan sudah dialokasi
@@ -460,7 +488,7 @@ class ViewController extends Controller
                     'hasil_pegawai'=>$data_pegawai
                 );
             }
-            else 
+            else
             {
                 $arr_pegawai = array(
                     'status_pegawai'=>false,
@@ -482,9 +510,9 @@ class ViewController extends Controller
                         'tujuan_rate'=>$item->Tujuan->rate_darat,
                     );
                 }
-                
+
             }
-            else 
+            else
             {
                 //satu tujuan
                 $arr_tujuan = array(
@@ -516,15 +544,8 @@ class ViewController extends Controller
                 'kpa_ket'=>$data->kpa_ket,
                 'flag_trx'=>$data->flag_trx,
                 'flag_trx_nama'=>$FlagTrx[$data->flag_trx],
-                'form_nomor_surat'=>$data->form_nomor_surat,
-                'form_tgl_surat'=>$data->form_tgl_surat,
-                'form_unitkerja_kode'=>$data->form_unitkerja_kode,
-                'form_unitkerja_nama'=>$data->form_unitkerja_nama,
-                'form_ttd_nip'=>$data->form_ttd_nip,
-                'form_ttd_nama'=>$data->form_ttd_nama,
-                'form_ttd_kepala_nip'=>$data->form_ttd_kepala_nip,
-                'form_ttd_kepala_nama'=>$data->form_ttd_kepala_nama,
-                'trx_dibuat'=>$data->created_at, 
+                'flag_sudah_permintaan'=>$data->flag_sudah_permintaan,
+                'trx_dibuat'=>$data->created_at,
                 'trx_diupdate'=>$data->updated_at
             );
             $arr_matrik = array(
@@ -569,6 +590,8 @@ class ViewController extends Controller
                 'jenis_perjadin_nama'=>$JenisPerjadin[$data->Matrik->jenis_perjadin],
                 'tipe_perjadin'=>$data->Matrik->tipe_perjadin,
                 'tipe_perjadin_nama'=>$TipePerjadin[$data->Matrik->tipe_perjadin],
+                'flag_kendaraan'=>$data->Matrik->flag_kendaraan,
+                'flag_kendaraan_nama'=>$FlagKendaraan[$data->Matrik->flag_kendaraan],
                 'matrik_dibuat'=>$data->Matrik->created_at,
                 'matrik_diupdate'=>$data->Matrik->updated_at
             );
@@ -580,7 +603,8 @@ class ViewController extends Controller
                 'kuitansi'=>$arr_kuitansi,
                 'pegawai'=>$arr_pegawai,
                 'tujuan'=>$arr_tujuan,
-                'matrik'=>$arr_matrik
+                'matrik'=>$arr_matrik,
+                'permintaan'=>$arr_permintaan
             );
 
         }

@@ -22,10 +22,24 @@
                     <dd class="col-sm-9"><span id="pelaksana"></span></dd>
                     <dt class="col-sm-3 text-truncate">Waktu Pelaksanaan</dt>
                     <dd class="col-sm-9"><span id="waktu"></span></dd>
-                    <dt class="col-sm-3 text-truncate">Sumber Dana</dt>
+                    <dt class="col-sm-3 text-truncate">MAK</dt>
                     <dd class="col-sm-9"><span id="mak"></span></dd>
+                    <dt class="col-sm-3 text-truncate">Program</dt>
+                    <dd class="col-sm-9"><span id="program"></span></dd>
+                    <dt class="col-sm-3 text-truncate">Kegiatan</dt>
+                    <dd class="col-sm-9"><span id="kegiatan"></span></dd>
+                    <dt class="col-sm-3 text-truncate">KRO</dt>
+                    <dd class="col-sm-9"><span id="kro"></span></dd>
+                    <dt class="col-sm-3 text-truncate">Output</dt>
+                    <dd class="col-sm-9"><span id="output"></span></dd>
                     <dt class="col-sm-3 text-truncate">Komponen</dt>
                     <dd class="col-sm-9"><span id="komponen"></span></dd>
+                    <dt class="col-sm-3 text-truncate">Sub Komponen</dt>
+                    <dd class="col-sm-9"><span id="subkomponen"></span></dd>
+                    <dt class="col-sm-3 text-truncate">Akun</dt>
+                    <dd class="col-sm-9"><span id="akun"></span></dd>
+                    <dt class="col-sm-3 text-truncate">Uraian</dt>
+                    <dd class="col-sm-9"><span id="uraian"></span></dd>
                     <dt class="col-sm-3 text-truncate">Rincian Biaya</dt>
                     <dd class="col-sm-9"><p id="harian"></p> <p id="transport"></p> <p id="hotel"></p> <p id="rill"></p></dd>
                     <dt class="col-sm-3 text-truncate">Total Biaya</dt>
@@ -34,6 +48,8 @@
                     <dd class="col-sm-9"><span id="jenis" class="label label-success"></span></dd>
                     <dt class="col-sm-3 text-truncate">Flag</dt>
                     <dd class="col-sm-9"><span id="flag" class="label label-primary"></span></dd>
+                    <dt class="col-sm-3 text-truncate">Kendaraan</dt>
+                    <dd class="col-sm-9"><span id="kendaraan" class="label label-info"></span></dd>
                   </dl>
                   <input type="hidden" name="mid" id="mid">
 
@@ -59,7 +75,7 @@
                     <form method="POST" action="{{route('matrik.alokasi')}}">
                     @csrf
                     <input type="hidden" name="mid" id="mid" value="" />
-                                        
+
                     <div class="form-group">
                             <label for="tujuan">Tujuan</label>
                             <div class="input-group">
@@ -177,7 +193,7 @@
                 <form method="POST" action="{{ route('matrik.hapus') }}">
                 @csrf
                 <input type="hidden" name="mid" id="mid" value="" />
-                
+
                 <div class="form-group">
                         <label for="tujuan">Tujuan</label>
                         <div class="input-group">

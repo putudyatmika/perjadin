@@ -32,12 +32,12 @@
             <div class="modal-body">
                     <form method="POST" name="FormEditAjukan" id="FormEditAjukan" action="{{route('transaksi.ajukanadmin')}}">
                         @csrf
-                       
+
                         <input type="hidden" id="trxid" name="trxid" value="">
                         <input type="hidden" id="matrikid" name="matrikid" value="">
                         <input type="hidden" id="lamanya" name="lamanya" value="">
                         @include('transaksi.formadmin')
-                        
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-inverse waves-effect waves-light" data-dismiss="modal">Close</button>
@@ -79,6 +79,10 @@
                         <dd class="col-sm-9"><span id="subjectmatter"></span></dd>
                         <dt class="col-sm-3">Unit Pelaksana</dt>
                         <dd class="col-sm-9"><span id="pelaksana"></span></dd>
+                        <dt class="col-sm-3">Nomor Form-JLN</dt>
+                        <dd class="col-sm-9"><span id="nomor_formjln"></span></dd>
+                        <dt class="col-sm-3">Tanggal Form-JLN</dt>
+                        <dd class="col-sm-9"><span id="tanggal_formjln"></span></dd>
                         <dt class="col-sm-3 text-truncate">Waktu Pelaksanaan</dt>
                         <dd class="col-sm-9"><span id="tgl_pelaksanaan"></span></dd>
                         <dt class="col-sm-3 text-truncate">Sumber Dana</dt>

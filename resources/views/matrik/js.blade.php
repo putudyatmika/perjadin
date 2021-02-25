@@ -10,7 +10,7 @@ $('#ViewModal').on('show.bs.modal', function (event) {
         dataType: 'json',
         success: function(data){
 
-            $('#ViewModal .modal-body #tahun').text(data.hasil.tahun_matrik)
+            $('#ViewModal .modal-body #tahun').text(data.hasil.tahun_matrik+" ("+mid+")")
             if (data.hasil.tipe_perjadin == 2)
             {
                 //multi tujuan
@@ -32,18 +32,25 @@ $('#ViewModal').on('show.bs.modal', function (event) {
             {
                 $('#ViewModal .modal-body #subjectmatter').text("["+data.hasil.dana_unitkode+"] "+data.hasil.dana_unitnama)
                 $('#ViewModal .modal-body #komponen').text("["+data.hasil.komponen_kode+"] "+data.hasil.komponen_nama)
-                $('#ViewModal .modal-body #mak').text(data.hasil.dana_mak+" - "+data.hasil.uraian)
+                $('#ViewModal .modal-body #mak').text(data.hasil.dana_mak)
             }
             if (data.hasil.pelaksana_unitkode != null)
             {
                 $('#ViewModal .modal-body #pelaksana').text("["+ data.hasil.pelaksana_unitkode +"] "+data.hasil.pelaksana_unitnama)
             }
-
+            $('#ViewModal .modal-body #program').text("["+data.hasil.prog_kode+"] "+data.hasil.prog_nama)
+            $('#ViewModal .modal-body #kegiatan').text("["+data.hasil.keg_kode+"] "+data.hasil.keg_nama)
+            $('#ViewModal .modal-body #kro').text("["+data.hasil.kro_kode+"] "+data.hasil.kro_nama)
+            $('#ViewModal .modal-body #output').text("["+data.hasil.output_kode+"] "+data.hasil.output_nama)
+            $('#ViewModal .modal-body #subkomponen').text("["+data.hasil.subkomponen_kode+"] "+data.hasil.subkomponen_nama)
+            $('#ViewModal .modal-body #akun').text(data.hasil.akun_kode)
+            $('#ViewModal .modal-body #uraian').text(data.hasil.uraian)
             $('#ViewModal .modal-body #pagu_rencana').text(data.hasil.pagu_rencana)
             $('#ViewModal .modal-body #totalbiaya').text("Rp. "+number_format(data.hasil.total_biaya))
             $('#ViewModal .modal-body #flag').text(data.flag)
             $('#ViewModal .modal-body #jenis').text(data.flag_jenisperjadin)
             $('#ViewModal .modal-body #waktu').text(data.tanggal)
+            $('#ViewModal .modal-body #kendaraan').text(data.flag_kendaraan_nama)
             $('#ViewModal .modal-body #harian').text("> Harian : Rp. "+number_format(data.hasil.dana_harian)+" x "+data.hasil.lama_harian+" hari = Rp. "+number_format(data.hasil.total_harian))
             if (data.hasil.dana_transport != 0)
             {
@@ -174,20 +181,15 @@ $('#jenis1').on('click change', function(e) {
 });
 
 $('#lamanya').on('change paste keyup',function(e){
-
         var hari =  e.target.value;
-
         $('#harian').val(hari);
         $('#hotelhari').val(hari-1);
-
 });
 $('#uangharian').on('change paste keyup',function(e){
-
 var uangharian =  $('#uangharian').val();
 var harian = $('#harian').val();
 var totalharian = uangharian*harian;
 $('#totalharian').val(totalharian);
-
 //untuk total biaya
 /*
 var totalhotel=$('#totalhotel').val();
@@ -195,25 +197,6 @@ var transport = $('#nilaiTransport').val();
 var rill =  $('#pengeluaranrill').val(); */
 var totalbiaya = parseInt($('#nilaiTransport').val())+ parseInt(totalharian) + parseInt($('#totalhotel').val()) + parseInt($('#pengeluaranrill').val());
 
-    $('#totalbiaya').val(totalbiaya);
-});
-
-$('#harian').on('change paste keyup',function(e){
-    var harian =  e.target.value;
-    var uangharian =  $('#uangharian').val();
-    var totalharian = uangharian*harian;
-    $('#totalharian').val(totalharian);
-    var hari = $('#lamanya').val();
-    $('#hotelhari').val(hari-harian);
-    var nilaihotel =  $('#nilaihotel').val();
-    var totalhotel = nilaihotel*(hari-harian);
-    $('#totalhotel').val(totalhotel);
-    //untuk total biaya
-    /*
-    var totalhotel=$('#totalhotel').val();
-    var transport = $('#nilaiTransport').val();
-    var rill =  $('#pengeluaranrill').val(); */
-    var totalbiaya = parseInt($('#nilaiTransport').val())+ parseInt(totalharian) + parseInt($('#totalhotel').val()) + parseInt($('#pengeluaranrill').val());
     $('#totalbiaya').val(totalbiaya);
 });
 

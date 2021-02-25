@@ -40,7 +40,7 @@
                         <a href="{{url('matrik')}}" class="waves-effect"><i class="icon-briefcase fa-fw"></i><span class="hide-menu" >Matrik</span></a>
                     </li>
                     <li>
-                        <a href="{{route('permintaan.list')}}" class="waves-effect"><i class="icon-briefcase fa-fw"></i><span class="hide-menu" >Form-JLN</span></a>
+                        <a href="{{route('permintaan.list')}}" class="waves-effect"><i class="icon-layers fa-fw"></i><span class="hide-menu" >Form-JLN</span></a>
                     </li>
                     <li>
                         <a href="{{url('transaksi')}}" class="waves-effect text-primary"><i class="icon-screen-desktop fa-fw"></i><span class="hide-menu" >Transaksi</span></a>
@@ -89,7 +89,7 @@
 
 
                     @if (Auth::user()->user_level>3)
-                    <li> <a href="#" class="waves-effect"><i data-icon="&#xe00b;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">POK<span class="fa arrow"></span></span></a>
+                    <li> <a href="#" class="waves-effect"><i data-icon="&#xe026;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">POK<span class="fa arrow"></span></span></a>
                         <ul class="nav nav-second-level">
                             <li><a href="{{route('pok.program')}}">Program</a></li>
                             <li><a href="{{route('pok.kegiatan')}}">Kegiatan</a></li>

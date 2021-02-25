@@ -33,6 +33,8 @@ class CreateFormPermintaansTable extends Migration
             $table->string('ttd_nama_permintaan',200)->nullable();
             $table->string('ttd_kepala_nip_permintaan',25)->nullable();
             $table->string('ttd_kepala_nama_permintaan',200)->nullable();
+            $table->string('ttd_ppk_nip_permintaan',25)->nullable();
+            $table->string('ttd_ppk_nama_permintaan',200)->nullable();
             $table->boolean('flag_permintaan')->default(1);
             $table->timestamps();
         });

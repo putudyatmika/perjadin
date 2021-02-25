@@ -214,7 +214,7 @@ class PegawaiController extends Controller
             $DataPegawai = Pegawai::where([['jabatan','=','1'],['flag','=','1']])->orderBy('unitkerja')->get();
             $count = Pegawai::where([['jabatan','=','1'],['flag','=','1']])->orderBy('unitkerja')->count();
         }
-        else 
+        else
         {
             //pejabat eselon 3
             $DataPegawai = Pegawai::where([['jabatan','=','2'],['flag','=','1']])->orderBy('unitkerja')->get();
@@ -244,7 +244,7 @@ class PegawaiController extends Controller
             'status'=>false,
             'hasil'=>'Data tidak tersedia'
         );
-        if ($count > 0) 
+        if ($count > 0)
         {
             //ada nip pegawai ini
             $data = Pegawai::where([['nip_baru','=',$nip],['flag','=','1']])->orderBy('unitkerja')->first();
@@ -252,7 +252,7 @@ class PegawaiController extends Controller
             {
                 $jabatan_nama = 'Kepala';
             }
-            else 
+            else
             {
                 $jabatan_nama = 'Staf';
             }
@@ -271,6 +271,60 @@ class PegawaiController extends Controller
                 'flag_pengelola'=>$data->flag_pengelola,
                 'tgl_dibuat'=>$data->created_at
 
+            );
+        }
+        return Response()->json($arr);
+    }
+    public function ListPegawai($kodeunit)
+    {
+        $JenisJabatanVar = config('globalvar.JenisJabatan');
+        if ($kodeunit == 0)
+        {
+            //semua pegawai
+            $count = Pegawai::where('flag','1')->orderBy('unitkerja')->count();
+        }
+        else
+        {
+            //pegawai unitkerja saja
+            $count = Pegawai::where([['unitkerja',$kodeunit],['flag','1']])->orderBy('jabatan', 'asc')->count();
+        }
+
+        $arr = array(
+            'status'=>false,
+            'hasil'=>'Data pegawai tidak tersedia'
+        );
+        if ($count > 0)
+        {
+            //ada nip pegawai ini
+            if ($kodeunit == 0)
+            {
+                $datapegawai = Pegawai::where([['jabatan','<','6'],['flag','1']])->orderBy('unitkerja')->get();
+            }
+            else
+            {
+                $datapegawai = Pegawai::where([['unitkerja',$kodeunit],['flag','1'],['jabatan','<','6']])->orderBy('jabatan', 'asc')->get();
+            }
+            foreach ($datapegawai as $data)
+            {
+                $hasil[]=array(
+                    'peg_id'=>$data->id,
+                    'nama'=>$data->nama,
+                    'nip_baru'=>$data->nip_baru,
+                    'email'=>$data->email,
+                    'jabatan_kode'=>$data->jabatan,
+                    'jabatan_nama'=>$JenisJabatanVar[$data->jabatan],
+                    'unit_kode'=>$data->unitkerja,
+                    'unit_nama'=>$data->Unitkerja->nama,
+                    'golongan'=>$data->Golongan->pangkat .' ('. $data->Golongan->gol.')',
+                    'tgl_lahir'=>$data->tgl_lahir,
+                    'flag_pengelola'=>$data->flag_pengelola,
+                    'tgl_dibuat'=>$data->created_at
+                );
+            }
+            $arr = array(
+                'status'=>true,
+                'jumlah_pegawai'=>$count,
+                'hasil'=>$hasil
             );
         }
         return Response()->json($arr);

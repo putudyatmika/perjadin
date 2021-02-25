@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class TambahKendaraanMatrik extends Migration
+class TambahFlagkendaraanKuitansi extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class TambahKendaraanMatrik extends Migration
      */
     public function up()
     {
-        Schema::table('matrik', function (Blueprint $table) {
+        Schema::table('kuitansi', function (Blueprint $table) {
             //
-            $table->boolean('flag_kendaraan')->nullable()->default(1)->after('tipe_perjadin');
+            $table->boolean('flag_jeniskendaraan')->nullable()->default(1)->after('flag_jenisperjadin');
         });
     }
 
@@ -26,7 +26,7 @@ class TambahKendaraanMatrik extends Migration
      */
     public function down()
     {
-        Schema::table('matrik', function (Blueprint $table) {
+        Schema::table('kuitansi', function (Blueprint $table) {
             //
         });
     }

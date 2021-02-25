@@ -19,13 +19,12 @@
                 </div>
                 <div class="row">
                     @if (Auth::user()->pengelola > 3 || Auth::user()->pengelola == 0)
-                    <div class="col-lg-4 col-sm-6 col-md-6">
+                    <div class="col-lg-8 col-sm-6 col-md-6">
                             <a href="{{route('matrik.baru')}}" class="btn btn-danger btn-rounded btn-fw"><i class="fa fa-plus"></i> Tambah Matrik</a>
-                            @if (Auth::user()->user_level > 3)
                             <a href="{{route('matrik.multi')}}" class="btn btn-success btn-rounded btn-fw"><i class="fa fa-plus"></i> Multi Tujuan</a>
+                            @if (Auth::user()->user_level > 4)
+                            <a href="{{route('matrik.kendaraan')}}" class="btn btn-info btn-rounded btn-fw">Sinkron Kendaraan</a>
                             @endif
-                    </div>
-                    <div class="col-lg-4">
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
                             <form action="{{ url('import_matrik') }}" method="post" class="form" enctype="multipart/form-data">
@@ -95,12 +94,22 @@
                                                         <div class="m-b-5">{{$item->Tujuan->nama_kabkota}}</div>
                                                         @elseif ($item->tipe_perjadin==2)
                                                             @foreach ($item->MultiTujuan as $t)
-                                                                <div class="m-b-5">{{$t->namakabkota_tujuan}}</div> 
+                                                                <div class="m-b-5">{{$t->namakabkota_tujuan}}</div>
                                                             @endforeach
                                                             <div class="label label-info">
                                                                 {{$TipePerjadin[$item->tipe_perjadin]}}
                                                             </div>
                                                         @endif
+                                                        <div class="m-t-5">
+                                                            @if ($item->flag_kendaraan == 1)
+                                                                <span class="label label-success">{{$FlagKendaraan[$item->flag_kendaraan]}}</span>
+                                                            @elseif ($item->flag_kendaraan == 2)
+                                                                <span class="label label-info">{{$FlagKendaraan[$item->flag_kendaraan]}}</span>
+                                                            @else
+                                                                <span class="label label-warning">{{$FlagKendaraan[$item->flag_kendaraan]}}</span>
+                                                            @endif
+
+                                                        </div>
                                                     </td>
                                                     <td>{{$item->lamanya}} hari</td>
                                                     <td>
@@ -141,7 +150,7 @@
                                                             @endif
                                                             @if ($item->tipe_perjadin == 2)
                                                             <a href="{{route('matrik.editmulti',$item->id)}}" class="btn btn-circle btn-custom btn-sm">
-                                                            @else 
+                                                            @else
                                                             <a href="{{route('matrik.edit',$item->id)}}" class="btn btn-circle btn-custom btn-sm">
                                                             @endif
                                                             <span data-toggle="tooltip" title="Edit matrik perjalanan ke {{$item->Tujuan->nama_kabkota}}"><i class="fa fa-pencil"></i></span>

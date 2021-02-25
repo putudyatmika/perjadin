@@ -15,7 +15,7 @@ class TambahFlagPermintaan extends Migration
     {
         Schema::table('transaksi', function (Blueprint $table) {
             //
-            $table->tinyInteger('flag_sudah_permintaan')->nullable()->default(0)->after('flag_trx');
+            $table->boolean('flag_sudah_permintaan')->nullable()->default(0)->after('flag_trx');
         });
     }
 

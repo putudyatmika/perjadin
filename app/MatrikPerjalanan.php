@@ -36,4 +36,8 @@ class MatrikPerjalanan extends Model
     {
         return $this->belongsTo('App\TurunanAnggaran', 'dana_tid', 't_id');
     }
+    public function DetilPermintaan()
+    {
+        return $this->belongsTO('App\DetilFormPermintaan', 'id', 'matrik_id');
+    }
 }
