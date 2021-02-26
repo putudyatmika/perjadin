@@ -16,9 +16,9 @@ class Transaksi extends Model
         return $this->belongsTO('App\MatrikPerjalanan', 'matrik_id', 'id');
     }
     /*
-   public function TabelPegawai()
+   public function DataPegawai()
     {
-        return $this->belongsTo('App\Pegawai', 'peg_nip', 'nip_baru');
+        return $this->hasOne('App\Pegawai', 'peg_nip', 'nip_baru');
     }
     */
     public function SuratTugas()

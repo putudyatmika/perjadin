@@ -78,6 +78,7 @@
                     var i;
                     var text;
                     var tujuannama;
+                    var peg_nama
                     for (i = 0; i < data.jumlah_matrik; i++) {
                         if (data.hasil[i].tipe_perjadin == '1')
                         {
@@ -90,22 +91,24 @@
                         }
                         if (data.hasil[i].tgl_brkt)
                         {
-                            var tgl_brkt = data.hasil[i].tgl_brkt_nama;
+                            //var tgl_brkt = data.hasil[i].tgl_brkt_nama;
+                            //beda di readonly
+                            var tgl_brkt = '<input type="text" name="tgl_brkt_nama" id="tgl_brkt_nama" class="form-control" placeholder="Tanggal Brkt" autocomplete="off" value="'+data.hasil[i].tgl_brkt_nama+'" disabled="" /><input type="hidden" name="tgl_brkt[]" id="tgl_brkt" class="form-control" value="'+data.hasil[i].tgl_brkt+'" readonly="" />';
                         }
                         else
                         {
-                            var tgl_brkt = '<input type="text" name="tgl_brkt['+parseInt(data.hasil[i].matrik_id)+']" id="tgl_brkt" data-tglawal="'+data.hasil[i].tgl_awal+'" data-tglakhir="'+data.hasil[i].tgl_akhir+'" class="tgl_brkt form-control" placeholder="Tanggal Brkt" autocomplete="off" required="" />';
+                            var tgl_brkt = '<input type="text" name="tgl_brkt[]" id="tgl_brkt" data-tglawal="'+data.hasil[i].tgl_awal+'" data-tglakhir="'+data.hasil[i].tgl_akhir+'" class="tgl_brkt form-control" placeholder="Tanggal Brkt" autocomplete="off" required="" />';
                         }
                         if (data.hasil[i].peg_nama)
                         {
-                            var peg_nama = data.hasil[i].peg_nama;
+                            //var peg_nama = data.hasil[i].peg_nama;
+                            var peg_nama = '<input type="text" name="peg_nama" id="peg_nama" class="form-control" placeholder="Pegawai yang berangkat" autocomplete="off" value="'+data.hasil[i].peg_nama+'" disabled="" /> <input type="hidden" name="pegid[]" id="pegid" value="'+data.hasil[i].peg_id+'" readonly="" />';
                         }
                         else
                         {
-                            var peg_nama
-                            //peg_nama ditransaksi masih kosong
+                           //peg_nama ditransaksi masih kosong
 
-                            peg_nama ='<select name="pegid['+parseInt(data.hasil[i].matrik_id)+']" id="pegid" class="form-control pilihan" required>'+
+                            peg_nama ='<select name="pegid[]" id="pegid" class="form-control pilihan" required>'+
                                         '<option value="">Pilih Pegawai</option>';
                             @foreach ($dataPegawai as $item)
                                 peg_nama += '<option value="{{$item->id}}">{{$item->nama}}</option>';

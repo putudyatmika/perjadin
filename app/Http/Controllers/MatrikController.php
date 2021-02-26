@@ -742,10 +742,10 @@ class MatrikController extends Controller
             'status'=>false,
             'hasil'=>'Data matrik tidak tersedia'
         );
-        $count = MatrikPerjalanan::where([['mak_id',$aid],['dana_tid',$tid],['flag_matrik','1']])->count();
+        $count = MatrikPerjalanan::where([['mak_id',$aid],['dana_tid',$tid]])->whereIn('flag_matrik',['1','3','4','5'])->count();
         if ($count > 0)
         {
-            $data = MatrikPerjalanan::where([['mak_id',$aid],['dana_tid',$tid],['flag_matrik','1']])->get();
+            $data = MatrikPerjalanan::where([['mak_id',$aid],['dana_tid',$tid]])->whereIn('flag_matrik',['1','3','4','5'])->get();
             foreach ($data as $item)
             {
                 if ($item->tipe_perjadin == 2)
@@ -783,6 +783,16 @@ class MatrikController extends Controller
                     $id_permintaan = 0;
                     $id_detil_permintaan = 0;
                 }
+                if ($item->Transaksi->peg_nip)
+                {
+                    $d_peg = Pegawai::where('nip_baru',$item->Transaksi->peg_nip)->first();
+                    $pegid = $d_peg->id;
+                }
+                else
+                {
+                    $pegid = 0;
+                }
+                
                 $hasil[]=array(
                     'matrik_id'=>$item->id,
                     'tahun_matrik'=>$item->tahun_matrik,
@@ -795,6 +805,7 @@ class MatrikController extends Controller
                     'unit_pelaksana'=>$item->unit_pelaksana,
                     'flag_kendaraan'=>$item->flag_kendaraan,
                     'flag_kendaraan_nama'=>$FlagKendaraan[$item->flag_kendaraan],
+                    'peg_id'=>$pegid,
                     'peg_nip'=>$item->Transaksi->peg_nip,
                     'peg_nama'=>$item->Transaksi->peg_nama,
                     'peg_gol'=>$item->Transaksi->peg_gol,

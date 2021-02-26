@@ -4,3 +4,7 @@ V5.2
 --tipe perjadin 2 (multi tujuan)
 --tambah tabel multi_tujuan
 
+v5.3
+-Tambah Form-JLN
+--tambah kolom flag_kendaraan di tabel matrik
+--tambha kolom flag_jeniskendaraan di tabel kuitansi

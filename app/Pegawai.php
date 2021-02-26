@@ -18,7 +18,7 @@ class Pegawai extends Model
     }
     /*
     public function Transaksi() {
-        return $this->hasMany('App\Transaksi', 'peg_nip', 'nip_baru');
+        return $this->belongsTo('App\Transaksi', 'nip_baru', 'peg_nip');
     }
     */
 }

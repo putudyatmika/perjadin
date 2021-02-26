@@ -6,3 +6,5 @@ where transaksi.tahun_trx='2019'
 
 update matrik left join transaksi on transaksi.matrik_id=matrik.id LEFT join spd on spd.trx_id=transaksi.trx_id set matrik.flag_kendaraan_matrik = spd.kendaraan;
 select id,matrik.kode_trx,flag_kendaraan_matrik,transaksi.trx_id,spd.kendaraan from matrik left join transaksi on transaksi.matrik_id=matrik.id LEFT join spd on spd.trx_id=transaksi.trx_id;
+
+http://localhost/perjadin/public/matrik/viewbyanggaran/277/198
