@@ -198,6 +198,12 @@
                                             <label for="nilaiTransport" class="col-lg-3 col-xs-12 col-form-label">Transport</label>
                                             <div class="input-group col-lg-9 col-sm-9 col-xs-12">
                                                 <div class="input-group-addon"><i class="ti-user"></i></div>
+                                                <select class="form-control" name="flag_kendaraan" id="flag_kendaraan" required="">
+                                                    <option value="">Pilih Kendaraan</option>
+                                                    @for ($i = 1; $i < 4; $i++)
+                                                        <option value="{{$i}}">{{$FlagKendaraan[$i]}}</option>
+                                                    @endfor
+                                                </select>
                                                 <input type="number" class="form-control" id="nilaiTransport" name="nilaiTransport" placeholder="Nilai transport Rp." required autocomplete="off"> </div>
                                         </div>
                                         <div class="form-group row">

@@ -194,6 +194,7 @@ class KuitansiController extends Controller
     public function update(Request $request)
     {
         //
+        //dd($request->all());
         if ($request->aksi == "update") {
             //dd($request->all());
             $count = Kuitansi::where('kuitansi_id','=',$request->kuitansi_id)->count();
@@ -317,6 +318,7 @@ class KuitansiController extends Controller
                     $dataKuitansi->rill_total = $rill_total;
                     $dataKuitansi->flag_jenisperjadin = $request->jenis_perjadin;
                     $dataKuitansi->txt_jenisperjadin = $txt_jenisperjadin;
+                    $dataKuitansi->flag_jeniskendaraan = $request->flag_jeniskendaraan;
                     $dataKuitansi->update();
 
                     //transaksi update
@@ -326,12 +328,13 @@ class KuitansiController extends Controller
 
                     //surat tugas dan spd update status ke terlaksana
                     $dataSuratTugas = SuratTugas::where('trx_id','=',$request->trx_id)->first();
-                    $dataSuratTugas -> flag_surattugas = 2;
-                    $dataSuratTugas -> update();
+                    $dataSuratTugas->flag_surattugas = 2;
+                    $dataSuratTugas->update();
 
                     $dataSpd = Spd::where('trx_id','=',$request->trx_id)->first();
-                    $dataSpd -> flag_spd = 2;
-                    $dataSpd -> update();
+                    $dataSpd->flag_spd = 2;
+                    $dataSpd->kendaraan = $request->flag_jeniskendaraan;
+                    $dataSpd->update();
 
                     //push realisasi ke matrik rencana
                     $matrik_id = $dataTrx->matrik_id;
@@ -386,6 +389,7 @@ class KuitansiController extends Controller
                         $dataMatrik->total_hotel = $totalhotel;
                         $dataMatrik->pengeluaran_rill = $matrik_rill;
                         $dataMatrik->total_biaya = $request->totalbiaya;
+                        $dataMatrik->flag_kendaraan = $request->flag_jeniskendaraan;
                         $dataMatrik->update();
 
                     }

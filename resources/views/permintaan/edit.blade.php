@@ -78,7 +78,7 @@
                                                     <label for="MAK" class="col-lg-2 col-xs-12 col-form-label">MAK</label>
                                                     <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                         <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                        <input type="text" class="form-control" id="dana_mak" name="dana_mak" placeholder="MAK Dana" value="{{$dataFormJln->Anggaran->mak}}" required readonly="">
+                                                        <input type="text" class="form-control" id="dana_mak" name="dana_mak" placeholder="MAK Dana" @if ($dataFormJln->t_id_permintaan) value="{{$dataFormJln->Anggaran->mak}}" @endif required readonly="">
                                                     <span class="input-group-btn">
                                                             <button type="button" id="check-minutes" class="btn waves-effect waves-light btn-success" data-toggle="modal" data-target="#SumberDana"><i class="fa fa-search"></i></button>
                                                     </span>
@@ -88,49 +88,49 @@
                                                     <label for="dana_program" class="col-lg-2 col-xs-12 col-form-label">Program</label>
                                                     <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                         <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                        <input type="text" class="form-control" id="dana_program" name="dana_program"  value="[{{$dataFormJln->Anggaran->prog_kode}}] {{$dataFormJln->Anggaran->prog_nama}}" placeholder="Program Anggaran" readonly="">
+                                                        <input type="text" class="form-control" id="dana_program" name="dana_program" @if ($dataFormJln->t_id_permintaan) value="[{{$dataFormJln->Anggaran->prog_kode}}] {{$dataFormJln->Anggaran->prog_nama}}" @endif placeholder="Program Anggaran" readonly="">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label for="dana_kegiatan" class="col-lg-2 col-xs-12 col-form-label">Kegiatan</label>
                                                     <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                         <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                        <input type="text" class="form-control" id="dana_kegiatan" name="dana_kegiatan" value="[{{$dataFormJln->Anggaran->keg_kode}}] {{$dataFormJln->Anggaran->keg_nama}}" placeholder="Kegiatan Anggaran" readonly="">
+                                                        <input type="text" class="form-control" id="dana_kegiatan" name="dana_kegiatan" @if ($dataFormJln->t_id_permintaan) value="[{{$dataFormJln->Anggaran->keg_kode}}] {{$dataFormJln->Anggaran->keg_nama}}" @endif placeholder="Kegiatan Anggaran" readonly="">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label for="dana_kro" class="col-lg-2 col-xs-12 col-form-label">KRO</label>
                                                     <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                         <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                        <input type="text" class="form-control" id="dana_kro" name="dana_kro" value="[{{$dataFormJln->Anggaran->kro_kode}}] {{$dataFormJln->Anggaran->kro_nama}}" placeholder="KRO Anggaran" readonly="">
+                                                        <input type="text" class="form-control" id="dana_kro" name="dana_kro" @if ($dataFormJln->t_id_permintaan) value="[{{$dataFormJln->Anggaran->kro_kode}}] {{$dataFormJln->Anggaran->kro_nama}}" @endif placeholder="KRO Anggaran" readonly="">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label for="dana_output" class="col-lg-2 col-xs-12 col-form-label">Output</label>
                                                     <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                         <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                        <input type="text" class="form-control" id="dana_output" name="dana_output" value="[{{$dataFormJln->Anggaran->output_kode}}] {{$dataFormJln->Anggaran->output_nama}}" placeholder="Output Anggaran" readonly="">
+                                                        <input type="text" class="form-control" id="dana_output" name="dana_output" @if ($dataFormJln->t_id_permintaan) value="[{{$dataFormJln->Anggaran->output_kode}}] {{$dataFormJln->Anggaran->output_nama}}" @endif placeholder="Output Anggaran" readonly="">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label for="dana_komponen" class="col-lg-2 col-xs-12 col-form-label">Komponen</label>
                                                     <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                         <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                        <input type="text" class="form-control" id="dana_komponen" name="dana_komponen" value="[{{$dataFormJln->Anggaran->komponen_kode}}] {{$dataFormJln->Anggaran->komponen_nama}}" placeholder="Komponen Anggaran" readonly="">
+                                                        <input type="text" class="form-control" id="dana_komponen" name="dana_komponen" @if ($dataFormJln->t_id_permintaan) value="[{{$dataFormJln->Anggaran->komponen_kode}}] {{$dataFormJln->Anggaran->komponen_nama}}" @endif placeholder="Komponen Anggaran" readonly="">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label for="dana_subkomponen" class="col-lg-2 col-xs-12 col-form-label">Sub Komponen</label>
                                                     <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                         <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                        <input type="text" class="form-control" id="dana_subkomponen" name="dana_subkomponen" value="[{{$dataFormJln->Anggaran->subkomponen_kode}}] {{$dataFormJln->Anggaran->subkomponen_nama}}" placeholder="Sub Komponen Anggaran" readonly="">
+                                                        <input type="text" class="form-control" id="dana_subkomponen" name="dana_subkomponen" @if ($dataFormJln->t_id_permintaan) value="[{{$dataFormJln->Anggaran->subkomponen_kode}}] {{$dataFormJln->Anggaran->subkomponen_nama}}" @endif placeholder="Sub Komponen Anggaran" readonly="">
                                                     </div>
                                                 </div>
                                                     <div class="form-group row">
                                                         <label for="dana_uraian" class="col-lg-2 col-xs-12 col-form-label">Uraian</label>
                                                         <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                             <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                            <input type="text" class="form-control" id="dana_uraian" name="dana_uraian" value="[{{$dataFormJln->Anggaran->akun_kode}}] {{$dataFormJln->Anggaran->uraian}}" placeholder="Uraian Dana" readonly="">
+                                                            <input type="text" class="form-control" id="dana_uraian" name="dana_uraian" @if ($dataFormJln->t_id_permintaan) value="[{{$dataFormJln->Anggaran->akun_kode}}] {{$dataFormJln->Anggaran->uraian}}" @endif placeholder="Uraian Dana" readonly="">
 
                                                         </div>
                                                     </div>
@@ -138,7 +138,7 @@
                                                         <label for="dana_pagu" class="col-lg-2 col-xs-12 col-form-label">Pagu awal</label>
                                                         <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                             <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                            <input type="text" class="form-control" id="dana_pagu" name="dana_pagu" value="{{$dataFormJln->pagu_utama_permintaan}}" placeholder="Pagu Dana" readonly="">
+                                                            <input type="text" class="form-control" id="dana_pagu" name="dana_pagu" @if ($dataFormJln->t_id_permintaan) value="{{$dataFormJln->pagu_utama_permintaan}}" @endif placeholder="Pagu Dana" readonly="">
 
                                                         </div>
                                                     </div>
@@ -146,7 +146,7 @@
                                                         <label for="dana_pagu" class="col-lg-2 col-xs-12 col-form-label">Pagu tersedia</label>
                                                         <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                             <div class="input-group-addon"><i class="ti-user"></i></div>
-                                                            <input type="text" class="form-control" id="dana_pagusisa" name="dana_pagusisa" value="{{$dataFormJln->pagu_dpt_digunakan_permintaan}}" placeholder="Pagu Dana yang tersedia" readonly="">
+                                                            <input type="text" class="form-control" id="dana_pagusisa" name="dana_pagusisa" @if ($dataFormJln->t_id_permintaan) value="{{$dataFormJln->sisa_anggaran_permintaan}}" @endif placeholder="Pagu Dana yang tersedia" readonly="">
 
                                                         </div>
                                                     </div>
@@ -179,9 +179,23 @@
                                                         <tr>
                                                             <td><input type="checkbox" name="matrikid[]" id="matrikid" value="{{$item->matrik_id}}" checked=""></td>
                                                             <td>{{$item->nomor_urut_detil}}</td>
-                                                            <td>{{$item->peg_nama_detil}}</td>
-                                                            <td>{{Tanggal::Panjang($item->tgl_brkt_detil)}}</td>
-                                                            <td>{{$item->Matrik->Tujuan->nama_kabkota}}</td>
+                                                            <td>
+                                                                {{$item->peg_nama_detil}}
+                                                                <input type="hidden" name="pegnip{{$item->matrik_id}}" id="pegnip" value="{{$item->peg_nip_detil}}" />
+                                                            </td>
+                                                            <td>
+                                                                {{Tanggal::Panjang($item->tgl_brkt_detil)}}
+                                                                <input type="hidden" name="tgl_brkt{{$item->matrik_id}}" id="tgl_brkt" value="{{$item->tgl_brkt_detil}}" />
+                                                            </td>
+                                                            <td>
+                                                                @if ($item->Matrik->tipe_perjadin == 1)
+                                                                    {{$item->Matrik->Tujuan->nama_kabkota}}
+                                                                @else
+                                                                    @foreach ($item->Matrik->MultiTujuan as $t)
+                                                                    {{$t->namakabkota_tujuan}}<br />
+                                                                    @endforeach
+                                                                @endif
+                                                            </td>
                                                             <td>{{$item->bnyk_hari_detil}}</td>
                                                             <td>Menggunakan {{$FlagKendaraan[$item->Matrik->flag_kendaraan]}}</td>
                                                             <td>@include('permintaan.flagtrx')</td>
@@ -193,7 +207,7 @@
                                                 </tfoot>
                                             </table>
                                             <input type="hidden" name="id_permintaan" id="id_permintaan" value="{{$dataFormJln->id_permintaan}}" />
-                                        <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
+                                        <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">UPDATE</button>
                                         <button type="reset" class="btn btn-inverse waves-effect waves-light">Reset</button>
                                     </form>
                                 </div>

@@ -220,7 +220,7 @@
 <!-- Date range Plugin JavaScript -->
 <script src="{{asset('tema/plugins/bower_components/timepicker/bootstrap-timepicker.min.js')}}"></script>
 <script src="{{asset('tema/plugins/bower_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
-@include('permintaan.js')
+@include('permintaan.jstambah')
 <script>
     jQuery('#date-range').datepicker({
     format: 'yyyy-mm-dd',

@@ -147,11 +147,12 @@ class KelengkapanController extends Controller
             //update matrik perjalanan juga
             $dataMatrik = \App\MatrikPerjalanan::where('id',$matrik_id)->first();
             $dataMatrik->flag_matrik = 5;
+            $dataMatrik->flag_kendaraan = $request->kendaraan;
             $dataMatrik->update();
 
             //input tabel kuitansi dan set flag transaksi menunggu pembayaran
             $count_kuitansi = \App\Kuitansi::where('trx_id','=',$request->trx_id)->count();
-            if ($count_kuitansi < 1) {
+            if ($count_kuitansi == 0) {
                 //kuitansi belum ada
                 //kuitansi di tambahkan baru
                 //bila sudah ada tidak diupdate lagi
@@ -159,6 +160,7 @@ class KelengkapanController extends Controller
                 $dataKuitansi->trx_id = $request->trx_id;
                 $dataKuitansi->tahun_kuitansi = Session::get('tahun_anggaran');
                 $dataKuitansi->flag_jenisperjadin = $dataMatrik->jenis_perjadin;
+                $dataKuitansi->flag_jeniskendaraan = $request->kendaraan;
                 $dataKuitansi->save();
             }
 

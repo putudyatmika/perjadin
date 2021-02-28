@@ -48,9 +48,10 @@
                                             <th>Nomor Form-JLN</th>
                                             <th>Tanggal</th>
                                             <th>Pagu POK</th>
+                                            <th>Total Biaya</th>
                                             <th>Subject Matter</th>
                                             <th>Flag</th>
-                                            <th width="13%">Aksi</th>
+                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -60,11 +61,22 @@
                                                 <td>{{$item->nomor_permintaan}}</td>
                                                 <td>{{Tanggal::Panjang($item->tgl_permintaan)}}</td>
                                                 <td>{{$item->pagu_utama_permintaan}}</td>
+                                                <td>{{$item->total_biaya_permintaan}}</td>
                                                 <td>{{$item->unitkerja_nama_permintaan}}</td>
                                                 <td>@include('permintaan.flag')</td>
                                                 <td>
+                                                    @if ($item->t_id_permintaan)
+                                                    <a href="{{route('permintaan.print',$item->id_permintaan)}}" target="_blank" class="btn btn-circle btn-primary btn-sm"><span data-toggle="tooltip" title="Cetak Form-JLN Nomor {{$item->nomor_permintaan}} tanggal {{Tanggal::Panjang($item->tgl_permintaan)}}"><i class="fa fa-print"></i></span></a>
+
+                                                    <a href="{{route('permintaan.unduh',$item->id_permintaan)}}" target="_blank" class="btn btn-circle btn-warning btn-sm"><span data-toggle="tooltip" title="Unduh Form-JLN Nomor {{$item->nomor_permintaan}} tanggal {{Tanggal::Panjang($item->tgl_permintaan)}}"><i class="fa fa-download"></i></span></a>
+                                                    @endif
+                                                    @if ($item->unitkerja_kode_permintaan==Auth::user()->user_unitkerja  or Auth::user()->user_level > 3)
                                                     <a href="{{route('permintaan.edit',$item->id_permintaan)}}" class="btn btn-circle btn-custom btn-sm"><span data-toggle="tooltip" title="Edit  Form-JLN"><i class="fa fa-pencil"></i></span>
                                                     </a>
+                                                    <button class="btn btn-circle btn-danger btn-sm" data-toggle="modal" data-target="#DeleteModal" data-pid="{{$item->id_permintaan}}" data-unitkode="{{$item->unitkerja_kode_permintaan}}" data-unitnama="{{$item->unitkerja_nama_permintaan}}" data-nomorsurat="{{$item->nomor_permintaan}}" data-tglsurat="{{$item->tgl_permintaan}}" data-tglsuratnama="{{Tanggal::Panjang($item->tgl_permintaan)}}" data-totalbiaya="@rupiah($item->total_biaya_permintaan)">
+                                                    <span data-toggle="tooltip" title="Hapus Form-JLN Nomor {{$item->nomor_permintaan}} tanggal {{Tanggal::Panjang($item->tgl_permintaan)}}"><i class="fa fa-trash"></i></span>
+                                                </button>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -76,7 +88,7 @@
                 </div>
                 <!-- /.row -->
             </div>
-
+            @include('permintaan.hapusmodal')
 @endsection
 
 @section('css')
@@ -102,6 +114,7 @@
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
  <!-- end - This is for export functionality only -->
+ @include('permintaan.js')
  <script>
      $("#MatrikTable").dataTable({
     dom: 'Bfrtip',

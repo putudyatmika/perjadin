@@ -17,6 +17,8 @@ use App\Unitkerja;
 use App\Mail\MailPersetujuan;
 use Illuminate\Support\Facades\Mail;
 use App\Helpers\Tanggal;
+use App\FormPermintaan;
+use App\DetilFormPermintaan;
 
 class TransaksiController extends Controller
 {
@@ -180,7 +182,16 @@ class TransaksiController extends Controller
             $datatrx->kpa_ket = NULL;
             $datatrx->update();
             //cek tabel surat tugas dan spd
-
+            //update tabel detil_permintaan untuk tanggal yang berubah
+            //cek dulu ada tidak di detil_permintaan
+            $count_detil = DetilFormPermintaan::where('matrik_id',$datatrx->matrik_id)->count();
+            if ($count_detil > 0)
+            {
+                //jika ada langsung update tgl_brkt_detil
+                $data_detil = DetilFormPermintaan::where('matrik_id',$datatrx->matrik_id)->first();
+                $data_detil->tgl_brkt_detil = Carbon::parse($request->tglberangkat)->format('Y-m-d');
+                $data_detil->update();
+            }
             $count = SuratTugas::where('trx_id', $request->trxid)->count();
             if ($count > 0) {
                 //sudah ada update aja
@@ -200,6 +211,7 @@ class TransaksiController extends Controller
                 $dataspd->flag_spd = 0;
                 $dataspd->flag_ttd = 0;
                 $dataspd->nomor_spd = NULL;
+                $dataspd->kendaraan = $datatrx->Matrik->flag_kendaraan;
                 $dataspd->update();
             }
 
@@ -264,12 +276,23 @@ class TransaksiController extends Controller
         $datatrx->kpa_konfirmasi = $request->kpa_setuju;
         $datatrx->update();
 
+        //update tabel detil_permintaan untuk tanggal yang berubah
+        //cek dulu ada tidak di detil_permintaan
+        $count_detil = DetilFormPermintaan::where('matrik_id',$datatrx->matrik_id)->count();
+        if ($count_detil > 0)
+        {
+            //jika ada langsung update tgl_brkt_detil
+            $data_detil = DetilFormPermintaan::where('matrik_id',$datatrx->matrik_id)->first();
+            $data_detil->tgl_brkt_detil = Carbon::parse($request->edittglberangkat)->format('Y-m-d');
+            $data_detil->update();
+        }
         Session::flash('message', '['.$datatrx->kode_trx.'] Data Perjalanan ke <strong>'. $datatrx->Matrik->Tujuan->nama_kabkota .'</strong> an. <strong>'.$datatrx->peg_nama.'</strong> tanggal berangkat <strong><i>'. Tanggal::Panjang($datatrx->tgl_brkt) .'</i></strong> sudah di update');
         Session::flash('message_type', 'info');
         return redirect()->route('transaksi.index');
     }
     public function SinkronSuratPermintaan()
     {
+        /*
         $tahun_anggaran = Session::get('tahun_anggaran');
         //$data = Transaksi::where([['tahun_trx',$tahun_anggaran],['flag_trx','>','3']])->orderBy('created_at','asc')->orderBy('peg_unitkerja','asc')->take(10)->get();
         $data = DB::table('transaksi')
@@ -282,7 +305,7 @@ class TransaksiController extends Controller
         ->get();
         $data_kepala = Pegawai::where([['flag','1'],['jabatan','1']])->first();
 
-        //dd($data);
+        dd($data);
         foreach ($data as $item) {
             $tanggal = explode('-',$item->tanggal_surat);
             $data_sinkron = Transaksi::where('trx_id',$item->trx_id)->first();
@@ -309,7 +332,11 @@ class TransaksiController extends Controller
             $data_sinkron->form_unitkerja_nama = $item->unit_nama;
             $data_sinkron->update();
         }
+
         Session::flash('message', 'Data Transaksi tahun anggaran '.$tahun_anggaran.' sudah disinkronisasi');
+        Session::flash('message_type', 'info');
+        */
+        Session::flash('message', 'Menu ini tidak bisa digunakan');
         Session::flash('message_type', 'info');
         return redirect()->route('transaksi.index');
     }

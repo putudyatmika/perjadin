@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Helpers\Tanggal;
 use App\Mail\MailPerjalanan;
 use App\User;
+use App\FormPermintaan;
+use App\DetilFormPermintaan;
 
 class PersetujuanController extends Controller
 {
@@ -357,6 +359,7 @@ class PersetujuanController extends Controller
                 $dataspd->flag_ttd = 0;
                 $dataspd->nomor_spd = NULL;
                 $dataspd->tahun_spd = Session::get('tahun_anggaran');
+                $dataspd->kendaraan = $dataMatrik->flag_kendaraan;
                 $dataspd->update();
             }
             else {
@@ -367,6 +370,7 @@ class PersetujuanController extends Controller
                     $dataspd->flag_spd = $flag_spd;
                     $dataspd->flag_ttd = 0;
                     $dataspd->tahun_spd = Session::get('tahun_anggaran');
+                    $dataspd->kendaraan = $dataMatrik->flag_kendaraan;
                     $dataspd->save();
                 }
             }

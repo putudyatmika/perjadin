@@ -75,6 +75,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('permintaan/simpan', 'FormPermintaanController@SimpanPermintaan')->name('permintaan.simpan');
     Route::get('permintaan/edit/{pid}', 'FormPermintaanController@EditPermintaan')->name('permintaan.edit');
     Route::post('permintaan/update', 'FormPermintaanController@UpdatePermintaan')->name('permintaan.update');
+    Route::get('permintaan/print/{pid}', 'FormPermintaanController@PrintPermintaan')->name('permintaan.print');
+    Route::get('permintaan/unduh/{pid}', 'FormPermintaanController@UnduhPermintaan')->name('permintaan.unduh');
+    Route::post('permintaan/hapus', 'FormPermintaanController@HapusPermintaan')->name('permintaan.hapus');
+    Route::get('permintaan/datalama', 'FormPermintaanController@ImportSuratLama')->name('permintaan.datalama');
     Route::get('matrik/kendaraan', 'MatrikController@SinkronKendaraan')->name('matrik.kendaraan');
     Route::get('matrik/baru', 'MatrikController@baru')->name('matrik.baru');
     Route::get('matrik/multi', 'MatrikController@MultiTujuan')->name('matrik.multi');

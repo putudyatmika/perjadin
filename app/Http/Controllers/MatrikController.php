@@ -245,6 +245,12 @@ class MatrikController extends Controller
     }
     public function editMatrik($mid)
     {
+        //cek dulu tipe matrik
+        $cek_tipe = MatrikPerjalanan::where('id','=',$mid)->first();
+        if ($cek_tipe->tipe_perjadin == 2)
+        {
+            return redirect()->route('matrik.editmulti',$mid);
+        }
         if (Auth::user()->user_level>3)
         {
             //hanya adamin/superadmin bisa
@@ -752,8 +758,7 @@ class MatrikController extends Controller
                 {
                     //multi tujuan
                     $multi_tujuan = array();
-                    $data_tujuan = MatrikPerjalanan::where('id',$mid)->first();
-                    foreach ($data_tujuan->MultiTujuan as $iTujuan) {
+                    foreach ($item->MultiTujuan as $iTujuan) {
                         $arr_tujuan[]=array(
                             'urutan_tujuan'=>$iTujuan->urutan_tujuan,
                             'kodekab_tujuan'=>$iTujuan->kodekab_tujuan,
@@ -761,7 +766,7 @@ class MatrikController extends Controller
                         );
                     }
                     $multi_tujuan = $arr_tujuan;
-                    $bnyk_tujuan = count($data_tujuan->MultiTujuan);
+                    $bnyk_tujuan = count($item->MultiTujuan);
                 }
                 else
                 {
@@ -792,7 +797,7 @@ class MatrikController extends Controller
                 {
                     $pegid = 0;
                 }
-                
+
                 $hasil[]=array(
                     'matrik_id'=>$item->id,
                     'tahun_matrik'=>$item->tahun_matrik,
@@ -920,6 +925,7 @@ class MatrikController extends Controller
                 $datamatrik->total_biaya = $totalbiaya;
                 $datamatrik->jenis_perjadin = $request->jenis_perjadin;
                 $datamatrik->tipe_perjadin = $request->tipe_perjadin;
+                $datamatrik->flag_kendaraan = $request->flag_kendaraan;
                 $datamatrik->save();
 
                 //tambahkan ke tabel multi_tujuan
@@ -997,6 +1003,11 @@ class MatrikController extends Controller
     }
     public function editMatrikMulti($mid)
     {
+        $cek_tipe = MatrikPerjalanan::where('id','=',$mid)->first();
+        if ($cek_tipe->tipe_perjadin == 1)
+        {
+            return redirect()->route('matrik.edit',$mid);
+        }
         if (Auth::user()->user_level>3)
         {
             //hanya adamin/superadmin bisa
