@@ -35,7 +35,7 @@
         @foreach ($data_detil as $item)
         <tr>
             <td class="garis-t garis-l garis-b">{{$item->nomor_urut_detil}}</td>
-            <td class="garis-t garis-l garis-b text-center"><b>{{strtoupper($item->peg_nama_detil)}}</b></td>
+            <td class="garis-t garis-l garis-b">{{strtoupper($item->peg_nama_detil)}}</td>
             <td class="garis-t garis-l garis-b text-center">{{$item->peg_nip_detil}}</td>
             <td class="garis-t garis-l garis-b text-center">
                 @if ($item->bnyk_hari_detil==1)

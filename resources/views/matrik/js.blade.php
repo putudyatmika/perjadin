@@ -185,6 +185,13 @@ $('#lamanya').on('change paste keyup',function(e){
         $('#harian').val(hari);
         $('#hotelhari').val(hari-1);
 });
+$('#flag_kendaraan').on('change paste keyup',function(e){
+        var flag_nilai =  e.target.value;
+        if (flag_nilai == 2)
+        {
+            $('#nilaiTransport').val(0);
+        }
+});
 $('#uangharian').on('change paste keyup',function(e){
 var uangharian =  $('#uangharian').val();
 var harian = $('#harian').val();

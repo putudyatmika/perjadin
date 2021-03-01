@@ -118,7 +118,7 @@ $(function () {
                                                     <small class="text-danger">
                                                         ({{$item->Transaksi->Matrik->Tujuan->nama_kabkota}}) <br />
                                                     </small>
-                                                    @else 
+                                                    @else
                                                         @foreach ($item->Transaksi->Matrik->MultiTujuan as $t)
                                                         <small class="text-danger">
                                                         ({{$t->namakabkota_tujuan}}) <br />
@@ -130,8 +130,18 @@ $(function () {
                                                             Berangkat : <b>{{Tanggal::Pendek($item->Transaksi->tgl_brkt)}}</b><br />
                                                             Kembali :  <b>{{Tanggal::Pendek($item->Transaksi->tgl_balik)}}</b>
                                                         </small>
+                                                        <div class="m-t-5">
+                                                            @if ($item->flag_jeniskendaraan == 1)
+                                                                <span class="label label-success">{{$FlagKendaraan[$item->flag_jeniskendaraan]}}</span>
+                                                            @elseif ($item->flag_jeniskendaraan == 2)
+                                                                <span class="label label-info">{{$FlagKendaraan[$item->flag_jeniskendaraan]}}</span>
+                                                            @else
+                                                                <span class="label label-warning">{{$FlagKendaraan[$item->flag_jeniskendaraan]}}</span>
+                                                            @endif
+
+                                                        </div>
                                                     </div>
-                                                    
+
                                                 </td>
                                                 <td align="right">
                                                     @if ($item->total_biaya)

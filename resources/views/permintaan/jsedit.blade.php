@@ -87,7 +87,13 @@
                         else
                         {
                             //tipe multi
-                            var tujuannama = 'Multi';
+                            var j;
+                            tujuannama='';
+                            for (j = 0; j < data.hasil[i].bnyk_tujuan; j++)
+                            {
+                                tujuannama += "["+data.hasil[i].tujuan[j].urutan_tujuan+"] "+data.hasil[i].tujuan[j].namakabkota_tujuan+" <br />"
+                            }
+                            //var tujuannama = 'Multi';
                         }
                         if (data.hasil[i].tgl_brkt)
                         {

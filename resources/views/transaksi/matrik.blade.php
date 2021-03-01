@@ -57,11 +57,6 @@ $(function () {
                 </div>
                 <!-- .row -->
                 <div class="row">
-                        @if (Auth::user()->user_level > 4)
-                        <div class="col-lg-8 col-sm-6 col-md-6">
-                        <a href="{{route('transaksi.surat')}}" class="btn btn-info btn-rounded btn-fw"><i class="fas fa-sync"></i> Sinkron Surat Permintaan</a>
-                        </div>
-                        @endif
                         <div class="col-lg-12">
                                 @if (Session::has('message'))
                                 <div class="alert alert-{{ Session::get('message_type') }}" id="waktu2" style="margin-top:10px;">

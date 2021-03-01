@@ -12,7 +12,7 @@
                     <div class="col-lg-8 col-sm-8 col-md-8 col-xs-12">
                          <ol class="breadcrumb">
                             <li><a href="{{url('')}}">Dashboard</a></li>
-                            <li><a href="{{route('matrik.list')}}">Data Form-JLN</a></li>
+                            <li><a href="{{route('permintaan.list')}}">Data Form-JLN</a></li>
                             <li class="active">Tambah Data</li>
                         </ol>
                     </div>

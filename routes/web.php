@@ -143,6 +143,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('kelengkapan/batal', 'KelengkapanController@batal')->name('kelengkapan.batal');
     Route::get('cari/{kodetrx}', 'ViewController@viewTrx')->name('cari.trx');
     Route::get('trx/{kodetrx}', 'ViewController@Transaksi')->name('trx.detil');
+    Route::get('infobaru', 'ViewController@InfoBaru')->name('info.baru');
     Route::get('transaksi/cari/{trxid}', 'ViewController@cariTransaksi')->name('cari.transaksi');
     Route::get('laporan/pegawai/{idpeg?}', function ($idpeg = 0) {
         $ctrl = new \App\Http\Controllers\LaporanController();

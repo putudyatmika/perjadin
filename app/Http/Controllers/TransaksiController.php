@@ -188,8 +188,18 @@ class TransaksiController extends Controller
             if ($count_detil > 0)
             {
                 //jika ada langsung update tgl_brkt_detil
+                //update peg_nip juga kalo beda peg_nip_detil
                 $data_detil = DetilFormPermintaan::where('matrik_id',$datatrx->matrik_id)->first();
                 $data_detil->tgl_brkt_detil = Carbon::parse($request->tglberangkat)->format('Y-m-d');
+                if ($data_detil->peg_nip_detil != $request->peg_nip)
+                {
+                    $data_detil->peg_nip_detil = $request->peg_nip;
+                    $data_detil->peg_nama_detil = $dt_pegawai->nama;
+                    $data_detil->peg_gol_detil = $dt_pegawai->gol;
+                    $data_detil->peg_unitkerja_detil = $dt_pegawai->unitkerja;
+                    $data_detil->peg_jabatan_detil = $dt_pegawai->jabatan;
+                    $data_detil->peg_unitkerja_nama_detil = $dt_pegawai->Unitkerja->nama;
+                }
                 $data_detil->update();
             }
             $count = SuratTugas::where('trx_id', $request->trxid)->count();
@@ -284,6 +294,15 @@ class TransaksiController extends Controller
             //jika ada langsung update tgl_brkt_detil
             $data_detil = DetilFormPermintaan::where('matrik_id',$datatrx->matrik_id)->first();
             $data_detil->tgl_brkt_detil = Carbon::parse($request->edittglberangkat)->format('Y-m-d');
+            if ($data_detil->peg_nip_detil != $request->peg_nip)
+            {
+                $data_detil->peg_nip_detil = $request->peg_nip;
+                $data_detil->peg_nama_detil = $dt_pegawai->nama;
+                $data_detil->peg_gol_detil = $dt_pegawai->gol;
+                $data_detil->peg_unitkerja_detil = $dt_pegawai->unitkerja;
+                $data_detil->peg_jabatan_detil = $dt_pegawai->jabatan;
+                $data_detil->peg_unitkerja_nama_detil = $dt_pegawai->Unitkerja->nama;
+            }
             $data_detil->update();
         }
         Session::flash('message', '['.$datatrx->kode_trx.'] Data Perjalanan ke <strong>'. $datatrx->Matrik->Tujuan->nama_kabkota .'</strong> an. <strong>'.$datatrx->peg_nama.'</strong> tanggal berangkat <strong><i>'. Tanggal::Panjang($datatrx->tgl_brkt) .'</i></strong> sudah di update');

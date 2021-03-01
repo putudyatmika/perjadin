@@ -21,7 +21,12 @@
                     </li>
                     <li class="nav-small-cap m-t-10">--- Main Menu</li>
                     <li> <a href="{{url('')}}" class="waves-effect"><i class="icon-diamond fa-fw"></i><span class="hide-menu" >Dashboard</span></a> </li>
-
+                    <li> <a href="{{route('info.baru')}}" class="waves-effect"><i class="icon-info fa-fw"></i><span class="hide-menu" >Info Update</span>
+                        @if (\Carbon\Carbon::now()->format("Y-m-d") < \Carbon\Carbon::parse('2021-03-16')->format("Y-m-d"))
+                        <span class="label label-rouded label-danger pull-right">new</span>
+                        @endif
+                        </a>
+                    </li>
                     @if (Auth::user()->pengelola !=0 and Auth::user()->pengelola!=4)
                     <li class="nav-small-cap">--- Persetujuan</li>
                     <li> <a href="{{url('setuju')}}" class="waves-effect"><i class="icon-disc fa-fw"></i><span class="hide-menu" >Pengajuan</span>
@@ -40,7 +45,11 @@
                         <a href="{{url('matrik')}}" class="waves-effect"><i class="icon-briefcase fa-fw"></i><span class="hide-menu" >Matrik</span></a>
                     </li>
                     <li>
-                        <a href="{{route('permintaan.list')}}" class="waves-effect"><i class="icon-layers fa-fw"></i><span class="hide-menu" >Form-JLN</span></a>
+                        <a href="{{route('permintaan.list')}}" class="waves-effect"><i class="icon-layers fa-fw"></i><span class="hide-menu" >Form-JLN</span>
+                            @if (\Carbon\Carbon::now()->format("Y-m-d") < \Carbon\Carbon::parse('2021-03-16')->format("Y-m-d"))
+                            <span class="label label-rouded label-danger pull-right">new</span>
+                            @endif
+                        </a>
                     </li>
                     <li>
                         <a href="{{url('transaksi')}}" class="waves-effect text-primary"><i class="icon-screen-desktop fa-fw"></i><span class="hide-menu" >Transaksi</span></a>

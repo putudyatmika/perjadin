@@ -59,9 +59,7 @@
             <!-- container-fluid -->
             @yield('content')
             <!-- /.container-fluid -->
-            <footer class="footer text-center"> 2019 - @php
-                echo date('Y');
-            @endphp &copy; Bidang IPDS BPS Provinsi Nusa Tenggara Barat</footer>
+            <footer class="footer text-center"> 2019 - {{date('Y')}} &copy; Fungsi IPDS <span class="text-info">BPS Provinsi Nusa Tenggara Barat</span></footer>
         </div>
         <!-- /#page-wrapper -->
     </div>

@@ -611,4 +611,8 @@ class ViewController extends Controller
         //dd($arr);
         return Response()->json($arr);
     }
+    public function InfoBaru()
+    {
+        return view('infobaru');
+    }
 }
