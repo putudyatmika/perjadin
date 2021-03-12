@@ -265,11 +265,5 @@
     todayHighlight: true
 
     });
-    @if (Auth::user()->pengelola == 0)
-        var Tanggal = new Date();
-        var unit = $("#unitkerja").val();
-        var srtjln = 'B-xxx/BPS/'+ unit +'/'+ (Tanggal.getMonth()+1) + '/' + Tanggal.getFullYear();
-        $('#nomor_surat').val(srtjln);
-    @endif
 </script>
 @endsection
