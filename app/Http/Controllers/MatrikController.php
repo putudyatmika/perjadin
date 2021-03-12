@@ -26,6 +26,8 @@ use App\SuratTugas;
 use App\MultiTujuan;
 use App\Spd;
 use App\Kuitansi;
+use App\FormPermintaan;
+use App\DetilFormPermintaan;
 
 class MatrikController extends Controller
 {
@@ -651,6 +653,12 @@ class MatrikController extends Controller
                         {
                             $dataSrt = \App\Kuitansi::where('trx_id','=',$trx_id)->delete();
                         }
+                    }
+                    //hapus detil permintaan
+                    $cek_detil_permintaan = DetilFormPermintaan::where('matrik_id',$request->mid)->count();
+                    if ($cek_detil_permintaan > 0)
+                    {
+                        DetilFormPermintaan::where('matrik_id',$request->mid)->delete();    
                     }
 
                 }

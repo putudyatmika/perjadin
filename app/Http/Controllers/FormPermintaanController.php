@@ -589,8 +589,11 @@ class FormPermintaanController extends Controller
                 foreach ($data_detil as $item)
                 {
                     $data = Transaksi::where('matrik_id',$item->matrik_id)->first();
-                    $data->flag_sudah_permintaan = 0;
-                    $data->update();
+                    if ($data)
+                    {
+                        $data->flag_sudah_permintaan = 0;
+                        $data->update();
+                    }
                 }
                 DetilFormPermintaan::where('id_permintaan',$request->pid)->delete();
 
