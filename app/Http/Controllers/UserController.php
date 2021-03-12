@@ -161,7 +161,7 @@ class UserController extends Controller
             return back();
         } elseif ($request->aksi == 'gantipasswordsendiri') {
             $datauser = User::findOrFail(Auth::user()->id);
-            if (!Hash::check($request->pass_lama, $datauser->password)) {
+            if (Hash::check($request->pass_lama, Auth::user()->password)) {
                 if ($request->passwd_baru == $request->konfirmasi_passwd) {
                     //ganti password
                     $datauser->password = Hash::make($request->passwd_baru);
