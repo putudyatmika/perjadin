@@ -34,11 +34,36 @@ class FormPermintaanController extends Controller
     public function ListPermintaan()
     {
         //FlagFormPermintaan
+        if (Auth::user()->user_level == 2)
+        {
+            if (request('unitkerja') == NULL)
+            {
+                $flag_unitkerja = Auth::user()->user_unitkerja;
+            }
+            else {
+                $flag_unitkerja = request('unitkerja');
+            }
+        }
+        else
+        {
+            if (request('unitkerja') == NULL)
+            {
+                $flag_unitkerja = '';
+            }
+            else {
+                $flag_unitkerja = request('unitkerja');
+            }
+        }
         $FlagForm = config('globalvar.FlagFormPermintaan');
-        $dataPermintaan = FormPermintaan::get();
+        $dataPermintaan = FormPermintaan::when($flag_unitkerja,function ($query) use ($flag_unitkerja) {
+            return $query->where('unitkerja_kode_permintaan',$flag_unitkerja);
+        })->where('tahun_permintaan',Session::get('tahun_anggaran'))->get();
+        $DataBidang = Unitkerja::where('eselon', '=', '3')->orderBy('kode', 'asc')->get();
         return view('permintaan.index',[
             'dataPermintaan'=>$dataPermintaan,
-            'FlagForm'=>$FlagForm
+            'FlagForm'=>$FlagForm,
+            'DataBidang'=>$DataBidang,
+            'unitkerja'=>$flag_unitkerja
         ]);
     }
     public function TambahPermintaan()
