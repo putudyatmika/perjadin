@@ -362,7 +362,7 @@ $('#jenis2').on('click change', function(e) {
 
 $('#jenis1').on('click change', function(e) {
     $('#harian').prop('readonly', true);
-    $('#hotelhari').prop('readonly', true);
+    $('#hotelhari').prop('readonly', false);
     $('#penginapan_nama').text('Penginapan');
     $('#nilaihotel').attr("placeholder", "Nilai Hotel Rp.");
     $('#txt_jenisperjadin').hide();

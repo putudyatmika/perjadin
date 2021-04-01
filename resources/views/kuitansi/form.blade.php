@@ -309,7 +309,7 @@ else {
 
         <input type="number" class="form-control" id="nilaihotel" name="nilaihotel" placeholder="Nilai Hotel Rp." value="{{$hotel_rupiah}}" required="">
         <span class="input-group-addon bg-info b-0 text-white">x</span>
-        <input type="number" class="form-control" id="hotelhari" name="hotelhari" placeholder="Lama hari" value="{{$hotel_lama}}" @if ($flag_jenisperjadin==1) readonly="" @endif required="">
+        <input type="number" class="form-control" id="hotelhari" name="hotelhari" placeholder="Lama hari" value="{{$hotel_lama}}" required="">
         <span class="input-group-addon bg-info b-0 text-white">=</span>
         <input type="number" class="form-control" id="totalhotel" name="totalhotel" placeholder="" value="{{$hotel_total}}" readonly="">
         <span class="input-group-addon bg-danger b-0 text-white">
