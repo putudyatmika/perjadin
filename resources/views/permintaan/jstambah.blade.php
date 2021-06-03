@@ -23,16 +23,49 @@ $("#tanggal_surat").datepicker({
                 method : 'get',
                 cache: false,
                 dataType: 'json',
-                success: function(pejabat) {     
+                success: function(pejabat) {
                     var jumlah = pejabat.count;
                     $('#formJLNTambah #ttd_kepala_nip').html("");
-                    $('#formJLNTambah #ttd_kepala_nip').append('<option value="">Pilih Pejabat</option>');
                     for (i = 0; i < jumlah; i++) {
+                        $('#formJLNTambah #ttd_kepala_nip').append('<option value="">Pilih Pejabat</option>');
                         $('#formJLNTambah #ttd_kepala_nip').append('<option value="'+ pejabat.hasil[i].ttd_nip +'">'+ pejabat.hasil[i].ttd_nama +'</option>');
                     }
                 },
                 error: function(){
                     alert("error data pejabat");
+                }
+
+            });
+    });
+    $('#ttd_kepala_nip').change(function(){
+       var ttd_nip = $('#ttd_kepala_nip').val();
+       $.ajax({
+                url : '{{route("cari.pegawai","")}}/'+ttd_nip,
+                method : 'get',
+                cache: false,
+                dataType: 'json',
+                success: function(data) {
+                    $('#ttd_kepala_nama').val(data.nama);
+                    $('#ttd_kepala_jabatan').val(data.jabatan_nama+' '+data.unit_nama);
+                },
+                error: function(){
+                    alert("error nip kepala");
+                }
+
+            });
+    });
+    $('#ttd_ppk_nip').change(function(){
+       var ttd_ppk = $('#ttd_ppk_nip').val();
+       $.ajax({
+                url : '{{route("cari.pegawai","")}}/'+ttd_ppk,
+                method : 'get',
+                cache: false,
+                dataType: 'json',
+                success: function(data) {
+                    $('#ttd_ppk_nama').val(data.nama);
+                },
+                error: function(){
+                    alert("error nip ppk");
                 }
 
             });

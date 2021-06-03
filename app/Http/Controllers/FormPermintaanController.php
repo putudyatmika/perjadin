@@ -79,6 +79,7 @@ class FormPermintaanController extends Controller
                 ->where('anggaran.tahun_anggaran', Session::get('tahun_anggaran'))->where('flag_kunci_turunan', '=', 0)
                 ->orderBy('a_id', 'desc')
                 ->get();
+                $dataTTDunitkerja = Pegawai::where([['flag','1'],['jabatan','>','1'],['jabatan','<','4']])->orderBy('unitkerja','asc')->get();
         }
         else
         {
@@ -91,6 +92,7 @@ class FormPermintaanController extends Controller
                 ->where([['anggaran.tahun_anggaran', Session::get('tahun_anggaran')], ['unit_pelaksana', '=', $unit_pelaksana]])->where('flag_kunci_turunan', '=', 0)
                 ->orderBy('a_id', 'desc')
                 ->get();
+            $dataTTDunitkerja = Pegawai::where([['unitkerja',$unit_pelaksana],['flag','1'],['jabatan','<','4']])->get();
         }
         $FlagKendaraan = config('globalvar.Kendaraan');
         $dataFungsi = Unitkerja::where('eselon', '=', '3')->orderBy('kode', 'asc')->get();
@@ -104,42 +106,47 @@ class FormPermintaanController extends Controller
             'FlagTTD'=>$FlagTTD,
             'dataTtd'=>$dataTtd,
             'dataPPK'=>$DataPPK,
+            'dataTTDunitkerja'=>$dataTTDunitkerja,
             'dataPegawai'=>$dataPegawai
         ]);
     }
     public function SimpanPermintaan(Request $request)
     {
         /*
-         "_token" => "BKchbdyshlEqmnqw7xajiTZ9OBO3tDBeuTKnR23J"
-        "unitkerja" => "52530"
-        "nomor_surat" => "B-024/BPS/52530/2/2021"
-        "tanggal_surat" => "2021-02-17"
-        "dana_mak" => "054.01.GG.2909.BMA.005.052.A.524111"
+        "_token" => "AcTJeYu8tfEwtyfrhhLWR7R7y5IInYK3yvVwOmGB"
+        "unitkerja" => "52520"
+        "nomor_surat" => "B-xxx/BPS/52520/6/2021"
+        "tanggal_surat" => "2021-06-01"
+        "ttd_kepala" => "1"
+        "ttd_kepala_nip" => "19651231 199212 1 001"
+        "ttd_kepala_nama" => "Lalu Supratna"
+        "ttd_kepala_jabatan" => "Kepala Bagian Umum"
+        "ttd_ppk_nip" => "19800827 200312 2 003"
+        "ttd_ppk_nama" => "Suci Purnamawati"
+        "ttd_unitkerja_nip" => "19771225 200012 1 002"
+        "dana_mak" => "054.01.GG.2905.QMA.006.514.B.524119"
         "dana_program" => "[054.01.GG] Program Penyediaan dan Pelayanan Informasi Statistik"
-        "dana_kegiatan" => "[2909] Penyediaan dan Pengembangan Statistik Peternakan, Perikanan, dan Kehutanan"
-        "dana_kro" => "[BMA] Data dan Informasi Publik"
-        "dana_output" => "[005] PUBLIKASI/LAPORAN STATISTIK PETERNAKAN, PERIKANAN, DAN KEHUTANAN YANG TERBIT TEPAT WAKTU"
-        "dana_komponen" => "[052] PENGUMPULAN DATA"
-        "dana_subkomponen" => "[A] TANPA SUB KOMPONEN"
-        "dana_uraian" => "1.  Pengawasan BPS provinsi ke bps kab/kota"
-        "dana_pagu" => "32325000"
-        "dana_pagusisa" => "30755000"
-        "dana_unitkerja" => "Fungsi Statistik Produksi"
-        "dana_kodeunit" => "52530"
-        "dana_makid" => "310"
-        "dana_tid" => "211"
-        "semuamatrik" => "pilihsemua"
-        "matrikid" => array:3 [▼
-            0 => "2146"
-            1 => "2148"
-            2 => "2183"
-        ]
-        "pegnip2146" => "19720621 199512 1 001"
-        "tgl_brkt2146" => "2021-02-22"
-        "pegnip2148" => "19881215 201012 2 003"
-        "tgl_brkt2148" => "2021-02-26"
-        "pegnip2183" => "19850801 200801 2 005"
-        "tgl_brkt2183" => "2021-02-25"
+        "dana_kegiatan" => "[2905] Penyediaan dan Pengembangan Statistik Kependudukan dan Ketenagakerjaan"
+        "dana_kro" => "[QMA] Data dan Informasi Publik"
+        "dana_output" => "[006] PUBLIKASI/LAPORAN SENSUS PENDUDUK"
+        "dana_komponen" => "[514] PELAKSANAAN SENSUS SAMPEL"
+        "dana_subkomponen" => "[B] PELAKSANAAN SENSUS LONG FORM"
+        "dana_uraian" => "Perjalanan Dinas Paket Meeting Luar Kota"
+        "dana_pagu" => "500000000"
+        "dana_pagusisa" => "481210000"
+        "dana_unitkerja" => "Fungsi Statistik Sosial"
+        "dana_kodeunit" => "52520"
+        "dana_makid" => "326"
+        "dana_tid" => "244"
+        "pegnip2335" => "19771225 200012 1 002"
+        "tgl_brkt2335" => "2021-06-07"
+        "pegnip2336" => "19731223 199902 1 001"
+        "tgl_brkt2336" => "2021-06-07"
+        "pegnip2337" => "19670917 199003 1 004"
+        "tgl_brkt2337" => "2021-06-07"
+        "matrikid" => array:1 [▶]
+        "pegnip2338" => "19940306 201602 2 001"
+        "tgl_brkt2338" => "2021-06-07"
 
         "t_id" => 198
         "a_id" => 277
@@ -151,7 +158,7 @@ class FormPermintaanController extends Controller
         "created_at" => "2021-02-15 23:24:09"
         "updated_at" => "2021-02-27 13:51:31"
         */
-        dd($request->all());
+        //dd($request->all());
         //form-jln sudah ada di transaksi nama dan tgl brkt
         //cek dulu pegid dan tgl_brkt ada di set ngga?
         //pegid dan tgl_brkt untuk update di transaksi kalo belum ada
@@ -171,9 +178,9 @@ class FormPermintaanController extends Controller
         //kolom 7 = $request->dana_pagusisa
         //kolom 6 = $total_biaya_permintaan
         $JenisJabatanVar = config('globalvar.JenisJabatan');
-        $data_peg = Pegawai::where([['unitkerja',$request->dana_kodeunit],['flag','1'],['jabatan','<','4']])->first();
-        $data_kepala = Pegawai::where([['flag','1'],['jabatan','1']])->first();
-        $dataPPK = Pegawai::where([['flag_pengelola','=','2'],['flag','=','1']])->orderBy('updated_at','desc')->first();
+        $data_peg = Pegawai::where([['nip_baru',$request->ttd_unitkerja_nip],['flag','1']])->first();
+        //$data_kepala = Pegawai::where([['flag','1'],['jabatan','1']])->first();
+        //$dataPPK = Pegawai::where([['flag_pengelola','=','2'],['flag','=','1']])->orderBy('updated_at','desc')->first();
         $dataTurunan = TurunanAnggaran::where('t_id',$request->dana_tid)->first();
         //dd($dataTurunan,$request->all());
 
@@ -195,10 +202,12 @@ class FormPermintaanController extends Controller
         $data->ttd_jabatan_nama_permintaan = $JenisJabatanVar[$data_peg->jabatan];
         $data->ttd_nip_permintaan = $data_peg->nip_baru;
         $data->ttd_nama_permintaan = $data_peg->nama;
-        $data->ttd_kepala_nip_permintaan = $data_kepala->nip_baru;
-        $data->ttd_kepala_nama_permintaan = $data_kepala->nama;
-        $data->ttd_ppk_nip_permintaan = $dataPPK->nip_baru;
-        $data->ttd_ppk_nama_permintaan = $dataPPK->nama;
+        $data->ttd_flag_kepala_permintaan = $request->ttd_kepala;
+        $data->ttd_kepala_nip_permintaan = $request->ttd_kepala_nip;
+        $data->ttd_kepala_nama_permintaan = $request->ttd_kepala_nama;
+        $data->ttd_jabatan_kepala_permintaan = $request->ttd_kepala_jabatan;
+        $data->ttd_ppk_nip_permintaan = $request->ttd_ppk_nip;
+        $data->ttd_ppk_nama_permintaan = $request->ttd_ppk_nama;
         $data->save();
         if ($request->has('matrikid'))
         {
@@ -313,6 +322,7 @@ class FormPermintaanController extends Controller
                 ->orderBy('a_id', 'desc')
                 ->get();
             $dataFormJln = FormPermintaan::where('id_permintaan',$pid)->first();
+            $dataTTDunitkerja = Pegawai::where([['flag','1'],['jabatan','>','1'],['jabatan','<','4']])->orderBy('unitkerja','asc')->get();
         }
         else
         {
@@ -326,17 +336,25 @@ class FormPermintaanController extends Controller
                 ->orderBy('a_id', 'desc')
                 ->get();
             $dataFormJln = FormPermintaan::where([['id_permintaan',$pid],['unitkerja_kode_permintaan',$unit_pelaksana]])->first();
+            $dataTTDunitkerja = Pegawai::where([['unitkerja',$unit_pelaksana],['flag','1'],['jabatan','<','4']])->get();
         }
         $FlagKendaraan = config('globalvar.Kendaraan');
         $FlagTrx = config('globalvar.FlagTransaksi');
         $dataFungsi = Unitkerja::where('eselon', '=', '3')->orderBy('kode', 'asc')->get();
         $dataPegawai = Pegawai::where([['jabatan','<','6'],['flag','1']])->orderBy('unitkerja')->get();
+        $FlagTTD = config('globalvar.FlagTTD');
+        $dataTtd = Pegawai::where([['jabatan','<','3'],['flag','=','1']])->orderBy('unitkerja')->get();
+        $DataPPK = Pegawai::where([['flag_pengelola','=','2'],['flag','=','1']])->orderBy('unitkerja')->get();
         return view('permintaan.edit',[
             'dataFungsi'=>$dataFungsi,
             'DataAnggaran'=>$DataAnggaran,
             'FlagKendaraan'=>$FlagKendaraan,
             'dataPegawai'=>$dataPegawai,
             'dataFormJln'=>$dataFormJln,
+            'FlagTTD'=>$FlagTTD,
+            'dataTtd'=>$dataTtd,
+            'dataPPK'=>$DataPPK,
+            'dataTTDunitkerja'=>$dataTTDunitkerja,
             'FlagTrx'=>$FlagTrx
         ]);
     }
@@ -369,34 +387,36 @@ class FormPermintaanController extends Controller
             }
         dd($request->all(),$arr_loop);
 
-             "_token" => "H9JYFEAZgIvwpZCOZCP0I5q6GdMZ9M1efgC2kn52"
+            "_token" => "AcTJeYu8tfEwtyfrhhLWR7R7y5IInYK3yvVwOmGB"
             "unitkerja" => "52520"
-            "nomor_surat" => "B-002/BPS/52520/2/2021"
-            "tanggal_surat" => "2021-02-15"
-            "dana_mak" => "054.01.GG.2905.BMA.004.052.A.524111"
+            "nomor_surat" => "B-xxx/BPS/52520/6/2021"
+            "tanggal_surat" => "2021-06-01"
+            "ttd_kepala" => "0"
+            "ttd_kepala_nip" => "19660219 199401 1 001"
+            "ttd_kepala_nama" => "Suntono"
+            "ttd_kepala_jabatan" => "Kepala BPS Provinsi NTB"
+            "ttd_ppk_nip" => "19800505 200212 2 004"
+            "ttd_ppk_nama" => "Yassinta Ben Katarti Latiffa Dinar"
+            "ttd_unitkerja_nip" => "19671231 199401 1 001"
+            "dana_mak" => "054.01.GG.2905.QMA.006.514.B.524119"
             "dana_program" => "[054.01.GG] Program Penyediaan dan Pelayanan Informasi Statistik"
             "dana_kegiatan" => "[2905] Penyediaan dan Pengembangan Statistik Kependudukan dan Ketenagakerjaan"
-            "dana_kro" => "[BMA] Data dan Informasi Publik"
-            "dana_output" => "[004] LAPORAN DISEMINASI DAN METADATA STATISTIK"
-            "dana_komponen" => "[052] PENGUMPULAN DATA"
-            "dana_subkomponen" => "[A] TANPA SUB KOMPONEN"
-            "dana_uraian" => "[524111] 1. perjalanan supervisi bps provinsi (Transport Perjalanan )"
-            "dana_pagu" => "9393000"
-            "dana_pagusisa" => "923000"
+            "dana_kro" => "[QMA] Data dan Informasi Publik"
+            "dana_output" => "[006] PUBLIKASI/LAPORAN SENSUS PENDUDUK"
+            "dana_komponen" => "[514] PELAKSANAAN SENSUS SAMPEL"
+            "dana_subkomponen" => "[B] PELAKSANAAN SENSUS LONG FORM"
+            "dana_uraian" => "[524119] Perjalanan Dinas Paket Meeting Luar Kota"
+            "dana_pagu" => "500000000"
+            "dana_pagusisa" => "481210000"
             "dana_unitkerja" => "[52520] Fungsi Statistik Sosial"
             "dana_kodeunit" => "52520"
-            "dana_makid" => "277"
-            "dana_tid" => "198"
-            "matrikid" => array:5 [▼
-                0 => "2121"
-                1 => "2122"
-                2 => "2123"
-                3 => "2124"
-                4 => "2125"
-            ]
-            "pegnip2121" => "19840517 200701 1 003"
-            "tgl_brkt2121" => "2021-02-18"
-            "id_permintaan" => "4"
+            "dana_makid" => "326"
+            "dana_tid" => "244"
+            "semuamatrik" => "pilihsemua"
+            "matrikid" => array:1 [▶]
+            "pegnip2338" => "19940306 201602 2 001"
+            "tgl_brkt2338" => "2021-06-07"
+            "id_permintaan" => "122"
             */
         //cek dulu id_permintaan ada ngga?
 
@@ -404,9 +424,9 @@ class FormPermintaanController extends Controller
         if ($count > 0)
         {
             $JenisJabatanVar = config('globalvar.JenisJabatan');
-            $data_peg = Pegawai::where([['unitkerja',$request->dana_kodeunit],['flag','1'],['jabatan','<','4']])->first();
-            $data_kepala = Pegawai::where([['flag','1'],['jabatan','1']])->first();
-            $dataPPK = Pegawai::where([['flag_pengelola','=','2'],['flag','=','1']])->orderBy('updated_at','desc')->first();
+            $data_peg = Pegawai::where([['nip_baru',$request->ttd_unitkerja_nip],['flag','1']])->first();
+            //$data_kepala = Pegawai::where([['flag','1'],['jabatan','1']])->first();
+            //$dataPPK = Pegawai::where([['flag_pengelola','=','2'],['flag','=','1']])->orderBy('updated_at','desc')->first();
             $dataTurunan = TurunanAnggaran::where('t_id',$request->dana_tid)->first();
             $data = FormPermintaan::where('id_permintaan',$request->id_permintaan)->first();
             $tahun_anggaran = Session::get('tahun_anggaran');
@@ -426,10 +446,12 @@ class FormPermintaanController extends Controller
             $data->ttd_jabatan_nama_permintaan = $JenisJabatanVar[$data_peg->jabatan];
             $data->ttd_nip_permintaan = $data_peg->nip_baru;
             $data->ttd_nama_permintaan = $data_peg->nama;
-            $data->ttd_kepala_nip_permintaan = $data_kepala->nip_baru;
-            $data->ttd_kepala_nama_permintaan = $data_kepala->nama;
-            $data->ttd_ppk_nip_permintaan = $dataPPK->nip_baru;
-            $data->ttd_ppk_nama_permintaan = $dataPPK->nama;
+            $data->ttd_flag_kepala_permintaan = $request->ttd_kepala;
+            $data->ttd_kepala_nip_permintaan = $request->ttd_kepala_nip;
+            $data->ttd_kepala_nama_permintaan = $request->ttd_kepala_nama;
+            $data->ttd_jabatan_kepala_permintaan = $request->ttd_kepala_jabatan;
+            $data->ttd_ppk_nip_permintaan = $request->ttd_ppk_nip;
+            $data->ttd_ppk_nama_permintaan = $request->ttd_ppk_nama;
             //batas update permintaan
 
             //update detil permintaan

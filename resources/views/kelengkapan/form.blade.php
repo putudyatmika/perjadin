@@ -61,7 +61,12 @@
     <label for="tugas">PPK</label>
     <div class="input-group">
         <div class="input-group-addon"><i class="ti-lock"></i></div>
-        <input type="text" class="form-control" id="ppk_nama" name="ppk_nama" placeholder="PPK NIP" value="{{$DataPPK->nama}}" readonly>
+        <select class="form-control" name="ppk_nip" id="ppk_nip" required="">
+            <option value="">Pilih PPK</option>
+            @foreach ($DataPPK as $ppk)
+               <option value="{{$ppk->nip_baru}}">{{$ppk->nama}}</option>
+            @endforeach
+        </select>
     </div>
 </div>
 <div class="form-group">

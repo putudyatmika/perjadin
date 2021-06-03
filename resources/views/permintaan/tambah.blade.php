@@ -79,7 +79,7 @@
                                                     <option value="{{ $i }}">{{ $FlagTTD[$i] }}</option>
                                                     @endfor
                                                 </select>
-                                                
+
                                             </div>
                                             <div class="input-group col-lg-6 col-sm-6 col-xs-12">
                                                 <select class="form-control" name="ttd_kepala_nip" id="ttd_kepala_nip" required="">
@@ -87,8 +87,9 @@
                                                     @foreach ($dataTtd as $peg)
                                                        <option value="{{$peg->nip_baru}}">{{$peg->nama}}</option>
                                                     @endforeach
-                                        
                                                 </select>
+                                                <input type="hidden" id="ttd_kepala_nama" name="ttd_kepala_nama" value="">
+                                                <input type="hidden" id="ttd_kepala_jabatan" name="ttd_kepala_jabatan" value="">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -96,10 +97,23 @@
                                             <div class="input-group col-lg-8 col-sm-8 col-xs-12">
                                                 <div class="input-group-addon"><i class="ti-lock"></i></div>
                                                 <select class="form-control" name="ttd_ppk_nip" id="ttd_ppk_nip" required="">
+                                                    <option value="">Pilih PPK</option>
                                                     @foreach ($dataPPK as $peg)
                                                        <option value="{{$peg->nip_baru}}">{{$peg->nama}}</option>
                                                     @endforeach
-                                        
+                                                </select>
+                                                <input type="hidden" id="ttd_ppk_nama" name="ttd_ppk_nama" value="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="ttd" class="col-lg-2 col-xs-12 col-form-label">TTD Unitkerja</label>
+                                            <div class="input-group col-lg-8 col-sm-8 col-xs-12">
+                                                <div class="input-group-addon"><i class="ti-lock"></i></div>
+                                                <select class="form-control" name="ttd_unitkerja_nip" id="ttd_unitkerja_nip" required="">
+                                                    <option value="">Pilih TTD Unitkerja</option>
+                                                    @foreach ($dataTTDunitkerja as $ttdunit)
+                                                       <option value="{{$ttdunit->nip_baru}}">[{{$ttdunit->unitkerja}}] {{$ttdunit->nama}}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>

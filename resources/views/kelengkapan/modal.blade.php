@@ -26,11 +26,11 @@
                     </dl>
                     <input type="hidden" id="kodetrx" name="kodetrx" value="" />
                     <input type="hidden" id="trx_id" name="trx_id" value="" />
-                    <input type="hidden" name="ppk_nip" id="ppk_nip" value="{{$DataPPK->nip_baru}}">
                     <input type="hidden" id="srt_id" name="srt_id" value="">
                     <input type="hidden" id="spd_id" name="spd_id" value="">
                     <input type="hidden" id="ttd_nama" name="ttd_nama" value="">
                     <input type="hidden" id="ttd_jabatan" name="ttd_jabatan" value="">
+                    <input type="hidden" id="ppk_nama" name="ppk_nama" value="">
                     @include('kelengkapan.form')
             </div>
             <div class="modal-footer">
@@ -83,7 +83,7 @@
                         <input type="hidden" id="a_id" name="a_id" value="">
                         <input type="hidden" id="m_id" name="m_id" value="">
                         <input type="hidden" id="pagu_rencana" name="pagu_rencana" value="">
-                        
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-inverse waves-effect waves-light" data-dismiss="modal">Close</button>
@@ -124,12 +124,18 @@
                             <dd class="col-sm-8"><span id="brkt"></span></dd>
                             <dt class="col-sm-4">Kembali</dt>
                             <dd class="col-sm-8"><span id="kembali"></span></dd>
-                            <dt class="col-sm-4">Sumber Data</dt>
+                            <dt class="col-sm-4">Sumber Dana</dt>
                             <dd class="col-sm-8"><span id="sumber_dana"></span></dd>
                             <dt class="col-sm-4">Komponen</dt>
                             <dd class="col-sm-8"><span id="komponen"></span></dd>
                             <dt class="col-sm-4">Total Biaya</dt>
                             <dd class="col-sm-8"><span id="totalbiaya"></span></dd>
+                            <dt class="col-sm-4">Penandatangan</dt>
+                            <dd class="col-sm-8"><span id="penandatangan"></span></dd>
+                            <dt class="col-sm-4">PPK</dt>
+                            <dd class="col-sm-8"><span id="ppk"></span></dd>
+                            <dt class="col-sm-4">Angkutan</dt>
+                            <dd class="col-sm-8"><span id="kendaraan"></span></dd>
                             <dt class="col-sm-4">Cetak Tujuan SPD</dt>
                             <dd class="col-sm-8"><span class="label label-success" id="cetak_tujuan"></span></dd>
                             <dt class="col-sm-4">Status</dt>
@@ -141,7 +147,7 @@
                             <dt class="col-sm-4">Status Matrik</dt>
                             <dd class="col-sm-8"><span class="label label-info" id="status_matrik"></span></dd>
                         </dl>
-                        
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-inverse waves-effect waves-light" data-dismiss="modal">Close</button>

@@ -143,6 +143,8 @@ $('#EditModal').on('show.bs.modal', function (event) {
             $('#EditModal .modal-body #unitkerja_editanggaran').val(dataawal.hasil.unitkerja)
             $('#EditModal .modal-body #id_editanggaran').val(aid)
             //$('#EditModal .modal-body #keg_kode_editanggaran').val(dataawal.hasil.keg_kode)
+            $('#EditModal .modal-body #akun_kode_editanggaran').val(dataawal.hasil.akun_kode)
+
             var prog_kode = dataawal.hasil.prog_kode
             var keg_kode = dataawal.hasil.keg_kode
             var kro_kode = dataawal.hasil.kro_kode

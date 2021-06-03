@@ -85,7 +85,16 @@
         </tr>
         <tr class="text-center">
             <td>
-                Kepala Badan Pusat Statistik <br />Provinsi Nusa Tenggara Barat
+                @if ($data->ttd_flag_kepala_permintaan>0)
+                    {{$FlagTTD[$data->ttd_flag_kepala_permintaan]}}
+                @endif
+                Kepala Badan Pusat Statistik
+                <br />
+                Provinsi Nusa Tenggara Barat
+                @if ($data->ttd_flag_kepala_permintaan>0)
+                    <br />
+                    {{$data->ttd_jabatan_kepala_permintaan}}
+                @endif
                 <p style="margin-top:60pt;"><b>{{strtoupper($data->ttd_kepala_nama_permintaan)}}</b></p>
             </td>
             <td>

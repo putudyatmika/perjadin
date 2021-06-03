@@ -72,6 +72,62 @@
                                                 <input type="text" class="form-control" id="tanggal_surat" name="tanggal_surat" value="{{$dataFormJln->tgl_permintaan}}" placeholder="Tanggal Surat Form-JLN" autocomplete="off" required="">
                                             </div>
                                         </div>
+                                        <div class="form-group row">
+                                            <label for="ttd" class="col-lg-2 col-xs-12 col-form-label">TTD Kepala BPS Prov</label>
+                                            <div class="input-group col-lg-2 col-sm-2 col-xs-12">
+                                                <div class="input-group-addon"><i class="ti-lock"></i></div>
+                                                <select class="form-control" name="ttd_kepala" id="ttd_kepala" required="">
+                                                    <option value="">Select</option>
+                                                    @for ($i = 0; $i < 4; $i++)
+                                                    <option value="{{ $i }}" @if ($dataFormJln->ttd_flag_kepala_permintaan == $i)
+                                                        selected="selected"
+                                                    @endif>{{ $FlagTTD[$i] }}</option>
+                                                    @endfor
+                                                </select>
+
+                                            </div>
+                                            <div class="input-group col-lg-6 col-sm-6 col-xs-12">
+                                                <select class="form-control" name="ttd_kepala_nip" id="ttd_kepala_nip" required="">
+                                                    <option value="">Select</option>
+                                                    @foreach ($dataTtd as $peg)
+                                                       <option value="{{$peg->nip_baru}}" @if ($peg->nip_baru == $dataFormJln->ttd_kepala_nip_permintaan)
+                                                        selected
+                                                       @endif>{{$peg->nama}}</option>
+                                                    @endforeach
+                                                </select>
+                                                <input type="hidden" id="ttd_kepala_nama" name="ttd_kepala_nama" value="{{$dataFormJln->ttd_kepala_nama_permintaan}}">
+                                                <input type="hidden" id="ttd_kepala_jabatan" name="ttd_kepala_jabatan" value="{{$dataFormJln->ttd_jabatan_kepala_permintaan}}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="ttd" class="col-lg-2 col-xs-12 col-form-label">TTD PPK</label>
+                                            <div class="input-group col-lg-8 col-sm-8 col-xs-12">
+                                                <div class="input-group-addon"><i class="ti-lock"></i></div>
+                                                <select class="form-control" name="ttd_ppk_nip" id="ttd_ppk_nip" required="">
+                                                    <option value="">Pilih PPK</option>
+                                                    @foreach ($dataPPK as $peg)
+                                                       <option value="{{$peg->nip_baru}}" @if ($peg->nip_baru == $dataFormJln->ttd_ppk_nip_permintaan)
+                                                        selected
+                                                       @endif>{{$peg->nama}}</option>
+                                                    @endforeach
+                                                </select>
+                                                <input type="hidden" id="ttd_ppk_nama" name="ttd_ppk_nama" value="{{$dataFormJln->ttd_ppk_nama_permintaan}}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="ttd" class="col-lg-2 col-xs-12 col-form-label">TTD Unitkerja</label>
+                                            <div class="input-group col-lg-8 col-sm-8 col-xs-12">
+                                                <div class="input-group-addon"><i class="ti-lock"></i></div>
+                                                <select class="form-control" name="ttd_unitkerja_nip" id="ttd_unitkerja_nip" required="">
+                                                    <option value="">Pilih TTD Unitkerja</option>
+                                                    @foreach ($dataTTDunitkerja as $ttdunit)
+                                                       <option value="{{$ttdunit->nip_baru}}" @if ($ttdunit->nip_baru == $dataFormJln->ttd_nip_permintaan)
+                                                            selected="selected"
+                                                       @endif>[{{$ttdunit->unitkerja}}] {{$ttdunit->nama}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
                                         <h3 class="box-title m-t-40">Sumber Dana</h3>
                                         <hr>
                                             <div class="form-group row">

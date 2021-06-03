@@ -63,7 +63,9 @@
         <td valign="top">:</td>
         <td valign="top">
             @if ($data->peg_jabatan < 3)
-            Kepala {{$data->PegUnitkerja->nama}}
+                Kepala {{$data->PegUnitkerja->nama}}
+            @elseif ($data->peg_jabatan > 6 and $data->peg_jabatan < 9 )
+                Kepala {{$data->PegUnitkerja->nama}}
             @else
             {{$JenisJabatanVar[$data->peg_jabatan]}} {{$data->PegUnitkerja->nama}}
             @endif
@@ -82,11 +84,11 @@
                 @foreach ($data->Matrik->MultiTujuan as $t)
                     @if ($loop->last)
                     dan {{$t->namakabkota_tujuan}}
-                    @else 
+                    @else
                     {{$t->namakabkota_tujuan}},
                     @endif
                 @endforeach
-            @else 
+            @else
                 {{$data->Matrik->Tujuan->nama_kabkota}}
             @endif
             / {{$data->tugas}}</td>
@@ -99,7 +101,7 @@
                 {{ Tanggal::Panjang($data->tgl_brkt) }}
             @elseif (\Carbon\Carbon::parse($data->tgl_brkt)->format('m') == \Carbon\Carbon::parse($data->tgl_balik)->format('m'))
                 {{ \Carbon\Carbon::parse($data->tgl_brkt)->format('j') }} s.d. {{ Tanggal::Panjang($data->tgl_balik) }}
-            @else 
+            @else
                 {{ Tanggal::Panjang($data->tgl_brkt) }} s.d. {{ Tanggal::Panjang($data->tgl_balik) }}
             @endif
         </td>

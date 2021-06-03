@@ -59,7 +59,7 @@ class KelengkapanController extends Controller
         $Bilangan = config('globalvar.Bilangan');
         $FlagKendaraan = config('globalvar.Kendaraan');
         $TipePerjadin=config('globalvar.TipePerjadin');
-        $DataPPK = Pegawai::where([['flag_pengelola','=','2'],['flag','=','1']])->orderBy('unitkerja')->first();
+        $DataPPK = Pegawai::where([['flag_pengelola','=','2'],['flag','=','1']])->orderBy('unitkerja')->get();
         $DataPegawai = Pegawai::where([['jabatan','<','3'],['flag','=','1']])->orderBy('unitkerja')->get();
         $DataBidang = Unitkerja::where('eselon', '<', '4')->orderBy('kode', 'asc')->get();
 
@@ -115,6 +115,23 @@ class KelengkapanController extends Controller
         $count = SuratTugas::where('srt_id','=',$request->srt_id)->count();
         if ($count > 0)
         {
+            /*
+            "_token" => "EqlBgOVXTyiBV9Bo6CljML58sfrw3qWEt6Xs2yr3"
+            "kodetrx" => "1RO04R"
+            "trx_id" => "1875"
+            "srt_id" => "1662"
+            "spd_id" => "1663"
+            "ttd_nama" => "Suntono"
+            "ttd_jabatan" => "Kepala BPS Provinsi NTB"
+            "tglsurat" => "2021-05-14"
+            "nomor_surat" => "B-166/52.ST/5/2021"
+            "nomor_spd" => "B-166/52.SPD/5/2021"
+            "ttd" => "0"
+            "ttd_nip" => "19660219 199401 1 001"
+            "kendaraan" => "1"
+            "ppk_nip" => "19800505 200212 2 004"
+            "cetaktujuan" => "1"
+            */
             //ada surat tugas input
             //update surat tugas
             $DataSrt = SuratTugas::where('srt_id','=',$request->srt_id)->first();
@@ -128,6 +145,8 @@ class KelengkapanController extends Controller
             $DataSrt->update();
 
             //update SPD
+            //$data_ppk = Pegawai::where('nip_baru',$request->ppk_nip)->first();
+
             $dataSpd = Spd::where('spd_id','=',$request->spd_id)->first();
             $dataSpd->nomor_spd = $request->nomor_spd;
             $dataSpd->ppk_nip = $request->ppk_nip;

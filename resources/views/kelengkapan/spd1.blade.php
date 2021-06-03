@@ -60,6 +60,8 @@
                 b.
                 @if ($data->peg_jabatan < 3)
                 Kepala {{$data->PegUnitkerja->nama}}
+                @elseif ($data->peg_jabatan > 6 and $data->peg_jabatan < 9 )
+                Kepala {{$data->PegUnitkerja->nama}}
                 @else
                 {{$JenisJabatanVar[$data->peg_jabatan]}} {{$data->PegUnitkerja->nama}}
                 @endif
