@@ -21,7 +21,7 @@ class TabelSuratTugas extends Migration
             $table->string('ttd_nip',25)->nullable();
             $table->string('ttd_jabatan',200)->nullable();
             $table->string('ttd_nama',200)->nullable();
-            $table->boolean('flag_ttd')->default(0);
+            $table->tinyInteger('flag_ttd')->default(0);
             $table->boolean('flag_surattugas')->default(0);
             $table->timestamps();
         });

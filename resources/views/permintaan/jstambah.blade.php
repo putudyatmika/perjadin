@@ -15,7 +15,28 @@ $("#tanggal_surat").datepicker({
     var srtjln = 'B-xxx/BPS/'+ unit +'/'+ (Tanggal.getMonth()+1) + '/' + Tanggal.getFullYear();
     $('#nomor_surat').val(srtjln);
   });
+  //jabatan di klik
+  $('#ttd_kepala').change(function(){
+        var ttd = $('#ttd_kepala').val();
+        $.ajax({
+                url : '{{route("cari.pejabat","")}}/'+ttd,
+                method : 'get',
+                cache: false,
+                dataType: 'json',
+                success: function(pejabat) {     
+                    var jumlah = pejabat.count;
+                    $('#formJLNTambah #ttd_kepala_nip').html("");
+                    $('#formJLNTambah #ttd_kepala_nip').append('<option value="">Pilih Pejabat</option>');
+                    for (i = 0; i < jumlah; i++) {
+                        $('#formJLNTambah #ttd_kepala_nip').append('<option value="'+ pejabat.hasil[i].ttd_nip +'">'+ pejabat.hasil[i].ttd_nama +'</option>');
+                    }
+                },
+                error: function(){
+                    alert("error data pejabat");
+                }
 
+            });
+    });
   $(document).on('click', '.pilihSumberDana', function (e) {
     //var sumberdana = $(this).attr('data-mak') + " " + $(this).attr('data-uraian');
     document.getElementById("dana_makid").value = $(this).attr('data-makid');

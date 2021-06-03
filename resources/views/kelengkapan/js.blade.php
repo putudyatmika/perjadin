@@ -82,7 +82,7 @@ $('#EditModal').on('show.bs.modal', function (event) {
                             $('#EditModal .modal-body #ttd_jabatan').val(pejabat.hasil[0].ttd_jabatan);
                         },
                         error: function(){
-                            alert("error nomor surat");
+                            alert("error nip pejabat");
                         }
 
                     });

@@ -68,6 +68,7 @@ class FormPermintaanController extends Controller
     }
     public function TambahPermintaan()
     {
+        $FlagTTD = config('globalvar.FlagTTD');
         if (Auth::User()->pengelola > 3)
         {
             //operator keuangan atau admin
@@ -93,11 +94,16 @@ class FormPermintaanController extends Controller
         }
         $FlagKendaraan = config('globalvar.Kendaraan');
         $dataFungsi = Unitkerja::where('eselon', '=', '3')->orderBy('kode', 'asc')->get();
-        $dataPegawai = Pegawai::where([['jabatan','<','6'],['flag','1']])->orderBy('unitkerja')->get();
+        $dataPegawai = Pegawai::where([['jabatan','<','9'],['flag','1']])->orderBy('unitkerja')->get();
+        $dataTtd = Pegawai::where([['jabatan','<','3'],['flag','=','1']])->orderBy('unitkerja')->get();
+        $DataPPK = Pegawai::where([['flag_pengelola','=','2'],['flag','=','1']])->orderBy('unitkerja')->get();
         return view('permintaan.tambah',[
             'dataFungsi'=>$dataFungsi,
             'DataAnggaran'=>$DataAnggaran,
             'FlagKendaraan'=>$FlagKendaraan,
+            'FlagTTD'=>$FlagTTD,
+            'dataTtd'=>$dataTtd,
+            'dataPPK'=>$DataPPK,
             'dataPegawai'=>$dataPegawai
         ]);
     }
@@ -145,7 +151,7 @@ class FormPermintaanController extends Controller
         "created_at" => "2021-02-15 23:24:09"
         "updated_at" => "2021-02-27 13:51:31"
         */
-        //dd($request->all());
+        dd($request->all());
         //form-jln sudah ada di transaksi nama dan tgl brkt
         //cek dulu pegid dan tgl_brkt ada di set ngga?
         //pegid dan tgl_brkt untuk update di transaksi kalo belum ada

@@ -8,3 +8,13 @@ v5.3
 -Tambah Form-JLN
 --tambah kolom flag_kendaraan di tabel matrik
 --tambha kolom flag_jeniskendaraan di tabel kuitansi
+
+v5.6 (belum/perlu diperbaiki)
+-perbaikan form-jln untuk ttd kepala/yg mengetahui
+-ppk bisa dipilih untuk form-jln
+-KF / pejabat yg ttd dibidang/fungsinya
+-SPD untuk PPK bisa dipilih
+-Persetujuan untuk PPK ambil nip dari FORM jalan id PPK nya
+-flag_jabatan di surat tugas ubah ke tinyinteger (2)
+-jabatan di tabel pegawai juga sama diubah spt disurattugas
+-diform jalan juga

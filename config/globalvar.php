@@ -18,9 +18,11 @@
             3=>'Koordinator',
             4=>'Sub Koordinator',
             5=>'Staf',
-            6=>'Tugas Belajar',
-            7=>'Pensiunan',
-            8=>'CS/Satpam',
+            6=>'Sekretaris',
+            7=>'Kabid/Kabag',
+            8=>'Kasi/Kasubbag',
+            9=>'Tugas Belajar',
+            10=>'Pensiunan'
         ],
         'UnitEselon'=> [
             1=>'I',

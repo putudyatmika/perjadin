@@ -200,6 +200,8 @@ class AnggaranController extends Controller
             $subkom_nama = $data_detil->nama_subkom;
             $komponen_nama = $data_detil->Komponen->nama_komponen;
         }
+        $data_output = PokOutput::where([['tahun_output',$request->tahun_anggaran],['kode_prog',$request->prog_kode],['kode_keg',$request->keg_kode],['kode_output',$request->output_kode],['kode_kro',$request->kro_kode]])->first();
+
         $data_akun = PokAkun::where('kode_akun',$request->akun_kode)->first();
         $data = new Anggaran();
         $data->tahun_anggaran = $request->tahun_anggaran;
@@ -211,7 +213,7 @@ class AnggaranController extends Controller
         $data->kro_kode = $request->kro_kode;
         $data->kro_nama = $kro_nama;
         $data->output_kode = $request->output_kode;
-        $data->output_nama = $data_detil->Output->nama_output;
+        $data->output_nama = $data_output->nama_output;
         $data->komponen_kode = $request->komponen_kode;
         $data->komponen_nama = $komponen_nama;
         $data->subkomponen_kode = $request->subkomponen_kode;
@@ -837,6 +839,21 @@ class AnggaranController extends Controller
     {
         //dd($request->all());
         //cek dulu id anggaran ini ada tidak
+        /*
+        "_token" => "hVPCml4yHFx7T2Ces4IkDnLZ9tMrrHAdecfkYYx5"
+        "anggaranid" => "327"
+        "tahun_anggaran" => "2021"
+        "prog_kode" => "054.01.GG"
+        "keg_kode" => "2905"
+        "kro_kode" => "QMA"
+        "output_kode" => "006"
+        "komponen_kode" => "514"
+        "subkomponen_kode" => "B"
+        "akun_kode" => "524111"
+        "uraian" => "Perjalanan Luar Kota"
+        "pagu_utama" => "589959000"
+        "unitkerja" => "52520"
+        */
         $cek = Anggaran::where('id',$request->anggaranid)->count();
         if ($cek > 0)
         {
@@ -852,7 +869,7 @@ class AnggaranController extends Controller
                     {
                         $data_detil = PokSubKomponen::where([['tahun_subkom',$request->tahun_anggaran],['kode_prog',$request->prog_kode],['kode_keg',$request->keg_kode],['kode_output',$request->output_kode],['kode_komponen',$request->komponen_kode],['kode_subkom',$request->subkomponen_kode],['kode_kro',$request->kro_kode]])->first();
                     }
-
+                    
                 }
             else
             {
@@ -864,8 +881,9 @@ class AnggaranController extends Controller
                 {
                     $data_detil = PokKomponen::where([['tahun_komponen',$request->tahun_anggaran],['kode_prog',$request->prog_kode],['kode_keg',$request->keg_kode],['kode_output',$request->output_kode],['kode_kro',$request->kro_kode],['kode_komponen',$request->komponen_kode]])->first();
                 }
+                
             }
-
+            //dd($data_detil);
             if ($request->kro_kode == NULL)
             {
                 //tanpa kro
@@ -893,6 +911,8 @@ class AnggaranController extends Controller
                 $subkom_nama = $data_detil->nama_subkom;
                 $komponen_nama = $data_detil->Komponen->nama_komponen;
             }
+            $data_output = PokOutput::where([['tahun_output',$request->tahun_anggaran],['kode_prog',$request->prog_kode],['kode_keg',$request->keg_kode],['kode_output',$request->output_kode],['kode_kro',$request->kro_kode]])->first();
+
             $data_akun = PokAkun::where('kode_akun',$request->akun_kode)->first();
             $data->mak = $mak;
             $data->prog_kode = $request->prog_kode;
@@ -902,7 +922,7 @@ class AnggaranController extends Controller
             $data->kro_kode = $request->kro_kode;
             $data->kro_nama = $kro_nama;
             $data->output_kode = $request->output_kode;
-            $data->output_nama = $data_detil->Output->nama_output;
+            $data->output_nama = $data_output->nama_output;
             $data->komponen_kode = $request->komponen_kode;
             $data->komponen_nama = $komponen_nama;
             $data->subkomponen_kode = $request->subkomponen_kode;

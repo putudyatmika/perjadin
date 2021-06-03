@@ -39,6 +39,7 @@ class PegawaiController extends Controller
                         ->select('pegawai.*', 'm_gol.gol as nama_gol','m_gol.pangkat as pangkat','unitkerja.nama as unit_nama','unitbidang.bidang_kode','unitbidang.bidang_nama')
                         ->orderBy('unitkerja','asc')->orderBy('jabatan','asc')
                         ->get();
+        //dd($DataPegawai);
         return view('pegawai.index',compact('DataPegawai','FlagUmum','FlagPengelola','DataGol','DataUnitkerja','UnitEselonVar','JenisUnitVar','JenisJabatanVar','jkVar'));
         //return view('pegawai.index',compact('DataPegawai','UnitEselonVar','JenisUnitVar','JenisJabatanVar'));
         //return view('pegawai.index');
