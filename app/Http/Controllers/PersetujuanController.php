@@ -194,7 +194,10 @@ class PersetujuanController extends Controller
                 $dataPPK = Pegawai::where('flag_pengelola','=','2')->where('flag','=','1')->first();
                 if ($request->kirim_notifikasi == 1)
                 {
-                    Mail::to($dataPPK->email)->send(new MailPersetujuan($objEmail));
+                    if ($dataPPK)
+                    {
+                        Mail::to($dataPPK->email)->send(new MailPersetujuan($objEmail));
+                    }
                 }
                 //disetujui
                 Session::flash('message', '['.$datatrx->kode_trx.'] Data Perjalanan ke <strong>'.$dataMatrik->Tujuan->nama_kabkota.'</strong> an. <strong>'.$datatrx->peg_nama.'</strong> tanggal <strong><i>'.Tanggal::Panjang($datatrx->tgl_brkt).'</i></strong> sudah di setujui Kabid SM');
@@ -210,6 +213,7 @@ class PersetujuanController extends Controller
             return redirect()->route('setuju.index');
         }
         elseif ($request->aksi == "SetujuPPK") {
+            //dd($request->all());
             if ($request->ppk_setuju==1) {
                 $flagtrx = 2;
                 $flagmatrik=3;
@@ -278,9 +282,13 @@ class PersetujuanController extends Controller
                 $objEmail->totalbiaya = 'Rp. '.number_format($dataMatrik->total_biaya,0,',','.');
 
                 $dataKPA = Pegawai::where('flag_pengelola','=','1')->where('flag','=','1')->first();
+                //dd($dataKPA);
                 if ($request->kirim_notifikasi == 1)
                 {
-                    Mail::to($dataKPA->email)->send(new MailPersetujuan($objEmail));
+                    if ($dataKPA)
+                    {
+                        Mail::to($dataKPA->email)->send(new MailPersetujuan($objEmail));
+                    }
                 }
                 //disetujui
                 Session::flash('message', '['.$datatrx->kode_trx.'] Data Perjalanan ke <strong>'.$dataMatrik->Tujuan->nama_kabkota.'</strong> an. <strong>'.$datatrx->peg_nama.'</strong> tanggal <strong><i>'.Tanggal::Panjang($datatrx->tgl_brkt).'</i></strong> sudah di setujui PPK');
@@ -399,13 +407,19 @@ class PersetujuanController extends Controller
                 $dataPegawai = Pegawai::where('nip_baru','=',$datatrx->peg_nip)->where('flag','=','1')->first();
                 if ($request->kirim_notifikasi == 1)
                 {
-                    Mail::to($dataPegawai->email)->send(new MailPerjalanan($objEmail));
-                    //kirim mail ke subbag keuangan
-                    $Keuangan = User::where('pengelola','=','4')->get();
-                    foreach ($Keuangan as $k)
+                    if ($dataPegawai)
                     {
-                        Mail::to($k->email)->send(new MailPerjalanan($objEmail));
-                    }
+                        Mail::to($dataPegawai->email)->send(new MailPerjalanan($objEmail));
+                        //kirim mail ke subbag keuangan
+                        $Keuangan = User::where('pengelola','=','4')->get();
+                        if ($Keuangan)
+                        {
+                            foreach ($Keuangan as $k)
+                            {
+                                Mail::to($k->email)->send(new MailPerjalanan($objEmail));
+                            }
+                        }
+                    } 
                 }
                 //disetujui
                 Session::flash('message', '['.$datatrx->kode_trx.'] Data Perjalanan ke <strong>'.$dataMatrik->Tujuan->nama_kabkota.'</strong> an. <strong>'.$datatrx->peg_nama.'</strong> tanggal <strong><i>'.Tanggal::Panjang($datatrx->tgl_brkt).'</i></strong> sudah di setujui KPA');

@@ -253,7 +253,10 @@ class TransaksiController extends Controller
                 $dataKabid = Pegawai::where('unitkerja','=',$dataMatrik->dana_unitkerja)->where('jabatan','<','4')->where('flag','=','1')->first();
                 if ($request->kirim_notifikasi == 1)
                 {
-                    Mail::to($dataKabid->email)->send(new MailPersetujuan($objEmail));
+                   if ($dataKabid)
+                   {
+                        Mail::to($dataKabid->email)->send(new MailPersetujuan($objEmail));
+                   }
                 }
                 Session::flash('message', '['.$datatrx->kode_trx.'] Data Perjalanan ke <strong>'. $dataMatrik->Tujuan->nama_kabkota .'</strong> an. <strong>'.$datatrx->peg_nama.'</strong> tanggal berangkat <strong><i>'. Tanggal::Panjang($datatrx->tgl_brkt) .'</i></strong> sudah di ajukan');
                 Session::flash('message_type', 'success');
@@ -471,7 +474,10 @@ class TransaksiController extends Controller
                 $dataKabid = Pegawai::where('unitkerja','=',$dataMatrik->dana_unitkerja)->where('jabatan','<','4')->where('flag','=','1')->first();
                 if ($request->kirim_notifikasi == 1)
                 {
-                    Mail::to($dataKabid->email)->send(new MailPersetujuan($objEmail));
+                    if ($dataKabid)
+                    {   
+                        Mail::to($dataKabid->email)->send(new MailPersetujuan($objEmail));
+                    }
                 }
                 Session::flash('message', '['.$datatrx->kode_trx.'] Data Perjalanan ke <strong>'. $dataMatrik->Tujuan->nama_kabkota .'</strong> an. <strong>'.$datatrx->peg_nama.'</strong> tanggal berangkat <strong><i>'. Tanggal::Panjang($datatrx->tgl_brkt) .'</i></strong> sudah di ajukan');
                 Session::flash('message_type', 'success');
