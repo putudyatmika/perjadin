@@ -159,9 +159,11 @@ class UserController extends Controller
             Session::flash('message', 'Data user telah diupdate');
             Session::flash('message_type', 'success');
             return back();
-        } elseif ($request->aksi == 'gantipasswordsendiri') {
+        } 
+        elseif ($request->aksi == 'gantipasswordsendiri') {
+            //dd($request->all());
             $datauser = User::findOrFail(Auth::user()->id);
-            if (Hash::check($request->pass_lama, Auth::user()->password)) {
+            if (Hash::check($request->passwd_lama, Auth::user()->password)) {
                 if ($request->passwd_baru == $request->konfirmasi_passwd) {
                     //ganti password
                     $datauser->password = Hash::make($request->passwd_baru);
@@ -169,19 +171,22 @@ class UserController extends Controller
                     Session::flash('message', 'Password berhasil diganti');
                     Session::flash('message_type', 'success');
                     return back();
-                } else {
+                } 
+                else {
                     //password lama tidak sama
                     Session::flash('message', 'Password baru dengan Konfirmasi password baru tidak sama');
                     Session::flash('message_type', 'danger');
                     return back();
                 }
-            } else {
+            } 
+            else {
                 //password lama tidak sama
                 Session::flash('message', 'Password lama tidak sama passdb ' . Auth::user()->password . ' passlama ' . Hash::make($request->passwd_lama));
                 Session::flash('message_type', 'danger');
                 return back();
             }
-        } else {
+        } 
+        else {
             dd($request->all());
         }
     }

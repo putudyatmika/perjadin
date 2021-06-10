@@ -48,13 +48,15 @@
                     </li>
                     <li>
                         <a href="{{route('kelengkapan.list')}}" class="waves-effect text-success"><i class="icon-bag fa-fw"></i><span class="hide-menu" >Kelengkapan</span>
-                            @if (Jumlah::SuratTugas(0,Session::get('tahun_anggaran'))>0)
-                            <span class="label label-rouded label-info pull-right">{{Jumlah::SuratTugas(0,Session::get('tahun_anggaran'))}}</span>
+                            @if (Auth::user()->pengelola > 3)
+                                @if (Jumlah::SuratTugas(0,Session::get('tahun_anggaran')) > 0)
+                                <span class="label label-rouded label-info pull-right">{{Jumlah::SuratTugas(0,Session::get('tahun_anggaran'))}}</span>
+                                @endif
                             @endif
                         </a>
                     </li>
                     <!--<li> <a href="{{url('surattugas')}}" class="waves-effect text-info"><i class="icon-directions fa-fw"></i><span class="hide-menu" >Surat Tugas</span>
-                        @if (Jumlah::SuratTugas(0,Session::get('tahun_anggaran'))>0)
+                        @if (Jumlah::SuratTugas(0,Session::get('tahun_anggaran')) > 0)
                             <span class="label label-rouded label-info pull-right">{{Jumlah::SuratTugas(0,Session::get('tahun_anggaran'))}}</span>
                         @endif
                     </a>
@@ -65,8 +67,10 @@
                         @endif
                     </a></li>-->
                     <li><a href="{{url('kuitansi')}}" class="waves-effect"><i class="icon-calculator fa-fw"></i><span class="hide-menu" >Kuitansi</span>
-                        @if (Jumlah::Kuitansi(0,Session::get('tahun_anggaran'))>0)
-                        <span class="label label-rouded label-primary pull-right">{{Jumlah::Kuitansi(0,Session::get('tahun_anggaran'))}}</span>
+                        @if (Auth::user()->pengelola > 3)
+                            @if (Jumlah::Kuitansi(0,Session::get('tahun_anggaran'))>0)
+                            <span class="label label-rouded label-primary pull-right">{{Jumlah::Kuitansi(0,Session::get('tahun_anggaran'))}}</span>
+                            @endif
                         @endif
                     </a></li>
                     <li> <a href="#" class="waves-effect"><i data-icon="&#xe00b;" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Laporan<span class="fa arrow"></span></span></a>
